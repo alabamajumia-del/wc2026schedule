@@ -26,17 +26,17 @@ const downloadFiles = [
   {
     label: "Full schedule CSV",
     href: "/downloads/world-cup-2026-schedule.csv",
-    description: "Comma-separated file for Google Sheets, Excel and database import."
+    description: "Raw match data for Google Sheets, Excel, Airtable or database import."
   },
   {
-    label: "Excel-compatible schedule",
+    label: "Excel workbook",
     href: "/downloads/world-cup-2026-schedule.xls",
-    description: "Spreadsheet file that opens directly in Excel with the same match fields."
+    description: "Multi-sheet workbook with full schedule, group stage, knockout, venues and source notes."
   },
   {
-    label: "Printable schedule",
-    href: "/downloads/world-cup-2026-schedule-print.html",
-    description: "Clean printable HTML version for browser print or Save as PDF."
+    label: "Printable PDF",
+    href: "/downloads/world-cup-2026-schedule.pdf",
+    description: "Compact PDF grouped by date for offline viewing, printing and trip folders."
   }
 ];
 
@@ -436,85 +436,258 @@ const write = async (relative, content) => {
 };
 
 const scheduleHeaders = [
-  "matchNumber",
-  "stage",
-  "group",
-  "date",
-  "dateLabel",
-  "kickoffET",
-  "home",
-  "away",
-  "city",
-  "citySlug",
-  "stadium",
-  "sourceStatus"
+  "Match #",
+  "Date",
+  "Day",
+  "Kickoff ET",
+  "Kickoff UTC",
+  "Venue local time",
+  "Stage",
+  "Group",
+  "Team 1",
+  "Team 2",
+  "City",
+  "Host country",
+  "Stadium",
+  "City slug",
+  "Source status"
 ];
+
+const cityMeta = {
+  "Mexico City": { country: "Mexico", localOffsetHours: -6 },
+  Guadalajara: { country: "Mexico", localOffsetHours: -6 },
+  Monterrey: { country: "Mexico", localOffsetHours: -6 },
+  Toronto: { country: "Canada", localOffsetHours: -4 },
+  Vancouver: { country: "Canada", localOffsetHours: -7 },
+  "New York New Jersey": { country: "United States", localOffsetHours: -4 },
+  "Los Angeles": { country: "United States", localOffsetHours: -7 },
+  "San Francisco Bay Area": { country: "United States", localOffsetHours: -7 },
+  Seattle: { country: "United States", localOffsetHours: -7 },
+  Dallas: { country: "United States", localOffsetHours: -5 },
+  Houston: { country: "United States", localOffsetHours: -5 },
+  "Kansas City": { country: "United States", localOffsetHours: -5 },
+  Atlanta: { country: "United States", localOffsetHours: -4 },
+  Miami: { country: "United States", localOffsetHours: -4 },
+  Boston: { country: "United States", localOffsetHours: -4 },
+  Philadelphia: { country: "United States", localOffsetHours: -4 }
+};
+
+const formatTime = (date) =>
+  `${String(date.getUTCHours()).padStart(2, "0")}:${String(date.getUTCMinutes()).padStart(2, "0")}`;
+
+const addHours = (date, hours) => new Date(date.getTime() + hours * 60 * 60 * 1000);
+
+const matchView = (match) => {
+  const [hour, minute] = match.kickoffET.split(":").map(Number);
+  const etAsUtcClock = new Date(`${match.date}T00:00:00Z`);
+  etAsUtcClock.setUTCHours(hour, minute, 0, 0);
+  const utc = addHours(etAsUtcClock, 4);
+  const meta = cityMeta[match.city] ?? { country: "", localOffsetHours: -4 };
+  const local = addHours(utc, meta.localOffsetHours);
+
+  return {
+    "Match #": match.matchNumber,
+    Date: match.date,
+    Day: match.dateLabel,
+    "Kickoff ET": match.kickoffET,
+    "Kickoff UTC": `${utc.toISOString().slice(0, 10)} ${formatTime(utc)}`,
+    "Venue local time": `${local.toISOString().slice(0, 10)} ${formatTime(local)}`,
+    Stage: match.stage,
+    Group: match.group || "",
+    "Team 1": match.home,
+    "Team 2": match.away,
+    City: match.city,
+    "Host country": meta.country,
+    Stadium: match.stadium,
+    "City slug": match.citySlug,
+    "Source status": match.sourceStatus
+  };
+};
+
+const scheduleRows = () => matches.map(matchView);
 
 const scheduleCsv = () =>
   [
     scheduleHeaders.join(","),
-    ...matches.map((match) => scheduleHeaders.map((header) => csvValue(match[header])).join(","))
+    ...scheduleRows().map((row) => scheduleHeaders.map((header) => csvValue(row[header])).join(","))
   ].join("\n");
 
-const scheduleSpreadsheetHtml = () => `<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <style>
-    table { border-collapse: collapse; font-family: Arial, sans-serif; }
-    th, td { border: 1px solid #999; padding: 6px 8px; }
-    th { background: #e9f0ec; font-weight: bold; }
-  </style>
-</head>
-<body>
-<table>
-  <thead><tr>${scheduleHeaders.map((header) => `<th>${esc(header)}</th>`).join("")}</tr></thead>
-  <tbody>
-    ${matches
+const xml = (value) => esc(value).replaceAll("'", "&apos;");
+
+const worksheet = (name, rows) => `<Worksheet ss:Name="${xml(name)}">
+  <Table>
+    ${rows
       .map(
-        (match) =>
-          `<tr>${scheduleHeaders.map((header) => `<td>${esc(match[header] ?? "")}</td>`).join("")}</tr>`
+        (row) =>
+          `<Row>${row
+            .map(
+              (cell) =>
+                `<Cell><Data ss:Type="${typeof cell === "number" ? "Number" : "String"}">${xml(cell ?? "")}</Data></Cell>`
+            )
+            .join("")}</Row>`
       )
       .join("\n")}
-  </tbody>
-</table>
-</body>
-</html>`;
+  </Table>
+</Worksheet>`;
 
-const printableSchedule = () =>
-  layout({
-    title: "Printable World Cup 2026 Schedule",
-    description:
-      "Printable wc26schedule match list with date, kickoff time, teams, city, stadium and tournament stage.",
-    canonical: "/downloads/world-cup-2026-schedule-print.html",
-    body: `<main class="main printable">
-  <section class="section">
-    <p class="eyebrow">Printable schedule</p>
-    <h1>World Cup 2026 Schedule</h1>
-    <p class="muted">Generated by wc26schedule on ${updated}. Confirm final details with official sources before travel or ticket decisions.</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Match</th><th>Date</th><th>Time ET</th><th>Stage</th><th>Group</th><th>Teams</th><th>City</th><th>Stadium</th></tr></thead>
-        <tbody>
-          ${matches
-            .map(
-              (match) =>
-                `<tr><td>${match.matchNumber}</td><td>${esc(match.date)}</td><td>${esc(match.kickoffET)}</td><td>${esc(match.stage)}</td><td>${esc(match.group || "-")}</td><td>${esc(`${match.home} v ${match.away}`)}</td><td>${esc(match.city)}</td><td>${esc(match.stadium)}</td></tr>`
-            )
-            .join("")}
-        </tbody>
-      </table>
-    </div>
-  </section>
-</main>`
-  });
+const venueRows = () => {
+  const venues = new Map();
+  for (const match of matches) {
+    const key = `${match.city}|${match.stadium}`;
+    const meta = cityMeta[match.city] ?? { country: "" };
+    const current = venues.get(key) ?? {
+      city: match.city,
+      country: meta.country,
+      stadium: match.stadium,
+      matches: 0,
+      firstDate: match.date,
+      lastDate: match.date
+    };
+    current.matches += 1;
+    current.firstDate = current.firstDate < match.date ? current.firstDate : match.date;
+    current.lastDate = current.lastDate > match.date ? current.lastDate : match.date;
+    venues.set(key, current);
+  }
+  return [...venues.values()]
+    .sort((a, b) => a.city.localeCompare(b.city))
+    .map((venue) => [venue.city, venue.country, venue.stadium, venue.matches, venue.firstDate, venue.lastDate]);
+};
+
+const groupRows = () => {
+  const teams = [];
+  for (const match of matches.filter((item) => item.group)) {
+    teams.push([match.group, match.home]);
+    teams.push([match.group, match.away]);
+  }
+  const unique = new Map();
+  for (const [group, team] of teams) unique.set(`${group}|${team}`, [group, team]);
+  return [...unique.values()].sort((a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]));
+};
+
+const scheduleSpreadsheetHtml = () => {
+  const rows = scheduleRows();
+  const fullRows = [scheduleHeaders, ...rows.map((row) => scheduleHeaders.map((header) => row[header]))];
+  const groupStageRows = [
+    scheduleHeaders,
+    ...rows.filter((row) => row.Stage === "Group stage").map((row) => scheduleHeaders.map((header) => row[header]))
+  ];
+  const knockoutRows = [
+    scheduleHeaders,
+    ...rows.filter((row) => row.Stage !== "Group stage").map((row) => scheduleHeaders.map((header) => row[header]))
+  ];
+
+  return `<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+ ${worksheet("README", [
+   ["wc26schedule World Cup 2026 workbook"],
+   ["Generated", updated],
+   ["Best use", "Filter by team, city, date, stage or venue."],
+   ["Time notes", "Kickoff ET is source time. UTC and venue local time are computed for planning convenience."],
+   ["Primary source", scheduleMeta.sourceUrl],
+   ["Mapping source", scheduleMeta.mappingSourceUrl],
+   ["Reminder", "Confirm official details before travel, tickets or broadcast decisions."]
+ ])}
+ ${worksheet("All Matches", fullRows)}
+ ${worksheet("Group Stage", groupStageRows)}
+ ${worksheet("Knockout", knockoutRows)}
+ ${worksheet("Venues", [["City", "Host country", "Stadium", "Matches", "First match date", "Last match date"], ...venueRows()])}
+ ${worksheet("Groups", [["Group", "Team"], ...groupRows()])}
+</Workbook>`;
+};
+
+const pdfEscape = (value) =>
+  String(value)
+    .normalize("NFKD")
+    .replace(/[^\x20-\x7E]/g, "")
+    .replaceAll("\\", "\\\\")
+    .replaceAll("(", "\\(")
+    .replaceAll(")", "\\)");
+
+const generatePdf = () => {
+  const lines = [
+    "wc26schedule World Cup 2026 Schedule",
+    `Generated ${updated}. Confirm final details with official sources.`,
+    "Grouped by date. Times shown in ET.",
+    ""
+  ];
+  let currentDate = "";
+  for (const match of matches) {
+    if (match.date !== currentDate) {
+      currentDate = match.date;
+      lines.push("");
+      lines.push(`${match.dateLabel}`);
+    }
+    lines.push(
+      `M${String(match.matchNumber).padStart(3, "0")}  ${match.kickoffET} ET  ${match.home} v ${match.away}  | ${match.stage}${match.group ? ` ${match.group}` : ""} | ${match.city} | ${match.stadium}`
+    );
+  }
+
+  const pages = [];
+  const pageLines = 46;
+  for (let i = 0; i < lines.length; i += pageLines) {
+    pages.push(lines.slice(i, i + pageLines));
+  }
+
+  const objects = [];
+  const addObject = (body) => {
+    objects.push(body);
+    return objects.length;
+  };
+
+  const fontId = addObject("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+  const pageIds = [];
+  for (const pageLinesChunk of pages) {
+    const content = [
+      "BT",
+      "/F1 9 Tf",
+      "50 760 Td",
+      ...pageLinesChunk.flatMap((line, index) => [
+        index === 0 ? "" : "0 -15 Td",
+        `(${pdfEscape(line).slice(0, 124)}) Tj`
+      ]),
+      "ET"
+    ]
+      .filter(Boolean)
+      .join("\n");
+    const streamId = addObject(`<< /Length ${Buffer.byteLength(content, "binary")} >>\nstream\n${content}\nendstream`);
+    const pageId = addObject(
+      `<< /Type /Page /Parent PARENT_PLACEHOLDER /MediaBox [0 0 612 792] /Resources << /Font << /F1 ${fontId} 0 R >> >> /Contents ${streamId} 0 R >>`
+    );
+    pageIds.push(pageId);
+  }
+
+  const pagesId = addObject(`<< /Type /Pages /Kids [${pageIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageIds.length} >>`);
+  const catalogId = addObject(`<< /Type /Catalog /Pages ${pagesId} 0 R >>`);
+
+  for (const pageId of pageIds) {
+    objects[pageId - 1] = objects[pageId - 1].replace("PARENT_PLACEHOLDER", `${pagesId} 0 R`);
+  }
+
+  let pdf = "%PDF-1.4\n";
+  const offsets = [0];
+  for (let i = 0; i < objects.length; i += 1) {
+    offsets.push(Buffer.byteLength(pdf, "binary"));
+    pdf += `${i + 1} 0 obj\n${objects[i]}\nendobj\n`;
+  }
+  const xrefOffset = Buffer.byteLength(pdf, "binary");
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  for (let i = 1; i < offsets.length; i += 1) {
+    pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+  }
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogId} 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  return pdf;
+};
 
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 await copyFile(join(root, "src", "styles.css"), join(dist, "styles.css"));
 await write("downloads/world-cup-2026-schedule.csv", scheduleCsv());
 await write("downloads/world-cup-2026-schedule.xls", scheduleSpreadsheetHtml());
-await write("downloads/world-cup-2026-schedule-print.html", printableSchedule());
+await write("downloads/world-cup-2026-schedule.pdf", generatePdf());
 await write(
   "schedule.js",
   `(() => {
