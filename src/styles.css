@@ -272,6 +272,14 @@ h1 {
   font-size: 21px;
 }
 
+.section-heading-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 18px;
+}
+
 .section p,
 .card p,
 .faq p {
@@ -309,6 +317,63 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+}
+
+.schedule-tool {
+  scroll-margin-top: 90px;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1.2fr repeat(3, minmax(150px, 0.7fr));
+  gap: 12px;
+  margin: 18px 0 12px;
+}
+
+.filters label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.filters input,
+.filters select {
+  min-height: 44px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+  padding: 10px 12px;
+}
+
+.schedule-count {
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.schedule-table-wrap {
+  max-height: 720px;
+}
+
+.schedule-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.pending {
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.inline-note {
+  border-top: 0;
+  margin-top: 14px;
+  padding-top: 0;
 }
 
 table {
@@ -433,12 +498,17 @@ td {
   }
 
   .fact-grid,
-  .link-grid {
+  .link-grid,
+  .filters {
     grid-template-columns: 1fr;
+  }
+
+  .section-heading-row {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .panel-value {
     max-width: none;
   }
 }
-

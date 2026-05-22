@@ -2,6 +2,7 @@ import { mkdir, rm, writeFile, copyFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { pages, site } from "../src/content.mjs";
+import { matches, scheduleMeta } from "../src/matches.mjs";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const dist = join(root, "dist");
@@ -57,6 +58,7 @@ const layout = ({ title, description, canonical, body, schema = [] }) => `<!doct
     </div>
   </header>
   ${body}
+  <script src="/schedule.js" defer></script>
   <footer class="footer">
     <div class="footer-inner">
       <strong>${esc(site.brand)}</strong>
@@ -161,6 +163,9 @@ const renderPage = (page) => {
     )
     .join("");
 
+  const scheduleBlock =
+    page.slug === "world-cup-2026-schedule" ? renderScheduleTable() : "";
+
   return layout({
     title: page.title,
     description: page.description,
@@ -192,6 +197,7 @@ const renderPage = (page) => {
       </div></aside>
     </div>
   </section>
+  ${scheduleBlock}
   ${sections}
   <section class="section">
     <h2>Planning table</h2>
@@ -206,6 +212,93 @@ const renderPage = (page) => {
   <section class="source-note"><strong>Last updated:</strong> ${updated}. Sources should be verified against FIFA official schedule, official ticket information, host city sites, stadium sites and authorized broadcaster pages before publishing production claims. wc26schedule is independent and does not sell tickets.</section>
 </main>`
   });
+};
+
+const renderScheduleTable = () => {
+  const stageOptions = [...new Set(matches.map((match) => match.stage))];
+  const groupOptions = [...new Set(matches.map((match) => match.group).filter(Boolean))];
+  const teamOptions = [
+    ...new Set(matches.flatMap((match) => [match.home, match.away]).filter((team) => team && !team.includes("/") && !team.startsWith("W") && !team.startsWith("2") && !team.startsWith("1") && team !== "TBD"))
+  ].sort((a, b) => a.localeCompare(b));
+
+  return `<section class="section schedule-tool" id="full-schedule">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Structured match data</p>
+      <h2>Full World Cup 2026 fixture table</h2>
+      <p>The table below renders ${matches.length} structured match records. Date, city and stadium are nullable until the visual grid from the official schedule PDF is mapped with confidence.</p>
+    </div>
+    <a class="button light" href="${attr(scheduleMeta.sourceUrl)}">Official source</a>
+  </div>
+  <div class="filters" aria-label="Schedule filters">
+    <label>Search
+      <input data-filter-search type="search" placeholder="Team, match number, stage">
+    </label>
+    <label>Stage
+      <select data-filter-stage>
+        <option value="">All stages</option>
+        ${stageOptions.map((stage) => `<option value="${attr(stage)}">${esc(stage)}</option>`).join("")}
+      </select>
+    </label>
+    <label>Group
+      <select data-filter-group>
+        <option value="">All groups</option>
+        ${groupOptions.map((group) => `<option value="${attr(group)}">Group ${esc(group)}</option>`).join("")}
+      </select>
+    </label>
+    <label>Team
+      <select data-filter-team>
+        <option value="">All teams</option>
+        ${teamOptions.map((team) => `<option value="${attr(team)}">${esc(team)}</option>`).join("")}
+      </select>
+    </label>
+  </div>
+  <p class="schedule-count"><span data-schedule-count>${matches.length}</span> matches shown</p>
+  <div class="table-wrap schedule-table-wrap">
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Match</th>
+          <th>Stage</th>
+          <th>Group</th>
+          <th>Teams</th>
+          <th>Kickoff ET</th>
+          <th>Date</th>
+          <th>City</th>
+          <th>Stadium</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${matches
+          .map((match) => {
+            const teams = `${match.home} v ${match.away}`;
+            const searchable = [
+              match.matchNumber,
+              match.stage,
+              match.group,
+              match.home,
+              match.away,
+              match.kickoffET
+            ]
+              .join(" ")
+              .toLowerCase();
+            return `<tr data-match-row data-stage="${attr(match.stage)}" data-group="${attr(match.group)}" data-home="${attr(match.home)}" data-away="${attr(match.away)}" data-search="${attr(searchable)}">
+          <td><strong>${match.matchNumber}</strong></td>
+          <td>${esc(match.stage)}</td>
+          <td>${match.group ? `Group ${esc(match.group)}` : "-"}</td>
+          <td>${esc(teams)}</td>
+          <td>${esc(match.kickoffET)} ET</td>
+          <td>${match.date ? esc(match.date) : '<span class="pending">Pending map</span>'}</td>
+          <td>${match.city ? esc(match.city) : '<span class="pending">Pending map</span>'}</td>
+          <td>${match.stadium ? esc(match.stadium) : '<span class="pending">Pending map</span>'}</td>
+        </tr>`;
+          })
+          .join("")}
+      </tbody>
+    </table>
+  </div>
+  <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>.</p>
+</section>`;
 };
 
 const renderHome = () =>
@@ -279,6 +372,44 @@ const write = async (relative, content) => {
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 await copyFile(join(root, "src", "styles.css"), join(dist, "styles.css"));
+await write(
+  "schedule.js",
+  `(() => {
+  const rows = Array.from(document.querySelectorAll("[data-match-row]"));
+  if (!rows.length) return;
+
+  const search = document.querySelector("[data-filter-search]");
+  const stage = document.querySelector("[data-filter-stage]");
+  const group = document.querySelector("[data-filter-group]");
+  const team = document.querySelector("[data-filter-team]");
+  const count = document.querySelector("[data-schedule-count]");
+
+  const apply = () => {
+    const searchValue = (search?.value || "").trim().toLowerCase();
+    const stageValue = stage?.value || "";
+    const groupValue = group?.value || "";
+    const teamValue = team?.value || "";
+    let visible = 0;
+
+    for (const row of rows) {
+      const matchesSearch = !searchValue || row.dataset.search.includes(searchValue);
+      const matchesStage = !stageValue || row.dataset.stage === stageValue;
+      const matchesGroup = !groupValue || row.dataset.group === groupValue;
+      const matchesTeam =
+        !teamValue || row.dataset.home === teamValue || row.dataset.away === teamValue;
+      const show = matchesSearch && matchesStage && matchesGroup && matchesTeam;
+      row.hidden = !show;
+      if (show) visible += 1;
+    }
+
+    if (count) count.textContent = String(visible);
+  };
+
+  [search, stage, group, team].forEach((control) => {
+    if (control) control.addEventListener("input", apply);
+  });
+})();\n`
+);
 await write("index.html", renderHome());
 
 for (const page of pages) {
