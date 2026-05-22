@@ -51,7 +51,7 @@ export const pages = [
         [
           "A strong schedule page is more than a long list of matches. Users arrive with different goals: some want the opening match, some want a team route, some want a city itinerary, and some want a printable fixture list they can keep offline. The match calendar should therefore be easy to scan while giving visitors enough context to understand stages, time zones and host venues.",
           "The match table should support filters for team, host city, date and stage. On desktop, a dense table works well because users can compare several fixtures at once. On mobile, each match should become a compact card with the date, local kickoff time, teams, city, stadium and links to related guides. This keeps the experience useful without forcing users to pinch and zoom.",
-          "The main phrase for this page is world cup 2026 schedule, but the copy should not repeat that exact phrase mechanically. The page also needs to cover fixtures, kickoff times, host cities, group stage schedule, knockout schedule and final date. These related concepts help search engines and AI assistants understand that this is a complete tournament guide rather than a thin keyword page."
+          "The page should give fans a complete planning view instead of a bare list of fixtures. It needs to cover kickoff times, host cities, group-stage matches, knockout rounds, final date, downloadable planners and source notes in a way that is easy to scan."
         ]
       ],
       [
@@ -277,15 +277,15 @@ export const pages = [
         "How the Group Stage Page Helps Users",
         [
           "The groups page should not simply list group labels. Users need to understand which teams are together, where those teams play, how many matches are involved and what happens after the group stage. The page should connect group information with match schedule, standings and bracket content.",
-          "For SEO, this page can rank for broad phrases such as world cup 2026 groups and for longer searches around group stage fixtures or qualification. For users, it should work like a map of the tournament before elimination matches begin.",
+          "For fans, it should work like a map of the tournament before elimination matches begin. A good groups page lets users move from a group overview to fixtures, standings, team details and possible knockout paths without guessing where to go next.",
           "The groups page should link naturally to the standings page. Before matches begin, the standings page can explain that live tables will update once results are available. During the tournament, the same section becomes a high-frequency destination for points, goal difference and qualification scenarios."
         ]
       ],
       [
         "Tie-Breakers and Qualification",
         [
-          "Tie-breaker explanations should be concise and source-backed. Users often search during tense group-stage moments, so the answer should be easy to find and written in plain language. This also makes the page more useful for AI assistants that need a short, reliable explanation.",
-          "The final page should include short FAQ answers and a clear source note. If a user wants exact match details, the page should send them to the main schedule. If a user wants current rankings, it should send them to standings."
+          "Tie-breaker explanations should be concise and source-backed. During tense group-stage moments, fans need plain-language answers about points, goal difference and qualification without digging through long rules pages.",
+          "The page should include short FAQ answers and a clear source note. If a user wants exact match details, the page should send them to the main schedule. If a user wants current group tables, it should send them to standings."
         ]
       ]
     ],
@@ -295,8 +295,8 @@ export const pages = [
         "Groups show how teams are organized before matches are played. Standings show each team's points and ranking after results begin to come in."
       ],
       [
-        "Where should group pages link?",
-        "Group pages should link to the full schedule, standings, bracket, team pages and relevant match pages so users can move from structure to action."
+        "Where can I go next from the groups page?",
+        "From the groups page, fans can move to the full schedule, standings, bracket, team pages and relevant match pages to check fixtures, points and possible knockout routes."
       ]
     ],
     links: [
@@ -540,4 +540,3 @@ export const pages = [
     links: [["TV schedule", "/world-cup-2026-tv-schedule/"], ["Full schedule", "/world-cup-2026-schedule/"], ["Tournament dates", "/world-cup-2026-dates/"]]
   }
 ];
-

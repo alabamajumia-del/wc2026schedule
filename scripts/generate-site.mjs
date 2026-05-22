@@ -94,7 +94,7 @@ const hero = ({ eyebrow, h1, intro, facts, primaryHref = "/world-cup-2026-schedu
 
 const table = (rows) => `<div class="table-wrap">
 <table>
-  <thead><tr><th>Element</th><th>Purpose</th><th>SEO role</th></tr></thead>
+  <thead><tr><th>Task</th><th>What to check</th><th>Next step</th></tr></thead>
   <tbody>
     ${rows
       .map(
@@ -172,7 +172,7 @@ const renderPage = (page) => {
     canonical: `/${page.slug}/`,
     schema: pageSchema(page),
     body: `${hero({
-      eyebrow: page.keyword,
+      eyebrow: `${page.nav} guide`,
       h1: page.h1,
       intro: page.intro,
       facts: page.facts
@@ -181,30 +181,31 @@ const renderPage = (page) => {
   <section class="section">
     <div class="grid">
       <article class="span-8 card"><div class="card-body">
-        <p class="eyebrow">Search intent</p>
+        <p class="eyebrow">Guide overview</p>
         <h2>${esc(page.intent)}</h2>
-        <p>This page targets <strong>${esc(page.keyword)}</strong> while naturally covering related searches such as ${esc(
-          page.longTail.slice(0, 4).join(", ")
-        )}. The content answers the user task first, then supports SEO through clear headings, internal links, FAQ answers and source-backed guidance.</p>
-        <ul class="tag-list">${page.longTail
-          .map((keyword) => `<li>${esc(keyword)}</li>`)
-          .join("")}</ul>
+        <p>This guide brings the essential match-planning details into one place, then points you to the next useful step: checking the full schedule, comparing host cities, downloading a planner, reviewing TV options or reading ticket guidance.</p>
+        <ul class="tag-list">
+          <li>Match planning</li>
+          <li>Host city context</li>
+          <li>Downloadable tools</li>
+          <li>Official-source reminders</li>
+        </ul>
       </div></article>
       <aside class="span-4 card"><div class="card-body">
-        <p class="eyebrow">SEO brief</p>
-        <h3>Page requirements</h3>
-        <p>Production copy should reach at least 800 words, keep keyword family density near 3%-5%, include one useful table, FAQ items, source notes and natural internal links.</p>
+        <p class="eyebrow">Quick note</p>
+        <h3>Use official sources</h3>
+        <p>Schedule, ticket and broadcast details can change. Use wc26schedule for planning, then confirm final details with FIFA, official host city pages, stadium sites or authorized broadcasters.</p>
       </div></aside>
     </div>
   </section>
   ${scheduleBlock}
   ${sections}
   <section class="section">
-    <h2>Planning table</h2>
+    <h2>How to use this page</h2>
     ${table([
-      ["Primary keyword", page.keyword, "Defines the page topic in title, H1, intro and metadata."],
-      ["Long-tail coverage", page.longTail.slice(0, 3).join(", "), "Captures related user questions without keyword stuffing."],
-      ["Internal links", `${page.links.length} page connections`, "Supports the schedule hub and distributes topical relevance."]
+      ["Find match details", "Date, kickoff time, teams, city, stadium and stage.", "Use the schedule filters or open a related planning page."],
+      ["Plan around a city", "Host city, stadium, travel timing and ticket context.", "Compare host cities before booking travel."],
+      ["Save a planner", "PDF, Excel and calendar-friendly schedule options.", "Use the download pages when you need an offline copy."]
     ])}
   </section>
   <section class="section"><h2>Related planning pages</h2>${linkGrid(page.links)}</section>
@@ -338,11 +339,11 @@ const renderHome = () =>
       eyebrow: "World Cup 2026 schedule hub",
       h1: "wc26schedule",
       intro:
-        "Plan the tournament by date, team, city, stadium, TV schedule, ticket guide and downloadable tools. This build establishes the SEO-first site structure for worldcup2026schedule.net.",
+        "Plan the tournament by date, team, city, stadium, TV schedule, ticket guide and downloadable tools for worldcup2026schedule.net.",
       facts: [
         ["Brand", site.brand],
         ["Domain", site.domain],
-        ["Core keyword", "world cup 2026 schedule"]
+        ["Core tool", "Full match schedule"]
       ]
     })}
 <main class="main">
@@ -351,29 +352,29 @@ const renderHome = () =>
       <div class="span-8 card"><div class="card-body">
         <p class="eyebrow">Execution focus</p>
         <h2>Build the schedule first, then expand into tools and long-tail pages.</h2>
-        <p>wc26schedule is structured around a center-and-spoke SEO model. The full match schedule is the authority page. PDF, Excel, groups, host cities, TV and tickets pages support the core topic while solving distinct user tasks. City and team pages become the next layer once the MVP structure is stable.</p>
+        <p>wc26schedule starts with the full match schedule, then connects users to PDF, Excel, groups, host cities, TV and tickets pages. City and team pages become the next layer once the core planning tools are stable.</p>
         <div class="section-actions">
           <a class="button" href="/world-cup-2026-schedule/">View schedule page</a>
           <a class="button light" href="/world-cup-2026-tickets/">Review ticket guide</a>
         </div>
       </div></div>
       <div class="span-4 card"><div class="card-body">
-        <p class="eyebrow">Content rule</p>
-        <h3>800+ word pages</h3>
-        <p>Core pages should be expanded to 800-1200 words with natural keyword coverage, useful tables, FAQ answers, source notes and internal links. Exact-match repetition should stay controlled.</p>
+        <p class="eyebrow">Planning tools</p>
+        <h3>Schedule, PDF and Excel</h3>
+        <p>The site is built around practical planning: browse the full schedule, filter matches, compare host cities, and use downloadable tools as they are added.</p>
       </div></div>
     </div>
   </section>
   <section class="section">
     <h2>MVP page map</h2>
     <div class="table-wrap"><table>
-      <thead><tr><th>Page</th><th>URL</th><th>Primary keyword</th><th>Status</th></tr></thead>
+      <thead><tr><th>Page</th><th>URL</th><th>Main use</th><th>Status</th></tr></thead>
       <tbody>
         ${pages
           .slice(0, 8)
           .map(
             (page) =>
-              `<tr><td>${esc(page.nav)}</td><td><a href="/${page.slug}/">/${page.slug}/</a></td><td>${esc(page.keyword)}</td><td>MVP</td></tr>`
+              `<tr><td>${esc(page.nav)}</td><td><a href="/${page.slug}/">/${page.slug}/</a></td><td>${esc(page.intent)}</td><td>MVP</td></tr>`
           )
           .join("")}
       </tbody>
