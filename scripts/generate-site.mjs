@@ -8,6 +8,11 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const dist = join(root, "dist");
 const updated = "May 22, 2026";
 
+const citySlugOverrides = {
+  "new-york": "new-york-new-jersey",
+  "san-francisco": "san-francisco-bay-area"
+};
+
 const esc = (value) =>
   String(value)
     .replaceAll("&", "&amp;")
@@ -16,6 +21,9 @@ const esc = (value) =>
     .replaceAll('"', "&quot;");
 
 const attr = esc;
+
+const cityPath = (citySlug) =>
+  `/world-cup-2026-schedule/${citySlugOverrides[citySlug] ?? citySlug}/`;
 
 const csvValue = (value) => {
   const text = String(value ?? "");
@@ -153,6 +161,24 @@ const downloadPanel = () => `<section class="section">
   </div>
 </section>`;
 
+const cityIndexPanel = () => {
+  const cities = citySummaries();
+  return `<section class="section">
+  <h2>City schedule pages</h2>
+  <p>Open a host city page to see that city's matches, stadium, date range and planning notes.</p>
+  <div class="link-grid">
+    ${cities
+      .map(
+        (city) => `<a class="link-card" href="${attr(city.path)}">
+      <span>${esc(city.city)}</span>
+      <span>${city.matches.length} matches</span>
+    </a>`
+      )
+      .join("")}
+  </div>
+</section>`;
+};
+
 const faqHtml = (faqs) => `<div class="card"><div class="card-body">
 ${faqs
   .map(
@@ -210,6 +236,7 @@ const renderPage = (page) => {
   ].includes(page.slug)
     ? downloadPanel()
     : "";
+  const cityBlock = page.slug === "world-cup-2026-host-cities" ? cityIndexPanel() : "";
 
   return layout({
     title: page.title,
@@ -245,6 +272,7 @@ const renderPage = (page) => {
   </section>
   ${scheduleBlock}
   ${downloadsBlock}
+  ${cityBlock}
   ${sections}
   <section class="section">
     <h2>How to use this page</h2>
@@ -355,7 +383,7 @@ const renderScheduleTable = () => {
           <td>${esc(teams)}</td>
           <td>${esc(match.kickoffET)} ET</td>
           <td>${esc(match.date)}</td>
-          <td>${esc(match.city)}</td>
+          <td><a href="${attr(cityPath(match.citySlug))}">${esc(match.city)}</a></td>
           <td>${esc(match.stadium)}</td>
         </tr>`;
           })
@@ -502,6 +530,171 @@ const matchView = (match) => {
     "City slug": match.citySlug,
     "Source status": match.sourceStatus
   };
+};
+
+const citySummaries = () => {
+  const groups = new Map();
+  for (const match of matches) {
+    const path = cityPath(match.citySlug);
+    const meta = cityMeta[match.city] ?? { country: "" };
+    const current = groups.get(match.city) ?? {
+      city: match.city,
+      country: meta.country,
+      citySlug: match.citySlug,
+      path,
+      matches: [],
+      stadiums: new Set(),
+      stages: new Set(),
+      teams: new Set()
+    };
+    current.matches.push(match);
+    current.stadiums.add(match.stadium);
+    current.stages.add(match.stage);
+    current.teams.add(match.home);
+    current.teams.add(match.away);
+    groups.set(match.city, current);
+  }
+
+  return [...groups.values()]
+    .map((city) => ({
+      ...city,
+      matches: city.matches.sort((a, b) => a.date.localeCompare(b.date) || a.kickoffET.localeCompare(b.kickoffET)),
+      stadiums: [...city.stadiums].sort((a, b) => a.localeCompare(b)),
+      stages: [...city.stages].sort((a, b) => a.localeCompare(b)),
+      teams: [...city.teams].sort((a, b) => a.localeCompare(b)),
+      firstDate: city.matches.map((match) => match.date).sort()[0],
+      lastDate: city.matches.map((match) => match.date).sort().at(-1)
+    }))
+    .sort((a, b) => a.city.localeCompare(b.city));
+};
+
+const citySchema = (city) => [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: `${city.city} World Cup 2026 Schedule`,
+    description: `See the World Cup 2026 schedule for ${city.city}, including match dates, ET kickoff times, stadiums and tournament stages.`,
+    author: { "@type": "Organization", name: `${site.brand} editorial team` },
+    publisher: { "@type": "Organization", name: site.brand },
+    mainEntityOfPage: `${site.url}${city.path}`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `How many World Cup 2026 matches are in ${city.city}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${city.city} currently has ${city.matches.length} matches in the wc26schedule data set. Confirm official details before travel or ticket decisions.`
+        }
+      },
+      {
+        "@type": "Question",
+        name: `Which stadium hosts matches in ${city.city}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${city.city} matches are listed at ${city.stadiums.join(", ")}.`
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "World Cup 2026 Host Cities",
+        item: `${site.url}/world-cup-2026-host-cities/`
+      },
+      { "@type": "ListItem", position: 3, name: city.city, item: `${site.url}${city.path}` }
+    ]
+  }
+];
+
+const renderCityPage = (city) => {
+  const title = `${city.city} World Cup 2026 Schedule`;
+  const description = `See ${city.city} World Cup 2026 matches with dates, ET kickoff times, stages, teams and stadium details.`;
+
+  return layout({
+    title,
+    description,
+    canonical: city.path,
+    schema: citySchema(city),
+    body: `${hero({
+      eyebrow: "Host city schedule",
+      h1: title,
+      intro: `${city.city} hosts ${city.matches.length} World Cup 2026 matches from ${city.firstDate} to ${city.lastDate}. This guide lists the local match schedule, stadium details, stages and planning links for fans comparing city itineraries.`,
+      facts: [
+        ["Matches", `${city.matches.length}`],
+        ["Host country", city.country],
+        ["Stadium", city.stadiums.join(", ")]
+      ],
+      primaryHref: "/world-cup-2026-schedule/"
+    })}
+<main class="main">
+  <section class="section">
+    <div class="grid">
+      <article class="span-8 card"><div class="card-body">
+        <p class="eyebrow">City overview</p>
+        <h2>${esc(city.city)} match schedule</h2>
+        <p>Use this city page to check every listed match in ${esc(city.city)}, compare dates, review the stadium, and move back to the full schedule when you want to filter by team, stage or date.</p>
+      </div></article>
+      <aside class="span-4 card"><div class="card-body">
+        <p class="eyebrow">Planning note</p>
+        <h3>Confirm before booking</h3>
+        <p>Times, ticket details, stadium operations and local transport information can change. Use this page as a planning aid and confirm final details with official sources.</p>
+      </div></aside>
+    </div>
+  </section>
+  <section class="section">
+    <h2>${esc(city.city)} fixtures</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Match</th><th>Date</th><th>Time ET</th><th>Stage</th><th>Group</th><th>Teams</th><th>Stadium</th></tr></thead>
+        <tbody>
+          ${city.matches
+            .map(
+              (match) =>
+                `<tr><td>${match.matchNumber}</td><td>${esc(match.date)}</td><td>${esc(match.kickoffET)} ET</td><td>${esc(match.stage)}</td><td>${esc(match.group || "-")}</td><td>${esc(`${match.home} v ${match.away}`)}</td><td>${esc(match.stadium)}</td></tr>`
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section class="section">
+    <h2>How to use this city page</h2>
+    ${table([
+      ["Compare dates", `${city.firstDate} to ${city.lastDate}.`, "Check whether the city fits your travel window."],
+      ["Review stages", city.stages.join(", "), "Decide whether you want group-stage, knockout or final-week matches."],
+      ["Check stadium", city.stadiums.join(", "), "Confirm access, gates and local operations with official venue sources."]
+    ])}
+  </section>
+  <section class="section">
+    <h2>Related planning pages</h2>
+    ${linkGrid([
+      ["Full World Cup 2026 schedule", "/world-cup-2026-schedule/"],
+      ["All host cities", "/world-cup-2026-host-cities/"],
+      ["Ticket guide", "/world-cup-2026-tickets/"],
+      ["Download schedule files", "/world-cup-2026-schedule-excel/"]
+    ])}
+  </section>
+  <section class="section">
+    <h2>FAQ</h2>
+    ${faqHtml([
+      [`How many World Cup 2026 matches are in ${city.city}?`, `${city.city} currently has ${city.matches.length} matches in the wc26schedule data set, covering ${city.stages.join(", ")}.`],
+      [`Which stadium hosts matches in ${city.city}?`, `${city.city} matches are listed at ${city.stadiums.join(", ")}.`],
+      [`Can I download the ${city.city} schedule?`, "The current download files include the full schedule. City-specific downloads can be generated from the same data in a later phase."]
+    ])}
+  </section>
+  <section class="source-note"><strong>Last updated:</strong> ${updated}. Match data is generated from the structured wc26schedule dataset and should be checked against official sources before travel or ticket decisions.</section>
+</main>`
+  });
 };
 
 const scheduleRows = () => matches.map(matchView);
@@ -738,6 +931,11 @@ for (const page of pages) {
   await write(join(page.slug, "index.html"), renderPage(page));
 }
 
+const cities = citySummaries();
+for (const city of cities) {
+  await write(join(city.path.replace(/^\/|\/$/g, ""), "index.html"), renderCityPage(city));
+}
+
 await write(
   "robots.txt",
   `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\nHost: ${site.url}\n`
@@ -747,7 +945,8 @@ await write(
   "sitemap.xml",
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[
     site.url,
-    ...pages.map((page) => `${site.url}/${page.slug}/`)
+    ...pages.map((page) => `${site.url}/${page.slug}/`),
+    ...cities.map((city) => `${site.url}${city.path}`)
   ]
     .map(
       (url) =>
@@ -756,4 +955,4 @@ await write(
     .join("\n")}\n</urlset>\n`
 );
 
-console.log(`Generated ${pages.length + 1} pages in ${dist}`);
+console.log(`Generated ${pages.length + cities.length + 1} pages in ${dist}`);
