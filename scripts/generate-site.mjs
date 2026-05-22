@@ -278,6 +278,10 @@ const renderPage = (page) => {
     ? downloadPanel()
     : "";
   const cityBlock = page.slug === "world-cup-2026-host-cities" ? cityIndexPanel() : "";
+  const sourceNote =
+    page.slug === "world-cup-2026-schedule"
+      ? `This page is maintained as an independent fixture planner for fans. Sources: FIFA official schedule, structured match data, host city and stadium references. Editorial note: kickoff times, ticket details and broadcast information may change, so confirm paid or time-sensitive decisions with official sources.`
+      : `wc26schedule is an independent planning guide. Sources include FIFA official schedule information, official ticket information, host city sites, stadium sites and authorized broadcaster pages where relevant. Editorial note: times, ticket details and broadcaster information may change, so confirm important decisions with official sources.`;
 
   return layout({
     title: page.title,
@@ -325,7 +329,7 @@ const renderPage = (page) => {
   </section>
   <section class="section"><h2>Related planning pages</h2>${linkGrid(page.links)}</section>
   <section class="section"><h2>FAQ</h2>${faqHtml(page.faqs)}</section>
-  <section class="source-note"><strong>Last updated:</strong> ${updated}. Sources should be verified against FIFA official schedule, official ticket information, host city sites, stadium sites and authorized broadcaster pages before publishing production claims. wc26schedule is independent and does not sell tickets.</section>
+  <section class="source-note"><strong>Last updated:</strong> ${updated}. ${esc(sourceNote)}</section>
 </main>`
   });
 };
@@ -344,9 +348,9 @@ const renderScheduleTable = () => {
   return `<section class="section schedule-tool" id="full-schedule">
   <div class="section-heading-row">
     <div>
-      <p class="eyebrow">Structured match data</p>
-      <h2>Full World Cup 2026 fixture table</h2>
-      <p>The table below renders ${matches.length} structured match records with match number, date, ET kickoff time, teams, stage, group, city and stadium.</p>
+      <p class="eyebrow">Full schedule table</p>
+      <h2>Full World Cup 2026 Match Schedule</h2>
+      <p>Use the ${matches.length}-match table to check match number, date, Eastern Time kickoff, teams, stage, group, host city and stadium.</p>
     </div>
     <a class="button light" href="${attr(scheduleMeta.sourceUrl)}">Official source</a>
   </div>

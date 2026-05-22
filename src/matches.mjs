@@ -6,7 +6,7 @@ export const scheduleMeta = {
   mappingSourceUrl: "https://worldcuphub.io/en/schedule",
   extractedAt: "2026-05-22",
   note:
-    "Match teams and numbering are aligned to the FIFA schedule PDF. Date, city, stadium and ET kickoff values are mapped from a text-readable schedule table and should be re-checked against FIFA before production publication."
+    "Match teams and numbering are aligned to the FIFA schedule PDF. Date, city, stadium and ET kickoff values are mapped from a text-readable schedule table; confirm final details with FIFA before travel, ticket purchases or other time-sensitive decisions."
 };
 
 export const matches = [
