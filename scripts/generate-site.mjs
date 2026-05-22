@@ -217,6 +217,10 @@ const renderPage = (page) => {
 const renderScheduleTable = () => {
   const stageOptions = [...new Set(matches.map((match) => match.stage))];
   const groupOptions = [...new Set(matches.map((match) => match.group).filter(Boolean))];
+  const dateOptions = [...new Set(matches.map((match) => match.date).filter(Boolean))];
+  const cityOptions = [...new Set(matches.map((match) => match.city).filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b)
+  );
   const teamOptions = [
     ...new Set(matches.flatMap((match) => [match.home, match.away]).filter((team) => team && !team.includes("/") && !team.startsWith("W") && !team.startsWith("2") && !team.startsWith("1") && team !== "TBD"))
   ].sort((a, b) => a.localeCompare(b));
@@ -226,7 +230,7 @@ const renderScheduleTable = () => {
     <div>
       <p class="eyebrow">Structured match data</p>
       <h2>Full World Cup 2026 fixture table</h2>
-      <p>The table below renders ${matches.length} structured match records. Date, city and stadium are nullable until the visual grid from the official schedule PDF is mapped with confidence.</p>
+      <p>The table below renders ${matches.length} structured match records with match number, date, ET kickoff time, teams, stage, group, city and stadium.</p>
     </div>
     <a class="button light" href="${attr(scheduleMeta.sourceUrl)}">Official source</a>
   </div>
@@ -244,6 +248,18 @@ const renderScheduleTable = () => {
       <select data-filter-group>
         <option value="">All groups</option>
         ${groupOptions.map((group) => `<option value="${attr(group)}">Group ${esc(group)}</option>`).join("")}
+      </select>
+    </label>
+    <label>Date
+      <select data-filter-date>
+        <option value="">All dates</option>
+        ${dateOptions.map((date) => `<option value="${attr(date)}">${esc(date)}</option>`).join("")}
+      </select>
+    </label>
+    <label>City
+      <select data-filter-city>
+        <option value="">All cities</option>
+        ${cityOptions.map((city) => `<option value="${attr(city)}">${esc(city)}</option>`).join("")}
       </select>
     </label>
     <label>Team
@@ -276,28 +292,31 @@ const renderScheduleTable = () => {
               match.matchNumber,
               match.stage,
               match.group,
+              match.date,
               match.home,
               match.away,
+              match.city,
+              match.stadium,
               match.kickoffET
             ]
               .join(" ")
               .toLowerCase();
-            return `<tr data-match-row data-stage="${attr(match.stage)}" data-group="${attr(match.group)}" data-home="${attr(match.home)}" data-away="${attr(match.away)}" data-search="${attr(searchable)}">
+            return `<tr data-match-row data-stage="${attr(match.stage)}" data-group="${attr(match.group)}" data-date="${attr(match.date)}" data-city="${attr(match.city)}" data-home="${attr(match.home)}" data-away="${attr(match.away)}" data-search="${attr(searchable)}">
           <td><strong>${match.matchNumber}</strong></td>
           <td>${esc(match.stage)}</td>
           <td>${match.group ? `Group ${esc(match.group)}` : "-"}</td>
           <td>${esc(teams)}</td>
           <td>${esc(match.kickoffET)} ET</td>
-          <td>${match.date ? esc(match.date) : '<span class="pending">Pending map</span>'}</td>
-          <td>${match.city ? esc(match.city) : '<span class="pending">Pending map</span>'}</td>
-          <td>${match.stadium ? esc(match.stadium) : '<span class="pending">Pending map</span>'}</td>
+          <td>${esc(match.date)}</td>
+          <td>${esc(match.city)}</td>
+          <td>${esc(match.stadium)}</td>
         </tr>`;
           })
           .join("")}
       </tbody>
     </table>
   </div>
-  <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>.</p>
+  <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>.</p>
 </section>`;
 };
 
@@ -381,6 +400,8 @@ await write(
   const search = document.querySelector("[data-filter-search]");
   const stage = document.querySelector("[data-filter-stage]");
   const group = document.querySelector("[data-filter-group]");
+  const date = document.querySelector("[data-filter-date]");
+  const city = document.querySelector("[data-filter-city]");
   const team = document.querySelector("[data-filter-team]");
   const count = document.querySelector("[data-schedule-count]");
 
@@ -388,6 +409,8 @@ await write(
     const searchValue = (search?.value || "").trim().toLowerCase();
     const stageValue = stage?.value || "";
     const groupValue = group?.value || "";
+    const dateValue = date?.value || "";
+    const cityValue = city?.value || "";
     const teamValue = team?.value || "";
     let visible = 0;
 
@@ -395,9 +418,11 @@ await write(
       const matchesSearch = !searchValue || row.dataset.search.includes(searchValue);
       const matchesStage = !stageValue || row.dataset.stage === stageValue;
       const matchesGroup = !groupValue || row.dataset.group === groupValue;
+      const matchesDate = !dateValue || row.dataset.date === dateValue;
+      const matchesCity = !cityValue || row.dataset.city === cityValue;
       const matchesTeam =
         !teamValue || row.dataset.home === teamValue || row.dataset.away === teamValue;
-      const show = matchesSearch && matchesStage && matchesGroup && matchesTeam;
+      const show = matchesSearch && matchesStage && matchesGroup && matchesDate && matchesCity && matchesTeam;
       row.hidden = !show;
       if (show) visible += 1;
     }
@@ -405,7 +430,7 @@ await write(
     if (count) count.textContent = String(visible);
   };
 
-  [search, stage, group, team].forEach((control) => {
+  [search, stage, group, date, city, team].forEach((control) => {
     if (control) control.addEventListener("input", apply);
   });
 })();\n`
