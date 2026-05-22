@@ -25,6 +25,44 @@ const attr = esc;
 const cityPath = (citySlug) =>
   `/world-cup-2026-schedule/${citySlugOverrides[citySlug] ?? citySlug}/`;
 
+const teamSlugOverrides = {
+  "Bosnia & Herzegovina": "bosnia-herzegovina",
+  "Cote d'Ivoire": "ivory-coast",
+  "Ivory Coast": "ivory-coast",
+  "Curaçao": "curacao",
+  "DR Congo": "dr-congo",
+  "IR Iran": "iran",
+  "Korea Republic": "south-korea",
+  "South Korea": "south-korea",
+  Türkiye: "turkiye",
+  Turkiye: "turkiye",
+  USA: "usa",
+  "United States": "usa",
+  "Cabo Verde": "cape-verde",
+  "Cape Verde": "cape-verde"
+};
+
+const slugify = (value) =>
+  String(value)
+    .normalize("NFKD")
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+
+const isRealTeam = (team) =>
+  team &&
+  !team.includes("/") &&
+  !/^W\d+$/i.test(team) &&
+  !/^L\d+$/i.test(team) &&
+  !/^\d[A-Z]+$/i.test(team) &&
+  !/^Winner/i.test(team) &&
+  !/^Loser/i.test(team) &&
+  team !== "TBD";
+
+const teamSlug = (team) => teamSlugOverrides[team] ?? slugify(team);
+const teamPath = (team) => `/world-cup-2026-teams/${teamSlug(team)}-schedule/`;
+
 const csvValue = (value) => {
   const text = String(value ?? "");
   return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
@@ -145,6 +183,9 @@ ${links
   )
   .join("")}
 </div>`;
+
+const teamLink = (team) =>
+  isRealTeam(team) ? `<a href="${attr(teamPath(team))}">${esc(team)}</a>` : esc(team);
 
 const downloadPanel = () => `<section class="section">
   <h2>Download schedule files</h2>
@@ -380,7 +421,7 @@ const renderScheduleTable = () => {
           <td><strong>${match.matchNumber}</strong></td>
           <td>${esc(match.stage)}</td>
           <td>${match.group ? `Group ${esc(match.group)}` : "-"}</td>
-          <td>${esc(teams)}</td>
+          <td>${teamLink(match.home)} v ${teamLink(match.away)}</td>
           <td>${esc(match.kickoffET)} ET</td>
           <td>${esc(match.date)}</td>
           <td><a href="${attr(cityPath(match.citySlug))}">${esc(match.city)}</a></td>
@@ -567,6 +608,167 @@ const citySummaries = () => {
     }))
     .sort((a, b) => a.city.localeCompare(b.city));
 };
+
+const teamSummaries = () => {
+  const groups = new Map();
+  for (const match of matches.filter((item) => item.stage === "Group stage")) {
+    for (const side of ["home", "away"]) {
+      const team = match[side];
+      if (!isRealTeam(team)) continue;
+      const current = groups.get(team) ?? {
+        team,
+        path: teamPath(team),
+        group: match.group,
+        matches: [],
+        cities: new Set(),
+        stadiums: new Set(),
+        opponents: new Set()
+      };
+      current.matches.push(match);
+      current.cities.add(match.city);
+      current.stadiums.add(match.stadium);
+      current.opponents.add(side === "home" ? match.away : match.home);
+      groups.set(team, current);
+    }
+  }
+
+  return [...groups.values()]
+    .map((team) => ({
+      ...team,
+      matches: team.matches.sort((a, b) => a.date.localeCompare(b.date) || a.kickoffET.localeCompare(b.kickoffET)),
+      cities: [...team.cities].sort((a, b) => a.localeCompare(b)),
+      stadiums: [...team.stadiums].sort((a, b) => a.localeCompare(b)),
+      opponents: [...team.opponents].sort((a, b) => a.localeCompare(b)),
+      firstDate: team.matches.map((match) => match.date).sort()[0],
+      lastDate: team.matches.map((match) => match.date).sort().at(-1)
+    }))
+    .sort((a, b) => a.team.localeCompare(b.team));
+};
+
+const teamSchema = (team) => [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: `${team.team} World Cup 2026 Schedule`,
+    description: `See the ${team.team} World Cup 2026 schedule with match dates, ET kickoff times, opponents, host cities and stadiums.`,
+    author: { "@type": "Organization", name: `${site.brand} editorial team` },
+    publisher: { "@type": "Organization", name: site.brand },
+    mainEntityOfPage: `${site.url}${team.path}`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `How many group matches does ${team.team} play at World Cup 2026?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${team.team} has ${team.matches.length} listed group-stage matches in the wc26schedule data set.`
+        }
+      },
+      {
+        "@type": "Question",
+        name: `Which cities does ${team.team} play in?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `${team.team} is listed in ${team.cities.join(", ")}.`
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "World Cup 2026 Schedule",
+        item: `${site.url}/world-cup-2026-schedule/`
+      },
+      { "@type": "ListItem", position: 3, name: team.team, item: `${site.url}${team.path}` }
+    ]
+  }
+];
+
+const renderTeamPage = (team) =>
+  layout({
+    title: `${team.team} World Cup 2026 Schedule`,
+    description: `See ${team.team} World Cup 2026 fixtures with dates, ET kickoff times, opponents, host cities and stadiums.`,
+    canonical: team.path,
+    schema: teamSchema(team),
+    body: `${hero({
+      eyebrow: "Team schedule",
+      h1: `${team.team} World Cup 2026 Schedule`,
+      intro: `${team.team} is listed in Group ${team.group} with ${team.matches.length} group-stage matches from ${team.firstDate} to ${team.lastDate}. This page brings together opponents, dates, ET kickoff times, cities and stadiums for fans following the team route.`,
+      facts: [
+        ["Group", team.group],
+        ["Matches", `${team.matches.length}`],
+        ["Cities", team.cities.join(", ")]
+      ],
+      primaryHref: "/world-cup-2026-schedule/"
+    })}
+<main class="main">
+  <section class="section">
+    <div class="grid">
+      <article class="span-8 card"><div class="card-body">
+        <p class="eyebrow">Team overview</p>
+        <h2>${esc(team.team)} fixtures and route</h2>
+        <p>Use this page to follow ${esc(team.team)} by opponent, date, host city and stadium. It is designed for fans who want a team-specific view instead of scanning the full 104-match schedule.</p>
+      </div></article>
+      <aside class="span-4 card"><div class="card-body">
+        <p class="eyebrow">Planning note</p>
+        <h3>Group-stage focus</h3>
+        <p>This page lists confirmed group-stage fixtures from the current data set. Knockout matches depend on standings and will be connected once results are known.</p>
+      </div></aside>
+    </div>
+  </section>
+  <section class="section">
+    <h2>${esc(team.team)} match schedule</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Match</th><th>Date</th><th>Time ET</th><th>Opponent</th><th>City</th><th>Stadium</th><th>Group</th></tr></thead>
+        <tbody>
+          ${team.matches
+            .map((match) => {
+              const opponent = match.home === team.team ? match.away : match.home;
+              return `<tr><td>${match.matchNumber}</td><td>${esc(match.date)}</td><td>${esc(match.kickoffET)} ET</td><td>${esc(opponent)}</td><td><a href="${attr(cityPath(match.citySlug))}">${esc(match.city)}</a></td><td>${esc(match.stadium)}</td><td>Group ${esc(match.group)}</td></tr>`;
+            })
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section class="section">
+    <h2>How to use this team page</h2>
+    ${table([
+      ["Track opponents", team.opponents.join(", "), "Compare each fixture against the full group schedule."],
+      ["Plan travel", team.cities.join(", "), "Open city pages to review stadium and match context."],
+      ["Save the schedule", "Use CSV, Excel or PDF downloads.", "Download the full schedule and filter by team."]
+    ])}
+  </section>
+  <section class="section">
+    <h2>Related planning pages</h2>
+    ${linkGrid([
+      ["Full World Cup 2026 schedule", "/world-cup-2026-schedule/"],
+      ["Groups guide", "/world-cup-2026-groups/"],
+      ["Download schedule files", "/world-cup-2026-schedule-excel/"],
+      ["Ticket guide", "/world-cup-2026-tickets/"]
+    ])}
+  </section>
+  <section class="section">
+    <h2>FAQ</h2>
+    ${faqHtml([
+      [`How many group matches does ${team.team} play?`, `${team.team} has ${team.matches.length} listed group-stage matches in Group ${team.group}.`],
+      [`Which cities does ${team.team} play in?`, `${team.team} is listed in ${team.cities.join(", ")}.`],
+      [`Can ${team.team} play knockout matches?`, "Knockout fixtures depend on group standings. This page will link to bracket paths once results determine the next round."]
+    ])}
+  </section>
+  <section class="source-note"><strong>Last updated:</strong> ${updated}. Team schedule data is generated from the structured wc26schedule match dataset and should be checked against official sources before travel or ticket decisions.</section>
+</main>`
+  });
 
 const citySchema = (city) => [
   {
@@ -936,6 +1138,11 @@ for (const city of cities) {
   await write(join(city.path.replace(/^\/|\/$/g, ""), "index.html"), renderCityPage(city));
 }
 
+const teams = teamSummaries();
+for (const team of teams) {
+  await write(join(team.path.replace(/^\/|\/$/g, ""), "index.html"), renderTeamPage(team));
+}
+
 await write(
   "robots.txt",
   `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\nHost: ${site.url}\n`
@@ -946,7 +1153,8 @@ await write(
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[
     site.url,
     ...pages.map((page) => `${site.url}/${page.slug}/`),
-    ...cities.map((city) => `${site.url}${city.path}`)
+    ...cities.map((city) => `${site.url}${city.path}`),
+    ...teams.map((team) => `${site.url}${team.path}`)
   ]
     .map(
       (url) =>
@@ -955,4 +1163,4 @@ await write(
     .join("\n")}\n</urlset>\n`
 );
 
-console.log(`Generated ${pages.length + cities.length + 1} pages in ${dist}`);
+console.log(`Generated ${pages.length + cities.length + teams.length + 1} pages in ${dist}`);
