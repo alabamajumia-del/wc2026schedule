@@ -1,0 +1,12 @@
+{
+  "name": "wc26schedule",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/generate-site.mjs",
+    "dev": "node scripts/serve-site.mjs",
+    "start": "node scripts/serve-site.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

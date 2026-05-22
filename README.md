@@ -33,6 +33,36 @@ World Cup 2026 Schedule Hub
 Schedule 做主干，Team / City / PDF / Excel / TV / Tickets / Groups 做分支，Squad / Player 做内容补充。
 ```
 
+## 本地开发
+
+当前实现采用零依赖静态站点生成，便于快速开发、预览和部署。
+
+```text
+npm run build
+npm run dev
+```
+
+构建产物输出到：
+
+```text
+dist/
+```
+
+本地预览默认地址：
+
+```text
+http://localhost:3000
+```
+
+主要开发入口：
+
+| 路径 | 说明 |
+| --- | --- |
+| `src/content.mjs` | 站点品牌、页面 SEO、关键词、内容、FAQ 和内链数据 |
+| `src/styles.css` | 全站样式 |
+| `scripts/generate-site.mjs` | 静态 HTML、sitemap、robots 生成脚本 |
+| `scripts/serve-site.mjs` | 本地预览服务器 |
+
 ## 全站内容原则
 
 - 每个重要内容页正文不少于 800 个英文单词。
@@ -41,4 +71,3 @@ Schedule 做主干，Team / City / PDF / Excel / TV / Tickets / Groups 做分支
 - 不做关键词堆砌，不做模板化批量低质量页面。
 - 所有事实型信息要引用 FIFA 官方、主办城市官方、球场官方或权威转播/票务来源。
 - 页面需要适配搜索引擎和 LLM 检索，重要答案要在开头明确给出。
-
