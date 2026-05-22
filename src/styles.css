@@ -424,6 +424,38 @@ td {
   gap: 12px;
 }
 
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.download-card {
+  display: grid;
+  gap: 8px;
+  min-height: 132px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.download-card strong {
+  color: var(--text);
+  font-size: 18px;
+}
+
+.download-card span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.download-card:hover {
+  border-color: var(--accent);
+}
+
 .link-card {
   display: flex;
   justify-content: space-between;
@@ -499,6 +531,7 @@ td {
 
   .fact-grid,
   .link-grid,
+  .download-grid,
   .filters {
     grid-template-columns: 1fr;
   }
