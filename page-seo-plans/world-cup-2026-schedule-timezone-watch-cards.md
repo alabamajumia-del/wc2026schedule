@@ -89,6 +89,16 @@ Strengthened Date card hierarchy with match-number badges, stage pills and left/
 Kept the UI focused on user actions rather than editorial explanation.
 ```
 
+Team and countdown refinement:
+
+```text
+Changed team names from plain text links into clickable team chips in the table and Date cards.
+Added a current-time display for the selected timezone.
+Added a next-match countdown that updates once per minute.
+Added a lightweight match status line to Date cards instead of second-by-second countdowns on every card.
+The countdown uses the same UTC kickoff data as the timezone conversion.
+```
+
 ## 3. Data Assumption
 
 The schedule source gives kickoff time in ET. Since the tournament runs in June and July, ET is treated as EDT, or UTC-4, for the computed UTC value used by the timezone converter.
@@ -114,14 +124,17 @@ Local URL: http://localhost:3000/world-cup-2026-schedule/
 HTTP status: 200
 H1 count: 1
 H2 count: 12
-Word count: 4085
-Primary exact-match density: about 0.78%
+Word count: 4309
+Primary exact-match density: about 0.74%
 Table rows: 104
 UTC kickoff fields: 104
 Local time cells: 104
 Planned detail URLs: 104
 Static date cards in HTML: 0
+Team chips: 208
 Timezone selector: present
+Current selected-timezone clock: present
+Next-match countdown: present
 Watch-time logic: present
 Local-date regrouping logic: present
 Local-date filter: present
@@ -131,6 +144,7 @@ Watch-window legend: present
 Active filter chips: present
 Empty state: present
 Clear filters action: present
+Date-card match status: present
 ```
 
 ## 6. Remaining Work
@@ -138,7 +152,7 @@ Clear filters action: present
 Recommended next implementation steps:
 
 - Build the 104 single-match detail pages only when there is enough custom structure to avoid thin template pages.
-- Add a countdown component to Date cards and future match detail pages.
+- Build stronger countdown components on future single-match detail pages.
 - Add Team and City view modes in the view switcher.
 - Add an export path for filtered results.
 - Add browser visual QA once the browser automation connection is stable.

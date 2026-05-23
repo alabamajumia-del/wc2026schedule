@@ -379,6 +379,14 @@ Expression and rendering refinement completed on 2026-05-23:
 - Strengthened Date card hierarchy with match-number badges, stage pills and split team layout.
 - Kept the added elements functional and compact, without adding keyword-heavy explanatory text.
 
+Team and countdown refinement completed on 2026-05-23:
+
+- Changed team names from plain text links into clickable team chips.
+- Added current selected-timezone time to the schedule control area.
+- Added next-match countdown using the same UTC kickoff data as the timezone converter.
+- Added lightweight Date card match status, refreshed once per minute.
+- Avoided per-card second-by-second timers so the main schedule stays calm and performant.
+
 ## 10. Quality Check
 
 Latest check:
@@ -392,17 +400,20 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 6
-Word count: 4085
-Primary keyword density: about 0.78%
+Word count: 4309
+Primary keyword density: about 0.74%
 Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
 Schedule view switcher: present
 Table rows: 104
+Team chips: 208
 Date card container: present
 Static duplicate date cards: 0
 Date card builder script: present
 Timezone selector: present
+Current selected-timezone clock: present
+Next-match countdown: present
 UTC kickoff fields: 104
 Local time cells: 104
 Planned detail URLs: 104
@@ -415,6 +426,7 @@ Watch-window legend: present
 Active filter chips: present
 Empty state: present
 Clear filters action: present
+Date-card match status: present
 ```
 
 ## 11. Remaining Issues
@@ -423,7 +435,7 @@ Remaining content and product issues:
 
 - Timezone conversion is implemented for the schedule table and Date cards; future work should add a dedicated standalone converter page.
 - Team and City switcher views are visible but disabled until the next implementation phase.
-- Countdown is not yet implemented.
+- Strong per-match countdown pages are not yet implemented; the main schedule now has a next-match countdown and lightweight Date card statuses.
 - Single-match detail pages are planned but not generated yet to avoid thin template pages.
 - Date-card interaction needs final visual QA in the in-app browser; the automated browser connection timed out during recent runs.
 - Official FIFA updates should be checked before production deployment.

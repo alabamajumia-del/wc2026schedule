@@ -266,6 +266,16 @@ ${links
 const teamLink = (team) =>
   isRealTeam(team) ? `<a href="${attr(teamPath(team))}">${esc(team)}</a>` : esc(team);
 
+const teamChip = (team, side = "") => {
+  const sideLabel = side ? `<span>${esc(side)}</span>` : "";
+  return isRealTeam(team)
+    ? `<a class="team-chip" href="${attr(teamPath(team))}">${sideLabel}<strong>${esc(team)}</strong></a>`
+    : `<span class="team-chip is-placeholder">${sideLabel}<strong>${esc(team)}</strong></span>`;
+};
+
+const matchupHtml = (home, away) =>
+  `<div class="matchup"><div>${teamChip(home, "Home")}</div><span>vs</span><div>${teamChip(away, "Away")}</div></div>`;
+
 const downloadPanel = (page = {}) => {
   const files =
     page.slug === "world-cup-2026-schedule-pdf"
@@ -573,6 +583,15 @@ const renderScheduleTable = () => {
     </label>
   </div>
   <div class="schedule-insight-row" aria-label="Schedule reading guide">
+    <div class="insight-card live-time-card">
+      <span>Current local time</span>
+      <strong data-current-time>Loading time...</strong>
+    </div>
+    <div class="insight-card next-match-card">
+      <span>Next match countdown</span>
+      <strong data-next-countdown>Calculating next kickoff...</strong>
+      <small data-next-match-label>Based on your selected timezone.</small>
+    </div>
     <div class="insight-card">
       <span>Local date logic</span>
       <strong data-local-date-range>Dates follow your selected timezone.</strong>
@@ -625,7 +644,7 @@ const renderScheduleTable = () => {
           <td><strong>${match.matchNumber}</strong></td>
           <td>${esc(match.stage)}</td>
           <td>${match.group ? `Group ${esc(match.group)}` : "-"}</td>
-          <td>${teamLink(match.home)} v ${teamLink(match.away)}</td>
+          <td>${matchupHtml(match.home, match.away)}</td>
           <td><span data-local-time>Choose timezone</span></td>
           <td><span class="watch-tag" data-watch-tag>Time check</span></td>
           <td>${esc(match.kickoffET)} ET</td>
@@ -1310,7 +1329,11 @@ await write(
   const clearButtons = Array.from(document.querySelectorAll("[data-clear-filters]"));
   const emptyState = document.querySelector("[data-empty-state]");
   const localDateRange = document.querySelector("[data-local-date-range]");
+  const currentTime = document.querySelector("[data-current-time]");
+  const nextCountdown = document.querySelector("[data-next-countdown]");
+  const nextMatchLabel = document.querySelector("[data-next-match-label]");
   const timezoneStorageKey = "wc26schedule-timezone";
+  const nowOverride = Date.parse(document.documentElement.dataset.now || "");
   let activeView = "table";
   let cards = [];
   let dateGroups = [];
@@ -1349,6 +1372,7 @@ await write(
   }
 
   const selectedTimezone = () => timezoneSelect?.value || detectedTimezone || "America/New_York";
+  const now = () => (Number.isNaN(nowOverride) ? new Date() : new Date(nowOverride));
 
   const localDateKey = (date, timezone) => {
     const parts = new Intl.DateTimeFormat("en-US", {
@@ -1382,6 +1406,16 @@ await write(
       timeZoneName: "short"
     }).format(date);
 
+  const compactTimeLabel = (date, timezone) =>
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+      timeZoneName: "short"
+    }).format(date);
+
   const localHour = (date, timezone) => {
     const part = new Intl.DateTimeFormat("en-US", {
       timeZone: timezone,
@@ -1401,6 +1435,54 @@ await write(
     return ["Overnight", "overnight"];
   };
 
+  const countdownLabel = (target, reference = now()) => {
+    const diff = target - reference;
+    if (diff <= 0) return "Kickoff time reached";
+    const totalMinutes = Math.floor(diff / 60000);
+    const days = Math.floor(totalMinutes / 1440);
+    const hours = Math.floor((totalMinutes % 1440) / 60);
+    const minutes = totalMinutes % 60;
+    if (days > 0) return days + "d " + hours + "h";
+    if (hours > 0) return hours + "h " + minutes + "m";
+    return minutes + "m";
+  };
+
+  const matchStatusLabel = (target, reference = now()) => {
+    const diffMinutes = Math.floor((target - reference) / 60000);
+    if (diffMinutes <= -120) return "Completed or in progress";
+    if (diffMinutes <= 0) return "Kickoff time reached";
+    if (diffMinutes <= 60) return "Starts in " + diffMinutes + "m";
+    if (diffMinutes < 1440) return "Starts in " + Math.floor(diffMinutes / 60) + "h";
+    return "Starts in " + Math.floor(diffMinutes / 1440) + "d";
+  };
+
+  const updateLiveTime = () => {
+    const timezone = selectedTimezone();
+    const current = now();
+    if (currentTime) currentTime.textContent = compactTimeLabel(current, timezone);
+    const upcoming = rows
+      .map((row) => ({ row, kickoff: new Date(row.dataset.kickoffUtc) }))
+      .filter((item) => item.kickoff > current)
+      .sort((a, b) => a.kickoff - b.kickoff)[0];
+    if (upcoming) {
+      if (nextCountdown) nextCountdown.textContent = countdownLabel(upcoming.kickoff, current);
+      if (nextMatchLabel) {
+        nextMatchLabel.textContent =
+          "Match " +
+          upcoming.row.dataset.matchNumber +
+          ": " +
+          upcoming.row.dataset.home +
+          " vs " +
+          upcoming.row.dataset.away +
+          " - " +
+          localTimeLabel(upcoming.kickoff, timezone);
+      }
+    } else {
+      if (nextCountdown) nextCountdown.textContent = "Tournament complete";
+      if (nextMatchLabel) nextMatchLabel.textContent = "No future matches remain in the current schedule data.";
+    }
+  };
+
   const escapeHtml = (value) =>
     String(value || "")
       .replaceAll("&", "&amp;")
@@ -1411,7 +1493,11 @@ await write(
   const teamHtml = (row, cells, side) => {
     const links = cells[3].querySelectorAll("a");
     const fallback = side === "home" ? row.dataset.home : row.dataset.away;
-    return links[side === "home" ? 0 : 1]?.outerHTML || escapeHtml(fallback);
+    const href = links[side === "home" ? 0 : 1]?.getAttribute("href");
+    const label = side === "home" ? "Home" : "Away";
+    return href
+      ? '<a class="team-chip" href="' + href + '"><span>' + label + '</span><strong>' + escapeHtml(fallback) + '</strong></a>'
+      : '<span class="team-chip is-placeholder"><span>' + label + '</span><strong>' + escapeHtml(fallback) + '</strong></span>';
   };
 
   const syncDateOptions = () => {
@@ -1445,6 +1531,7 @@ await write(
       row.dataset.localTime = localTimeLabel(kickoff, timezone);
       row.dataset.watchWindow = label;
       row.dataset.watchType = type;
+      row.dataset.matchStatus = matchStatusLabel(kickoff);
       const localTime = row.querySelector("[data-local-time]");
       const watchTag = row.querySelector("[data-watch-tag]");
       if (localTime) localTime.textContent = row.dataset.localTime;
@@ -1453,6 +1540,7 @@ await write(
         watchTag.dataset.watchType = type;
       }
     }
+    updateLiveTime();
     if (timezoneSummary) {
       timezoneSummary.textContent =
         "Showing local kickoff times in " +
@@ -1508,6 +1596,7 @@ await write(
       "localTime",
       "watchWindow",
       "watchType",
+      "matchStatus",
       "city",
       "home",
       "away",
@@ -1570,7 +1659,9 @@ await write(
           row.dataset.watchType +
           '">' +
           row.dataset.watchWindow +
-          '</span></div><dl class="match-card-meta"><div><dt>Source time</dt><dd>' +
+          '</span></div><div class="match-status" data-card-status>' +
+          row.dataset.matchStatus +
+          '</div><dl class="match-card-meta"><div><dt>Source time</dt><dd>' +
           cells[6].textContent.replace(" ET", "").trim() +
           '</dd></div><div><dt>Host city</dt><dd>' +
           cells[8].innerHTML +
@@ -1694,6 +1785,18 @@ await write(
       apply();
     });
   });
+
+  window.setInterval(() => {
+    updateLiveTime();
+    if (activeView === "date") {
+      for (const card of cards) {
+        const status = card.querySelector("[data-card-status]");
+        if (status && card.dataset.kickoffUtc) {
+          status.textContent = matchStatusLabel(new Date(card.dataset.kickoffUtc));
+        }
+      }
+    }
+  }, 60000);
 
   updateTimeDisplays();
   syncDateOptions();
