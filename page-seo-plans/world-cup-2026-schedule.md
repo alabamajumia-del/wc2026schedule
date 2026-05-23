@@ -536,3 +536,37 @@ Screenshots saved:
 page-seo-plans/schedule-theme-hero-desktop-preview.png
 page-seo-plans/schedule-theme-hero-mobile-preview.png
 ```
+
+## 14. World Cup Main Background Image Pass
+
+Date: 2026-05-23
+Status: Completed
+
+User feedback:
+
+```text
+The Schedule hero background still looked too similar to the PDF page and did not make the World Cup theme clear enough.
+```
+
+Adjustment:
+
+- Replaced the shared football-stadium background with a Schedule-page-only World Cup matchday image.
+- Added the image as a local site asset: `src/assets/world-cup-schedule-hero.jpg`.
+- Updated the generated asset copy list so the image is published to `/assets/world-cup-schedule-hero.jpg`.
+- Tuned the hero overlay to keep the crowd, stadium and pitch visible while preserving text contrast.
+- Removed the previous duplicate stadium asset from the Schedule hero flow.
+
+Validation:
+
+```text
+Desktop overflow: 0
+Mobile overflow: 0
+Hero uses local asset: true
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/schedule-world-cup-themed-hero-desktop.png
+page-seo-plans/schedule-world-cup-themed-hero-mobile.png
+```

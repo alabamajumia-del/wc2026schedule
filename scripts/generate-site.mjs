@@ -349,6 +349,7 @@ const siteAssetFiles = [
     "src/assets/2026-world-cup-full-match-schedule-overview.png",
     "assets/2026-world-cup-full-match-schedule-overview.png"
   ],
+  ["src/assets/world-cup-schedule-hero.jpg", "assets/world-cup-schedule-hero.jpg"],
   [
     "src/assets/printable-world-cup-2026-schedule-bracket.pdf",
     "downloads/printable-world-cup-2026-schedule-bracket.pdf"
