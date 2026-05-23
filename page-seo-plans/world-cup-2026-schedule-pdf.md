@@ -572,3 +572,48 @@ Result:
 ```text
 The chooser module now contains the core keyword in a high-value H2 position without keyword stuffing.
 ```
+
+## 13. Long Text Section UX Upgrade
+
+Completed on 2026-05-23:
+
+- Replaced six text-heavy PDF page sections with scan-friendly functional modules:
+  - `Which World Cup 2026 Schedule PDF Should You Download?`
+  - `What Each PDF Includes`
+  - `Printable Schedule by Date, City and Stage`
+  - `How to Use the PDF Library for Travel Planning`
+  - `PDF vs Excel vs Live Schedule`
+  - `Update Notes and Official Sources`
+- Converted the old paragraph-heavy content into:
+  - decision cards
+  - file include rows
+  - date/city/stage scan cards
+  - travel planning steps
+  - PDF vs Excel vs live schedule comparison cards
+  - official source and freshness checks
+- Added a visible official FIFA schedule link in the source module.
+- Added `#download-library` anchor so decision modules can jump users to the file list.
+- Reduced repeated button wording from `Download` to more natural actions such as `Get`, `Open`, `View files` and `Refresh` where appropriate.
+
+Validation:
+
+```text
+Build passed.
+Support modules: 6.
+Functional cards across support modules: 13.
+Word count: 2203.
+Primary keyword exact matches: 7.
+Primary keyword density: 0.32%.
+Keyword family density: 4.99%.
+Desktop horizontal overflow: 0.
+Mobile horizontal overflow: 0.
+Official FIFA schedule link visible: yes.
+```
+
+Saved preview screenshots:
+
+```text
+page-seo-plans/pdf-page-support-section-cards-preview.png
+page-seo-plans/pdf-page-support-section-cards-mobile-preview.png
+page-seo-plans/pdf-page-format-source-modules-preview.png
+```

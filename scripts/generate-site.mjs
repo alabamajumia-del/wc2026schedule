@@ -325,6 +325,8 @@ const pdfDownloadFiles = [
 ];
 
 const downloadFiles = [...dataDownloadFiles, ...pdfDownloadFiles];
+const officialFifaScheduleUrl =
+  "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/match-schedule-fixtures-results-teams-stadiums";
 
 const visualDownloadFiles = [
   {
@@ -465,7 +467,7 @@ const hero = ({
         <div>
           <span>Featured PDF</span>
           <strong>One-page schedule overview</strong>
-          <a href="/downloads/world-cup-2026-schedule-overview.pdf" download>Download overview PDF</a>
+          <a href="/downloads/world-cup-2026-schedule-overview.pdf" download>Get overview PDF</a>
         </div>
       </div>
       <div class="download-checklist" aria-label="PDF download checklist">
@@ -745,8 +747,8 @@ const renderPdfVisualSections = () => {
       <p>The full match schedule overview image is built for users who want the entire tournament on one visual reference. It lists the group-stage fixtures from M1 through M72, then shows the knockout stage from the Round of 32 through the Round of 16, quarter-finals, semi-finals, third-place playoff and final.</p>
       <p>Use this image when you need a fast visual handout, a planning-board reference or a shareable snapshot before moving into the PDF library. It includes match numbers, dates, host cities, venues and bracket placeholder notation such as 1A, 2D and 3ABCDF, while the full PDF and live schedule remain better for detailed filtering and time-zone checks.</p>
       <div class="pdf-feature-actions">
-        <a class="button" href="/assets/2026-world-cup-full-match-schedule-overview.png" download>Download overview image</a>
-        <a class="button light" href="/downloads/world-cup-2026-schedule.pdf" download>Download printable PDF</a>
+        <a class="button" href="/assets/2026-world-cup-full-match-schedule-overview.png" download>Get overview image</a>
+        <a class="button light" href="/downloads/world-cup-2026-schedule.pdf" download>Get printable PDF</a>
       </div>
     </div>
     <aside class="pdf-preview-card pdf-preview-card-wide">
@@ -765,7 +767,7 @@ const renderPdfVisualSections = () => {
       <p>The complete printable PDF is the right first file when you want all 104 matches in one offline reference. It keeps the host-city matrix on the opening page, then follows with match detail pages that include date, kickoff time, team names, match number, stage, host city and stadium.</p>
       <p>Use this file for a travel folder, watch-party packet, classroom board, office bracket wall or shared planning drive. It is intentionally more detailed than a poster because users often need to check a specific fixture after the first visual scan.</p>
       <div class="pdf-feature-actions">
-        <a class="button" href="/downloads/world-cup-2026-schedule.pdf" download>Download printable PDF</a>
+        <a class="button" href="/downloads/world-cup-2026-schedule.pdf" download>Get printable PDF</a>
         <a class="button light" href="/world-cup-2026-schedule/">Use live schedule</a>
       </div>
     </div>
@@ -790,7 +792,7 @@ const renderPdfVisualSections = () => {
         <li>Use the stage overview PDF when you want to separate group-stage days from bracket and knockout planning.</li>
       </ul>
       <div class="pdf-feature-actions">
-        <a class="button" href="/downloads/world-cup-2026-stage-overview.pdf" download>Download stage overview</a>
+        <a class="button" href="/downloads/world-cup-2026-stage-overview.pdf" download>Get stage overview</a>
         <a class="button light" href="/world-cup-2026-dates/">Check tournament dates</a>
       </div>
     </div>
@@ -816,9 +818,9 @@ const renderPdfVisualSections = () => {
           )
           .join("")}
       </div>
-      <p>For bracket planning, download the bracket PDF and keep the live match pages nearby. The PDF gives you the shape of the route; match detail pages give you the exact city, stadium, time-zone and related team route once a fixture matters to your plan.</p>
+      <p>For knockout-route planning, open the bracket PDF and keep the live match pages nearby. The PDF gives you the shape of the route; match detail pages give you the exact city, stadium, time-zone and related team route once a fixture matters to your plan.</p>
       <div class="pdf-feature-actions">
-        <a class="button" href="/downloads/printable-world-cup-2026-schedule-bracket.pdf" download>Download bracket PDF</a>
+        <a class="button" href="/downloads/printable-world-cup-2026-schedule-bracket.pdf" download>Get bracket PDF</a>
         <a class="button light" href="/world-cup-2026-groups/">Open groups guide</a>
       </div>
     </div>
@@ -874,13 +876,109 @@ const renderPdfChooser = (overview) => {
       <span>${esc(task)}</span>
       <strong>${esc(file)}</strong>
       <p>${esc(copy)}</p>
-      <em>Download file</em>
+      <em>Get file</em>
     </a>`
       )
       .join("")}
   </div>
 </section>`;
 };
+
+const renderPdfSupportSections = () => `<section class="section pdf-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Download decision</p>
+      <h2>Which World Cup 2026 Schedule PDF Should You Download?</h2>
+      <p>Start with the file that matches the job in front of you, then switch formats only when the task changes.</p>
+    </div>
+    <a class="button light" href="#download-library">View files</a>
+  </div>
+  <div class="pdf-task-grid">
+    <article><span>Need every match detail</span><strong>Printable PDF</strong><p>Best when you need all 104 matches with dates, teams, match numbers, host cities and stadiums.</p></article>
+    <article><span>Need the fastest scan</span><strong>Overview poster PDF</strong><p>Best when you want the whole tournament shape by date and host city on one page.</p></article>
+    <article><span>Need tournament phases</span><strong>Stage overview PDF</strong><p>Best when group-stage days and knockout-stage days should stay visually separate.</p></article>
+    <article><span>Need knockout route</span><strong>Bracket PDF</strong><p>Best when semifinals, third-place match, final dates and bracket paths matter most.</p></article>
+  </div>
+</section>
+
+<section class="section pdf-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">File contents</p>
+      <h2>What Each PDF Includes</h2>
+      <p>Use this checklist before downloading so you do not open the wrong file for a simple planning task.</p>
+    </div>
+  </div>
+  <div class="pdf-include-table">
+    <div><strong>Printable PDF</strong><span>Matrix, 104-match detail list, dates, ET kickoff, teams, stage, city, stadium and venue-local time.</span><a href="/downloads/world-cup-2026-schedule.pdf" download>Open</a></div>
+    <div><strong>Overview poster PDF</strong><span>One-page host-city and match-date matrix for quick visual scanning and sharing.</span><a href="/downloads/world-cup-2026-schedule-overview.pdf" download>Open</a></div>
+    <div><strong>Stage overview PDF</strong><span>Two-page split between group-stage fixtures and knockout-stage schedule blocks.</span><a href="/downloads/world-cup-2026-stage-overview.pdf" download>Open</a></div>
+    <div><strong>Bracket PDF</strong><span>Group fixtures, knockout bracket, BST times, semifinals, third-place match and final schedule.</span><a href="/downloads/printable-world-cup-2026-schedule-bracket.pdf" download>Open</a></div>
+  </div>
+</section>
+
+<section class="section pdf-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Scan paths</p>
+      <h2>Printable Schedule by Date, City and Stage</h2>
+      <p>The PDFs are easier to use when you scan by the same three questions fans ask before they plan.</p>
+    </div>
+  </div>
+  <div class="pdf-axis-grid">
+    <article><span>Date</span><strong>When is the match?</strong><p>Use the matrix and printable list to mark busy match days before you check alarms, watch parties or travel windows.</p></article>
+    <article><span>City</span><strong>Where is it played?</strong><p>Use the city rows to compare Dallas, Los Angeles, Atlanta, Miami, New York New Jersey and other host markets.</p></article>
+    <article><span>Stage</span><strong>What part of the tournament?</strong><p>Use stage labels to separate group-stage fixtures from knockout rounds, semifinals and the final.</p></article>
+  </div>
+</section>
+
+<section class="section pdf-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Travel workflow</p>
+      <h2>How to Use the PDF Library for Travel Planning</h2>
+      <p>Use the PDF files as a planning layer, then confirm details before spending money.</p>
+    </div>
+    <a class="button light" href="/world-cup-2026-host-cities/">Compare host cities</a>
+  </div>
+  <ol class="pdf-step-list">
+    <li><strong>Scan the overview.</strong><span>Use the poster or overview image to identify cities and date clusters.</span></li>
+    <li><strong>Open the printable PDF.</strong><span>Check the exact match number, teams, city, stadium and kickoff information.</span></li>
+    <li><strong>Move to city pages.</strong><span>Review venue context and local match groups before planning hotels or transport.</span></li>
+    <li><strong>Verify official details.</strong><span>Before tickets, flights or printed packets, confirm the latest information with official sources.</span></li>
+  </ol>
+</section>
+
+<section class="section pdf-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Format choice</p>
+      <h2>PDF vs Excel vs Live Schedule</h2>
+      <p>Each format has a different job. Pick the one that answers your current question fastest.</p>
+    </div>
+  </div>
+  <div class="pdf-format-grid">
+    <article><strong>PDF</strong><span>Best for printing, saving, sharing and offline reading.</span><a href="#download-library">View PDF files</a></article>
+    <article><strong>Excel</strong><span>Best for filtering by team, city, date, stage or stadium.</span><a href="/world-cup-2026-schedule-excel/">Use Excel planner</a></article>
+    <article><strong>Live schedule</strong><span>Best for timezone switching, team pages, city pages and match details.</span><a href="/world-cup-2026-schedule/">Open live schedule</a></article>
+  </div>
+</section>
+
+<section class="section pdf-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Freshness and trust</p>
+      <h2>Update Notes and Official Sources</h2>
+      <p>Use wc26schedule files for organization, then verify final decisions with official sources before acting.</p>
+    </div>
+    <a class="button light" href="${attr(officialFifaScheduleUrl)}">Official FIFA schedule</a>
+  </div>
+  <div class="pdf-source-grid">
+    <article><strong>Refresh before</strong><span>Ticket purchases, hotel bookings, flights, printed watch-party sheets or group sharing.</span></article>
+    <article><strong>Check against</strong><span>FIFA schedule updates, host city guidance, stadium information and authorized ticket or broadcast sources.</span></article>
+    <article><strong>Use a dated folder</strong><span>Save shared files with the update date so groups know which copy they are using.</span></article>
+  </div>
+</section>`;
 
 const downloadPanel = (page = {}) => {
   const pdfFiles =
@@ -897,7 +995,7 @@ const downloadPanel = (page = {}) => {
       </dl>
     </a>`;
 
-  return `<section class="section">
+  return `<section class="section" id="download-library">
   <h2>${esc(page.downloadHeading ?? "Download schedule files")}</h2>
   <p>${esc(
     page.downloadIntro ??
@@ -1025,6 +1123,8 @@ const renderPage = (page) => {
   const sections =
     page.slug === "world-cup-2026-schedule"
       ? renderScheduleCapabilitySections()
+      : page.slug === "world-cup-2026-schedule-pdf"
+        ? renderPdfSupportSections()
       : page.sections
           .map(
             ([heading, paragraphs]) => `<section class="section">

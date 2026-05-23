@@ -289,7 +289,7 @@ export const pages = [
       variant: "pdf",
       eyebrow: "PDF library",
       actions: [
-        ["Download printable PDF", "/downloads/world-cup-2026-schedule.pdf", "primary"],
+        ["Get printable PDF", "/downloads/world-cup-2026-schedule.pdf", "primary"],
         ["Open live schedule", "/world-cup-2026-schedule/", "secondary"]
       ],
       panelTitle: "PDF library checklist",
@@ -398,7 +398,7 @@ export const pages = [
       ],
       [
         "Which PDF should I download first?",
-        "Download the printable PDF first if you need the most complete offline file. Use the overview poster PDF for quick visual scanning and the stage overview PDF when you want group-stage and knockout-stage planning separated."
+        "Start with the printable PDF if you need the most complete offline file. Use the overview poster PDF for quick visual scanning and the stage overview PDF when you want group-stage and knockout-stage planning separated."
       ],
       [
         "What is included in the printable PDF schedule?",
@@ -413,8 +413,8 @@ export const pages = [
         "Yes, but use it as an overview. The PDFs can help you compare dates, cities, stadiums and tournament stages, then you should open the full schedule, host city pages and official sources before booking travel or buying tickets."
       ],
       [
-        "How often should I download a fresh copy?",
-        "Download a fresh copy before any important planning step, especially before ticket purchases, hotel bookings, flights, printed watch-party sheets or group sharing. Schedule details and operational notes can change before the tournament."
+        "How often should I refresh a saved copy?",
+        "Get a fresh copy before any important planning step, especially before ticket purchases, hotel bookings, flights, printed watch-party sheets or group sharing. Schedule details and operational notes can change before the tournament."
       ],
       [
         "Does the stage overview PDF include the knockout bracket?",
