@@ -853,7 +853,7 @@ h1 {
 
 .team-chip {
   display: grid;
-  gap: 3px;
+  gap: 6px;
   min-width: 0;
   border: 1px solid rgba(16, 133, 101, 0.22);
   border-radius: 8px;
@@ -863,11 +863,34 @@ h1 {
   text-decoration: none;
 }
 
-.team-chip span {
+.team-chip > span {
   color: var(--muted);
   font-size: 11px;
   font-weight: 950;
   text-transform: uppercase;
+}
+
+.team-chip em {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  font-style: normal;
+}
+
+.team-chip b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  border-radius: 6px;
+  background: var(--green-dark);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1;
+  padding: 7px 6px;
 }
 
 .team-chip strong {
@@ -883,6 +906,11 @@ h1 {
 
 .team-chip.is-placeholder {
   background: #f7faf8;
+  color: var(--muted);
+}
+
+.team-chip.is-placeholder b {
+  background: #d9e2de;
   color: var(--muted);
 }
 

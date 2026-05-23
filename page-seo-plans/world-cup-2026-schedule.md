@@ -382,6 +382,7 @@ Expression and rendering refinement completed on 2026-05-23:
 Team and countdown refinement completed on 2026-05-23:
 
 - Changed team names from plain text links into clickable team chips.
+- Added three-letter team code badges for all 48 teams in the current schedule data.
 - Added current selected-timezone time to the schedule control area.
 - Added next-match countdown using the same UTC kickoff data as the timezone converter.
 - Added lightweight Date card match status, refreshed once per minute.
@@ -408,6 +409,7 @@ Schedule visual preview: present
 Schedule view switcher: present
 Table rows: 104
 Team chips: 208
+Three-letter team codes: present
 Date card container: present
 Static duplicate date cards: 0
 Date card builder script: present

@@ -42,6 +42,64 @@ const teamSlugOverrides = {
   "Cape Verde": "cape-verde"
 };
 
+const teamCodeOverrides = {
+  Algeria: "ALG",
+  Argentina: "ARG",
+  Australia: "AUS",
+  Austria: "AUT",
+  Belgium: "BEL",
+  "Bosnia & Herzegovina": "BIH",
+  Brazil: "BRA",
+  "Cabo Verde": "CPV",
+  Canada: "CAN",
+  "Cape Verde": "CPV",
+  Colombia: "COL",
+  Croatia: "CRO",
+  "Côte d'Ivoire": "CIV",
+  "Cote d'Ivoire": "CIV",
+  Czechia: "CZE",
+  "Ivory Coast": "CIV",
+  "Curaçao": "CUW",
+  "DR Congo": "COD",
+  Ecuador: "ECU",
+  Egypt: "EGY",
+  England: "ENG",
+  France: "FRA",
+  Germany: "GER",
+  Ghana: "GHA",
+  Haiti: "HAI",
+  Iran: "IRN",
+  Iraq: "IRQ",
+  "IR Iran": "IRN",
+  Japan: "JPN",
+  Jordan: "JOR",
+  "Korea Republic": "KOR",
+  Mexico: "MEX",
+  Morocco: "MAR",
+  Netherlands: "NED",
+  "New Zealand": "NZL",
+  Norway: "NOR",
+  Panama: "PAN",
+  Paraguay: "PAR",
+  Portugal: "POR",
+  Qatar: "QAT",
+  "Saudi Arabia": "KSA",
+  Scotland: "SCO",
+  Senegal: "SEN",
+  "South Africa": "RSA",
+  "South Korea": "KOR",
+  Spain: "ESP",
+  Sweden: "SWE",
+  Switzerland: "SUI",
+  Tunisia: "TUN",
+  Türkiye: "TUR",
+  Turkiye: "TUR",
+  Uruguay: "URU",
+  Uzbekistan: "UZB",
+  USA: "USA",
+  "United States": "USA"
+};
+
 const slugify = (value) =>
   String(value)
     .normalize("NFKD")
@@ -62,6 +120,14 @@ const isRealTeam = (team) =>
 
 const teamSlug = (team) => teamSlugOverrides[team] ?? slugify(team);
 const teamPath = (team) => `/world-cup-2026-teams/${teamSlug(team)}-schedule/`;
+const teamCode = (team) =>
+  teamCodeOverrides[team] ??
+  slugify(team)
+    .split("-")
+    .map((part) => part[0] ?? "")
+    .join("")
+    .slice(0, 3)
+    .toUpperCase();
 const matchDetailPath = (match) =>
   `/world-cup-2026-match/${match.matchNumber}-${slugify(match.home)}-vs-${slugify(match.away)}/`;
 
@@ -268,9 +334,10 @@ const teamLink = (team) =>
 
 const teamChip = (team, side = "") => {
   const sideLabel = side ? `<span>${esc(side)}</span>` : "";
+  const code = `<b>${esc(teamCode(team))}</b>`;
   return isRealTeam(team)
-    ? `<a class="team-chip" href="${attr(teamPath(team))}">${sideLabel}<strong>${esc(team)}</strong></a>`
-    : `<span class="team-chip is-placeholder">${sideLabel}<strong>${esc(team)}</strong></span>`;
+    ? `<a class="team-chip" href="${attr(teamPath(team))}">${sideLabel}<em>${code}<strong>${esc(team)}</strong></em></a>`
+    : `<span class="team-chip is-placeholder">${sideLabel}<em>${code}<strong>${esc(team)}</strong></em></span>`;
 };
 
 const matchupHtml = (home, away) =>
@@ -1495,9 +1562,10 @@ await write(
     const fallback = side === "home" ? row.dataset.home : row.dataset.away;
     const href = links[side === "home" ? 0 : 1]?.getAttribute("href");
     const label = side === "home" ? "Home" : "Away";
+    const code = escapeHtml(links[side === "home" ? 0 : 1]?.querySelector("b")?.textContent || fallback.slice(0, 3).toUpperCase());
     return href
-      ? '<a class="team-chip" href="' + href + '"><span>' + label + '</span><strong>' + escapeHtml(fallback) + '</strong></a>'
-      : '<span class="team-chip is-placeholder"><span>' + label + '</span><strong>' + escapeHtml(fallback) + '</strong></span>';
+      ? '<a class="team-chip" href="' + href + '"><span>' + label + '</span><em><b>' + code + '</b><strong>' + escapeHtml(fallback) + '</strong></em></a>'
+      : '<span class="team-chip is-placeholder"><span>' + label + '</span><em><b>' + code + '</b><strong>' + escapeHtml(fallback) + '</strong></em></span>';
   };
 
   const syncDateOptions = () => {
