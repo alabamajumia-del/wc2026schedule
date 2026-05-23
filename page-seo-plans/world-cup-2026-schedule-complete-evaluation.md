@@ -29,7 +29,7 @@ The page is no longer only explaining the World Cup 2026 schedule. It helps user
 | Requirement | Result | Notes |
 | --- | --- | --- |
 | Content page over 800 words | Pass | Current visible word count is about 4,525 words. |
-| Avoid keyword stuffing | Pass | Exact primary keyword density is about 0.18%; selected keyword-family density is about 0.29%. |
+| Avoid keyword stuffing | Pass | After keyword-pool optimization, exact primary keyword density is about 0.51% and validated keyword-pool density is about 1.25%. |
 | Natural, non-template content | Mostly pass | The main page now has page-specific schedule tools and planning logic. Some supporting sections can still become more editorial and less generic. |
 | One H1 | Pass | H1: World Cup 2026 Schedule. |
 | H2/H3 structure | Pass | 12 H2 headings and 7 H3 headings are present. |
@@ -48,14 +48,14 @@ Measured from the generated page:
 ```text
 Generated pages: 77
 Schedule rows: 104
-Visible word count: 4525
-Primary exact keyword count: 8
-Primary exact keyword density: 0.18%
-Selected keyword-family count: 13
-Selected keyword-family density: 0.29%
+Visible word count: 5261
+Primary exact keyword count: 27
+Primary exact keyword density: 0.51%
+Validated keyword-pool count: 66
+Validated keyword-pool density: 1.25%
 H1 count: 1
 H2 count: 12
-H3 count: 7
+H3 count: 9
 Team chips: present
 Three-letter team code badges: 144 real-team instances
 Flag images: 144 table instances, 48 unique flag assets
@@ -63,7 +63,7 @@ UTC kickoff fields: 104
 Local time cells: 104
 Date cards: generated dynamically
 Static duplicate Date cards in HTML: 0
-FAQ items: 6
+FAQ items: 8
 ```
 
 ## 4. Heading Assessment

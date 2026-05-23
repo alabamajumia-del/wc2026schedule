@@ -26,16 +26,22 @@ export const pages = [
     nav: "Schedule",
     title: "World Cup 2026 Schedule: Dates, Times & Cities",
     description:
-      "View the World Cup 2026 schedule with match dates, kickoff times, host cities, groups, PDF download, Excel planner, TV guide and ticket info.",
+      "View the World Cup 2026 schedule with match dates, kickoff times, host cities, venues, PDF download, Excel planner, TV guide and ticket info.",
     h1: "World Cup 2026 Schedule",
     keyword: "world cup 2026 schedule",
     intent: "Find the full tournament schedule by date, team, stage, host city and kickoff time.",
     longTail: [
       "world cup 2026 match schedule",
+      "world cup 2026 schedule dates",
+      "fifa world cup 2026 schedule dates",
+      "fifa world cup 2026 schedule and locations",
+      "world cup 2026 schedule with venue",
+      "fifa world cup 2026 schedule group",
       "fifa world cup schedule 2026",
       "world cup fixtures 2026",
       "world cup kickoff times",
       "world cup group stage schedule",
+      "world cup bracket",
       "world cup knockout schedule"
     ],
     facts: [
@@ -44,7 +50,7 @@ export const pages = [
       ["Schedule size", "104 matches across 16 host cities"]
     ],
     intro:
-      "The World Cup 2026 schedule runs from June 11 to July 19, 2026, with 104 matches across the United States, Canada and Mexico. This page organizes the tournament by date, team, stage, host city, stadium and kickoff time so you can scan the full fixture list, filter the matches that matter to you and move quickly into PDF, Excel, city, team, ticket and TV planning.",
+      "The World Cup 2026 schedule runs from June 11 to July 19, 2026, with 104 matches across the United States, Canada and Mexico. This page organizes the tournament by date, team, stage, host city, stadium and kickoff time so you can scan the full fixture list, compare World Cup 2026 schedule dates, filter the matches that matter to you and move quickly into PDF, Excel, city, team, ticket and TV planning.",
     hero: {
       variant: "schedule",
       eyebrow: "Interactive schedule hub",
@@ -64,7 +70,7 @@ export const pages = [
       eyebrow: "Schedule workspace",
       heading: "Filter the Tournament by Match, Team, Date or City",
       copy:
-        "This page is the working table for the tournament. Use it when you need the full fixture list first, then narrow the view by team, group, stage, match date, host city or stadium before opening a more focused planning page.",
+        "This page is the working table for the tournament. Use it when you need the full World Cup 2026 schedule first, then narrow the view by team, group, stage, match date, host city or stadium before opening a more focused planning page. It is also the best starting point for schedule-and-locations searches because every match row connects the date, venue, teams and kickoff window.",
       tags: [
         "104-match table",
         "Team and city filters",
@@ -102,47 +108,55 @@ export const pages = [
       [
         "How to Use the World Cup 2026 Match Schedule",
         [
-          "Start with the World Cup 2026 schedule table above if you need match-level detail. Each row includes the match number, stage, group, teams, kickoff time in Eastern Time, date, host city and stadium. The fastest way to use the table is to filter by team when you are following one country, by city when you are planning a trip, or by stage when you only want group-stage or knockout-stage fixtures.",
-          "The search box is useful when you already know what you are looking for. Type a team name, city, stadium, group letter or match number to reduce the list without scrolling through all 104 fixtures. If you are comparing travel options, combine the city filter with the date filter and then open the linked host city page for local stadium context.",
+          "Start with the World Cup 2026 schedule table above if you need match-level detail. Each row includes the match number, stage, group, teams, kickoff time in Eastern Time, date, host city and stadium. That structure answers the core search task behind a FIFA World Cup 2026 schedule query: which match is happening, when it starts, where it is played and what the next planning step should be.",
+          "The fastest way to use the table is to filter by team when you are following one country, by city when you are planning a trip, or by stage when you only want group-stage or knockout-stage fixtures. The search box is useful when you already know what you are looking for. Type a team name, city, stadium, group letter or match number to reduce the list without scrolling through all 104 fixtures.",
+          "Many fans use phrases such as world cup fixtures 2026, FIFA World Cup schedule 2026 or world cup kickoff times when they really need the same working view: a fixture list that connects teams, dates, host cities, stadiums and local viewing windows. The table is built around that combined task, so you do not have to move between separate date, venue and time pages before you know which match matters.",
+          "If you are comparing travel options, combine the city filter with the date filter and then open the linked host city page for local stadium context. This gives you a practical World Cup 2026 schedule with venue details instead of a flat list of dates. It is especially useful when two appealing fixtures sit in different time zones or when you need to know whether a city has multiple matches close together.",
           "The World Cup 2026 schedule is designed as a planning page rather than a news feed. It gives you a stable view of the fixture list, then links to pages that solve the next task: printable PDF, spreadsheet download, host city comparison, ticket guidance and TV viewing information."
         ]
       ],
       [
-        "World Cup 2026 Match Dates",
+        "World Cup 2026 Schedule Dates and Locations",
         [
-          "The tournament opens on June 11, 2026 and ends with the final on July 19, 2026. The early part of the calendar is built around the group stage, where fans often search for a team route, a city cluster or a set of matches that fit a travel window. Later dates move into the knockout stage, where matchups depend on group standings and the bracket path.",
+          "The tournament opens on June 11, 2026 and ends with the final on July 19, 2026. Users searching for World Cup 2026 schedule dates usually need more than the first and last day. They want to know which dates belong to the group stage, when the knockout rounds begin, how the final weekend fits the calendar and which host cities are attached to each match day.",
           "For date planning, the World Cup 2026 schedule helps you separate three questions. First, which day is the match? Second, which host city and stadium will stage it? Third, what does the kickoff time mean for your own time zone? The table gives the date and Eastern Time kickoff, while the linked city pages help you understand where the match is played.",
-          "If you are building a personal match calendar, use the Excel planner when you want to sort or filter by date. Use the PDF schedule when you want a clean copy to save, print or share with friends."
+          "The phrase FIFA World Cup 2026 schedule dates often signals official-detail intent, so wc26schedule keeps the date table tied to source notes and update reminders. If you need a FIFA World Cup schedule 2026 view for editorial planning, travel research or match-day coordination, use the full table as your starting point and then confirm final match operations with official sources before booking flights, hotels or ticket-dependent travel.",
+          "If you are building a personal match calendar, use the Excel planner when you want to sort or filter by date. Use the PDF schedule when you want a clean copy to save, print or share with friends. If you are choosing where to travel, use the city links to compare the World Cup 2026 schedule and locations together."
         ]
       ],
       [
         "Kickoff Times and Time Zones",
         [
-          "Kickoff times on this page are shown in Eastern Time because it gives readers one consistent reference point across the full tournament. That is helpful for comparing fixtures, but it is not the same as the local time in every host city. Matches in Los Angeles, Seattle, Vancouver, Mexico City or Dallas may fall in different local time zones from matches in New York New Jersey, Miami, Atlanta or Toronto.",
+          "Kickoff times on this page are shown in Eastern Time because it gives readers one consistent reference point across the full tournament. The timezone selector then converts every listed kickoff into the selected local time, which makes the World Cup 2026 match schedule easier to use for fans in North America, Europe, Asia, Africa, Oceania and South America.",
+          "That distinction matters because a World Cup kickoff time is not only a TV detail. It affects stadium arrival, public transport, hotel check-in, flight connections and watch-party planning. Matches in Los Angeles, Seattle, Vancouver, Mexico City or Dallas may fall in different local time zones from matches in New York New Jersey, Miami, Atlanta or Toronto.",
           "Before making travel, ticket or watch-party plans, check the venue local time and confirm final timing with official sources. This is especially important for fans traveling between cities, viewers outside North America and anyone planning same-day connections around a match.",
-          "A dedicated time-zone converter is still on the roadmap. Until that tool is added, the safest workflow is to use this table for the fixture overview, then verify the local time through FIFA, the host city page or your own calendar app before committing to travel."
+          "Use the watch-time labels to see whether a match lands in the morning, afternoon, prime time, late night or overnight for your selected timezone. That keeps the World Cup 2026 schedule useful even when a fixture is not in your own city."
         ]
       ],
       [
         "Schedule by Team and Host City",
         [
           "Team names in the table link to team schedule pages where available. Those pages are useful when you care less about the entire tournament and more about one route through the group stage. A team page brings together opponents, dates, kickoff times, cities and stadiums without asking you to keep filtering the main table.",
-          "City names link to host city schedule pages. That matters because many fans plan the World Cup around a place rather than a team. A Dallas, Atlanta, Los Angeles or New York New Jersey page can show how many fixtures are in that market, which stages are involved and which stadium hosts the matches.",
+          "City names link to host city schedule pages. That matters because many fans search for a FIFA World Cup 2026 schedule and locations view rather than a generic fixture list. A Dallas, Atlanta, Los Angeles or New York New Jersey page can show how many fixtures are in that market, which stages are involved and which stadium hosts the matches.",
+          "If your priority is a World Cup 2026 schedule with venue details, start with the city filter and then open the city page that matches your travel plan. The main table is better for comparing the full tournament; the city pages are better for understanding local match clusters, stadium names and the likely planning questions around one market.",
           "This center-and-branch structure keeps the main fixture list broad while giving each planning need a cleaner next step. Use the full schedule for the tournament view, team pages for national-team tracking and city pages for travel planning."
         ]
       ],
       [
-        "Group Stage and Knockout Schedule",
+        "FIFA World Cup 2026 Schedule Group and Bracket Planning",
         [
-          "The group-stage schedule is the easiest part of the fixture list to plan because teams, groups, dates and host cities are listed before the tournament begins. Use the group filter when you want to see one group at a time, then move to the groups page if you need a broader explanation of standings, advancement and tie-breakers.",
+          "The group-stage schedule is the easiest part of the fixture list to plan because teams, groups, dates and host cities are listed before the tournament begins. Search demand around FIFA World Cup 2026 schedule group terms shows that users want a clean way to separate one group from the full 104-match table. Use the group filter when you want to see one group at a time, then move to the groups page if you need a broader explanation of standings, advancement and tie-breakers.",
+          "If your search intent is closer to a world cup group stage schedule, focus on the group and stage filters first. They let you compare Group A through Group L without mixing those fixtures with knockout placeholders. That is cleaner than scanning the entire World Cup 2026 match schedule when you only care about early-round routes.",
           "The knockout schedule works differently. Dates, cities and match numbers can be listed in advance, but the teams depend on results. Placeholder labels such as winners, runners-up or bracket positions should be treated as route markers until the group stage is complete.",
-          "For the knockout stage, the best approach is to follow three pages together: this match schedule for dates and venues, the standings page for group results, and the bracket page for the path toward the final."
+          "A World Cup bracket search usually means the user wants the knockout path rather than every group fixture. For the knockout stage, the best approach is to follow three pages together: this World Cup 2026 schedule for dates and venues, the standings page for group results, and the bracket page for the path toward the final. Once the group phase is complete, the world cup knockout schedule becomes more valuable because placeholders can be replaced by confirmed teams.",
+          "This separation keeps the page accurate before the tournament starts. The match table shows fixed dates and venues, while the bracket content can be updated as teams advance."
         ]
       ],
       [
         "Downloads, Sources and Update Notes",
         [
           "The downloadable files are built for different planning habits. The PDF schedule is best when you want a printable or offline copy. The Excel schedule is better when you want to filter fixtures by team, city, date, stage or stadium. The CSV file is useful if you want to import the data into another tool.",
+          "Google Trends shows clear demand for World Cup 2026 schedule PDF and FIFA World Cup 2026 schedule PDF download searches, but the PDF should not replace the live table. Use the PDF when you need a simple shared copy; use the live schedule when you want timezone conversion, filters, watch-time labels and the latest linked planning paths. If your only task is to download world cup fixtures 2026 for offline use, the PDF and CSV links are faster than filtering the full page.",
           "The World Cup 2026 schedule needs clear sourcing because match details, ticket information and broadcast arrangements can change. wc26schedule is an independent planning guide, not an official FIFA property, ticket seller or broadcaster. Use this page to organize your planning, then confirm final details through official sources before buying tickets, booking travel or publishing time-sensitive information.",
           "The source note below identifies the primary schedule source and the mapping source used for the structured dataset. When official details are updated, the schedule data and downloadable files should be refreshed together so the website, PDF, Excel and CSV versions stay aligned."
         ]
@@ -167,7 +181,15 @@ export const pages = [
       ],
       [
         "Where can I download the World Cup 2026 fixtures?",
-        "Use the PDF page for a printable schedule, the Excel page for a filterable spreadsheet and the CSV file for importing match data into another tool. The download links are connected to the same structured schedule used on this page."
+        "Use the PDF page for a printable schedule, the Excel page for a filterable spreadsheet and the CSV file for importing match data into another tool. If you are searching for a FIFA World Cup 2026 schedule PDF download, start with the PDF page, then return to the live table when you need filters or local-time conversion."
+      ],
+      [
+        "Can I see the World Cup 2026 schedule with venue details?",
+        "Yes. The full table includes each listed host city and stadium, and the city links help you move from the tournament-wide schedule to a location-focused planning page. This is useful when you want the World Cup 2026 schedule and locations in one workflow."
+      ],
+      [
+        "Is this page useful for the group stage and knockout bracket?",
+        "Yes. Use the group and stage filters for the world cup group stage schedule, then follow the standings and bracket links when knockout paths matter more than the full fixture list. Knockout teams are confirmed only after group results are known."
       ],
       [
         "Does wc26schedule sell tickets?",

@@ -43,10 +43,16 @@ Long-tail keywords:
 
 ```text
 world cup 2026 match schedule
+world cup 2026 schedule dates
+fifa world cup 2026 schedule dates
+fifa world cup 2026 schedule and locations
+world cup 2026 schedule with venue
+fifa world cup 2026 schedule group
 fifa world cup schedule 2026
 world cup fixtures 2026
 world cup kickoff times
 world cup group stage schedule
+world cup bracket
 world cup knockout schedule
 ```
 
@@ -71,15 +77,18 @@ CSV schedule
 Keyword density target:
 
 ```text
-Primary exact-match keyword: 1%-2%
-Keyword family density: 3%-5%, using natural semantic coverage rather than repeated exact match.
+Primary exact-match keyword: 0.5%-1.0% for this tool-style schedule page.
+Validated keyword pool density: 1.0%-2.0%.
+Broader semantic coverage should be reviewed manually rather than forced into exact phrase repetition.
 ```
 
 Current primary keyword result after optimization:
 
 ```text
-Exact-match occurrences: 8
-Approximate exact-match density: 1.02%
+Exact-match occurrences: 27
+Approximate exact-match density: 0.51%
+Validated keyword pool occurrences: 66
+Approximate validated keyword pool density: 1.25%
 ```
 
 ## 3. SEO Title and Meta Description
@@ -174,8 +183,8 @@ Required by content plan:
 Current metrics:
 
 ```text
-Words: 4525
-FAQ items: 6
+Words: 5261
+FAQ items: 8
 H1 count: 1
 H2 count: 12
 Schema blocks: 3
@@ -188,8 +197,8 @@ Generic overview module: not present
 Generic usage module: not present
 Generic related-links heading: not present
 Hero variant: hero-schedule
-Primary exact keyword density: about 0.18%
-Selected keyword-family density: about 0.29%
+Primary exact keyword density: about 0.51%
+Validated keyword pool density: about 1.25%
 Hero visual module: mini schedule preview and filter strip present
 Schedule table rows: 104
 Date-card view: generated from table data after user switches view
@@ -402,10 +411,10 @@ HTTP status: 200
 Title length: 61
 Meta description length: 141
 H1 count: 1
-FAQ count: 6
-Word count: 4525
-Primary exact keyword density: about 0.18%
-Selected keyword-family density: about 0.29%
+FAQ count: 8
+Word count: 5261
+Primary exact keyword density: about 0.51%
+Validated keyword pool density: about 1.25%
 Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
@@ -436,6 +445,12 @@ Date-card match status: present
 ```
 
 ## 11. Remaining Issues
+
+Keyword pool optimization saved here:
+
+```text
+page-seo-plans/world-cup-2026-schedule-keyword-pool-optimization.md
+```
 
 Full completion evaluation saved here:
 
