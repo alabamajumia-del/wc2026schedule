@@ -34,20 +34,23 @@ http://localhost:3000/world-cup-2026-schedule/
 Current status:
 
 ```text
-Optimized first pass. Template-risk review completed. Hero visual improved. Schedule Phase A completed.
+Optimized first pass. Template-risk review completed. Hero visual improved. Schedule Phase A completed. Timezone and watch-card pass completed.
 ```
 
 Current metrics:
 
 ```text
-Words: 3607
+Words: 4068
 FAQ items: 6
 H1 count: 1
 H2 count: 12
 Schema blocks: 3
-Exact primary keyword density: about 0.89%
+Exact primary keyword density: about 0.79%
 Schedule rows: 104
 Date-card view: generated on interaction from the table data
+Timezone selector: present
+Watch-time labels: present
+Planned single-match detail URLs: 104
 Generic template residue: none
 Current visual module: mini schedule preview + filter strip
 ```
@@ -65,7 +68,7 @@ Current limits:
 - The main interaction now supports Table and Date cards, but Team and City views are not yet active.
 - Mobile experience is improved for Date cards, while the table remains horizontally scrollable for dense scanning.
 - The hero preview is visual only; it does not make the page feel fully interactive yet.
-- No local time or timezone helper yet.
+- Timezone conversion is active in the schedule table and Date cards; a standalone time converter page can still be added later.
 - No calendar reuse action.
 
 ### 1.2 PDF Page
@@ -169,6 +172,7 @@ Group matches by date.
 Each date section shows match cards.
 Cards include match number, stage, group, teams, kickoff ET, city and stadium.
 Completed in Schedule Phase A. Cards are built from existing table data after the user switches views, avoiding static HTML duplication.
+Updated after the MatchTimes reference review: cards now include local time and watch-time labels, and date groups are based on the selected timezone.
 ```
 
 3. Quick filter chips:

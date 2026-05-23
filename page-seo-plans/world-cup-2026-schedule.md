@@ -9,13 +9,14 @@ Page URL:
 Status:
 
 ```text
-Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23. Schedule Phase A completed on 2026-05-23.
+Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23. Schedule Phase A completed on 2026-05-23. Timezone and watch-card pass completed on 2026-05-23.
 ```
 
 Second-pass optimization reference:
 
 ```text
 page-seo-plans/schedule-and-pdf-second-pass-optimization.md
+page-seo-plans/world-cup-2026-schedule-timezone-watch-cards.md
 ```
 
 ## 1. Search Intent
@@ -173,7 +174,7 @@ Required by content plan:
 Current metrics:
 
 ```text
-Words: 3607
+Words: 4068
 FAQ items: 6
 H1 count: 1
 H2 count: 12
@@ -187,11 +188,16 @@ Generic overview module: not present
 Generic usage module: not present
 Generic related-links heading: not present
 Hero variant: hero-schedule
-Primary keyword density: about 0.89%
+Primary keyword density: about 0.79%
 Hero visual module: mini schedule preview and filter strip present
 Schedule table rows: 104
 Date-card view: generated from table data after user switches view
 Static duplicate match cards in HTML: 0
+Timezone selector: present
+UTC kickoff fields: 104
+Local time cells: 104
+Watch-time labels: present
+Planned single-match detail URLs: 104
 ```
 
 ## 5.1 Custom Page Blueprint
@@ -345,6 +351,17 @@ Schedule Phase A completed on 2026-05-23:
 - Added responsive card styling so mobile users can scan match number, teams, kickoff ET, city and stadium without horizontal scrolling.
 - Preserved the SEO page structure: one H1, existing H2 sections, visible FAQ, source note and no hidden keyword blocks.
 
+Timezone and watch-card pass completed on 2026-05-23:
+
+- Added a timezone planner above the view switcher.
+- Added computed UTC kickoff data for all 104 matches.
+- Added `Your Time` and `Watch Window` columns to the full schedule table.
+- Added watch-time labels: Morning, Afternoon, Prime time, Late night and Overnight.
+- Updated Date cards so they regroup by the selected local date.
+- Strengthened Date card visual hierarchy with local time, watch label, ET time, city, stadium and action row.
+- Added stable planned single-match detail URLs in data attributes without linking users to unfinished thin pages.
+- Preserved the no-duplication approach: Date cards are generated from table data on interaction, not statically duplicated in HTML.
+
 ## 10. Quality Check
 
 Latest check:
@@ -358,8 +375,8 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 6
-Word count: 3607
-Primary keyword density: about 0.89%
+Word count: 4068
+Primary keyword density: about 0.79%
 Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
@@ -368,15 +385,23 @@ Table rows: 104
 Date card container: present
 Static duplicate date cards: 0
 Date card builder script: present
+Timezone selector: present
+UTC kickoff fields: 104
+Local time cells: 104
+Planned detail URLs: 104
+Watch-time logic: present
+Local date regrouping logic: present
 ```
 
 ## 11. Remaining Issues
 
 Remaining content and product issues:
 
-- Time-zone converter is not yet implemented.
+- Timezone conversion is implemented for the schedule table and Date cards; future work should add a dedicated standalone converter page.
 - Team and City switcher views are visible but disabled until the next implementation phase.
-- Date-card interaction needs final visual QA in the in-app browser; the automated browser connection timed out during this run.
+- Countdown is not yet implemented.
+- Single-match detail pages are planned but not generated yet to avoid thin template pages.
+- Date-card interaction needs final visual QA in the in-app browser; the automated browser connection timed out during recent runs.
 - Official FIFA updates should be checked before production deployment.
 - Keyword family density should be reviewed manually because the schedule table contains many "Group stage" labels that can distort automated density checks.
 - The first H2 can be made shorter and cleaner in a later refinement.

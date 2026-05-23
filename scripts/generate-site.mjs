@@ -62,6 +62,14 @@ const isRealTeam = (team) =>
 
 const teamSlug = (team) => teamSlugOverrides[team] ?? slugify(team);
 const teamPath = (team) => `/world-cup-2026-teams/${teamSlug(team)}-schedule/`;
+const matchDetailPath = (match) =>
+  `/world-cup-2026-match/${match.matchNumber}-${slugify(match.home)}-vs-${slugify(match.away)}/`;
+
+const kickoffUtcIso = (match) => {
+  const [year, month, day] = match.date.split("-").map(Number);
+  const [hour, minute] = match.kickoffET.split(":").map(Number);
+  return new Date(Date.UTC(year, month - 1, day, hour + 4, minute)).toISOString();
+};
 
 const csvValue = (value) => {
   const text = String(value ?? "");
@@ -467,6 +475,22 @@ const renderPage = (page) => {
 };
 
 const renderScheduleTable = () => {
+  const timezoneOptions = [
+    ["America/New_York", "Eastern Time"],
+    ["America/Los_Angeles", "Pacific Time"],
+    ["America/Mexico_City", "Mexico City"],
+    ["America/Toronto", "Toronto"],
+    ["America/Vancouver", "Vancouver"],
+    ["Europe/London", "London"],
+    ["Europe/Madrid", "Madrid"],
+    ["Europe/Paris", "Paris"],
+    ["Africa/Johannesburg", "Johannesburg"],
+    ["Asia/Dubai", "Dubai"],
+    ["Asia/Kolkata", "India"],
+    ["Asia/Shanghai", "China"],
+    ["Asia/Tokyo", "Tokyo"],
+    ["Australia/Sydney", "Sydney"]
+  ];
   const stageOptions = [...new Set(matches.map((match) => match.stage))];
   const groupOptions = [...new Set(matches.map((match) => match.group).filter(Boolean))];
   const dateOptions = [...new Set(matches.map((match) => match.date).filter(Boolean))];
@@ -491,7 +515,7 @@ const renderScheduleTable = () => {
     ]
       .join(" ")
       .toLowerCase();
-    return `data-stage="${attr(match.stage)}" data-group="${attr(match.group)}" data-date="${attr(match.date)}" data-date-label="${attr(match.dateLabel)}" data-city="${attr(match.city)}" data-home="${attr(match.home)}" data-away="${attr(match.away)}" data-search="${attr(searchable)}"`;
+    return `data-match-number="${attr(match.matchNumber)}" data-stage="${attr(match.stage)}" data-group="${attr(match.group)}" data-date="${attr(match.date)}" data-date-label="${attr(match.dateLabel)}" data-kickoff-utc="${attr(kickoffUtcIso(match))}" data-detail-url="${attr(matchDetailPath(match))}" data-city="${attr(match.city)}" data-home="${attr(match.home)}" data-away="${attr(match.away)}" data-search="${attr(searchable)}"`;
   };
 
   return `<section class="section schedule-tool" id="full-schedule">
@@ -538,6 +562,18 @@ const renderScheduleTable = () => {
       </select>
     </label>
   </div>
+  <div class="timezone-tool" aria-label="Timezone planner">
+    <div>
+      <p class="eyebrow">Timezone planner</p>
+      <strong>Your match times update the table and date cards.</strong>
+      <p data-timezone-summary>Choose a timezone to see local kickoff times and watch-time labels.</p>
+    </div>
+    <label>Your timezone
+      <select data-timezone-select>
+        ${timezoneOptions.map(([value, label]) => `<option value="${attr(value)}">${esc(label)}</option>`).join("")}
+      </select>
+    </label>
+  </div>
   <div class="view-switcher" role="tablist" aria-label="Schedule view">
     <button class="view-tab active" type="button" role="tab" aria-selected="true" data-view-toggle="table">Table</button>
     <button class="view-tab" type="button" role="tab" aria-selected="false" data-view-toggle="date">Date cards</button>
@@ -553,6 +589,8 @@ const renderScheduleTable = () => {
           <th>Stage</th>
           <th>Group</th>
           <th>Teams</th>
+          <th>Your Time</th>
+          <th>Watch Window</th>
           <th>Kickoff ET</th>
           <th>Date</th>
           <th>City</th>
@@ -567,6 +605,8 @@ const renderScheduleTable = () => {
           <td>${esc(match.stage)}</td>
           <td>${match.group ? `Group ${esc(match.group)}` : "-"}</td>
           <td>${teamLink(match.home)} v ${teamLink(match.away)}</td>
+          <td><span data-local-time>Choose timezone</span></td>
+          <td><span class="watch-tag" data-watch-tag>Time check</span></td>
           <td>${esc(match.kickoffET)} ET</td>
           <td>${esc(match.date)}</td>
           <td><a href="${attr(cityPath(match.citySlug))}">${esc(match.city)}</a></td>
@@ -1237,6 +1277,10 @@ await write(
   const dateView = document.querySelector('[data-schedule-view="date"]');
   const views = Array.from(document.querySelectorAll("[data-schedule-view]"));
   const viewButtons = Array.from(document.querySelectorAll("[data-view-toggle]"));
+  const timezoneSelect = document.querySelector("[data-timezone-select]");
+  const timezoneSummary = document.querySelector("[data-timezone-summary]");
+  const timezoneStorageKey = "wc26schedule-timezone";
+  let activeView = "table";
   let cards = [];
   let dateGroups = [];
 
@@ -1248,17 +1292,143 @@ await write(
   const team = document.querySelector("[data-filter-team]");
   const count = document.querySelector("[data-schedule-count]");
 
+  const readSavedTimezone = () => {
+    try {
+      return window.localStorage.getItem(timezoneStorageKey);
+    } catch {
+      return "";
+    }
+  };
+
+  const saveTimezone = (timezone) => {
+    try {
+      window.localStorage.setItem(timezoneStorageKey, timezone);
+    } catch {}
+  };
+
+  const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
+  if (timezoneSelect && !Array.from(timezoneSelect.options).some((option) => option.value === detectedTimezone)) {
+    timezoneSelect.add(new Option(detectedTimezone.replaceAll("_", " "), detectedTimezone), 1);
+  }
+  if (timezoneSelect) {
+    const savedTimezone = readSavedTimezone();
+    timezoneSelect.value = Array.from(timezoneSelect.options).some((option) => option.value === savedTimezone)
+      ? savedTimezone
+      : detectedTimezone;
+  }
+
+  const selectedTimezone = () => timezoneSelect?.value || detectedTimezone || "America/New_York";
+
+  const localDateKey = (date, timezone) => {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).formatToParts(date);
+    const value = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+    return value.year + "-" + value.month + "-" + value.day;
+  };
+
+  const localDateLabel = (date, timezone) =>
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    }).format(date);
+
+  const localTimeLabel = (date, timezone) =>
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+      timeZoneName: "short"
+    }).format(date);
+
+  const localHour = (date, timezone) => {
+    const part = new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      hour: "2-digit",
+      hourCycle: "h23"
+    })
+      .formatToParts(date)
+      .find((item) => item.type === "hour");
+    return Number(part?.value || 0);
+  };
+
+  const watchWindow = (hour) => {
+    if (hour >= 17 && hour <= 21) return ["Prime time", "prime"];
+    if (hour >= 12 && hour <= 16) return ["Afternoon", "afternoon"];
+    if (hour >= 6 && hour <= 11) return ["Morning", "morning"];
+    if (hour >= 22 || hour <= 1) return ["Late night", "late"];
+    return ["Overnight", "overnight"];
+  };
+
+  const updateTimeDisplays = () => {
+    const timezone = selectedTimezone();
+    for (const row of rows) {
+      const kickoff = new Date(row.dataset.kickoffUtc);
+      const hour = localHour(kickoff, timezone);
+      const [label, type] = watchWindow(hour);
+      row.dataset.localDate = localDateKey(kickoff, timezone);
+      row.dataset.localDateLabel = localDateLabel(kickoff, timezone);
+      row.dataset.localTime = localTimeLabel(kickoff, timezone);
+      row.dataset.watchWindow = label;
+      row.dataset.watchType = type;
+      const localTime = row.querySelector("[data-local-time]");
+      const watchTag = row.querySelector("[data-watch-tag]");
+      if (localTime) localTime.textContent = row.dataset.localTime;
+      if (watchTag) {
+        watchTag.textContent = label;
+        watchTag.dataset.watchType = type;
+      }
+    }
+    if (timezoneSummary) {
+      timezoneSummary.textContent =
+        "Showing local kickoff times in " +
+        timezone.replaceAll("_", " ") +
+        ". Date cards regroup matches by this timezone.";
+    }
+  };
+
   const copyMatchData = (source, target) => {
-    ["stage", "group", "date", "dateLabel", "city", "home", "away", "search"].forEach((key) => {
+    [
+      "matchNumber",
+      "stage",
+      "group",
+      "date",
+      "dateLabel",
+      "kickoffUtc",
+      "detailUrl",
+      "localDate",
+      "localDateLabel",
+      "localTime",
+      "watchWindow",
+      "watchType",
+      "city",
+      "home",
+      "away",
+      "search"
+    ].forEach((key) => {
       target.dataset[key] = source.dataset[key] || "";
     });
   };
 
   const buildDateCards = () => {
-    if (!dateView || cards.length) return;
+    if (!dateView) return;
+    dateView.innerHTML = "";
     const groups = new Map();
-    for (const row of rows) {
-      const date = row.dataset.date;
+    const sortedRows = [...rows].sort(
+      (a, b) => new Date(a.dataset.kickoffUtc) - new Date(b.dataset.kickoffUtc)
+    );
+    for (const row of sortedRows) {
+      const date = row.dataset.localDate || row.dataset.date;
       if (!groups.has(date)) groups.set(date, []);
       groups.get(date).push(row);
     }
@@ -1272,7 +1442,7 @@ await write(
         '<div><p class="eyebrow">' +
         date +
         '</p><h3>' +
-        (groupRows[0].dataset.dateLabel || date) +
+        (groupRows[0].dataset.localDateLabel || groupRows[0].dataset.dateLabel || date) +
         '</h3></div><span><span data-date-count>' +
         groupRows.length +
         '</span> matches</span></div><div class="match-card-grid"></div>';
@@ -1286,19 +1456,29 @@ await write(
         copyMatchData(row, article);
         article.innerHTML =
           '<div class="match-card-top"><strong>Match ' +
-          cells[0].textContent.trim() +
+          row.dataset.matchNumber +
           "</strong><span>" +
           row.dataset.stage +
           (row.dataset.group ? " - Group " + row.dataset.group : "") +
           '</span></div><div class="match-card-teams">' +
           cells[3].innerHTML +
-          '</div><dl class="match-card-meta"><div><dt>Kickoff ET</dt><dd>' +
-          cells[4].textContent.replace(" ET", "").trim() +
+          '</div><div class="match-card-time"><strong data-card-local-time>' +
+          row.dataset.localTime +
+          '</strong><span class="watch-tag" data-watch-type="' +
+          row.dataset.watchType +
+          '">' +
+          row.dataset.watchWindow +
+          '</span></div><dl class="match-card-meta"><div><dt>Kickoff ET</dt><dd>' +
+          cells[6].textContent.replace(" ET", "").trim() +
           '</dd></div><div><dt>Host city</dt><dd>' +
-          cells[6].innerHTML +
+          cells[8].innerHTML +
           '</dd></div><div><dt>Stadium</dt><dd>' +
-          cells[7].textContent.trim() +
-          "</dd></div></dl>";
+          cells[9].textContent.trim() +
+          '</dd></div></dl><div class="match-card-actions"><span title="' +
+          row.dataset.detailUrl +
+          '">Match details planned</span><a href="' +
+          cells[8].querySelector("a").getAttribute("href") +
+          '">City guide</a></div>';
         grid.append(article);
       }
 
@@ -1321,6 +1501,8 @@ await write(
   };
 
   const setView = (nextView) => {
+    activeView = nextView;
+    updateTimeDisplays();
     if (nextView === "date") buildDateCards();
     for (const view of views) {
       view.hidden = view.dataset.scheduleView !== nextView;
@@ -1369,6 +1551,13 @@ await write(
     control.addEventListener("change", apply);
   });
 
+  timezoneSelect?.addEventListener("change", () => {
+    saveTimezone(selectedTimezone());
+    updateTimeDisplays();
+    if (activeView === "date") buildDateCards();
+    apply();
+  });
+
   viewButtons.forEach((button) => {
     button.addEventListener("click", () => {
       if (button.disabled) return;
@@ -1377,6 +1566,7 @@ await write(
     });
   });
 
+  updateTimeDisplays();
   setView("table");
   apply();
 })();\n`
