@@ -206,6 +206,7 @@ Strengths:
 - The page remains static-first and does not require an application backend.
 - Tailwind CSS is now available as a build-time utility layer, with preflight disabled to preserve the existing design system.
 - A Matchtimes-inspired live board now gives the schedule page a stronger next-match visual focus, including a seconds countdown and upcoming-match cards.
+- The hero schedule control panel now operates as an actual control surface with internal Team, Date, City and Stage modes that apply concrete filters and views instead of sending every button to the same schedule block.
 - The schedule now connects to 104 real single-match detail pages, each with match-specific content, SportsEvent Schema and internal links.
 - Match detail pages now use a match-center visual module with home/away team cards, countdown, user timezone conversion, match status and planning CTAs.
 - Match detail pages now include Same Group and Team Route modules, giving users lateral paths into related fixtures instead of dead-ending on a single match page.

@@ -362,20 +362,59 @@ const hero = ({
       ? `<div class="hero-tool hero-tool-schedule">
       <strong class="hero-panel-title">${esc(panelTitle)}</strong>
       ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
-      <div class="hero-filter-strip" aria-label="Schedule filter preview">
-        <span>Team</span>
-        <span>Date</span>
-        <span>City</span>
-        <span>Stage</span>
+      <div class="hero-filter-strip" role="tablist" aria-label="Schedule control modes">
+        <button type="button" role="tab" aria-selected="true" data-hero-panel-tab="team">Team</button>
+        <button type="button" role="tab" aria-selected="false" data-hero-panel-tab="date">Date</button>
+        <button type="button" role="tab" aria-selected="false" data-hero-panel-tab="city">City</button>
+        <button type="button" role="tab" aria-selected="false" data-hero-panel-tab="stage">Stage</button>
       </div>
-      <div class="mini-schedule" aria-label="Schedule table preview">
-        <div><strong>Match</strong><strong>City</strong><strong>Time</strong></div>
-        <div><span>Mexico v South Africa</span><span>Mexico City</span><span>15:00 ET</span></div>
-        <div><span>Canada v TBD</span><span>Toronto</span><span>18:00 ET</span></div>
-        <div><span>United States v TBD</span><span>Los Angeles</span><span>21:00 ET</span></div>
+      <div class="hero-control-panes">
+        <div class="hero-control-pane" data-hero-panel="team">
+          <small>Follow a confirmed team route</small>
+          <div class="hero-control-options">
+            <button type="button" data-hero-quick-filter="team" data-value="Mexico" data-target-view="team">Mexico</button>
+            <button type="button" data-hero-quick-filter="team" data-value="United States" data-target-view="team">United States</button>
+            <button type="button" data-hero-quick-filter="team" data-value="Canada" data-target-view="team">Canada</button>
+            <button type="button" data-hero-quick-filter="team" data-value="Brazil" data-target-view="team">Brazil</button>
+          </div>
+        </div>
+        <div class="hero-control-pane" data-hero-panel="date" hidden>
+          <small>Open date cards around a real fixture day</small>
+          <div class="hero-control-options">
+            <button type="button" data-hero-match-date="1">Opening match</button>
+            <button type="button" data-hero-match-date="5">First weekend</button>
+            <button type="button" data-hero-match-date="73">Round of 32</button>
+            <button type="button" data-hero-match-date="104">Final day</button>
+          </div>
+        </div>
+        <div class="hero-control-pane" data-hero-panel="city" hidden>
+          <small>Group matches by host city</small>
+          <div class="hero-control-options">
+            <button type="button" data-hero-quick-filter="city" data-value="Mexico City" data-target-view="city">Mexico City</button>
+            <button type="button" data-hero-quick-filter="city" data-value="Dallas" data-target-view="city">Dallas</button>
+            <button type="button" data-hero-quick-filter="city" data-value="Atlanta" data-target-view="city">Atlanta</button>
+            <button type="button" data-hero-quick-filter="city" data-value="Toronto" data-target-view="city">Toronto</button>
+          </div>
+        </div>
+        <div class="hero-control-pane" data-hero-panel="stage" hidden>
+          <small>Filter by tournament phase</small>
+          <div class="hero-control-options">
+            <button type="button" data-hero-quick-filter="stage" data-value="Group stage" data-target-view="table">Group stage</button>
+            <button type="button" data-hero-quick-filter="stage" data-value="Round of 32" data-target-view="table">Round of 32</button>
+            <button type="button" data-hero-quick-filter="stage" data-value="Semi-finals" data-target-view="table">Semi-finals</button>
+            <button type="button" data-hero-quick-filter="stage" data-value="Final" data-target-view="table">Final</button>
+          </div>
+        </div>
+      </div>
+      <div class="mini-schedule hero-control-list" aria-label="Featured match detail links">
+        <div><strong>Featured match</strong><strong>City</strong><strong>Time</strong></div>
+        <a href="/world-cup-2026-match/1-mexico-vs-south-africa/"><span>Mexico v South Africa</span><span>Mexico City</span><span>16:00 ET</span></a>
+        <a href="/world-cup-2026-match/3-canada-vs-bosnia-herzegovina/"><span>Canada v Bosnia & Herzegovina</span><span>Toronto</span><span>16:00 ET</span></a>
       </div>
       <div class="hero-tool-footer">
-        ${rows.map(([label, value]) => `<span><strong>${esc(label)}</strong>${esc(value)}</span>`).join("")}
+        <button type="button" data-hero-clear><strong>Reset</strong>Show all 104 matches</button>
+        <button type="button" data-hero-focus="search"><strong>Search</strong>Type team, city or match #</button>
+        <a href="/world-cup-2026-schedule-excel/"><strong>Export</strong>Open Excel planner</a>
       </div>
     </div>`
       : variant === "pdf"
@@ -2933,6 +2972,86 @@ await write(
       if (button.disabled) return;
       setView(button.dataset.viewToggle);
       apply();
+    });
+  });
+
+  const scrollToSchedule = () => {
+    document.querySelector("#full-schedule")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  document.querySelectorAll("[data-hero-panel-tab]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.heroPanelTab;
+      document.querySelectorAll("[data-hero-panel-tab]").forEach((tab) => {
+        tab.setAttribute("aria-selected", String(tab === button));
+      });
+      document.querySelectorAll("[data-hero-panel]").forEach((panel) => {
+        panel.hidden = panel.dataset.heroPanel !== target;
+      });
+    });
+  });
+
+  const clearFilterValues = () => {
+    [search, stage, group, date, city, team].forEach((control) => {
+      if (control) control.value = "";
+    });
+  };
+
+  document.querySelectorAll("[data-hero-view]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const view = button.dataset.heroView;
+      if (!view) return;
+      setView(view);
+      apply();
+      scrollToSchedule();
+    });
+  });
+
+  document.querySelectorAll("[data-hero-quick-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const controls = { search, stage, group, date, city, team };
+      const control = controls[button.dataset.heroQuickFilter];
+      if (!control) return;
+      clearFilterValues();
+      control.value = button.dataset.value || "";
+      setView(button.dataset.targetView || "table");
+      apply();
+      scrollToSchedule();
+    });
+  });
+
+  document.querySelectorAll("[data-hero-match-date]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const row = rows.find((item) => item.dataset.matchNumber === button.dataset.heroMatchDate);
+      if (!row || !date) return;
+      updateTimeDisplays();
+      syncDateOptions();
+      clearFilterValues();
+      date.value = row.dataset.localDate || "";
+      setView("date");
+      apply();
+      scrollToSchedule();
+    });
+  });
+
+  document.querySelectorAll("[data-hero-clear]").forEach((button) => {
+    button.addEventListener("click", () => {
+      clearFilterValues();
+      setView("table");
+      apply();
+      scrollToSchedule();
+    });
+  });
+
+  document.querySelectorAll("[data-hero-focus]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const controls = { search, stage, group, date, city, team };
+      const control = controls[button.dataset.heroFocus];
+      setView("table");
+      apply();
+      scrollToSchedule();
+      control?.focus({ preventScroll: true });
+      window.setTimeout(() => control?.focus({ preventScroll: true }), 250);
     });
   });
 

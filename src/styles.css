@@ -241,15 +241,79 @@ h1 {
   padding: 2px 16px 16px;
 }
 
-.hero-filter-strip span {
+.hero-filter-strip span,
+.hero-filter-strip button {
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 6px;
   padding: 9px 8px;
   background: rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.88);
+  cursor: pointer;
+  font: inherit;
   font-size: 12px;
   font-weight: 800;
   text-align: center;
+}
+
+.hero-filter-strip button:hover,
+.hero-filter-strip button:focus-visible {
+  border-color: var(--gold);
+  background: rgba(216, 166, 60, 0.18);
+  color: #fff;
+}
+
+.hero-filter-strip button[aria-selected="true"] {
+  border-color: var(--gold);
+  background: rgba(216, 166, 60, 0.22);
+  color: #fff;
+}
+
+.hero-control-panes {
+  padding: 0 16px 14px;
+}
+
+.hero-control-pane {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(4, 18, 20, 0.34);
+  padding: 12px;
+}
+
+.hero-control-pane[hidden] {
+  display: none;
+}
+
+.hero-control-pane small {
+  color: rgba(255, 255, 255, 0.76);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.hero-control-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.hero-control-options button {
+  min-height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 9px 10px;
+}
+
+.hero-control-options button:hover,
+.hero-control-options button:focus-visible {
+  border-color: var(--gold);
+  background: rgba(216, 166, 60, 0.18);
 }
 
 .mini-schedule {
@@ -260,7 +324,8 @@ h1 {
   background: rgba(4, 18, 20, 0.5);
 }
 
-.mini-schedule > div {
+.mini-schedule > div,
+.mini-schedule > a {
   display: grid;
   grid-template-columns: minmax(120px, 1.4fr) minmax(82px, 0.9fr) minmax(70px, 0.7fr);
   gap: 10px;
@@ -270,7 +335,8 @@ h1 {
   font-size: 12px;
 }
 
-.mini-schedule > div:last-child {
+.mini-schedule > div:last-child,
+.mini-schedule > a:last-child {
   border-bottom: 0;
 }
 
@@ -283,6 +349,12 @@ h1 {
   overflow-wrap: anywhere;
 }
 
+.hero-control-list a:hover,
+.hero-control-list a:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
 .hero-tool-footer,
 .download-checklist {
   display: grid;
@@ -291,6 +363,8 @@ h1 {
 }
 
 .hero-tool-footer span,
+.hero-tool-footer button,
+.hero-tool-footer a,
 .download-checklist span {
   display: flex;
   justify-content: space-between;
@@ -300,11 +374,22 @@ h1 {
   padding: 10px 12px;
   background: rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.84);
+  cursor: pointer;
+  font: inherit;
   font-size: 12px;
 }
 
 .hero-tool-footer strong,
 .download-checklist strong {
+  color: #fff;
+}
+
+.hero-tool-footer button:hover,
+.hero-tool-footer button:focus-visible,
+.hero-tool-footer a:hover,
+.hero-tool-footer a:focus-visible {
+  border-color: var(--gold);
+  background: rgba(216, 166, 60, 0.16);
   color: #fff;
 }
 
