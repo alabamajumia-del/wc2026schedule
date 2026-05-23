@@ -127,7 +127,8 @@ HTTP status: 200
 H1 count: 1
 H2 count: 12
 Word count: 4525
-Primary exact-match density: about 0.71%
+Primary exact-match density: about 0.18%
+Selected keyword-family density: about 0.29%
 Table rows: 104
 UTC kickoff fields: 104
 Local time cells: 104

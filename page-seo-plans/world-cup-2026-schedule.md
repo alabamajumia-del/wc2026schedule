@@ -188,7 +188,8 @@ Generic overview module: not present
 Generic usage module: not present
 Generic related-links heading: not present
 Hero variant: hero-schedule
-Primary keyword density: about 0.71%
+Primary exact keyword density: about 0.18%
+Selected keyword-family density: about 0.29%
 Hero visual module: mini schedule preview and filter strip present
 Schedule table rows: 104
 Date-card view: generated from table data after user switches view
@@ -403,7 +404,8 @@ Meta description length: 141
 H1 count: 1
 FAQ count: 6
 Word count: 4525
-Primary keyword density: about 0.71%
+Primary exact keyword density: about 0.18%
+Selected keyword-family density: about 0.29%
 Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
@@ -434,6 +436,12 @@ Date-card match status: present
 ```
 
 ## 11. Remaining Issues
+
+Full completion evaluation saved here:
+
+```text
+page-seo-plans/world-cup-2026-schedule-complete-evaluation.md
+```
 
 Remaining content and product issues:
 
