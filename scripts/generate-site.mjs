@@ -474,6 +474,39 @@ const hero = ({
         ${rows.map(([label, value]) => `<span><strong>${esc(label)}</strong>${esc(value)}</span>`).join("")}
       </div>
     </div>`
+        : variant === "excel"
+          ? `<div class="hero-tool hero-tool-excel">
+      <div class="excel-hero-heading">
+        <strong class="hero-panel-title">${esc(panelTitle)}</strong>
+        <span>8 sheets</span>
+      </div>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      <div class="excel-workbook-preview" aria-label="World Cup 2026 schedule Excel workbook preview">
+        <div class="excel-workbook-tabs">
+          <span>All Matches</span>
+          <span>By Team</span>
+          <span>Venues</span>
+        </div>
+        <div class="excel-workbook-table">
+          <div class="excel-workbook-row excel-workbook-head">
+            <span>Match</span><span>Date</span><span>Teams</span><span>City</span>
+          </div>
+          <div class="excel-workbook-row">
+            <span>#1</span><span>Jun 11</span><span>MEX v RSA</span><span>Mexico City</span>
+          </div>
+          <div class="excel-workbook-row">
+            <span>#17</span><span>Jun 16</span><span>ARG v ALG</span><span>Kansas City</span>
+          </div>
+          <div class="excel-workbook-row">
+            <span>#25</span><span>Jun 19</span><span>CZE v RSA</span><span>Atlanta</span>
+          </div>
+        </div>
+      </div>
+      <div class="excel-hero-files">
+        <a href="/downloads/world-cup-2026-schedule.xls" download><strong>XLS</strong><span>Filter workbook</span></a>
+        <a href="/downloads/world-cup-2026-schedule.csv" download><strong>CSV</strong><span>Import data</span></a>
+      </div>
+    </div>`
         : `<strong class="hero-panel-title">${esc(panelTitle)}</strong>
       ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
       ${rows

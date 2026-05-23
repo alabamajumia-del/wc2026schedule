@@ -502,3 +502,37 @@ Reason:
 ```text
 It has strong download intent, already has a downloadable file, and needs a single-page, non-template SEO pass focused on printable schedule use cases.
 ```
+
+## 13. Hero Theme Differentiation Pass
+
+Date: 2026-05-23
+Status: Completed
+
+User feedback:
+
+```text
+The Schedule and Excel pages used a similar top-page format. The hero should reflect each page's theme instead of sharing the same visual structure.
+```
+
+Schedule-page adjustment:
+
+- Kept the Schedule page focused on an interactive schedule hub.
+- Strengthened the hero background with a live-board style grid treatment.
+- Tightened the right-side schedule control panel so it reads as a real filtering console, not a generic quick-facts card.
+- Added mobile-specific layout rules so the control panel stacks cleanly and the title/copy remain readable.
+
+Validation:
+
+```text
+Desktop overflow: 0
+Mobile overflow: 0
+Planner tabs: 4
+Workbook preview rows on Schedule page: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/schedule-theme-hero-desktop-preview.png
+page-seo-plans/schedule-theme-hero-mobile-preview.png
+```

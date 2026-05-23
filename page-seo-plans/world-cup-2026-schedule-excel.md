@@ -89,3 +89,38 @@ Screenshots saved:
 ## Follow-Up Ideas
 
 The next optimization could split the download library into a stronger Excel-first file chooser with file size, updated date and "best for" badges. That would make the download area feel more like a product selector and less like a shared site-wide file list.
+
+## Hero Theme Differentiation Pass
+
+Date: 2026-05-23
+Status: Completed
+
+User feedback:
+
+```text
+The Schedule and Excel pages looked too similar at the top. The Excel page needs a theme-specific hero, not the same visual format with different text.
+```
+
+Excel-page adjustment:
+
+- Replaced the generic right-side fact panel with a workbook preview panel.
+- Added sheet tabs, spreadsheet-style columns and sample match rows inside the hero.
+- Added Excel and CSV file cards directly inside the preview panel so the module communicates download value immediately.
+- Added a subtle spreadsheet grid overlay to the hero background while keeping a World Cup stadium context.
+- Kept the primary CTA focused on the Excel workbook and the secondary CTA focused on CSV data.
+
+Validation:
+
+```text
+Desktop overflow: 0
+Mobile overflow: 0
+Workbook preview rows: 4
+Planner tabs on Excel page: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/excel-theme-hero-desktop-preview.png
+page-seo-plans/excel-theme-hero-mobile-preview.png
+```
