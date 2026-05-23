@@ -362,6 +362,14 @@ Timezone and watch-card pass completed on 2026-05-23:
 - Added stable planned single-match detail URLs in data attributes without linking users to unfinished thin pages.
 - Preserved the no-duplication approach: Date cards are generated from table data on interaction, not statically duplicated in HTML.
 
+Usability and accuracy refinement completed on 2026-05-23:
+
+- Changed the Date filter to `Local date` so it matches the selected timezone.
+- Generated date filter options from computed local dates instead of source ET dates.
+- Added a result context bar that summarizes visible match count, timezone and active filters.
+- Renamed table headers from generic date/time wording to `Your Time`, `Source Time` and `Source Date`.
+- Removed unfinished match-detail wording from the visible Date cards while keeping planned detail URLs in data attributes for future generation.
+
 ## 10. Quality Check
 
 Latest check:
@@ -375,7 +383,7 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 6
-Word count: 4068
+Word count: 4051
 Primary keyword density: about 0.79%
 Internal SEO text: not present
 Generic template modules: not present
@@ -391,6 +399,9 @@ Local time cells: 104
 Planned detail URLs: 104
 Watch-time logic: present
 Local date regrouping logic: present
+Local-date filter: present
+Active result context: present
+Unfinished match-detail text in UI: not present
 ```
 
 ## 11. Remaining Issues

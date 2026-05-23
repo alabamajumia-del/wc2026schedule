@@ -66,7 +66,16 @@ Single-match detail planning:
 ```text
 Each match now has a stable planned detail URL in data-detail-url.
 Example: /world-cup-2026-match/1-mexico-vs-south-africa/
-The visible card shows "Match details planned" rather than linking to unfinished pages.
+The URL remains in data attributes for future page generation, but unfinished match-detail wording is not shown to users.
+```
+
+Usability refinement:
+
+```text
+The Date filter now uses local dates generated from the selected timezone.
+The Date cards and Date filter therefore speak the same "local date" language.
+The result bar shows how many matches are visible and which timezone/filter context is active.
+Table headers now distinguish "Your Time" from "Source Time" and "Source Date".
 ```
 
 ## 3. Data Assumption
@@ -94,7 +103,7 @@ Local URL: http://localhost:3000/world-cup-2026-schedule/
 HTTP status: 200
 H1 count: 1
 H2 count: 12
-Word count: 4068
+Word count: 4051
 Primary exact-match density: about 0.79%
 Table rows: 104
 UTC kickoff fields: 104
@@ -104,6 +113,9 @@ Static date cards in HTML: 0
 Timezone selector: present
 Watch-time logic: present
 Local-date regrouping logic: present
+Local-date filter: present
+Active result context: present
+Unfinished match-detail text in UI: not present
 ```
 
 ## 6. Remaining Work

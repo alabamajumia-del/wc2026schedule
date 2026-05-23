@@ -493,7 +493,6 @@ const renderScheduleTable = () => {
   ];
   const stageOptions = [...new Set(matches.map((match) => match.stage))];
   const groupOptions = [...new Set(matches.map((match) => match.group).filter(Boolean))];
-  const dateOptions = [...new Set(matches.map((match) => match.date).filter(Boolean))];
   const cityOptions = [...new Set(matches.map((match) => match.city).filter(Boolean))].sort((a, b) =>
     a.localeCompare(b)
   );
@@ -543,10 +542,9 @@ const renderScheduleTable = () => {
         ${groupOptions.map((group) => `<option value="${attr(group)}">Group ${esc(group)}</option>`).join("")}
       </select>
     </label>
-    <label>Date
+    <label>Local date
       <select data-filter-date>
-        <option value="">All dates</option>
-        ${dateOptions.map((date) => `<option value="${attr(date)}">${esc(date)}</option>`).join("")}
+        <option value="">All local dates</option>
       </select>
     </label>
     <label>City
@@ -566,7 +564,7 @@ const renderScheduleTable = () => {
     <div>
       <p class="eyebrow">Timezone planner</p>
       <strong>Your match times update the table and date cards.</strong>
-      <p data-timezone-summary>Choose a timezone to see local kickoff times and watch-time labels.</p>
+      <p data-timezone-summary>Choose a timezone to see local kickoff times, local dates and watch-time labels.</p>
     </div>
     <label>Your timezone
       <select data-timezone-select>
@@ -580,7 +578,10 @@ const renderScheduleTable = () => {
     <button class="view-tab" type="button" role="tab" aria-selected="false" aria-disabled="true" data-view-toggle="team" disabled>Team</button>
     <button class="view-tab" type="button" role="tab" aria-selected="false" aria-disabled="true" data-view-toggle="city" disabled>City</button>
   </div>
-  <p class="schedule-count"><span data-schedule-count>${matches.length}</span> matches shown</p>
+  <div class="schedule-result-bar">
+    <p class="schedule-count"><span data-schedule-count>${matches.length}</span> matches shown</p>
+    <p data-active-context>Times use your selected timezone. Source ET remains visible for verification.</p>
+  </div>
   <div class="table-wrap schedule-table-wrap" data-schedule-view="table">
     <table class="schedule-table">
       <thead>
@@ -591,8 +592,8 @@ const renderScheduleTable = () => {
           <th>Teams</th>
           <th>Your Time</th>
           <th>Watch Window</th>
-          <th>Kickoff ET</th>
-          <th>Date</th>
+          <th>Source Time</th>
+          <th>Source Date</th>
           <th>City</th>
           <th>Stadium</th>
         </tr>
@@ -1279,6 +1280,7 @@ await write(
   const viewButtons = Array.from(document.querySelectorAll("[data-view-toggle]"));
   const timezoneSelect = document.querySelector("[data-timezone-select]");
   const timezoneSummary = document.querySelector("[data-timezone-summary]");
+  const activeContext = document.querySelector("[data-active-context]");
   const timezoneStorageKey = "wc26schedule-timezone";
   let activeView = "table";
   let cards = [];
@@ -1370,6 +1372,20 @@ await write(
     return ["Overnight", "overnight"];
   };
 
+  const syncDateOptions = () => {
+    if (!date) return;
+    const currentValue = date.value;
+    const options = new Map();
+    for (const row of rows) {
+      if (row.dataset.localDate) options.set(row.dataset.localDate, row.dataset.localDateLabel || row.dataset.localDate);
+    }
+    date.innerHTML = '<option value="">All local dates</option>';
+    for (const [value, label] of [...options.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+      date.add(new Option(label, value));
+    }
+    date.value = options.has(currentValue) ? currentValue : "";
+  };
+
   const updateTimeDisplays = () => {
     const timezone = selectedTimezone();
     for (const row of rows) {
@@ -1393,7 +1409,7 @@ await write(
       timezoneSummary.textContent =
         "Showing local kickoff times in " +
         timezone.replaceAll("_", " ") +
-        ". Date cards regroup matches by this timezone.";
+        ". The date filter and Date cards both use this local date.";
     }
   };
 
@@ -1468,15 +1484,13 @@ await write(
           row.dataset.watchType +
           '">' +
           row.dataset.watchWindow +
-          '</span></div><dl class="match-card-meta"><div><dt>Kickoff ET</dt><dd>' +
+          '</span></div><dl class="match-card-meta"><div><dt>Source time</dt><dd>' +
           cells[6].textContent.replace(" ET", "").trim() +
           '</dd></div><div><dt>Host city</dt><dd>' +
           cells[8].innerHTML +
           '</dd></div><div><dt>Stadium</dt><dd>' +
           cells[9].textContent.trim() +
-          '</dd></div></dl><div class="match-card-actions"><span title="' +
-          row.dataset.detailUrl +
-          '">Match details planned</span><a href="' +
+          '</dd></div></dl><div class="match-card-actions"><a href="' +
           cells[8].querySelector("a").getAttribute("href") +
           '">City guide</a></div>';
         grid.append(article);
@@ -1493,7 +1507,7 @@ await write(
     const matchesSearch = !searchValue || item.dataset.search.includes(searchValue);
     const matchesStage = !stageValue || item.dataset.stage === stageValue;
     const matchesGroup = !groupValue || item.dataset.group === groupValue;
-    const matchesDate = !dateValue || item.dataset.date === dateValue;
+    const matchesDate = !dateValue || item.dataset.localDate === dateValue;
     const matchesCity = !cityValue || item.dataset.city === cityValue;
     const matchesTeam =
       !teamValue || item.dataset.home === teamValue || item.dataset.away === teamValue;
@@ -1543,6 +1557,14 @@ await write(
     }
 
     if (count) count.textContent = String(visible);
+    if (activeContext) {
+      const pieces = [selectedTimezone().replaceAll("_", " ")];
+      if (dateValue && date?.selectedOptions?.[0]) pieces.push(date.selectedOptions[0].textContent);
+      if (stageValue) pieces.push(stageValue);
+      if (teamValue) pieces.push(teamValue);
+      if (cityValue) pieces.push(cityValue);
+      activeContext.textContent = "Showing " + visible + " matches for " + pieces.join(" / ") + ".";
+    }
   };
 
   [search, stage, group, date, city, team].forEach((control) => {
@@ -1554,6 +1576,7 @@ await write(
   timezoneSelect?.addEventListener("change", () => {
     saveTimezone(selectedTimezone());
     updateTimeDisplays();
+    syncDateOptions();
     if (activeView === "date") buildDateCards();
     apply();
   });
@@ -1567,6 +1590,7 @@ await write(
   });
 
   updateTimeDisplays();
+  syncDateOptions();
   setView("table");
   apply();
 })();\n`
