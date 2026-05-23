@@ -207,6 +207,7 @@ Strengths:
 - Tailwind CSS is now available as a build-time utility layer, with preflight disabled to preserve the existing design system.
 - A Matchtimes-inspired live board now gives the schedule page a stronger next-match visual focus, including a seconds countdown and upcoming-match cards.
 - The schedule now connects to 104 real single-match detail pages, each with match-specific content, SportsEvent Schema and internal links.
+- Match detail pages now use a match-center visual module with home/away team cards, countdown, user timezone conversion, match status and planning CTAs.
 - Date cards are generated from existing table rows, avoiding duplicate static fixture content.
 - The next-match countdown updates every second, while heavier schedule data is still generated from the existing static rows.
 - The UI logic is centralized in `dist/schedule.js` generated from `scripts/generate-site.mjs`.
@@ -216,7 +217,7 @@ Risks:
 - The table is large, so future additions should avoid duplicating all match content in hidden static blocks.
 - Flag CDN dependency should be monitored.
 - Tailwind should be used page by page for specific UI improvements, not as a reason to generate repeated template-like content blocks.
-- Match detail pages are now live, but the top scoreboard can still be made visually stronger in a later pass.
+- Match detail pages should next receive same-group or same-bracket related match modules to improve lateral navigation.
 - If filtered export is added later, it should reuse the current row data instead of creating another schedule data source.
 
 ## 10. Final Judgment

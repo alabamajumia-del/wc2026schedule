@@ -328,6 +328,7 @@ const layout = ({ title, description, canonical, body, schema = [] }) => `<!doct
   </header>
   ${body}
   <script src="/schedule.js" defer></script>
+  <script src="/match-detail.js" defer></script>
   <footer class="footer">
     <div class="footer-inner">
       <strong>${esc(site.brand)}</strong>
@@ -1676,6 +1677,22 @@ const renderMatchPage = (match) => {
   for (const team of realTeams) links.unshift([`${team} schedule`, teamPath(team)]);
   if (previousMatch) links.push([`Previous match: ${previousMatch.home} vs ${previousMatch.away}`, matchDetailPath(previousMatch)]);
   if (nextMatch) links.push([`Next match: ${nextMatch.home} vs ${nextMatch.away}`, matchDetailPath(nextMatch)]);
+  const timezoneOptions = [
+    ["America/New_York", "Eastern Time"],
+    ["America/Los_Angeles", "Pacific Time"],
+    ["America/Mexico_City", "Mexico City"],
+    ["America/Toronto", "Toronto"],
+    ["America/Vancouver", "Vancouver"],
+    ["Europe/London", "London"],
+    ["Europe/Madrid", "Madrid"],
+    ["Europe/Paris", "Paris"],
+    ["Africa/Johannesburg", "Johannesburg"],
+    ["Asia/Dubai", "Dubai"],
+    ["Asia/Kolkata", "India"],
+    ["Asia/Shanghai", "China"],
+    ["Asia/Tokyo", "Tokyo"],
+    ["Australia/Sydney", "Sydney"]
+  ];
 
   return layout({
     title: `${matchPageTitle(match)} - World Cup 2026 Match Details`,
@@ -1698,17 +1715,61 @@ const renderMatchPage = (match) => {
       primaryHref: "/world-cup-2026-schedule/"
     })}
 <main class="main">
-  <section class="section match-detail-overview">
-    <div class="match-detail-scoreboard">
-      <div>${teamChip(match.home, "Home")}</div>
-      <span>vs</span>
-      <div>${teamChip(match.away, "Away")}</div>
+  <section class="section match-detail-overview" data-match-center data-kickoff-utc="${attr(kickoffUtcIso(match))}">
+    <div class="match-center-board">
+      <div class="match-center-topline">
+        <span>Match ${match.matchNumber}</span>
+        <span>${esc(match.group ? `${match.stage} - Group ${match.group}` : match.stage)}</span>
+        <span data-match-status>Scheduled</span>
+      </div>
+      <div class="match-center-main">
+        <article class="match-team-card">
+          ${teamChip(match.home, "Home")}
+        </article>
+        <div class="match-center-countdown" aria-label="Match countdown">
+          <span>Kickoff countdown</span>
+          <div class="countdown-grid compact">
+            <div><strong data-match-days>--</strong><span>Days</span></div>
+            <div><strong data-match-hours>--</strong><span>Hours</span></div>
+            <div><strong data-match-minutes>--</strong><span>Min</span></div>
+            <div><strong data-match-seconds>--</strong><span>Sec</span></div>
+          </div>
+        </div>
+        <article class="match-team-card">
+          ${teamChip(match.away, "Away")}
+        </article>
+      </div>
+      <div class="match-center-actions">
+        <a class="button" href="/world-cup-2026-schedule/">Full schedule</a>
+        <a class="button secondary" href="${attr(cityPath(match.citySlug))}">City guide</a>
+        <a class="button secondary" href="/world-cup-2026-tickets/">Ticket guide</a>
+      </div>
     </div>
-    <div class="match-detail-facts">
-      <div><span>Match</span><strong>${match.matchNumber}</strong></div>
-      <div><span>Date</span><strong>${esc(match.dateLabel)}</strong></div>
-      <div><span>Venue local</span><strong>${esc(view["Venue local time"])}</strong></div>
-      <div><span>Host city</span><strong>${esc(match.city)}</strong></div>
+    <div class="match-time-panel">
+      <div>
+        <span>Source kickoff</span>
+        <strong>${esc(match.kickoffET)} ET</strong>
+        <small>${esc(match.dateLabel)}</small>
+      </div>
+      <div>
+        <span>Venue local</span>
+        <strong>${esc(view["Venue local time"])}</strong>
+        <small>${esc(`${match.stadium}, ${match.city}`)}</small>
+      </div>
+      <div>
+        <span>Your time</span>
+        <strong data-match-user-time>Detecting timezone...</strong>
+        <label>Timezone
+          <select data-match-timezone>
+            ${timezoneOptions.map(([value, label]) => `<option value="${attr(value)}">${esc(label)}</option>`).join("")}
+          </select>
+        </label>
+      </div>
+      <div>
+        <span>Planning path</span>
+        <strong>${esc(city.country || "Host market")}</strong>
+        <small>${esc(match.sourceStatus)}</small>
+      </div>
     </div>
   </section>
   <section class="section">
@@ -2779,6 +2840,100 @@ await write(
   syncDateOptions();
   setView("table");
   apply();
+})();\n`
+);
+
+await write(
+  "match-detail.js",
+  `(() => {
+  const centers = Array.from(document.querySelectorAll("[data-match-center]"));
+  if (!centers.length) return;
+
+  const timezoneStorageKey = "wc26schedule-timezone";
+  const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
+
+  const readSavedTimezone = () => {
+    try {
+      return window.localStorage.getItem(timezoneStorageKey);
+    } catch {
+      return "";
+    }
+  };
+
+  const saveTimezone = (timezone) => {
+    try {
+      window.localStorage.setItem(timezoneStorageKey, timezone);
+    } catch {}
+  };
+
+  const localTimeLabel = (date, timezone) =>
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+      timeZoneName: "short"
+    }).format(date);
+
+  const countdownParts = (target, reference = new Date()) => {
+    const diff = Math.max(0, target - reference);
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return { days, hours, minutes, seconds };
+  };
+
+  const matchStatusLabel = (target, reference = new Date()) => {
+    const diffMinutes = Math.floor((target - reference) / 60000);
+    if (diffMinutes <= -120) return "Completed or in progress";
+    if (diffMinutes <= 0) return "Kickoff time reached";
+    if (diffMinutes <= 60) return "Starts in " + diffMinutes + "m";
+    if (diffMinutes < 1440) return "Starts in " + Math.floor(diffMinutes / 60) + "h";
+    return "Starts in " + Math.floor(diffMinutes / 1440) + "d";
+  };
+
+  const updateCenter = (center) => {
+    const kickoff = new Date(center.dataset.kickoffUtc);
+    const timezoneSelect = center.querySelector("[data-match-timezone]");
+    const timezone = timezoneSelect?.value || detectedTimezone;
+    const parts = countdownParts(kickoff);
+    const setText = (selector, value) => {
+      const node = center.querySelector(selector);
+      if (node) node.textContent = value;
+    };
+
+    setText("[data-match-days]", String(parts.days).padStart(2, "0"));
+    setText("[data-match-hours]", String(parts.hours).padStart(2, "0"));
+    setText("[data-match-minutes]", String(parts.minutes).padStart(2, "0"));
+    setText("[data-match-seconds]", String(parts.seconds).padStart(2, "0"));
+    setText("[data-match-status]", matchStatusLabel(kickoff));
+    setText("[data-match-user-time]", localTimeLabel(kickoff, timezone));
+  };
+
+  for (const center of centers) {
+    const timezoneSelect = center.querySelector("[data-match-timezone]");
+    if (timezoneSelect && !Array.from(timezoneSelect.options).some((option) => option.value === detectedTimezone)) {
+      timezoneSelect.add(new Option(detectedTimezone.replaceAll("_", " "), detectedTimezone), 1);
+    }
+    if (timezoneSelect) {
+      const savedTimezone = readSavedTimezone();
+      timezoneSelect.value = Array.from(timezoneSelect.options).some((option) => option.value === savedTimezone)
+        ? savedTimezone
+        : detectedTimezone;
+      timezoneSelect.addEventListener("change", () => {
+        saveTimezone(timezoneSelect.value);
+        updateCenter(center);
+      });
+    }
+    updateCenter(center);
+  }
+
+  window.setInterval(() => centers.forEach(updateCenter), 1000);
 })();\n`
 );
 await write("index.html", renderHome());

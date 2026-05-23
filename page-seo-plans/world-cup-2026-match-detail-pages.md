@@ -155,7 +155,7 @@ page-seo-plans/match-detail-page-preview.png
 
 ## 8. Next Recommendation
 
-The next useful step is to improve match detail pages visually with a stronger top scoreboard:
+Completed visual upgrade:
 
 ```text
 Home team card
@@ -166,4 +166,29 @@ Stage/group badge
 City/stadium CTA
 ```
 
-This should be done carefully so the page remains content-rich and not only a decorative match card.
+The match detail page now has a match-center board with home/away team cards, a seconds-level countdown, match status, schedule/city/ticket CTAs, and a user timezone selector for the individual fixture.
+
+Additional validation:
+
+```text
+Match center blocks present on all 104 match pages: yes
+match-detail.js included on all 104 match pages: yes
+Pages below 800 words after visual upgrade: 0
+Sample user-time conversion: Asia/Shanghai to Europe/London passed
+Sample countdown seconds changed during browser test: yes
+Mobile horizontal overflow: false
+Frontend errors: 0
+```
+
+Preview artifacts:
+
+```text
+page-seo-plans/match-detail-center-preview.png
+page-seo-plans/match-detail-center-mobile-preview.png
+```
+
+Next useful step:
+
+```text
+Add same-group related match modules to each match detail page, so users can move laterally through a group or bracket path without returning to the full schedule table.
+```
