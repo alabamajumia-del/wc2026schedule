@@ -1539,6 +1539,33 @@ const renderCityPage = (city) => {
 
 const matchPageTitle = (match) => `Match ${match.matchNumber}: ${match.home} vs ${match.away}`;
 
+const matchTimeShort = (match) => `${match.date} - ${match.kickoffET} ET`;
+
+const relatedMatchCard = (match, currentMatch, note = "") => {
+  const isCurrent = match.matchNumber === currentMatch.matchNumber;
+  return `<a class="related-match-card${isCurrent ? " is-current" : ""}" href="${attr(matchDetailPath(match))}">
+    <span>${isCurrent ? "Current match" : `Match ${match.matchNumber}`}</span>
+    <strong>${esc(`${match.home} vs ${match.away}`)}</strong>
+    <small>${esc(match.group ? `${match.stage} - Group ${match.group}` : match.stage)}</small>
+    <em>${esc(matchTimeShort(match))}</em>
+    <b>${esc(note || `${match.city} - ${match.stadium}`)}</b>
+  </a>`;
+};
+
+const sameGroupMatches = (match) =>
+  match.group
+    ? matches
+        .filter((item) => item.group === match.group && item.stage === "Group stage")
+        .sort((a, b) => a.date.localeCompare(b.date) || a.kickoffET.localeCompare(b.kickoffET))
+    : [];
+
+const teamRouteMatches = (team, currentMatch) =>
+  isRealTeam(team)
+    ? matches
+        .filter((item) => item.stage === "Group stage" && (item.home === team || item.away === team))
+        .sort((a, b) => a.date.localeCompare(b.date) || a.kickoffET.localeCompare(b.kickoffET))
+    : [];
+
 const teamRouteSummary = (team, currentMatch) => {
   if (!isRealTeam(team)) {
     return `${team} is a bracket placeholder in the current schedule data. The exact participant will depend on earlier World Cup 2026 results, so use this page for date, venue and timing planning until the team is confirmed.`;
@@ -1668,6 +1695,9 @@ const renderMatchPage = (match) => {
   const previousMatch = matches.find((item) => item.matchNumber === match.matchNumber - 1);
   const nextMatch = matches.find((item) => item.matchNumber === match.matchNumber + 1);
   const realTeams = [match.home, match.away].filter(isRealTeam);
+  const groupMatches = sameGroupMatches(match);
+  const homeRouteMatches = teamRouteMatches(match.home, match);
+  const awayRouteMatches = teamRouteMatches(match.away, match);
   const links = [
     ["Full World Cup 2026 schedule", "/world-cup-2026-schedule/"],
     [`${match.city} city guide`, cityPath(match.citySlug)],
@@ -1810,6 +1840,88 @@ const renderMatchPage = (match) => {
         <h3>${esc(match.away)}</h3>
         <p>${esc(teamRouteSummary(match.away, match))}</p>
       </div></article>
+    </div>
+  </section>
+  ${
+    groupMatches.length
+      ? `<section class="section related-match-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Same group path</p>
+        <h2>Group ${esc(match.group)} Matches Around This Fixture</h2>
+        <p>Use these Group ${esc(match.group)} fixtures to understand how ${esc(match.home)} vs ${esc(match.away)} fits into the wider group route, rest-day pattern and qualification picture.</p>
+      </div>
+      <a class="button light" href="/world-cup-2026-groups/">Open groups guide</a>
+    </div>
+    <div class="related-match-grid">
+      ${groupMatches
+        .map((item) =>
+          relatedMatchCard(
+            item,
+            match,
+            item.matchNumber === match.matchNumber ? `${item.city} - current fixture` : `${item.city} - ${item.stadium}`
+          )
+        )
+        .join("")}
+    </div>
+  </section>`
+      : ""
+  }
+  <section class="section related-match-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Team routes</p>
+        <h2>Follow Each Team's Group Schedule</h2>
+        <p>These route cards keep users moving from one match detail page to the next without returning to the full 104-match table.</p>
+      </div>
+    </div>
+    <div class="team-route-grid">
+      <article>
+        <div class="team-route-heading">
+          ${teamChip(match.home, "Home")}
+          ${isRealTeam(match.home) ? `<a href="${attr(teamPath(match.home))}">Open team page</a>` : ""}
+        </div>
+        <div class="related-match-list">
+          ${
+            homeRouteMatches.length
+              ? homeRouteMatches
+                  .map((item) =>
+                    relatedMatchCard(
+                      item,
+                      match,
+                      item.matchNumber === match.matchNumber
+                        ? "Current fixture"
+                        : `Opponent: ${item.home === match.home ? item.away : item.home}`
+                    )
+                  )
+                  .join("")
+              : relatedMatchCard(match, match, "Route depends on bracket confirmation")
+          }
+        </div>
+      </article>
+      <article>
+        <div class="team-route-heading">
+          ${teamChip(match.away, "Away")}
+          ${isRealTeam(match.away) ? `<a href="${attr(teamPath(match.away))}">Open team page</a>` : ""}
+        </div>
+        <div class="related-match-list">
+          ${
+            awayRouteMatches.length
+              ? awayRouteMatches
+                  .map((item) =>
+                    relatedMatchCard(
+                      item,
+                      match,
+                      item.matchNumber === match.matchNumber
+                        ? "Current fixture"
+                        : `Opponent: ${item.home === match.away ? item.away : item.home}`
+                    )
+                  )
+                  .join("")
+              : relatedMatchCard(match, match, "Route depends on bracket confirmation")
+          }
+        </div>
+      </article>
     </div>
   </section>
   <section class="section">

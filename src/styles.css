@@ -657,6 +657,102 @@ h1 {
   padding: 8px 10px;
 }
 
+.related-match-section {
+  display: grid;
+  gap: 16px;
+}
+
+.related-match-grid,
+.related-match-list {
+  display: grid;
+  gap: 12px;
+}
+
+.related-match-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.team-route-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.team-route-grid > article {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(16, 133, 101, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.team-route-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.team-route-heading > a {
+  border: 1px solid rgba(16, 133, 101, 0.22);
+  border-radius: 999px;
+  color: var(--green-dark);
+  font-size: 13px;
+  font-weight: 950;
+  padding: 9px 11px;
+  white-space: nowrap;
+}
+
+.related-match-card {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff, #f7fbf8);
+  color: var(--text);
+  min-height: 156px;
+  padding: 14px;
+  text-decoration: none;
+}
+
+.related-match-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 14px 28px rgba(16, 133, 101, 0.1);
+}
+
+.related-match-card.is-current {
+  border-color: rgba(216, 166, 60, 0.76);
+  background: linear-gradient(180deg, #fffdf3, #f7fbf8);
+}
+
+.related-match-card span {
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.related-match-card strong {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.related-match-card small,
+.related-match-card em,
+.related-match-card b {
+  color: var(--muted);
+  font-style: normal;
+  line-height: 1.35;
+}
+
+.related-match-card em,
+.related-match-card b {
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .capability-section {
   display: grid;
   gap: 14px;
@@ -2040,7 +2136,10 @@ td {
   }
 
   .match-center-main,
-  .match-time-panel {
+  .match-time-panel,
+  .related-match-grid,
+  .team-route-grid,
+  .team-route-heading {
     grid-template-columns: 1fr;
   }
 

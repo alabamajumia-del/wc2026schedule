@@ -192,3 +192,63 @@ Next useful step:
 ```text
 Add same-group related match modules to each match detail page, so users can move laterally through a group or bracket path without returning to the full schedule table.
 ```
+
+## 9. Same Group and Team Route Modules
+
+Completed: 2026-05-23
+
+Added two lateral navigation modules to every match detail page:
+
+```text
+Same Group Matches
+Team Route Matches
+```
+
+Same Group Matches:
+
+- Shows every listed match in the same group.
+- Highlights the current fixture.
+- Links every card to a real match detail page.
+- Helps users compare the current match against the wider qualification route.
+
+Team Route Matches:
+
+- Shows the home team's group route.
+- Shows the away team's group route.
+- Highlights the current fixture in each team route.
+- Links to each team's schedule page when the team is confirmed.
+- Uses a current-match fallback for knockout placeholders whose route depends on bracket confirmation.
+
+Sample validation:
+
+```text
+Sample page: /world-cup-2026-match/1-mexico-vs-south-africa/
+Same group cards: 6
+Team route cards: 6
+Current-match highlight cards: 3
+Related match detail links: 12
+Sample main content word count: 1247
+Frontend errors: 0
+```
+
+Batch validation:
+
+```text
+Pages below 800 words: 0
+Pages missing Team Route module: 0
+Group-stage pages missing Same Group module: 0
+Pages missing current-match highlight: 0
+```
+
+Preview artifacts:
+
+```text
+page-seo-plans/match-detail-same-group-preview.png
+page-seo-plans/match-detail-team-routes-preview.png
+```
+
+Next useful step:
+
+```text
+Add Same Day Matches and Same Host City Matches modules after confirming the current related-match layout works well on mobile and desktop.
+```

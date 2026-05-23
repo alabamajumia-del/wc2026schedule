@@ -208,6 +208,7 @@ Strengths:
 - A Matchtimes-inspired live board now gives the schedule page a stronger next-match visual focus, including a seconds countdown and upcoming-match cards.
 - The schedule now connects to 104 real single-match detail pages, each with match-specific content, SportsEvent Schema and internal links.
 - Match detail pages now use a match-center visual module with home/away team cards, countdown, user timezone conversion, match status and planning CTAs.
+- Match detail pages now include Same Group and Team Route modules, giving users lateral paths into related fixtures instead of dead-ending on a single match page.
 - Date cards are generated from existing table rows, avoiding duplicate static fixture content.
 - The next-match countdown updates every second, while heavier schedule data is still generated from the existing static rows.
 - The UI logic is centralized in `dist/schedule.js` generated from `scripts/generate-site.mjs`.
@@ -217,7 +218,7 @@ Risks:
 - The table is large, so future additions should avoid duplicating all match content in hidden static blocks.
 - Flag CDN dependency should be monitored.
 - Tailwind should be used page by page for specific UI improvements, not as a reason to generate repeated template-like content blocks.
-- Match detail pages should next receive same-group or same-bracket related match modules to improve lateral navigation.
+- Match detail pages should next receive Same Day and Same Host City modules after mobile QA confirms the current related-match layout remains easy to scan.
 - If filtered export is added later, it should reuse the current row data instead of creating another schedule data source.
 
 ## 10. Final Judgment
