@@ -434,54 +434,125 @@ export const pages = [
     nav: "Excel",
     title: "World Cup 2026 Schedule Excel Download",
     description:
-      "Use the World Cup 2026 schedule Excel planner to filter fixtures by team, date, city, stadium and tournament stage.",
+      "Download the World Cup 2026 schedule Excel planner and CSV data with sortable fixtures, team filters, city sheets, venues, groups and source notes.",
     h1: "World Cup 2026 Schedule Excel",
     keyword: "world cup 2026 schedule excel",
-    intent: "Use a spreadsheet to filter, sort and plan matches.",
+    intent: "Download a spreadsheet planner to filter, sort and plan World Cup matches.",
     longTail: [
       "fifa world cup 2026 schedule spreadsheet",
       "world cup 2026 excel download",
       "world cup fixtures spreadsheet",
-      "world cup schedule csv"
+      "world cup schedule csv",
+      "world cup 2026 spreadsheet planner",
+      "world cup 2026 fixtures excel",
+      "world cup 2026 schedule csv download"
     ],
     facts: [
-      ["Format", "Spreadsheet planner"],
-      ["Best for", "Filtering, sorting and custom planning"],
-      ["Useful fields", "Date, team, city, stadium, stage and time"]
+      ["Workbook", "8 planning sheets"],
+      ["Best for", "Filtering, sorting and custom notes"],
+      ["Includes", "104 matches, venues, groups and source notes"]
     ],
     intro:
-      "The World Cup 2026 schedule Excel page is built for users who want control. A spreadsheet lets fans sort by date, filter by team, compare host cities, plan travel windows and keep a working version of the match calendar.",
+      "Download the World Cup 2026 schedule Excel planner when you want to filter fixtures instead of only reading them. The workbook includes all 104 matches, team and city fields, stadium data, group-stage and knockout sheets, venue summaries and source notes, so you can sort the tournament by the planning question that matters now.",
+    hero: {
+      variant: "excel",
+      eyebrow: "Excel planner",
+      actions: [
+        ["Get Excel workbook", "/downloads/world-cup-2026-schedule.xls", "primary"],
+        ["Get CSV data", "/downloads/world-cup-2026-schedule.csv", "secondary"]
+      ],
+      panelTitle: "Spreadsheet planner",
+      panelIntro: "Use Excel when you need filters, sorting, custom notes or imports into another planning tool.",
+      panelRows: [
+        ["Sheets", "8 workbook tabs"],
+        ["Rows", "104 match records"],
+        ["Best use", "Filter, sort, compare"]
+      ]
+    },
+    overview: {
+      eyebrow: "Spreadsheet download guide",
+      heading: "World Cup 2026 Schedule Excel Planner",
+      copy:
+        "This page is built for users who want a working spreadsheet, not just a static schedule. Use the World Cup 2026 Excel download when you need to filter by team, city, date, stage or stadium; use the World Cup schedule CSV when you want clean data for Google Sheets, Airtable or another planning tool.",
+      tags: [
+        "Excel workbook",
+        "CSV schedule",
+        "Team filters",
+        "City planning",
+        "Venue data"
+      ],
+      noteEyebrow: "Best use",
+      noteHeading: "Filter first, print later",
+      noteCopy:
+        "Start with the World Cup 2026 spreadsheet planner when you are deciding which matches matter. Move to the PDF page after you have a final list to print or share."
+    },
+    downloadHeading: "Download the Excel and CSV Schedule Files",
+    downloadIntro:
+      "Use the Excel workbook for filtering and sorting. Use the World Cup 2026 schedule CSV download when you want to import structured fixtures into Google Sheets, Airtable, Notion, a database or a custom planner.",
+    usageHeading: "How to Use the Excel Schedule",
+    usageRows: [
+      [
+        "Filter by team",
+        "Use team columns and the By Team sheet to follow one country across group-stage and possible knockout planning in the World Cup 2026 fixtures Excel file.",
+        "Best for fans tracking a national team."
+      ],
+      [
+        "Compare host cities",
+        "Use city, stadium and venue sheets to compare match clusters before planning travel.",
+        "Best for travelers and local event planning."
+      ],
+      [
+        "Sort by date or stage",
+        "Use the date and stage fields to build a personal watch list or separate group-stage matches from knockout matches.",
+        "Best for watch parties and editorial calendars."
+      ]
+    ],
+    relatedHeading: "Spreadsheet Planning Links",
     sections: [
       [
-        "Spreadsheet Columns",
+        "What Is Inside the Excel Workbook?",
         [
-          "The spreadsheet should include enough structure for serious planning without becoming hard to use. Core columns should include match number, date, local kickoff time, stage, group, teams, city, stadium and source update date. Optional columns can include UTC time, user notes, travel status and ticket status.",
-          "The most important design choice is consistency. Team names, city names and stage labels should use the same spelling everywhere, because users will filter and sort these fields. Clean data is part of the product experience, not just a back-office concern.",
-          "A spreadsheet is valuable for different users than a PDF. A fan following Brazil can filter all Brazil fixtures. A traveler choosing between Dallas and Atlanta can filter those cities side by side. A content editor can use the same structured data to update city pages, team pages and downloadable guides."
+          "The Excel workbook is organized as a planning file rather than a decorative schedule. It includes a README sheet, a full match list, group-stage matches, knockout matches, a by-date view, a by-team view, venue information, group information and source notes. That structure helps users move from a broad fixture list into the exact slice they need.",
+          "Core columns include match number, date, day, Eastern Time kickoff, UTC time, venue-local time, stage, group, home team, away team, team codes, host city, host country, stadium, city slug, match detail URL and source status. These fields are designed for sorting and filtering, so spelling and labels stay consistent across the workbook.",
+          "Use the workbook when the question is specific: which matches are in Dallas, where does Argentina play, which fixtures happen on June 23, or which venues host knockout matches? Use the PDF page when the answer needs to be printed or shared as a clean visual file."
         ]
       ],
       [
         "Excel Planning Use Cases",
         [
-          "The copy on this page should explain how to filter by team, filter by city, sort by date and create a personal watch list. It should not overpromise live data until the export system is connected to the official data pipeline.",
-          "The page should link to the PDF download for users who want a cleaner printable version. It should also link to host city pages and the full schedule, because spreadsheets are often used after a user has narrowed down a city or team route."
+          "A World Cup 2026 schedule Excel planner is most useful when you are comparing options. Fans can filter by team, travelers can compare host cities, editors can sort by date, and event planners can build a watch-party list around kickoff windows. The same dataset also supports CSV import when you prefer another tool.",
+          "Excel is not a replacement for official confirmation. Use it to organize the tournament, then check the live schedule and official sources before buying tickets, booking travel or publishing time-sensitive information. Download a fresh workbook before major planning moments so your saved copy does not become stale."
         ]
       ]
     ],
     faqs: [
       [
         "What is included in the Excel schedule?",
-        "The spreadsheet should include match date, local kickoff time, tournament stage, group, teams, host city, stadium and source update date. Later versions can include notes and custom planning fields."
+        "The Excel workbook includes a README, all matches, group-stage matches, knockout matches, by-date planning, by-team planning, venues, groups and source notes. Core fields include match number, date, kickoff times, teams, city, stadium, stage and detail-page URL."
       ],
       [
         "Is Excel better than PDF for travel planning?",
-        "Excel is better for filtering and sorting. PDF is better for printing and offline reading. Many users will benefit from using both versions together."
+        "Excel is better when you are comparing cities, sorting by date or filtering by team. PDF is better after you have chosen the matches you want to print, save or share."
+      ],
+      [
+        "Can I use the CSV file in Google Sheets?",
+        "Yes. Use the CSV file when you want raw schedule data for Google Sheets, Airtable, databases or other planning tools. Use the Excel workbook when you want a styled multi-sheet file."
+      ],
+      [
+        "Does the Excel workbook include all 104 matches?",
+        "Yes. The workbook is generated from the structured wc26schedule dataset and includes all 104 scheduled matches, with group-stage and knockout-stage views separated for easier planning."
+      ],
+      [
+        "When should I download a fresh Excel copy?",
+        "Get a fresh copy before buying tickets, booking travel, sharing a planning sheet or publishing schedule information. Times, operational details and event guidance can change before the tournament."
       ]
     ],
     links: [
       ["Download PDF option", "/world-cup-2026-schedule-pdf/"],
       ["See host cities", "/world-cup-2026-host-cities/"],
-      ["Open full schedule", "/world-cup-2026-schedule/"]
+      ["Open full schedule", "/world-cup-2026-schedule/"],
+      ["Check tournament dates", "/world-cup-2026-dates/"],
+      ["Review ticket guidance", "/world-cup-2026-tickets/"]
     ]
   },
   {

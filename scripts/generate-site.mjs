@@ -980,7 +980,152 @@ const renderPdfSupportSections = () => `<section class="section pdf-support-sect
   </div>
 </section>`;
 
+const renderExcelPlanner = (overview) => {
+  const tasks = [
+    ["Filter by team", "Find one country's matches, opponents, groups and possible planning route.", "By Team sheet"],
+    ["Compare host cities", "Review match clusters by city, stadium and stage before travel decisions.", "Venues sheet"],
+    ["Sort by date", "Build watch lists, editorial calendars or travel windows around match days.", "By Date sheet"],
+    ["Import the data", "Use CSV for Google Sheets, Airtable, Notion, databases or custom tools.", "CSV file"]
+  ];
+  return `<section class="section excel-planner-section">
+  <div class="excel-planner-head">
+    <div>
+      <p class="eyebrow">${esc(overview.eyebrow)}</p>
+      <h2>${esc(overview.heading)}</h2>
+      <p>${esc(overview.copy)}</p>
+      <div class="excel-planner-actions">
+        <a class="button" href="/downloads/world-cup-2026-schedule.xls" download>Get Excel workbook</a>
+        <a class="button light" href="/downloads/world-cup-2026-schedule.csv" download>Get CSV file</a>
+      </div>
+    </div>
+    <aside>
+      <p class="eyebrow">${esc(overview.noteEyebrow)}</p>
+      <h3>${esc(overview.noteHeading)}</h3>
+      <p>${esc(overview.noteCopy)}</p>
+    </aside>
+  </div>
+  <div class="excel-task-grid">
+    ${tasks
+      .map(
+        ([task, copy, sheet]) => `<article>
+      <span>${esc(sheet)}</span>
+      <strong>${esc(task)}</strong>
+      <p>${esc(copy)}</p>
+    </article>`
+      )
+      .join("")}
+  </div>
+</section>`;
+};
+
+const renderExcelSupportSections = () => {
+  const sheets = [
+    ["README", "How to use the workbook and what source notes mean."],
+    ["All Matches", "The complete 104-match dataset with teams, dates, times, stages, cities and stadiums."],
+    ["Group Stage", "Fixed group-stage fixtures separated from knockout placeholders."],
+    ["Knockout", "Round of 32 through final planning rows with bracket-style placeholders."],
+    ["By Date", "A date-first view for calendars, watch parties and travel windows."],
+    ["By Team", "A team-first view for fans following one country."],
+    ["Venues", "Host city, country, stadium and match-count context."],
+    ["Groups", "Group assignments for quick tournament structure checks."]
+  ];
+  return `<section class="section excel-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Workbook structure</p>
+      <h2>What Is Inside the World Cup 2026 Schedule Excel Workbook?</h2>
+      <p>The FIFA World Cup 2026 schedule spreadsheet is organized into eight sheets so users can move from the full fixture list into team, date, venue and group views without rebuilding the file.</p>
+    </div>
+    <a class="button light" href="#download-library">View files</a>
+  </div>
+  <div class="excel-sheet-grid">
+    ${sheets.map(([sheet, copy]) => `<article><span>${esc(sheet)}</span><p>${esc(copy)}</p></article>`).join("")}
+  </div>
+</section>
+
+<section class="section excel-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Planning filters</p>
+      <h2>Filter the Spreadsheet by Team, City, Date or Stage</h2>
+      <p>Use the world cup fixtures spreadsheet when you need to answer a specific planning question instead of scanning a static schedule.</p>
+    </div>
+  </div>
+  <div class="excel-filter-grid">
+    <article><strong>Team filter</strong><span>Track Argentina, Brazil, England, Mexico, the United States or any qualified team through its listed matches.</span></article>
+    <article><strong>City filter</strong><span>Compare Dallas, Atlanta, Los Angeles, Miami, Mexico City, Toronto, Vancouver and other host markets.</span></article>
+    <article><strong>Date sort</strong><span>Group match days for watch parties, editorial coverage, travel windows or personal reminders.</span></article>
+    <article><strong>Stage filter</strong><span>Separate group-stage fixtures from knockout-stage dates, semifinals, third-place match and final planning.</span></article>
+  </div>
+</section>
+
+<section class="section excel-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Excel vs CSV</p>
+      <h2>Excel Workbook or World Cup Schedule CSV Data?</h2>
+      <p>Both files use the same schedule dataset, but they solve different user tasks: the workbook supports direct planning, while CSV is cleaner for imports.</p>
+    </div>
+  </div>
+  <div class="excel-compare-grid">
+    <article><strong>Use Excel when</strong><ul><li>You want multiple sheets.</li><li>You prefer styled rows and headers.</li><li>You need an offline planner for filtering and sorting.</li></ul><a href="/downloads/world-cup-2026-schedule.xls" download>Get Excel</a></article>
+    <article><strong>Use CSV when</strong><ul><li>You want raw import-friendly data.</li><li>You use Google Sheets, Airtable or a database.</li><li>You are building a custom schedule view.</li></ul><a href="/downloads/world-cup-2026-schedule.csv" download>Get CSV</a></article>
+  </div>
+</section>
+
+<section class="section excel-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Spreadsheet workflow</p>
+      <h2>How to Use the World Cup 2026 Fixtures Spreadsheet</h2>
+      <p>Start with the workbook for exploration, then move to the schedule page or PDF page when your planning question changes.</p>
+    </div>
+  </div>
+  <ol class="excel-step-list">
+    <li><strong>Open All Matches.</strong><span>Confirm the row fields you want: match number, date, team, city, stadium, stage and time.</span></li>
+    <li><strong>Filter one dimension.</strong><span>Start with team, city, date or stage so the file stays easy to read.</span></li>
+    <li><strong>Save a working copy.</strong><span>Add notes, travel status or watch-party plans in your own version rather than changing the source file.</span></li>
+    <li><strong>Verify before decisions.</strong><span>Use the live schedule and official FIFA information before buying tickets or booking travel.</span></li>
+  </ol>
+</section>
+
+<section class="section excel-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Format choice</p>
+      <h2>Excel vs PDF vs Live Schedule</h2>
+      <p>Choose the format based on whether you need to edit, print or browse.</p>
+    </div>
+  </div>
+  <div class="excel-format-grid">
+    <article><strong>Excel</strong><span>Best for sorting, filtering, custom notes and comparing teams or cities.</span><a href="/downloads/world-cup-2026-schedule.xls" download>Get workbook</a></article>
+    <article><strong>PDF</strong><span>Best for printing, sharing and offline reading once your list is final.</span><a href="/world-cup-2026-schedule-pdf/">Open PDF page</a></article>
+    <article><strong>Live schedule</strong><span>Best for timezone switching, match detail pages and linked team or city routes.</span><a href="/world-cup-2026-schedule/">Open schedule</a></article>
+  </div>
+</section>
+
+<section class="section excel-support-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Sources and freshness</p>
+      <h2>Excel Schedule Updates and Official Sources</h2>
+      <p>Use the workbook for organization, then confirm final plans with official sources before acting.</p>
+    </div>
+    <a class="button light" href="${attr(officialFifaScheduleUrl)}">Official FIFA schedule</a>
+  </div>
+  <div class="excel-source-grid">
+    <article><strong>Refresh before</strong><span>Ticket purchases, hotel bookings, flights, published calendars or group sharing.</span></article>
+    <article><strong>Check against</strong><span>FIFA schedule updates, host city pages, stadium guidance and authorized ticket or broadcast sources.</span></article>
+    <article><strong>Keep copies labeled</strong><span>Name working files with an update date so collaborators know which version they are editing.</span></article>
+  </div>
+</section>`;
+};
+
 const downloadPanel = (page = {}) => {
+  const dataFiles =
+    page.slug === "world-cup-2026-schedule-excel"
+      ? [...dataDownloadFiles].sort((a, b) => (a.format === "XLS" ? -1 : b.format === "XLS" ? 1 : 0))
+      : dataDownloadFiles;
   const pdfFiles =
     page.slug === "world-cup-2026-schedule-pdf"
       ? [...pdfDownloadFiles].sort((a, b) => (a.label === "Printable PDF" ? -1 : b.label === "Printable PDF" ? 1 : 0))
@@ -1004,7 +1149,7 @@ const downloadPanel = (page = {}) => {
   <div class="download-library">
     <div class="download-group">
       <div class="download-group-heading"><h3>Data downloads</h3><span>Structured files</span></div>
-      <div class="download-grid">${dataDownloadFiles.map(card).join("")}</div>
+      <div class="download-grid">${dataFiles.map(card).join("")}</div>
     </div>
     <div class="download-group">
       <div class="download-group-heading"><h3>PDF schedule library</h3><span>${pdfFiles.length} PDF files</span></div>
@@ -1116,6 +1261,38 @@ const pageSchema = (page) => {
     });
   }
 
+  if (page.slug === "world-cup-2026-schedule-excel") {
+    schema.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: "How to use a World Cup 2026 schedule Excel planner",
+      description:
+        "Use the World Cup 2026 schedule Excel workbook to filter fixtures by team, date, city, stadium and tournament stage.",
+      step: [
+        {
+          "@type": "HowToStep",
+          name: "Open the All Matches sheet",
+          text: "Start with the complete match list to review match number, date, team, city, stadium, stage and kickoff time fields."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Filter by one planning question",
+          text: "Choose team, city, date or stage as the first filter so the spreadsheet stays readable."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Use CSV for imports",
+          text: "Use the CSV file when you want to move the same schedule data into Google Sheets, Airtable, a database or a custom planner."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Verify official details",
+          text: "Confirm time-sensitive travel, ticket and broadcast decisions with official sources before acting."
+        }
+      ]
+    });
+  }
+
   return schema;
 };
 
@@ -1125,6 +1302,8 @@ const renderPage = (page) => {
       ? renderScheduleCapabilitySections()
       : page.slug === "world-cup-2026-schedule-pdf"
         ? renderPdfSupportSections()
+      : page.slug === "world-cup-2026-schedule-excel"
+        ? renderExcelSupportSections()
       : page.sections
           .map(
             ([heading, paragraphs]) => `<section class="section">
@@ -1167,6 +1346,8 @@ const renderPage = (page) => {
       ["Plan around a city", "Host city, stadium, travel timing and ticket context.", "Compare host cities before booking travel."],
       ["Save a planner", "PDF, Excel and calendar-friendly schedule options.", "Use the download pages when you need an offline copy."]
     ];
+  const excelPlannerBlock =
+    page.slug === "world-cup-2026-schedule-excel" ? renderExcelPlanner(overview) : "";
 
   return layout({
     title: page.title,
@@ -1188,6 +1369,8 @@ const renderPage = (page) => {
   ${
     page.slug === "world-cup-2026-schedule-pdf"
       ? renderPdfChooser(overview)
+      : page.slug === "world-cup-2026-schedule-excel"
+        ? excelPlannerBlock
       : `<section class="section">
     <div class="grid">
       <article class="span-8 card"><div class="card-body">
