@@ -187,11 +187,20 @@ ${links
 const teamLink = (team) =>
   isRealTeam(team) ? `<a href="${attr(teamPath(team))}">${esc(team)}</a>` : esc(team);
 
-const downloadPanel = () => `<section class="section">
-  <h2>Download schedule files</h2>
-  <p>Use these files for offline planning, spreadsheet filtering, trip notes or sharing the tournament calendar with friends.</p>
+const downloadPanel = (page = {}) => {
+  const files =
+    page.slug === "world-cup-2026-schedule-pdf"
+      ? [...downloadFiles].sort((a, b) => (a.label === "Printable PDF" ? -1 : b.label === "Printable PDF" ? 1 : 0))
+      : downloadFiles;
+
+  return `<section class="section">
+  <h2>${esc(page.downloadHeading ?? "Download schedule files")}</h2>
+  <p>${esc(
+    page.downloadIntro ??
+      "Use these files for offline planning, spreadsheet filtering, trip notes or sharing the tournament calendar with friends."
+  )}</p>
   <div class="download-grid">
-    ${downloadFiles
+    ${files
       .map(
         (file) => `<a class="download-card" href="${attr(file.href)}" download>
       <strong>${esc(file.label)}</strong>
@@ -201,6 +210,7 @@ const downloadPanel = () => `<section class="section">
       .join("")}
   </div>
 </section>`;
+};
 
 const cityIndexPanel = () => {
   const cities = citySummaries();
@@ -311,13 +321,30 @@ const renderPage = (page) => {
     "world-cup-2026-schedule-pdf",
     "world-cup-2026-schedule-excel"
   ].includes(page.slug)
-    ? downloadPanel()
+    ? downloadPanel(page)
     : "";
   const cityBlock = page.slug === "world-cup-2026-host-cities" ? cityIndexPanel() : "";
   const sourceNote =
     page.slug === "world-cup-2026-schedule"
       ? `This page is maintained as an independent fixture planner for fans. Sources: FIFA official schedule, structured match data, host city and stadium references. Editorial note: kickoff times, ticket details and broadcast information may change, so confirm paid or time-sensitive decisions with official sources.`
       : `wc26schedule is an independent planning guide. Sources include FIFA official schedule information, official ticket information, host city sites, stadium sites and authorized broadcaster pages where relevant. Editorial note: times, ticket details and broadcaster information may change, so confirm important decisions with official sources.`;
+  const overview = page.overview ?? {
+    eyebrow: "Guide overview",
+    heading: page.intent,
+    copy:
+      "This guide brings the essential match-planning details into one place, then points you to the next useful step: checking the full schedule, comparing host cities, downloading a planner, reviewing TV options or reading ticket guidance.",
+    tags: ["Match planning", "Host city context", "Downloadable tools", "Official-source reminders"],
+    noteEyebrow: "Quick note",
+    noteHeading: "Use official sources",
+    noteCopy:
+      "Schedule, ticket and broadcast details can change. Use wc26schedule for planning, then confirm final details with FIFA, official host city pages, stadium sites or authorized broadcasters."
+  };
+  const usageRows =
+    page.usageRows ?? [
+      ["Find match details", "Date, kickoff time, teams, city, stadium and stage.", "Use the schedule filters or open a related planning page."],
+      ["Plan around a city", "Host city, stadium, travel timing and ticket context.", "Compare host cities before booking travel."],
+      ["Save a planner", "PDF, Excel and calendar-friendly schedule options.", "Use the download pages when you need an offline copy."]
+    ];
 
   return layout({
     title: page.title,
@@ -334,20 +361,17 @@ const renderPage = (page) => {
   <section class="section">
     <div class="grid">
       <article class="span-8 card"><div class="card-body">
-        <p class="eyebrow">Guide overview</p>
-        <h2>${esc(page.intent)}</h2>
-        <p>This guide brings the essential match-planning details into one place, then points you to the next useful step: checking the full schedule, comparing host cities, downloading a planner, reviewing TV options or reading ticket guidance.</p>
+        <p class="eyebrow">${esc(overview.eyebrow)}</p>
+        <h2>${esc(overview.heading)}</h2>
+        <p>${esc(overview.copy)}</p>
         <ul class="tag-list">
-          <li>Match planning</li>
-          <li>Host city context</li>
-          <li>Downloadable tools</li>
-          <li>Official-source reminders</li>
+          ${overview.tags.map((tag) => `<li>${esc(tag)}</li>`).join("")}
         </ul>
       </div></article>
       <aside class="span-4 card"><div class="card-body">
-        <p class="eyebrow">Quick note</p>
-        <h3>Use official sources</h3>
-        <p>Schedule, ticket and broadcast details can change. Use wc26schedule for planning, then confirm final details with FIFA, official host city pages, stadium sites or authorized broadcasters.</p>
+        <p class="eyebrow">${esc(overview.noteEyebrow)}</p>
+        <h3>${esc(overview.noteHeading)}</h3>
+        <p>${esc(overview.noteCopy)}</p>
       </div></aside>
     </div>
   </section>
@@ -356,14 +380,10 @@ const renderPage = (page) => {
   ${cityBlock}
   ${sections}
   <section class="section">
-    <h2>How to use this page</h2>
-    ${table([
-      ["Find match details", "Date, kickoff time, teams, city, stadium and stage.", "Use the schedule filters or open a related planning page."],
-      ["Plan around a city", "Host city, stadium, travel timing and ticket context.", "Compare host cities before booking travel."],
-      ["Save a planner", "PDF, Excel and calendar-friendly schedule options.", "Use the download pages when you need an offline copy."]
-    ])}
+    <h2>${esc(page.usageHeading ?? "How to use this page")}</h2>
+    ${table(usageRows)}
   </section>
-  <section class="section"><h2>Related planning pages</h2>${linkGrid(page.links)}</section>
+  <section class="section"><h2>${esc(page.relatedHeading ?? "Related planning pages")}</h2>${linkGrid(page.links)}</section>
   <section class="section"><h2>FAQ</h2>${faqHtml(page.faqs)}</section>
   <section class="source-note"><strong>Last updated:</strong> ${updated}. ${esc(sourceNote)}</section>
 </main>`

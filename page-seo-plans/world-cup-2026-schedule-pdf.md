@@ -9,7 +9,7 @@ Page URL:
 Status:
 
 ```text
-Optimized - first page-level SEO pass completed on 2026-05-23.
+Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23.
 ```
 
 ## 1. Search Intent
@@ -94,23 +94,26 @@ Build: passed
 Generated pages: 77
 Local URL: http://localhost:3000/world-cup-2026-schedule-pdf/
 HTTP status: 200
-Words: 1579
+Words: 1627
 FAQ items: 5
 H1 count: 1
-H2 count: 11
+H2 count: 12
 H3 count: 6
 Schema blocks: 4
 HowTo Schema: present
 SEO Title length: 51
 Meta Description length: 126
 Primary keyword exact occurrences: 5
-Primary keyword density: about 1.58%
-Keyword family density: about 4.88%
+Primary keyword density: about 1.54%
+Keyword family density: about 4.43%
 Internal links: 20
 External links: 1
 Last updated: present
 Sources: present
 Internal SEO text: not present
+Generic overview module: not present
+Generic usage module: not present
+Generic related-links heading: not present
 ```
 
 ## 4. Required Optimization
@@ -126,6 +129,44 @@ This page must include:
 - 4-6 FAQ items.
 - Internal links to schedule, Excel, dates, host cities and tickets.
 - Article, FAQPage, BreadcrumbList and HowTo schema.
+
+## 4.1 Custom Page Blueprint
+
+This page must not use a generic content-page module. Its structure is customized around PDF download behavior:
+
+Overview module:
+
+```text
+Eyebrow: PDF download guide
+H2: Printable World Cup 2026 Fixture Planner
+Purpose: Explain that this page is about downloading, printing, sharing and refreshing a fixed schedule file.
+Tags: Printable fixture list, Offline match planner, Travel folder copy, Watch-party handout
+Side note: Refresh before important plans
+```
+
+Download module:
+
+```text
+H2: Download the Printable PDF and Backup Files
+Purpose: Put the PDF first, then show Excel and CSV as backup formats for filtering and importing.
+```
+
+Usage module:
+
+```text
+H2: How to Use the Printable PDF
+Rows:
+- Print or save
+- Mark priority matches
+- Confirm before paying
+```
+
+Related links module:
+
+```text
+H2: PDF Planning Links
+Purpose: Link to the live schedule, Excel planner, dates, host venues and tickets without using a generic related-pages label.
+```
 
 ## 5. Planned Heading Structure
 
@@ -163,16 +204,16 @@ How often should I download a fresh copy?
 Final H2 after optimization:
 
 ```text
-Download or print a schedule that is easy to use offline.
-Download schedule files
-Download the Printable Schedule PDF
+Printable World Cup 2026 Fixture Planner
+Download the Printable PDF and Backup Files
+When the Printable PDF Helps Most
 What Is Included in the PDF?
 Printable Schedule by Date
 How to Use the PDF for Travel Planning
 PDF vs Excel vs Live Schedule
 Update Notes and Official Sources
-How to use this page
-Related planning pages
+How to Use the Printable PDF
+PDF Planning Links
 FAQ
 ```
 
@@ -210,6 +251,17 @@ Completed on 2026-05-23:
 - Removed internal SEO/development phrasing.
 - Checked primary keyword density and keyword family density against the plan.
 - Verified build success and local HTTP 200 response.
+
+Template-risk fix completed on 2026-05-23:
+
+- Removed generic `Guide overview` module from the PDF page.
+- Replaced the generic overview copy with a PDF-specific fixture planner module.
+- Replaced generic tags with PDF-specific use cases.
+- Replaced the generic `How to use this page` table with a PDF-specific usage table.
+- Replaced generic `Related planning pages` heading with `PDF Planning Links`.
+- Customized the download module heading and intro for PDF-first behavior.
+- Reordered the download cards so `Printable PDF` appears first on this page.
+- Rechecked generated HTML for generic module residue.
 
 Remaining issues:
 
