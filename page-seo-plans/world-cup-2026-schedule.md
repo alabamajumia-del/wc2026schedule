@@ -18,6 +18,7 @@ Second-pass optimization reference:
 page-seo-plans/schedule-and-pdf-second-pass-optimization.md
 page-seo-plans/world-cup-2026-schedule-timezone-watch-cards.md
 page-seo-plans/world-cup-2026-schedule-team-city-view-phase-1-6.md
+page-seo-plans/world-cup-2026-schedule-capability-content-optimization.md
 ```
 
 ## 1. Search Intent
@@ -89,7 +90,7 @@ Current primary keyword result after optimization:
 Exact-match occurrences: 27
 Approximate exact-match density: 0.51%
 Validated keyword pool occurrences: 66
-Approximate validated keyword pool density: 1.25%
+Approximate validated keyword pool density: 1.00%
 ```
 
 ## 3. SEO Title and Meta Description
@@ -184,7 +185,7 @@ Required by content plan:
 Current metrics:
 
 ```text
-Words: 5261
+Words: 4308
 FAQ items: 8
 H1 count: 1
 H2 count: 12
@@ -199,7 +200,7 @@ Generic usage module: not present
 Generic related-links heading: not present
 Hero variant: hero-schedule
 Primary exact keyword density: about 0.51%
-Validated keyword pool density: about 1.25%
+Validated keyword pool density: about 1.00%
 Hero visual module: mini schedule preview and filter strip present
 Schedule table rows: 104
 Date-card view: generated from table data after user switches view
@@ -413,9 +414,9 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 8
-Word count: 5261
+Word count: 4308
 Primary exact keyword density: about 0.51%
-Validated keyword pool density: about 1.25%
+Validated keyword pool density: about 1.00%
 Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
@@ -447,6 +448,8 @@ Clear filters action: present
 Date-card match status: present
 Team View cards: 48
 City View cards: 16
+Capability modules: present
+Navigation route cards: present
 ```
 
 ## 11. Remaining Issues
@@ -461,6 +464,12 @@ Phase 1.6 Team and City view implementation saved here:
 
 ```text
 page-seo-plans/world-cup-2026-schedule-team-city-view-phase-1-6.md
+```
+
+Capability content optimization saved here:
+
+```text
+page-seo-plans/world-cup-2026-schedule-capability-content-optimization.md
 ```
 
 Full completion evaluation saved here:

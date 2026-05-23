@@ -483,6 +483,185 @@ h1 {
   font-size: 17px;
 }
 
+.capability-section {
+  display: grid;
+  gap: 14px;
+}
+
+.capability-grid,
+.download-decision-grid,
+.route-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.capability-card,
+.split-tool article,
+.download-decision-grid a,
+.route-grid a,
+.path-board div,
+.tool-flow div,
+.metric-strip div,
+.planning-matrix a {
+  border: 1px solid rgba(16, 133, 101, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: 0 14px 30px rgba(29, 47, 41, 0.06);
+}
+
+.capability-card {
+  display: grid;
+  gap: 12px;
+  min-height: 220px;
+  padding: 18px;
+}
+
+.capability-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--green-dark);
+  color: #fff;
+  font-weight: 950;
+}
+
+.capability-card h3,
+.split-tool h3 {
+  margin: 0;
+  color: var(--text);
+}
+
+.capability-card p,
+.split-tool p,
+.download-decision-grid span,
+.route-grid span,
+.path-board small,
+.tool-flow span,
+.planning-matrix small,
+.source-checklist {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.capability-card dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.capability-card dl div {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+
+.capability-card dt {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.capability-card dd {
+  margin: 4px 0 0;
+  font-weight: 900;
+}
+
+.metric-strip {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(2, minmax(0, 0.8fr));
+  gap: 12px;
+}
+
+.metric-strip div,
+.planning-matrix a,
+.tool-flow div,
+.path-board div,
+.download-decision-grid a,
+.route-grid a,
+.split-tool article {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+}
+
+.metric-strip span,
+.path-board span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.metric-strip strong,
+.path-board strong {
+  color: var(--green-dark);
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.planning-matrix,
+.path-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.planning-matrix strong,
+.download-decision-grid strong,
+.route-grid strong {
+  color: var(--text);
+  font-size: 18px;
+}
+
+.planning-matrix span {
+  color: var(--green-dark);
+  font-weight: 950;
+}
+
+.tool-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tool-flow b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #e9f4ef;
+  color: var(--green-dark);
+}
+
+.split-tool {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.split-tool ul,
+.source-checklist {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+
+.download-decision-grid a:hover,
+.route-grid a:hover,
+.planning-matrix a:hover {
+  border-color: var(--green);
+  box-shadow: 0 16px 34px rgba(16, 133, 101, 0.12);
+}
+
 .table-wrap {
   overflow-x: auto;
   border: 1px solid var(--line);
@@ -1453,6 +1632,14 @@ td {
   .fact-grid,
   .link-grid,
   .download-grid,
+  .capability-grid,
+  .download-decision-grid,
+  .route-grid,
+  .planning-matrix,
+  .path-board,
+  .tool-flow,
+  .split-tool,
+  .metric-strip,
   .filters {
     grid-template-columns: 1fr;
   }

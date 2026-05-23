@@ -396,6 +396,183 @@ ${links
   .join("")}
 </div>`;
 
+const renderScheduleCapabilitySections = () => {
+  const confirmedTeams = [
+    ...new Set(
+      matches
+        .flatMap((match) => [match.home, match.away])
+        .filter((team) => team && !team.includes("/") && !team.startsWith("W") && !team.startsWith("2") && !team.startsWith("1") && team !== "TBD")
+    )
+  ].length;
+  const cityCount = new Set(matches.map((match) => match.city)).size;
+  const groupCount = new Set(matches.map((match) => match.group).filter(Boolean)).size;
+  const knockoutCount = matches.filter((match) => match.stage !== "Group stage").length;
+  const groupCountMatches = matches.filter((match) => match.stage === "Group stage").length;
+  const topCityRows = [...new Set(matches.map((match) => match.city))]
+    .map((city) => {
+      const cityMatches = matches.filter((match) => match.city === city);
+      return {
+        city,
+        count: cityMatches.length,
+        stadium: cityMatches[0]?.stadium || "",
+        path: cityPath(cityMatches[0]?.citySlug || slugify(city))
+      };
+    })
+    .sort((a, b) => b.count - a.count || a.city.localeCompare(b.city))
+    .slice(0, 6);
+
+  return `
+  <section class="section capability-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Use the schedule</p>
+        <h2>How to Use the World Cup 2026 Match Schedule</h2>
+        <p>Use the World Cup 2026 schedule by what you already know: a team, a city, a date, a group or a match number.</p>
+      </div>
+      <a class="button light" href="#full-schedule">Open schedule controls</a>
+    </div>
+    <div class="capability-grid">
+      <article class="capability-card">
+        <span class="capability-number">01</span>
+        <h3>Find one World Cup 2026 schedule match fast</h3>
+        <p>Use Search for a team, stadium, city, group letter or match number.</p>
+        <dl><div><dt>Best input</dt><dd>Team, city or match #</dd></div><div><dt>Output</dt><dd>Filtered table and cards</dd></div></dl>
+      </article>
+      <article class="capability-card">
+        <span class="capability-number">02</span>
+        <h3>Change the World Cup 2026 schedule view</h3>
+        <p>Switch between Table, Date cards, Team View and City View without changing data source.</p>
+        <dl><div><dt>Best input</dt><dd>View tabs</dd></div><div><dt>Output</dt><dd>Schedule by task</dd></div></dl>
+      </article>
+      <article class="capability-card">
+        <span class="capability-number">03</span>
+        <h3>Keep a World Cup 2026 schedule copy</h3>
+        <p>Use PDF for printing, Excel for sorting, or CSV for imports.</p>
+        <dl><div><dt>Best input</dt><dd>Download format</dd></div><div><dt>Output</dt><dd>Offline planner</dd></div></dl>
+      </article>
+    </div>
+  </section>
+
+  <section class="section capability-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Date and venue planner</p>
+        <h2>World Cup 2026 Schedule Dates and Locations</h2>
+        <p>Use the World Cup 2026 schedule dates and city tools together when your real question is when to go and where the match is played.</p>
+      </div>
+      <a class="button light" href="/world-cup-2026-host-cities/">Compare host cities</a>
+    </div>
+    <div class="metric-strip">
+      <div><span>Tournament window</span><strong>June 11 to July 19, 2026</strong></div>
+      <div><span>Host cities</span><strong>${cityCount}</strong></div>
+      <div><span>Total matches</span><strong>${matches.length}</strong></div>
+    </div>
+    <div class="planning-matrix">
+      ${topCityRows
+        .map(
+          (item) => `<a href="${attr(item.path)}"><strong>${esc(item.city)}</strong><span>${item.count} matches</span><small>${esc(item.stadium)}</small></a>`
+        )
+        .join("")}
+    </div>
+  </section>
+
+  <section class="section capability-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Timezone tool</p>
+        <h2>Kickoff Times and Time Zones</h2>
+        <p>Select your timezone once, then every visible World Cup 2026 schedule view uses the same local kickoff time and local date.</p>
+      </div>
+      <a class="button light" href="#full-schedule">Use timezone selector</a>
+    </div>
+    <div class="tool-flow">
+      <div><b>1</b><strong>Select timezone</strong><span>Choose your viewing timezone above the schedule.</span></div>
+      <div><b>2</b><strong>Read watch label</strong><span>Use world cup kickoff times as morning, afternoon, prime time, late night or overnight.</span></div>
+      <div><b>3</b><strong>Filter local date</strong><span>The Local date filter follows your selected timezone.</span></div>
+      <div><b>4</b><strong>Confirm source time</strong><span>Source ET remains visible for verification.</span></div>
+    </div>
+  </section>
+
+  <section class="section capability-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Team and city views</p>
+        <h2>Schedule by Team and Host City</h2>
+        <p>Use Team View when following a country. Use City View when planning travel around World Cup 2026 schedule with venue details.</p>
+      </div>
+      <a class="button light" href="#full-schedule">Switch views</a>
+    </div>
+    <div class="split-tool">
+      <article>
+        <h3>Team View</h3>
+        <p>${confirmedTeams} confirmed team cards group each country's matches with opponent, city, stadium, local time and watch window.</p>
+        <ul><li>Best for national-team tracking.</li><li>Uses team chips, flags and three-letter codes.</li><li>Pairs with linked team schedule pages.</li></ul>
+      </article>
+      <article>
+        <h3>City View</h3>
+        <p>${cityCount} host city cards group the full schedule by venue market, match count and stage mix.</p>
+        <ul><li>Best for travel and stadium planning.</li><li>Shows local match clusters without re-filtering the table.</li><li>Pairs with linked host city pages.</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section capability-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Tournament path</p>
+        <h2>FIFA World Cup 2026 Schedule Group and Bracket Planning</h2>
+        <p>Use this FIFA World Cup 2026 schedule group and bracket module to separate fixed group-stage fixtures from knockout placeholders.</p>
+      </div>
+      <a class="button light" href="/world-cup-2026-groups/">Open groups guide</a>
+    </div>
+    <div class="path-board">
+      <div><span>Group stage</span><strong>${groupCountMatches} matches</strong><small>Use the world cup group stage schedule across ${groupCount} groups with fixed teams, dates and venues.</small></div>
+      <div><span>Knockout path</span><strong>${knockoutCount} matches</strong><small>Dates and venues are listed before teams are confirmed.</small></div>
+      <div><span>Bracket workflow</span><strong>Schedule + standings + bracket</strong><small>Use all three once group results begin.</small></div>
+    </div>
+  </section>
+
+  <section class="section capability-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Files and trust</p>
+        <h2>Downloads, Sources and Update Notes</h2>
+        <p>Choose a World Cup 2026 schedule PDF, Excel or CSV file by use case, then verify time-sensitive decisions against official sources.</p>
+      </div>
+      <a class="button light" href="/world-cup-2026-schedule-pdf/">Open PDF page</a>
+    </div>
+    <div class="download-decision-grid">
+      <a href="/world-cup-2026-schedule-pdf/"><strong>PDF</strong><span>Print, save or share a simple offline copy.</span></a>
+      <a href="/world-cup-2026-schedule-excel/"><strong>Excel</strong><span>Sort and filter matches by team, date, city, stage or stadium.</span></a>
+      <a href="/downloads/world-cup-2026-schedule.csv"><strong>CSV</strong><span>Import the structured schedule into another planner.</span></a>
+    </div>
+    <ul class="source-checklist">
+      <li>World cup fixtures 2026, downloads and visible tools should be refreshed together.</li>
+      <li>Tickets, venue operations and broadcasts should be confirmed with official sources.</li>
+      <li>wc26schedule is an independent planning guide, not an official FIFA property.</li>
+    </ul>
+  </section>`;
+};
+
+const renderScheduleNavigation = () => `<section class="section capability-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Navigation paths</p>
+      <h2>Ways to Navigate the Full Schedule</h2>
+      <p>Pick a World Cup 2026 schedule path based on the decision you are trying to make now.</p>
+    </div>
+    <a class="button light" href="#full-schedule">Return to schedule</a>
+  </div>
+  <div class="route-grid">
+    <a href="#full-schedule"><strong>Find a match</strong><span>Search the World Cup 2026 schedule by team, city, stadium, group or match number.</span></a>
+    <a href="#full-schedule"><strong>Follow a team</strong><span>Open Team View, choose one country, then jump to its team page.</span></a>
+    <a href="#full-schedule"><strong>Plan a city trip</strong><span>Open City View and compare match clusters by venue market.</span></a>
+    <a href="/world-cup-2026-schedule-pdf/"><strong>Save offline</strong><span>Use the PDF when you need a printable fixture list.</span></a>
+    <a href="/world-cup-2026-schedule-excel/"><strong>Sort your own way</strong><span>Use Excel when you want custom filtering outside the browser.</span></a>
+    <a href="/world-cup-2026-tickets/"><strong>Check paid decisions</strong><span>Move to ticket guidance before buying or booking around a match.</span></a>
+  </div>
+</section>`;
+
 const teamLink = (team) =>
   isRealTeam(team) ? `<a href="${attr(teamPath(team))}">${esc(team)}</a>` : esc(team);
 
@@ -532,14 +709,17 @@ const pageSchema = (page) => {
 };
 
 const renderPage = (page) => {
-  const sections = page.sections
-    .map(
-      ([heading, paragraphs]) => `<section class="section">
+  const sections =
+    page.slug === "world-cup-2026-schedule"
+      ? renderScheduleCapabilitySections()
+      : page.sections
+          .map(
+            ([heading, paragraphs]) => `<section class="section">
   <h2>${esc(heading)}</h2>
   ${paragraphs.map((paragraph) => `<p>${esc(paragraph)}</p>`).join("")}
 </section>`
-    )
-    .join("");
+          )
+          .join("");
 
   const scheduleBlock =
     page.slug === "world-cup-2026-schedule" ? renderScheduleTable() : "";
@@ -611,10 +791,14 @@ const renderPage = (page) => {
   ${downloadsBlock}
   ${cityBlock}
   ${sections}
-  <section class="section">
+  ${
+    page.slug === "world-cup-2026-schedule"
+      ? renderScheduleNavigation()
+      : `<section class="section">
     <h2>${esc(page.usageHeading ?? "How to use this page")}</h2>
     ${table(usageRows)}
-  </section>
+  </section>`
+  }
   <section class="section"><h2>${esc(page.relatedHeading ?? "Related planning pages")}</h2>${linkGrid(page.links)}</section>
   <section class="section"><h2>FAQ</h2>${faqHtml(page.faqs)}</section>
   <section class="source-note"><strong>Last updated:</strong> ${updated}. ${esc(sourceNote)}</section>

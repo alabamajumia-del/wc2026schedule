@@ -126,9 +126,9 @@ Local URL: http://localhost:3000/world-cup-2026-schedule/
 HTTP status: 200
 H1 count: 1
 H2 count: 12
-Word count: 5261
+Word count: 4308
 Primary exact-match density: about 0.51%
-Validated keyword pool density: about 1.25%
+Validated keyword pool density: about 1.00%
 Table rows: 104
 UTC kickoff fields: 104
 Local time cells: 104

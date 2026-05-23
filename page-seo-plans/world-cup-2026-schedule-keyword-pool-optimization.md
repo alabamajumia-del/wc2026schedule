@@ -104,11 +104,11 @@ Generated page metrics:
 ```text
 Build: passed
 Generated pages: 77
-Visible word count: 5261
-Primary exact keyword occurrences: 27
+Visible word count: 4308
+Primary exact keyword occurrences: 22
 Primary exact keyword density: 0.51%
-Keyword pool occurrences: 66
-Keyword pool density: 1.25%
+Keyword pool occurrences: 43
+Keyword pool density: 1.00%
 H1 count: 1
 H2 count: 12
 H3 count: 9
