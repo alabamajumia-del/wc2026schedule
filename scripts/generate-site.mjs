@@ -749,8 +749,8 @@ const renderScheduleTable = () => {
   <div class="view-switcher" role="tablist" aria-label="Schedule view">
     <button class="view-tab active" type="button" role="tab" aria-selected="true" data-view-toggle="table">Table</button>
     <button class="view-tab" type="button" role="tab" aria-selected="false" data-view-toggle="date">Date cards</button>
-    <button class="view-tab" type="button" role="tab" aria-selected="false" aria-disabled="true" data-view-toggle="team" disabled>Team</button>
-    <button class="view-tab" type="button" role="tab" aria-selected="false" aria-disabled="true" data-view-toggle="city" disabled>City</button>
+    <button class="view-tab" type="button" role="tab" aria-selected="false" data-view-toggle="team">Team</button>
+    <button class="view-tab" type="button" role="tab" aria-selected="false" data-view-toggle="city">City</button>
   </div>
   <div class="schedule-result-bar">
     <div>
@@ -796,6 +796,8 @@ const renderScheduleTable = () => {
     </table>
   </div>
   <div class="date-card-view" data-schedule-view="date" hidden></div>
+  <div class="team-view aggregate-view" data-schedule-view="team" hidden></div>
+  <div class="city-view aggregate-view" data-schedule-view="city" hidden></div>
   <div class="schedule-empty" data-empty-state hidden>
     <strong>No matches found</strong>
     <p>Try a broader local date, city, team or stage filter.</p>
@@ -1458,6 +1460,8 @@ await write(
   const rows = Array.from(document.querySelectorAll("[data-match-row]"));
   if (!rows.length) return;
   const dateView = document.querySelector('[data-schedule-view="date"]');
+  const teamView = document.querySelector('[data-schedule-view="team"]');
+  const cityView = document.querySelector('[data-schedule-view="city"]');
   const views = Array.from(document.querySelectorAll("[data-schedule-view]"));
   const viewButtons = Array.from(document.querySelectorAll("[data-view-toggle]"));
   const timezoneSelect = document.querySelector("[data-timezone-select]");
@@ -1475,6 +1479,8 @@ await write(
   let activeView = "table";
   let cards = [];
   let dateGroups = [];
+  let aggregateCards = [];
+  let aggregateMatches = [];
 
   const search = document.querySelector("[data-filter-search]");
   const stage = document.querySelector("[data-filter-stage]");
@@ -1637,6 +1643,209 @@ await write(
     return sourceChip
       ? sourceChip.outerHTML
       : '<span class="team-chip is-placeholder"><span>' + label + '</span><em><b>' + code + '</b><strong>' + escapeHtml(fallback) + '</strong></em></span>';
+  };
+
+  const chipName = (chip) => chip?.querySelector("strong")?.textContent?.trim() || "";
+  const chipCode = (chip) => chip?.querySelector("b")?.textContent?.trim() || "";
+  const chipPath = (chip) => chip?.getAttribute("href") || "";
+  const sortedRows = () => [...rows].sort((a, b) => new Date(a.dataset.kickoffUtc) - new Date(b.dataset.kickoffUtc));
+
+  const aggregateMatchShell = (row, type) => {
+    const item = document.createElement("article");
+    item.className = "aggregate-match";
+    item.dataset.aggregateMatch = "";
+    item.dataset.aggregateType = type;
+    copyMatchData(row, item);
+    return item;
+  };
+
+  const buildTeamView = () => {
+    if (!teamView) return;
+    teamView.innerHTML = "";
+    const groups = new Map();
+
+    for (const row of sortedRows()) {
+      const cells = row.querySelectorAll("td");
+      const chips = Array.from(cells[3].querySelectorAll("a.team-chip"));
+      for (const chip of chips) {
+        const name = chipName(chip);
+        if (!name) continue;
+        if (!groups.has(name)) {
+          groups.set(name, {
+            name,
+            code: chipCode(chip),
+            chip: chip.outerHTML,
+            path: chipPath(chip),
+            rows: []
+          });
+        }
+        groups.get(name).rows.push(row);
+      }
+    }
+
+    const intro = document.createElement("div");
+    intro.className = "aggregate-view-heading";
+    intro.innerHTML =
+      '<div><p class="eyebrow">Team view</p><h3>Confirmed Team Schedules</h3></div><span><span data-team-group-count>' +
+      groups.size +
+      '</span> teams</span>';
+    teamView.append(intro);
+
+    const grid = document.createElement("div");
+    grid.className = "aggregate-card-grid";
+
+    for (const group of [...groups.values()].sort((a, b) => a.name.localeCompare(b.name))) {
+      const cities = new Set(group.rows.map((row) => row.dataset.city));
+      const stages = new Set(group.rows.map((row) => row.dataset.stage));
+      const card = document.createElement("section");
+      card.className = "aggregate-card team-aggregate-card";
+      card.dataset.aggregateCard = "";
+      card.dataset.aggregateType = "team";
+      card.dataset.teamGroup = group.name;
+      card.dataset.search = (group.name + " " + group.code + " " + [...cities].join(" ") + " " + [...stages].join(" ")).toLowerCase();
+      card.innerHTML =
+        '<div class="aggregate-card-header"><div>' +
+        group.chip +
+        '</div><dl class="aggregate-stats"><div><dt>Matches</dt><dd data-aggregate-count>' +
+        group.rows.length +
+        '</dd></div><div><dt>Cities</dt><dd>' +
+        cities.size +
+        '</dd></div></dl></div><div class="aggregate-match-list"></div><div class="aggregate-actions">' +
+        (group.path ? '<a href="' + group.path + '">Open team page</a>' : "") +
+        '</div>';
+      const list = card.querySelector(".aggregate-match-list");
+
+      for (const row of group.rows) {
+        const cells = row.querySelectorAll("td");
+        const isHome = row.dataset.home === group.name;
+        const opponent = isHome ? row.dataset.away : row.dataset.home;
+        const opponentChip = teamHtml(row, cells, isHome ? "away" : "home");
+        const item = aggregateMatchShell(row, "team");
+        item.dataset.teamGroup = group.name;
+        item.innerHTML =
+          '<div><strong>Match ' +
+          row.dataset.matchNumber +
+          '</strong><span>' +
+          row.dataset.stage +
+          (row.dataset.group ? " - Group " + row.dataset.group : "") +
+          '</span></div><div class="aggregate-opponent"><span>' +
+          (isHome ? "vs" : "at") +
+          '</span>' +
+          opponentChip +
+          '</div><div class="aggregate-time"><strong>' +
+          row.dataset.localTimeValue +
+          '</strong><span class="watch-tag" data-watch-type="' +
+          row.dataset.watchType +
+          '">' +
+          row.dataset.watchWindow +
+          '</span></div><div class="aggregate-place"><a href="' +
+          cells[8].querySelector("a").getAttribute("href") +
+          '">' +
+          row.dataset.city +
+          '</a><span>' +
+          escapeHtml(cells[9].textContent.trim()) +
+          '</span></div>';
+        list.append(item);
+      }
+
+      grid.append(card);
+    }
+
+    teamView.append(grid);
+  };
+
+  const buildCityView = () => {
+    if (!cityView) return;
+    cityView.innerHTML = "";
+    const groups = new Map();
+
+    for (const row of sortedRows()) {
+      const cells = row.querySelectorAll("td");
+      const cityName = row.dataset.city;
+      if (!groups.has(cityName)) {
+        groups.set(cityName, {
+          name: cityName,
+          path: cells[8].querySelector("a").getAttribute("href"),
+          stadiums: new Set(),
+          stages: new Set(),
+          rows: []
+        });
+      }
+      const group = groups.get(cityName);
+      group.stadiums.add(cells[9].textContent.trim());
+      group.stages.add(row.dataset.stage);
+      group.rows.push(row);
+    }
+
+    const intro = document.createElement("div");
+    intro.className = "aggregate-view-heading";
+    intro.innerHTML =
+      '<div><p class="eyebrow">City view</p><h3>Host City Match Groups</h3></div><span><span data-city-group-count>' +
+      groups.size +
+      '</span> cities</span>';
+    cityView.append(intro);
+
+    const grid = document.createElement("div");
+    grid.className = "aggregate-card-grid city-card-grid";
+
+    for (const group of [...groups.values()].sort((a, b) => a.name.localeCompare(b.name))) {
+      const card = document.createElement("section");
+      card.className = "aggregate-card city-aggregate-card";
+      card.dataset.aggregateCard = "";
+      card.dataset.aggregateType = "city";
+      card.dataset.cityGroup = group.name;
+      card.dataset.search = (group.name + " " + [...group.stadiums].join(" ") + " " + [...group.stages].join(" ")).toLowerCase();
+      card.innerHTML =
+        '<div class="aggregate-card-header city-card-header"><div><p class="eyebrow">Host city</p><h3><a href="' +
+        group.path +
+        '">' +
+        group.name +
+        '</a></h3><p>' +
+        [...group.stadiums].map(escapeHtml).join(", ") +
+        '</p></div><dl class="aggregate-stats"><div><dt>Matches</dt><dd data-aggregate-count>' +
+        group.rows.length +
+        '</dd></div><div><dt>Stages</dt><dd>' +
+        group.stages.size +
+        '</dd></div></dl></div><div class="aggregate-match-list"></div><div class="aggregate-actions"><a href="' +
+        group.path +
+        '">Open city guide</a></div>';
+      const list = card.querySelector(".aggregate-match-list");
+
+      for (const row of group.rows) {
+        const cells = row.querySelectorAll("td");
+        const item = aggregateMatchShell(row, "city");
+        item.dataset.cityGroup = group.name;
+        item.innerHTML =
+          '<div><strong>Match ' +
+          row.dataset.matchNumber +
+          '</strong><span>' +
+          row.dataset.stage +
+          (row.dataset.group ? " - Group " + row.dataset.group : "") +
+          '</span></div><div class="aggregate-matchup">' +
+          cells[3].innerHTML +
+          '</div><div class="aggregate-time"><strong>' +
+          row.dataset.localTimeValue +
+          '</strong><span class="watch-tag" data-watch-type="' +
+          row.dataset.watchType +
+          '">' +
+          row.dataset.watchWindow +
+          '</span></div><div class="aggregate-place"><span>' +
+          escapeHtml(cells[9].textContent.trim()) +
+          '</span></div>';
+        list.append(item);
+      }
+
+      grid.append(card);
+    }
+
+    cityView.append(grid);
+  };
+
+  const buildAggregateViews = () => {
+    buildTeamView();
+    buildCityView();
+    aggregateCards = Array.from(document.querySelectorAll("[data-aggregate-card]"));
+    aggregateMatches = Array.from(document.querySelectorAll("[data-aggregate-match]"));
   };
 
   const syncDateOptions = () => {
@@ -1830,10 +2039,27 @@ await write(
     return matchesSearch && matchesStage && matchesGroup && matchesDate && matchesCity && matchesTeam;
   };
 
+  const matchesAggregateFilters = (item, searchValue, stageValue, groupValue, dateValue, cityValue, teamValue) => {
+    const matchesSearch = !searchValue || item.dataset.search.includes(searchValue);
+    const matchesStage = !stageValue || item.dataset.stage === stageValue;
+    const matchesGroup = !groupValue || item.dataset.group === groupValue;
+    const matchesDate = !dateValue || item.dataset.localDate === dateValue;
+    const matchesCity =
+      !cityValue ||
+      (item.dataset.aggregateType === "city" ? item.dataset.cityGroup === cityValue : item.dataset.city === cityValue);
+    const matchesTeam =
+      !teamValue ||
+      (item.dataset.aggregateType === "team"
+        ? item.dataset.teamGroup === teamValue
+        : item.dataset.home === teamValue || item.dataset.away === teamValue);
+    return matchesSearch && matchesStage && matchesGroup && matchesDate && matchesCity && matchesTeam;
+  };
+
   const setView = (nextView) => {
     activeView = nextView;
     updateTimeDisplays();
     if (nextView === "date") buildDateCards();
+    if (nextView === "team" || nextView === "city") buildAggregateViews();
     for (const view of views) {
       view.hidden = view.dataset.scheduleView !== nextView;
     }
@@ -1861,6 +2087,19 @@ await write(
 
     for (const card of cards) {
       card.hidden = !matchesFilters(card, searchValue, stageValue, groupValue, dateValue, cityValue, teamValue);
+    }
+
+    for (const item of aggregateMatches) {
+      item.hidden = !matchesAggregateFilters(item, searchValue, stageValue, groupValue, dateValue, cityValue, teamValue);
+    }
+
+    for (const card of aggregateCards) {
+      const visibleItems = Array.from(card.querySelectorAll("[data-aggregate-match]")).filter(
+        (item) => !item.hidden
+      );
+      const aggregateCount = card.querySelector("[data-aggregate-count]");
+      card.hidden = visibleItems.length === 0;
+      if (aggregateCount) aggregateCount.textContent = String(visibleItems.length);
     }
 
     for (const dateGroup of dateGroups) {
@@ -1896,6 +2135,7 @@ await write(
     updateTimeDisplays();
     syncDateOptions();
     if (activeView === "date") buildDateCards();
+    if (activeView === "team" || activeView === "city") buildAggregateViews();
     apply();
   });
 

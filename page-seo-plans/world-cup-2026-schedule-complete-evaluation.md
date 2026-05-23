@@ -20,7 +20,7 @@ Current status: substantially complete for Phase 1 schedule-page optimization.
 
 Overall rating: 88 / 100.
 
-The page has moved from a static SEO article plus fixture table into a practical schedule tool. It now supports timezone selection, local-date filtering, watch-time labels, Date cards, active filters, team chips, three-letter team codes, flag images, current selected-timezone time and next-match countdown.
+The page has moved from a static SEO article plus fixture table into a practical schedule tool. It now supports timezone selection, local-date filtering, watch-time labels, Date cards, Team View, City View, active filters, team chips, three-letter team codes, flag images, current selected-timezone time and next-match countdown.
 
 The page is no longer only explaining the World Cup 2026 schedule. It helps users plan when to watch matches, scan games by local date, identify teams faster and move toward team, city, PDF, Excel, ticket and TV planning pages.
 
@@ -59,6 +59,10 @@ H3 count: 9
 Team chips: present
 Three-letter team code badges: 144 real-team instances
 Flag images: 144 table instances, 48 unique flag assets
+Team View cards: 48
+Team View match entries: 144
+City View cards: 16
+City View match entries: 104
 UTC kickoff fields: 104
 Local time cells: 104
 Date cards: generated dynamically
@@ -156,7 +160,7 @@ Strong points:
 
 Remaining UX issues:
 
-- Team and City view modes are still disabled; these should become real views in a later phase.
+- Team and City view modes are now real interactive views. The next improvement is filtered export for the currently visible subset.
 - Single-match detail entry is planned in data but not yet surfaced as a visible link because detail pages are not generated.
 - Mobile visual QA should still be done with screenshots after the browser automation connection is stable.
 - The page uses remote flag assets from jsDelivr. If production independence is preferred, flags should be downloaded or replaced with locally hosted assets.
@@ -219,7 +223,7 @@ The main gap is not basic SEO coverage anymore. The next gap is product depth: r
 Priority 1:
 
 ```text
-Implement real Team and City view modes in the current view switcher.
+Add filtered export behavior for the currently visible schedule subset.
 ```
 
 Priority 2:

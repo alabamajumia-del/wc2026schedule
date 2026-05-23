@@ -9,7 +9,7 @@ Page URL:
 Status:
 
 ```text
-Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23. Schedule Phase A completed on 2026-05-23. Timezone and watch-card pass completed on 2026-05-23.
+Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23. Schedule Phase A completed on 2026-05-23. Timezone and watch-card pass completed on 2026-05-23. Phase 1.6 Team and City views completed on 2026-05-23.
 ```
 
 Second-pass optimization reference:
@@ -17,6 +17,7 @@ Second-pass optimization reference:
 ```text
 page-seo-plans/schedule-and-pdf-second-pass-optimization.md
 page-seo-plans/world-cup-2026-schedule-timezone-watch-cards.md
+page-seo-plans/world-cup-2026-schedule-team-city-view-phase-1-6.md
 ```
 
 ## 1. Search Intent
@@ -355,7 +356,7 @@ Schedule Phase A completed on 2026-05-23:
 - Added a schedule view switcher above the match results.
 - Kept Table as the default view for users who want the full scannable fixture list.
 - Added Date cards as a second view for users who want matches grouped by matchday.
-- Kept Team and City as visible next-phase view options, disabled until their dedicated view logic is built.
+- Added real Team and City views to the existing view switcher without adding static duplicate SEO content.
 - Generated Date cards from the existing table data in the browser instead of duplicating all 104 matches in static HTML.
 - Connected search, stage, group, date, city and team filters to both the table view and the date-card view.
 - Added responsive card styling so mobile users can scan match number, teams, kickoff ET, city and stadium without horizontal scrolling.
@@ -419,6 +420,8 @@ Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
 Schedule view switcher: present
+Team View: present, 48 team cards and 144 team-match entries
+City View: present, 16 city cards and 104 city-match entries
 Table rows: 104
 Team chips: 208
 Three-letter team codes: present
@@ -442,6 +445,8 @@ Active filter chips: present
 Empty state: present
 Clear filters action: present
 Date-card match status: present
+Team View cards: 48
+City View cards: 16
 ```
 
 ## 11. Remaining Issues
@@ -450,6 +455,12 @@ Keyword pool optimization saved here:
 
 ```text
 page-seo-plans/world-cup-2026-schedule-keyword-pool-optimization.md
+```
+
+Phase 1.6 Team and City view implementation saved here:
+
+```text
+page-seo-plans/world-cup-2026-schedule-team-city-view-phase-1-6.md
 ```
 
 Full completion evaluation saved here:
@@ -461,10 +472,10 @@ page-seo-plans/world-cup-2026-schedule-complete-evaluation.md
 Remaining content and product issues:
 
 - Timezone conversion is implemented for the schedule table and Date cards; future work should add a dedicated standalone converter page.
-- Team and City switcher views are visible but disabled until the next implementation phase.
+- Team and City switcher views are implemented; the next product gap is filtered export.
 - Strong per-match countdown pages are not yet implemented; the main schedule now has a next-match countdown and lightweight Date card statuses.
 - Single-match detail pages are planned but not generated yet to avoid thin template pages.
-- Date-card interaction needs final visual QA in the in-app browser; the automated browser connection timed out during recent runs.
+- Date, Team and City view interaction needs final visual QA in the in-app browser; the automated browser connection timed out during recent runs.
 - Official FIFA updates should be checked before production deployment.
 - Keyword family density should be reviewed manually because the schedule table contains many "Group stage" labels that can distort automated density checks.
 - The first H2 can be made shorter and cleaner in a later refinement.

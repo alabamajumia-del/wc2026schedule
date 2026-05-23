@@ -153,5 +153,5 @@ Recommended next actions:
 
 - Use the same keyword pool to strengthen `/world-cup-2026-dates/`.
 - Use PDF-download terms to further refine `/world-cup-2026-schedule-pdf/`.
-- Build real Team and City views so the schedule-and-locations intent is supported by interaction, not only copy.
+- Add filtered export behavior now that Team and City views support schedule-and-locations intent through interaction.
 - Build a future bracket page only when the content can avoid thin template output.

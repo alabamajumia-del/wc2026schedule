@@ -723,14 +723,217 @@ h1 {
   z-index: 1;
 }
 
-.date-card-view {
+.date-card-view,
+.aggregate-view {
   display: grid;
   gap: 18px;
 }
 
 .date-card-view[hidden],
+.aggregate-view[hidden],
 .date-group[hidden] {
   display: none;
+}
+
+.aggregate-view-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid rgba(16, 133, 101, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ffffff, #eef8f3);
+  padding: 16px;
+}
+
+.aggregate-view-heading h3 {
+  margin: 4px 0 0;
+  color: var(--text);
+  font-size: 24px;
+}
+
+.aggregate-view-heading > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  background: var(--green-dark);
+  color: #fff;
+  font-weight: 950;
+  padding: 9px 12px;
+  white-space: nowrap;
+}
+
+.aggregate-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.aggregate-card {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(16, 133, 101, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 14px 30px rgba(29, 47, 41, 0.07);
+}
+
+.aggregate-card[hidden] {
+  display: none;
+}
+
+.aggregate-card-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+}
+
+.city-card-header h3 {
+  margin: 2px 0 6px;
+  font-size: 24px;
+}
+
+.city-card-header p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.aggregate-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(72px, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.aggregate-stats div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbf9;
+  padding: 10px;
+  text-align: center;
+}
+
+.aggregate-stats dt {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.aggregate-stats dd {
+  margin: 5px 0 0;
+  color: var(--green-dark);
+  font-size: 22px;
+  font-weight: 950;
+}
+
+.aggregate-match-list {
+  display: grid;
+  gap: 10px;
+  max-height: 620px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.aggregate-match {
+  display: grid;
+  grid-template-columns: minmax(92px, 0.7fr) minmax(0, 1.7fr) minmax(150px, 1fr) minmax(130px, 1fr);
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fdfefd;
+  padding: 10px;
+}
+
+.aggregate-match[hidden] {
+  display: none;
+}
+
+.aggregate-match > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.aggregate-match strong {
+  color: var(--text);
+}
+
+.aggregate-match span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.aggregate-opponent,
+.aggregate-matchup {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.aggregate-matchup .matchup {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  font-size: 13px;
+}
+
+.aggregate-matchup .team-chip,
+.aggregate-opponent .team-chip {
+  padding: 7px 8px;
+}
+
+.aggregate-matchup .team-chip > span,
+.aggregate-opponent .team-chip > span {
+  display: none;
+}
+
+.aggregate-matchup .team-chip strong,
+.aggregate-opponent .team-chip strong {
+  font-size: 13px;
+}
+
+.aggregate-time {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+
+.aggregate-time strong {
+  line-height: 1.25;
+}
+
+.aggregate-place {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.aggregate-place a {
+  color: var(--green-dark);
+}
+
+.aggregate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.aggregate-actions a {
+  border: 1px solid rgba(16, 133, 101, 0.22);
+  border-radius: 999px;
+  background: #f8fbf9;
+  color: var(--green-dark);
+  font-size: 13px;
+  font-weight: 950;
+  padding: 9px 11px;
+  text-decoration: none;
 }
 
 .date-group {
@@ -1286,6 +1489,29 @@ td {
   .date-group-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .aggregate-view-heading,
+  .aggregate-card-header {
+    align-items: flex-start;
+    grid-template-columns: 1fr;
+  }
+
+  .aggregate-view-heading {
+    flex-direction: column;
+  }
+
+  .aggregate-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .aggregate-match {
+    grid-template-columns: 1fr;
+  }
+
+  .aggregate-matchup,
+  .aggregate-opponent {
+    grid-template-columns: 1fr;
   }
 
   .match-card-grid {
