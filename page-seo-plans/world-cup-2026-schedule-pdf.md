@@ -538,3 +538,37 @@ Saved preview screenshots:
 page-seo-plans/pdf-page-file-chooser-module-preview.png
 page-seo-plans/pdf-page-file-chooser-module-mobile-preview.png
 ```
+
+Keyword correction completed on 2026-05-23:
+
+- Updated the chooser module H2 from:
+
+```text
+Choose the Right World Cup 2026 PDF
+```
+
+to:
+
+```text
+Choose the Right World Cup 2026 Schedule PDF
+```
+
+- Added a natural first-sentence use of the primary keyword:
+
+```text
+This World Cup 2026 schedule PDF guide...
+```
+
+Validation:
+
+```text
+Primary keyword exact matches: 9
+Primary keyword density: 0.33%
+Keyword family density: 3.75%
+```
+
+Result:
+
+```text
+The chooser module now contains the core keyword in a high-value H2 position without keyword stuffing.
+```

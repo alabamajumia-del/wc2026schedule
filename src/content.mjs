@@ -302,9 +302,9 @@ export const pages = [
     },
     overview: {
       eyebrow: "PDF download guide",
-      heading: "Choose the Right World Cup 2026 PDF",
+      heading: "Choose the Right World Cup 2026 Schedule PDF",
       copy:
-        "This page is designed around a practical download choice: do you need a detailed printable file, a fast visual overview or a stage-by-stage planning sheet? The PDF library gives each use case its own file, while the live schedule and Excel workbook stay close by for filtering, sorting and deeper planning.",
+        "This World Cup 2026 schedule PDF guide is designed around a practical download choice: do you need a detailed printable file, a fast visual overview or a stage-by-stage planning sheet? The PDF library gives each use case its own file, while the live schedule and Excel workbook stay close by for filtering, sorting and deeper planning.",
       tags: [
         "Printable fixture list",
         "Overview poster PDF",
