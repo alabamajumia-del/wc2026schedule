@@ -1528,13 +1528,13 @@ await write(
       const [label, type] = watchWindow(hour);
       row.dataset.localDate = localDateKey(kickoff, timezone);
       row.dataset.localDateLabel = localDateLabel(kickoff, timezone);
-      row.dataset.localTime = localTimeLabel(kickoff, timezone);
+      row.dataset.localTimeValue = localTimeLabel(kickoff, timezone);
       row.dataset.watchWindow = label;
       row.dataset.watchType = type;
       row.dataset.matchStatus = matchStatusLabel(kickoff);
       const localTime = row.querySelector("[data-local-time]");
       const watchTag = row.querySelector("[data-watch-tag]");
-      if (localTime) localTime.textContent = row.dataset.localTime;
+      if (localTime) localTime.textContent = row.dataset.localTimeValue;
       if (watchTag) {
         watchTag.textContent = label;
         watchTag.dataset.watchType = type;
@@ -1593,7 +1593,7 @@ await write(
       "detailUrl",
       "localDate",
       "localDateLabel",
-      "localTime",
+      "localTimeValue",
       "watchWindow",
       "watchType",
       "matchStatus",
@@ -1654,7 +1654,7 @@ await write(
           '</div><span>vs</span><div class="team-line">' +
           away +
           '</div></div><div class="match-card-time"><strong data-card-local-time>' +
-          row.dataset.localTime +
+          row.dataset.localTimeValue +
           '</strong><span class="watch-tag" data-watch-type="' +
           row.dataset.watchType +
           '">' +
