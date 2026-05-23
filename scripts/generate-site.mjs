@@ -186,6 +186,7 @@ const teamCode = (team) =>
     .join("")
     .slice(0, 3)
     .toUpperCase();
+const compactTeamLabel = (team) => (isRealTeam(team) ? teamCode(team) : team);
 const emojiCodepoints = (emoji) =>
   [...emoji]
     .map((char) => char.codePointAt(0).toString(16))
@@ -268,7 +269,7 @@ const csvValue = (value) => {
   return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 };
 
-const downloadFiles = [
+const dataDownloadFiles = [
   {
     label: "Full schedule CSV",
     href: "/downloads/world-cup-2026-schedule.csv",
@@ -284,7 +285,10 @@ const downloadFiles = [
     format: "XLS",
     bestFor: "Filtering, sorting and offline planning",
     includes: "8 sheets"
-  },
+  }
+];
+
+const pdfDownloadFiles = [
   {
     label: "Printable PDF",
     href: "/downloads/world-cup-2026-schedule.pdf",
@@ -300,8 +304,18 @@ const downloadFiles = [
     format: "PDF",
     bestFor: "Embedding, sharing and quick previews",
     includes: "1-page matrix"
+  },
+  {
+    label: "Stage overview PDF",
+    href: "/downloads/world-cup-2026-stage-overview.pdf",
+    description: "Two-page wc26schedule PDF split into group-stage and knockout-stage grids by host city and match date.",
+    format: "PDF",
+    bestFor: "Stage-by-stage visual planning",
+    includes: "2-page overview"
   }
 ];
+
+const downloadFiles = [...dataDownloadFiles, ...pdfDownloadFiles];
 
 const nav = () =>
   pages
@@ -680,21 +694,11 @@ const matchupHtml = (home, away) =>
   `<div class="matchup"><div>${teamChip(home, "Home")}</div><span>vs</span><div>${teamChip(away, "Away")}</div></div>`;
 
 const downloadPanel = (page = {}) => {
-  const files =
+  const pdfFiles =
     page.slug === "world-cup-2026-schedule-pdf"
-      ? [...downloadFiles].sort((a, b) => (a.label === "Printable PDF" ? -1 : b.label === "Printable PDF" ? 1 : 0))
-      : downloadFiles;
-
-  return `<section class="section">
-  <h2>${esc(page.downloadHeading ?? "Download schedule files")}</h2>
-  <p>${esc(
-    page.downloadIntro ??
-      "Use these files for offline planning, spreadsheet filtering, trip notes or sharing the tournament calendar with friends."
-  )}</p>
-  <div class="download-grid">
-    ${files
-      .map(
-        (file) => `<a class="download-card" href="${attr(file.href)}" download>
+      ? [...pdfDownloadFiles].sort((a, b) => (a.label === "Printable PDF" ? -1 : b.label === "Printable PDF" ? 1 : 0))
+      : pdfDownloadFiles;
+  const card = (file) => `<a class="download-card" href="${attr(file.href)}" download>
       <b>${esc(file.format)}</b>
       <strong>${esc(file.label)}</strong>
       <span>${esc(file.description)}</span>
@@ -702,9 +706,23 @@ const downloadPanel = (page = {}) => {
         <div><dt>Best for</dt><dd>${esc(file.bestFor)}</dd></div>
         <div><dt>Includes</dt><dd>${esc(file.includes)}</dd></div>
       </dl>
-    </a>`
-      )
-      .join("")}
+    </a>`;
+
+  return `<section class="section">
+  <h2>${esc(page.downloadHeading ?? "Download schedule files")}</h2>
+  <p>${esc(
+    page.downloadIntro ??
+      "Use these files for offline planning, spreadsheet filtering, trip notes or sharing the tournament calendar with friends."
+  )}</p>
+  <div class="download-library">
+    <div class="download-group">
+      <div class="download-group-heading"><h3>Data downloads</h3><span>Structured files</span></div>
+      <div class="download-grid">${dataDownloadFiles.map(card).join("")}</div>
+    </div>
+    <div class="download-group">
+      <div class="download-group-heading"><h3>PDF schedule library</h3><span>${pdfFiles.length} PDF files</span></div>
+      <div class="download-grid">${pdfFiles.map(card).join("")}</div>
+    </div>
   </div>
 </section>`;
 };
@@ -2312,8 +2330,8 @@ const generatePdf = ({ includeDetails = true } = {}) => {
     matrixOps.push(rect(x, y, w, h, matchFill(match), ""));
     matrixOps.push(text(String(match.matchNumber), x + 2, y + 7, 5.4, "F2", colors.white));
     matrixOps.push(text(match.kickoffET, x + 2, y + 14, 4.8, "F1", colors.white));
-    matrixOps.push(text(teamCode(match.home), x + 2, y + 22, 6, "F2", colors.white));
-    matrixOps.push(text(teamCode(match.away), x + 2, y + 30, 6, "F2", colors.white));
+    matrixOps.push(text(compactTeamLabel(match.home).slice(0, 8), x + 2, y + 22, 5.8, "F2", colors.white));
+    matrixOps.push(text(compactTeamLabel(match.away).slice(0, 8), x + 2, y + 30, 5.8, "F2", colors.white));
   }
 
   const legendY = 755;
@@ -2328,7 +2346,7 @@ const generatePdf = ({ includeDetails = true } = {}) => {
         `#${match.matchNumber}`,
         match.dateLabel,
         `${match.kickoffET} ET`,
-        `${teamCode(match.home)} ${match.home} v ${teamCode(match.away)} ${match.away}`,
+        `${compactTeamLabel(match.home)} ${match.home} v ${compactTeamLabel(match.away)} ${match.away}`,
         match.group ? `${match.stage} G${match.group}` : match.stage,
         `${match.city} - ${match.stadium}`,
         view["Venue local time"]
@@ -2397,12 +2415,198 @@ const generatePdf = ({ includeDetails = true } = {}) => {
   return pdf;
 };
 
+const generateStageOverviewPdf = () => {
+  const pageW = 1191;
+  const pageH = 842;
+  const colors = {
+    dark: "0.050 0.120 0.200",
+    darkAlt: "0.080 0.170 0.280",
+    line: "0.600 0.720 0.820",
+    white: "1 1 1",
+    muted: "0.760 0.860 0.920",
+    gold: "0.847 0.651 0.235",
+    green: "0.090 0.520 0.390",
+    teal: "0.310 0.720 0.700",
+    orange: "0.960 0.420 0.090"
+  };
+  const stageColors = {
+    "Round of 32": colors.orange,
+    "Round of 16": colors.teal,
+    "Quarter-finals": "0.960 0.500 0.160",
+    "Semi-finals": "0.260 0.690 0.680",
+    "Third-place play-off": "0.720 0.560 0.120",
+    Final: "0.980 0.820 0.280"
+  };
+  const groupColors = {
+    A: "0.300 0.720 0.360",
+    B: "0.920 0.120 0.140",
+    C: "0.920 0.820 0.300",
+    D: "0.100 0.400 0.720",
+    E: "0.980 0.520 0.120",
+    F: "0.000 0.520 0.420",
+    G: "0.460 0.410 0.700",
+    H: "0.300 0.720 0.760",
+    I: "0.780 0.120 0.480",
+    J: "0.640 0.090 0.220",
+    K: "0.740 0.330 0.180",
+    L: "0.370 0.260 0.620"
+  };
+  const cityOrder = [
+    "Vancouver",
+    "Seattle",
+    "San Francisco Bay Area",
+    "Los Angeles",
+    "Guadalajara",
+    "Mexico City",
+    "Monterrey",
+    "Houston",
+    "Dallas",
+    "Kansas City",
+    "Atlanta",
+    "Miami",
+    "Toronto",
+    "Boston",
+    "Philadelphia",
+    "New York New Jersey"
+  ];
+  const regionColor = (city) => {
+    if (["Vancouver", "Seattle", "San Francisco Bay Area", "Los Angeles"].includes(city)) return "0.080 0.360 0.560";
+    if (["Guadalajara", "Mexico City", "Monterrey"].includes(city)) return "0.090 0.480 0.280";
+    if (["Toronto", "Boston", "Philadelphia", "New York New Jersey"].includes(city)) return "0.780 0.160 0.180";
+    return "0.130 0.450 0.660";
+  };
+  const dateLabelShort = (date) => {
+    const parsed = new Date(`${date}T00:00:00Z`);
+    return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", month: "short", day: "numeric" }).format(parsed);
+  };
+  const weekdayShort = (date) => {
+    const parsed = new Date(`${date}T00:00:00Z`);
+    return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", weekday: "short" }).format(parsed);
+  };
+  const venueLocalHour = (match) => (matchView(match)["Venue local time"] || "").split(" ")[1] || match.kickoffET;
+  const setFill = (color) => `${color} rg`;
+  const setStroke = (color) => `${color} RG`;
+  const rect = (x, yTop, w, h, fill, stroke = "") =>
+    `${fill ? `${setFill(fill)}\n` : ""}${stroke ? `${setStroke(stroke)}\n` : ""}${x.toFixed(2)} ${(pageH - yTop - h).toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re ${fill && stroke ? "B" : fill ? "f" : "S"}`;
+  const text = (value, x, yTop, size = 9, font = "F1", color = colors.white) =>
+    `BT /${font} ${size} Tf ${setFill(color)} ${x.toFixed(2)} ${(pageH - yTop).toFixed(2)} Td (${pdfEscape(value)}) Tj ET`;
+  const line = (x1, y1Top, x2, y2Top, color = colors.line, width = 0.5) =>
+    `${setStroke(color)} ${width} w ${x1.toFixed(2)} ${(pageH - y1Top).toFixed(2)} m ${x2.toFixed(2)} ${(pageH - y2Top).toFixed(2)} l S`;
+  const blockColor = (match) => (match.stage === "Group stage" ? groupColors[match.group] || colors.green : stageColors[match.stage] || colors.orange);
+
+  const pageOpsFor = ({ title, subtitle, pageMatches, note }) => {
+    const dates = [...new Set(pageMatches.map((match) => match.date))].sort();
+    const gridX = 208;
+    const cityX = 64;
+    const headerY = 210;
+    const gridY = 250;
+    const cityW = 144;
+    const gridW = pageW - gridX - 58;
+    const colW = gridW / dates.length;
+    const rowH = 29;
+    const gridH = cityOrder.length * rowH;
+    const ops = [];
+    ops.push(rect(0, 0, pageW, pageH, colors.dark));
+    ops.push(rect(0, 0, pageW, 160, colors.darkAlt));
+    ops.push(text("wc26schedule", 64, 66, 13, "F2", colors.gold));
+    ops.push(text(title, 64, 105, 34, "F2", colors.white));
+    ops.push(text(subtitle, 64, 136, 10, "F1", colors.muted));
+    ops.push(text(note, 64, 186, 10, "F2", colors.white));
+
+    dates.forEach((date, index) => {
+      const x = gridX + index * colW;
+      ops.push(text(weekdayShort(date), x + 3, headerY + 12, 6.2, "F2", colors.white));
+      ops.push(text(dateLabelShort(date), x + 3, headerY + 26, 6.2, "F1", colors.muted));
+      ops.push(line(x, gridY, x, gridY + gridH, "0.220 0.360 0.480", 0.45));
+    });
+    ops.push(line(gridX + gridW, gridY, gridX + gridW, gridY + gridH, "0.220 0.360 0.480", 0.45));
+
+    cityOrder.forEach((city, rowIndex) => {
+      const y = gridY + rowIndex * rowH;
+      ops.push(rect(cityX, y, cityW, rowH, regionColor(city), ""));
+      ops.push(text(city.toUpperCase().replace("NEW YORK NEW JERSEY", "NEW YORK"), cityX + 8, y + 18, city.length > 18 ? 7 : 9, "F2", colors.white));
+      ops.push(line(cityX, y, gridX + gridW, y, city.includes("Toronto") || city.includes("Atlanta") || city.includes("Guadalajara") ? "0.800 0.180 0.220" : "0.230 0.410 0.560", 0.5));
+    });
+    ops.push(line(cityX, gridY + gridH, gridX + gridW, gridY + gridH, "0.230 0.410 0.560", 0.5));
+
+    for (const match of pageMatches) {
+      const rowIndex = cityOrder.indexOf(match.city);
+      const colIndex = dates.indexOf(match.date);
+      if (rowIndex < 0 || colIndex < 0) continue;
+      const x = gridX + colIndex * colW + 2;
+      const y = gridY + rowIndex * rowH + 3;
+      const w = Math.max(30, colW - 4);
+      const h = rowH - 6;
+      const matchup = `${compactTeamLabel(match.home)} v ${compactTeamLabel(match.away)}`;
+      ops.push(rect(x, y, w, h, blockColor(match), ""));
+      ops.push(text(`M${match.matchNumber}`, x + 3, y + 7, 5.6, "F2", colors.white));
+      ops.push(text(matchup.slice(0, 14), x + 3, y + 15, 5.4, "F2", colors.white));
+      ops.push(text(venueLocalHour(match), x + 3, y + 22, 5.2, "F1", colors.white));
+    }
+
+    const groups = "Group A-L colors and knockout-stage blocks are generated from wc26schedule data. Times shown as venue local time.";
+    ops.push(text(groups, 64, 748, 9, "F1", colors.muted));
+    ops.push(text(`Generated ${updated}. Confirm official details before travel, tickets or paid planning.`, 64, 770, 8, "F1", colors.muted));
+    return ops.join("\n");
+  };
+
+  const ops = [
+    pageOpsFor({
+      title: "World Cup 2026 Group Stage Schedule",
+      subtitle: "Host-city grid for matches M1-M72, grouped by local match date and city.",
+      note: "Group Stage Fixtures",
+      pageMatches: matches.filter((match) => match.stage === "Group stage"),
+    }),
+    pageOpsFor({
+      title: "World Cup 2026 Knockout Stage Schedule",
+      subtitle: "Round of 32 through Final, organized by host city and local match date.",
+      note: "Knockout Stage Matches",
+      pageMatches: matches.filter((match) => match.stage !== "Group stage"),
+    })
+  ];
+
+  const objects = [];
+  const addObject = (body) => {
+    objects.push(body);
+    return objects.length;
+  };
+  const fontId = addObject("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+  const boldFontId = addObject("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>");
+  const pageIds = [];
+  for (const content of ops) {
+    const streamId = addObject(`<< /Length ${Buffer.byteLength(content, "binary")} >>\nstream\n${content}\nendstream`);
+    const pageId = addObject(
+      `<< /Type /Page /Parent PARENT_PLACEHOLDER /MediaBox [0 0 ${pageW} ${pageH}] /Resources << /Font << /F1 ${fontId} 0 R /F2 ${boldFontId} 0 R >> >> /Contents ${streamId} 0 R >>`
+    );
+    pageIds.push(pageId);
+  }
+  const pagesId = addObject(`<< /Type /Pages /Kids [${pageIds.map((id) => `${id} 0 R`).join(" ")}] /Count ${pageIds.length} >>`);
+  const catalogId = addObject(`<< /Type /Catalog /Pages ${pagesId} 0 R >>`);
+  for (const pageId of pageIds) {
+    objects[pageId - 1] = objects[pageId - 1].replace("PARENT_PLACEHOLDER", `${pagesId} 0 R`);
+  }
+  let pdf = "%PDF-1.4\n";
+  const offsets = [0];
+  for (let i = 0; i < objects.length; i += 1) {
+    offsets.push(Buffer.byteLength(pdf, "binary"));
+    pdf += `${i + 1} 0 obj\n${objects[i]}\nendobj\n`;
+  }
+  const xrefOffset = Buffer.byteLength(pdf, "binary");
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  for (let i = 1; i < offsets.length; i += 1) {
+    pdf += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+  }
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogId} 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  return pdf;
+};
+
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
 await write("downloads/world-cup-2026-schedule.csv", scheduleCsv());
 await write("downloads/world-cup-2026-schedule.xls", scheduleSpreadsheetHtml());
 await write("downloads/world-cup-2026-schedule.pdf", generatePdf());
 await write("downloads/world-cup-2026-schedule-overview.pdf", generatePdf({ includeDetails: false }));
+await write("downloads/world-cup-2026-stage-overview.pdf", generateStageOverviewPdf());
 await write(
   "schedule.js",
   `(() => {

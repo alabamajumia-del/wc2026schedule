@@ -2318,6 +2318,39 @@ td {
   margin-top: 16px;
 }
 
+.download-library {
+  display: grid;
+  gap: 24px;
+  margin-top: 18px;
+}
+
+.download-group {
+  display: grid;
+  gap: 10px;
+}
+
+.download-group-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 9px;
+}
+
+.download-group-heading h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 22px;
+}
+
+.download-group-heading span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .download-card {
   position: relative;
   display: grid;
