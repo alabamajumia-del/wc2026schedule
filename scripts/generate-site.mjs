@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { pages, site } from "../src/content.mjs";
@@ -317,6 +317,13 @@ const pdfDownloadFiles = [
 
 const downloadFiles = [...dataDownloadFiles, ...pdfDownloadFiles];
 
+const siteAssetFiles = [
+  ["page-seo-plans/download-pdf-matrix-preview.png", "assets/download-pdf-matrix-preview.png"],
+  ["page-seo-plans/download-overview-poster-pdf-preview.png", "assets/download-overview-poster-pdf-preview.png"],
+  ["page-seo-plans/stage-overview-pdf-group-preview.png", "assets/stage-overview-pdf-group-preview.png"],
+  ["page-seo-plans/stage-overview-pdf-knockout-preview.png", "assets/stage-overview-pdf-knockout-preview.png"]
+];
+
 const nav = () =>
   pages
     .slice(0, 8)
@@ -424,18 +431,12 @@ const hero = ({
         ? `<div class="hero-tool hero-tool-pdf">
       <strong class="hero-panel-title">${esc(panelTitle)}</strong>
       ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
-      <div class="pdf-sheet" aria-label="Printable PDF preview">
-        <div class="pdf-sheet-top">
-          <span>PDF</span>
-          <strong>World Cup 2026 Schedule</strong>
-        </div>
-        <div class="pdf-lines">
-          <span></span><span></span><span></span><span></span>
-        </div>
-        <div class="pdf-meta-grid">
-          <span>Dates</span><strong>Jun 11-Jul 19</strong>
-          <span>Matches</span><strong>104</strong>
-          <span>Use</span><strong>Print + share</strong>
+      <div class="pdf-hero-preview" aria-label="World Cup 2026 schedule PDF preview">
+        <img src="/assets/download-overview-poster-pdf-preview.png" alt="wc26schedule one-page World Cup 2026 schedule PDF preview" loading="eager" decoding="async">
+        <div>
+          <span>Featured PDF</span>
+          <strong>One-page schedule overview</strong>
+          <a href="/downloads/world-cup-2026-schedule-overview.pdf" download>Download overview PDF</a>
         </div>
       </div>
       <div class="download-checklist" aria-label="PDF download checklist">
@@ -693,6 +694,109 @@ const teamChip = (team, side = "") => {
 const matchupHtml = (home, away) =>
   `<div class="matchup"><div>${teamChip(home, "Home")}</div><span>vs</span><div>${teamChip(away, "Away")}</div></div>`;
 
+const groupListItems = () => {
+  const groups = new Map();
+  for (const match of matches.filter((item) => item.stage === "Group stage" && item.group)) {
+    if (!groups.has(match.group)) groups.set(match.group, new Set());
+    if (isRealTeam(match.home)) groups.get(match.group).add(match.home);
+    if (isRealTeam(match.away)) groups.get(match.group).add(match.away);
+  }
+  return [...groups.entries()]
+    .sort(([groupA], [groupB]) => groupA.localeCompare(groupB))
+    .map(([group, teams]) => [group, [...teams]]);
+};
+
+const renderPdfVisualSections = () => {
+  const groups = groupListItems();
+  return `<section class="section pdf-feature-section">
+  <div class="pdf-feature-grid">
+    <div class="pdf-feature-copy">
+      <p class="eyebrow">Printable download</p>
+      <h2>2026 World Cup Schedule PDF for USA, Canada and Mexico</h2>
+      <p>The complete printable PDF is the right first file when you want all 104 matches in one offline reference. It keeps the host-city matrix on the opening page, then follows with match detail pages that include date, kickoff time, team names, match number, stage, host city and stadium.</p>
+      <p>Use this file for a travel folder, watch-party packet, classroom board, office bracket wall or shared planning drive. It is intentionally more detailed than a poster because users often need to check a specific fixture after the first visual scan.</p>
+      <div class="pdf-feature-actions">
+        <a class="button" href="/downloads/world-cup-2026-schedule.pdf" download>Download printable PDF</a>
+        <a class="button light" href="/world-cup-2026-schedule/">Use live schedule</a>
+      </div>
+    </div>
+    <aside class="pdf-preview-card">
+      <span>Full printable file</span>
+      <img src="/assets/download-pdf-matrix-preview.png" alt="Printable World Cup 2026 schedule PDF matrix preview" loading="eager" decoding="async">
+      <a href="/downloads/world-cup-2026-schedule.pdf" download>Open the printable PDF</a>
+    </aside>
+  </div>
+</section>
+
+<section class="section pdf-feature-section">
+  <div class="pdf-feature-grid">
+    <div class="pdf-feature-copy">
+      <p class="eyebrow">Tournament timing</p>
+      <h2>When is the Next World Cup?</h2>
+      <p>The next World Cup begins on Thursday, June 11, 2026 and runs through Sunday, July 19, 2026. The tournament is hosted across the United States, Canada and Mexico, with 48 teams, 12 groups and 104 matches across 16 host cities.</p>
+      <ul class="pdf-bullet-list">
+        <li>The opening match is scheduled for Mexico City, and the final is scheduled for New York New Jersey.</li>
+        <li>The group stage uses fixed teams and fixtures, while the knockout stage uses placeholders until results are known.</li>
+        <li>The top two teams from each group plus the eight best third-place teams move into the Round of 32.</li>
+        <li>Use the stage overview PDF when you want to separate group-stage days from bracket and knockout planning.</li>
+      </ul>
+      <div class="pdf-feature-actions">
+        <a class="button" href="/downloads/world-cup-2026-stage-overview.pdf" download>Download stage overview</a>
+        <a class="button light" href="/world-cup-2026-dates/">Check tournament dates</a>
+      </div>
+    </div>
+    <aside class="pdf-preview-card">
+      <span>Group-stage overview</span>
+      <img src="/assets/stage-overview-pdf-group-preview.png" alt="World Cup 2026 group-stage schedule PDF preview" loading="eager" decoding="async">
+      <a href="/downloads/world-cup-2026-stage-overview.pdf" download>Open the stage PDF</a>
+    </aside>
+  </div>
+</section>
+
+<section class="section pdf-feature-section">
+  <div class="pdf-feature-grid">
+    <div class="pdf-feature-copy">
+      <p class="eyebrow">Groups and bracket</p>
+      <h2>2026 World Cup Groups and Knockout Planning</h2>
+      <p>The groups are already useful for PDF planning because they tell fans which fixtures are fixed and which paths still depend on tournament results. The group list below is generated from the same structured schedule data used for the downloads, so it stays connected to the fixture table rather than becoming a separate manual note.</p>
+      <div class="pdf-group-list">
+        ${groups
+          .map(
+            ([group, teams]) =>
+              `<p><strong>${esc(group)}:</strong> ${teams.map((team) => esc(team)).join(", ")}</p>`
+          )
+          .join("")}
+      </div>
+      <p>For bracket planning, download the stage overview PDF and keep the live match pages nearby. The PDF gives you the shape of the route; match detail pages give you the exact city, stadium, time-zone and related team route once a fixture matters to your plan.</p>
+      <div class="pdf-feature-actions">
+        <a class="button" href="/downloads/world-cup-2026-stage-overview.pdf" download>Download bracket PDF</a>
+        <a class="button light" href="/world-cup-2026-groups/">Open groups guide</a>
+      </div>
+    </div>
+    <aside class="pdf-preview-card">
+      <span>Knockout-stage overview</span>
+      <img src="/assets/stage-overview-pdf-knockout-preview.png" alt="World Cup 2026 knockout-stage schedule PDF preview" loading="eager" decoding="async">
+      <a href="/downloads/world-cup-2026-stage-overview.pdf" download>Open knockout view</a>
+    </aside>
+  </div>
+</section>`;
+};
+
+const renderPdfUsageCards = (heading, rows) => `<section class="section">
+  <h2>${esc(heading)}</h2>
+  <div class="pdf-use-grid">
+    ${rows
+      .map(
+        ([task, check, step]) => `<article class="pdf-use-card">
+      <span>${esc(task)}</span>
+      <p>${esc(check)}</p>
+      <strong>${esc(step)}</strong>
+    </article>`
+      )
+      .join("")}
+  </div>
+</section>`;
+
 const downloadPanel = (page = {}) => {
   const pdfFiles =
     page.slug === "world-cup-2026-schedule-pdf"
@@ -841,6 +945,8 @@ const renderPage = (page) => {
   ].includes(page.slug)
     ? downloadPanel(page)
     : "";
+  const pdfVisualBlock =
+    page.slug === "world-cup-2026-schedule-pdf" ? renderPdfVisualSections() : "";
   const cityBlock = page.slug === "world-cup-2026-host-cities" ? cityIndexPanel() : "";
   const sourceNote =
     page.slug === "world-cup-2026-schedule"
@@ -899,13 +1005,16 @@ const renderPage = (page) => {
     </div>
   </section>
   ${scheduleBlock}
+  ${pdfVisualBlock}
   ${downloadsBlock}
   ${cityBlock}
   ${sections}
   ${
     page.slug === "world-cup-2026-schedule"
       ? renderScheduleNavigation()
-      : `<section class="section">
+      : page.slug === "world-cup-2026-schedule-pdf"
+        ? renderPdfUsageCards(page.usageHeading ?? "How to Choose a PDF File", usageRows)
+        : `<section class="section">
     <h2>${esc(page.usageHeading ?? "How to use this page")}</h2>
     ${table(usageRows)}
   </section>`
@@ -2607,6 +2716,11 @@ await write("downloads/world-cup-2026-schedule.xls", scheduleSpreadsheetHtml());
 await write("downloads/world-cup-2026-schedule.pdf", generatePdf());
 await write("downloads/world-cup-2026-schedule-overview.pdf", generatePdf({ includeDetails: false }));
 await write("downloads/world-cup-2026-stage-overview.pdf", generateStageOverviewPdf());
+for (const [source, target] of siteAssetFiles) {
+  const targetPath = join(dist, target);
+  await mkdir(dirname(targetPath), { recursive: true });
+  await copyFile(join(root, source), targetPath);
+}
 await write(
   "schedule.js",
   `(() => {

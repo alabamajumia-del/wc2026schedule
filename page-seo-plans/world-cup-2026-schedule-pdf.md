@@ -343,3 +343,34 @@ Reason:
 ```text
 The Excel page is the natural companion to the PDF page and should be optimized as a distinct spreadsheet/filtering use case, not as a copy of the PDF content.
 ```
+
+## 8. Reference-Style Visual Upgrade
+
+Completed on 2026-05-23:
+
+- Reworked the PDF page around the reference pattern supplied by the user: left-side explanatory content, right-side real PDF preview and a direct download action.
+- Updated the H1 and title to `World Cup 2026 Schedule PDF - USA, Canada and Mexico` to make the page purpose clearer in search results and in the first viewport.
+- Replaced the abstract hero PDF illustration with a real wc26schedule PDF preview image generated from our own schedule file.
+- Added three custom, non-template visual content modules:
+  - `2026 World Cup Schedule PDF for USA, Canada and Mexico`
+  - `When is the Next World Cup?`
+  - `2026 World Cup Groups and Knockout Planning`
+- Added preview images for the printable PDF, group-stage overview and knockout-stage overview.
+- Kept the third-party/watermarked reference files out of the public site; all visible assets are generated wc26schedule assets.
+- Converted the PDF usage table into mobile-friendly PDF choice cards.
+- Verified:
+  - 1 H1
+  - 14 H2 headings
+  - 3 PDF visual feature sections
+  - 4 PDF preview images loaded successfully
+  - 12 download links
+  - 0 desktop horizontal overflow
+  - 0 mobile horizontal overflow
+
+Saved preview screenshots:
+
+```text
+page-seo-plans/pdf-page-reference-style-preview.png
+page-seo-plans/pdf-page-feature-module-preview.png
+page-seo-plans/pdf-page-reference-style-mobile-preview.png
+```

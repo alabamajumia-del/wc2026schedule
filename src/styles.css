@@ -592,6 +592,53 @@ h1 {
   color: var(--muted);
 }
 
+.pdf-hero-preview {
+  margin: 0 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: #f9fbf7;
+  color: var(--text);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
+}
+
+.pdf-hero-preview img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.42;
+  object-fit: cover;
+  object-position: left top;
+}
+
+.pdf-hero-preview div {
+  display: grid;
+  gap: 7px;
+  padding: 14px 16px 16px;
+}
+
+.pdf-hero-preview span {
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pdf-hero-preview strong {
+  color: var(--text);
+  font-size: 19px;
+}
+
+.pdf-hero-preview a {
+  justify-self: start;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 900;
+}
+
 .panel-row {
   display: flex;
   justify-content: space-between;
@@ -2311,6 +2358,146 @@ td {
   gap: 12px;
 }
 
+.pdf-feature-section {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fff 0%, #f8fbf6 100%);
+  box-shadow: var(--shadow);
+}
+
+.pdf-feature-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+  gap: 34px;
+  align-items: center;
+}
+
+.pdf-feature-grid.reverse {
+  grid-template-columns: minmax(360px, 1.05fr) minmax(0, 0.95fr);
+}
+
+.pdf-feature-grid.reverse .pdf-feature-copy {
+  order: 2;
+}
+
+.pdf-feature-copy h2 {
+  max-width: 760px;
+  color: #06476a;
+  font-size: clamp(32px, 4.4vw, 52px);
+  line-height: 1.02;
+}
+
+.pdf-feature-copy p {
+  max-width: 760px;
+  color: #536660;
+  font-size: 16px;
+  line-height: 1.72;
+}
+
+.pdf-feature-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pdf-preview-card {
+  display: grid;
+  gap: 12px;
+  align-self: stretch;
+  border: 1px solid #cbd7d2;
+  border-radius: 8px;
+  background: #fdfefc;
+  padding: 16px;
+}
+
+.pdf-preview-card > span {
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pdf-preview-card img {
+  width: 100%;
+  aspect-ratio: 1.42;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  object-fit: cover;
+  object-position: left top;
+  background: #eef3ee;
+}
+
+.pdf-preview-card a {
+  justify-self: start;
+  color: var(--accent-dark);
+  font-weight: 900;
+}
+
+.pdf-bullet-list {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding-left: 18px;
+  color: #536660;
+  line-height: 1.62;
+}
+
+.pdf-group-list {
+  columns: 2 280px;
+  column-gap: 28px;
+  margin: 18px 0 14px;
+}
+
+.pdf-group-list p {
+  break-inside: avoid;
+  margin: 0 0 8px;
+  color: #3e514b;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.pdf-group-list strong {
+  color: var(--accent-dark);
+}
+
+.pdf-use-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.pdf-use-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.pdf-use-card span {
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.pdf-use-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.pdf-use-card strong {
+  color: var(--text);
+}
+
 .download-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -2511,6 +2698,9 @@ td {
 
   .fact-grid,
   .link-grid,
+  .pdf-feature-grid,
+  .pdf-feature-grid.reverse,
+  .pdf-use-grid,
   .download-grid,
   .capability-grid,
   .download-decision-grid,
@@ -2522,6 +2712,14 @@ td {
   .metric-strip,
   .filters {
     grid-template-columns: 1fr;
+  }
+
+  .pdf-feature-grid.reverse .pdf-feature-copy {
+    order: 0;
+  }
+
+  .pdf-feature-section {
+    padding: 18px;
   }
 
   .timezone-tool {
