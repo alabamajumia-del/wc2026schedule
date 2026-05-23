@@ -117,6 +117,20 @@ select {
   color: #fff;
 }
 
+.hero-schedule {
+  background:
+    linear-gradient(90deg, rgba(10, 28, 35, 0.96), rgba(10, 28, 35, 0.72) 48%, rgba(10, 28, 35, 0.5)),
+    url("https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1800&q=80");
+  background-position: center 42%;
+}
+
+.hero-pdf {
+  background:
+    linear-gradient(90deg, rgba(31, 37, 33, 0.97), rgba(31, 37, 33, 0.72) 52%, rgba(31, 37, 33, 0.42)),
+    url("https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1800&q=80");
+  background-position: center 58%;
+}
+
 .hero-inner {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(310px, 0.85fr);
@@ -196,6 +210,19 @@ h1 {
   background: rgba(255, 255, 255, 0.11);
   box-shadow: var(--shadow);
   backdrop-filter: blur(12px);
+}
+
+.hero-panel-title {
+  display: block;
+  padding: 18px 18px 0;
+  color: #fff;
+  font-size: 22px;
+}
+
+.hero-panel p {
+  margin: 0;
+  padding: 10px 18px 16px;
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .panel-row {

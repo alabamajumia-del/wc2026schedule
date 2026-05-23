@@ -45,6 +45,59 @@ export const pages = [
     ],
     intro:
       "The World Cup 2026 schedule runs from June 11 to July 19, 2026, with 104 matches across the United States, Canada and Mexico. This page organizes the tournament by date, team, stage, host city, stadium and kickoff time so you can scan the full fixture list, filter the matches that matter to you and move quickly into PDF, Excel, city, team, ticket and TV planning.",
+    hero: {
+      variant: "schedule",
+      eyebrow: "Interactive schedule hub",
+      actions: [
+        ["Jump to full table", "#full-schedule", "primary"],
+        ["Download PDF", "/world-cup-2026-schedule-pdf/", "secondary"]
+      ],
+      panelTitle: "Schedule control panel",
+      panelIntro: "Start broad, then narrow the 104-match fixture list by the way you plan.",
+      panelRows: [
+        ["Primary view", "Full match table"],
+        ["Fast filters", "Team, date, stage, city"],
+        ["Next step", "Open team or city pages"]
+      ]
+    },
+    overview: {
+      eyebrow: "Schedule workspace",
+      heading: "Filter the Tournament by Match, Team, Date or City",
+      copy:
+        "This page is the working table for the tournament. Use it when you need the full fixture list first, then narrow the view by team, group, stage, match date, host city or stadium before opening a more focused planning page.",
+      tags: [
+        "104-match table",
+        "Team and city filters",
+        "Group and knockout stages",
+        "Downloadable data"
+      ],
+      noteEyebrow: "Live planning note",
+      noteHeading: "Confirm timing before travel",
+      noteCopy:
+        "The table gives a stable planning view, but local kickoff times, venue operations, tickets and broadcasts should still be checked with official sources."
+    },
+    downloadHeading: "Export the Full Schedule",
+    downloadIntro:
+      "Use the PDF for a printable copy, the Excel workbook for filtering and the CSV file when you want to import the 104-match dataset into another planning tool.",
+    usageHeading: "Ways to Navigate the Full Schedule",
+    usageRows: [
+      [
+        "Follow a team",
+        "Select a team or open its linked team page to see opponents, dates, cities and group-stage route.",
+        "Use team pages when one country is your focus."
+      ],
+      [
+        "Plan by city",
+        "Filter by host city to see which matches fit a travel window or stadium visit.",
+        "Open the linked city page for local context."
+      ],
+      [
+        "Track tournament stages",
+        "Use the stage and group filters to separate group fixtures from knockout-stage paths.",
+        "Pair this page with standings and bracket pages."
+      ]
+    ],
+    relatedHeading: "Schedule Planning Paths",
     sections: [
       [
         "How to Use the World Cup 2026 Match Schedule",
@@ -206,6 +259,21 @@ export const pages = [
     ],
     intro:
       "The World Cup 2026 schedule PDF is built for fans who want a printable, offline fixture list they can save, share or keep in a travel folder. The download includes match dates, kickoff times, teams, tournament stages, venues and stadiums, while this page explains when the PDF is the right format and when the live schedule or Excel planner will serve you better.",
+    hero: {
+      variant: "pdf",
+      eyebrow: "Printable file",
+      actions: [
+        ["Download PDF", "/downloads/world-cup-2026-schedule.pdf", "primary"],
+        ["Open live schedule", "/world-cup-2026-schedule/", "secondary"]
+      ],
+      panelTitle: "PDF file checklist",
+      panelIntro: "Use this version when you need a fixed copy for printing, phone storage or group sharing.",
+      panelRows: [
+        ["File type", "Printable PDF"],
+        ["Best use", "Offline reading"],
+        ["Refresh before", "Tickets or travel"]
+      ]
+    },
     overview: {
       eyebrow: "PDF download guide",
       heading: "Printable World Cup 2026 Fixture Planner",

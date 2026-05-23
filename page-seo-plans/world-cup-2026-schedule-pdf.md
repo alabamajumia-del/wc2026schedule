@@ -94,7 +94,7 @@ Build: passed
 Generated pages: 77
 Local URL: http://localhost:3000/world-cup-2026-schedule-pdf/
 HTTP status: 200
-Words: 1627
+Words: 1642
 FAQ items: 5
 H1 count: 1
 H2 count: 12
@@ -104,7 +104,7 @@ HowTo Schema: present
 SEO Title length: 51
 Meta Description length: 126
 Primary keyword exact occurrences: 5
-Primary keyword density: about 1.54%
+Primary keyword density: about 1.52%
 Keyword family density: about 4.43%
 Internal links: 20
 External links: 1
@@ -261,6 +261,9 @@ Template-risk fix completed on 2026-05-23:
 - Replaced generic `Related planning pages` heading with `PDF Planning Links`.
 - Customized the download module heading and intro for PDF-first behavior.
 - Reordered the download cards so `Printable PDF` appears first on this page.
+- Replaced the shared hero with a PDF-specific `hero-pdf` variant.
+- Replaced generic hero buttons with `Download PDF` and `Open live schedule`.
+- Added a PDF file checklist panel to the hero.
 - Rechecked generated HTML for generic module residue.
 
 Remaining issues:

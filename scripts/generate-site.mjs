@@ -137,20 +137,46 @@ const layout = ({ title, description, canonical, body, schema = [] }) => `<!doct
 </body>
 </html>`;
 
-const hero = ({ eyebrow, h1, intro, facts, primaryHref = "/world-cup-2026-schedule/" }) => `
-<section class="hero">
+const hero = ({
+  eyebrow,
+  h1,
+  intro,
+  facts,
+  variant = "default",
+  actions,
+  panelTitle = "Quick facts",
+  panelIntro = "",
+  panelRows,
+  primaryHref = "/world-cup-2026-schedule/"
+}) => {
+  const heroActions =
+    actions ??
+    [
+      ["Open schedule hub", primaryHref, "primary"],
+      ["Ticket guide", "/world-cup-2026-tickets/", "secondary"]
+    ];
+  const rows = panelRows ?? facts;
+
+  return `
+<section class="hero hero-${attr(variant)}">
   <div class="hero-inner">
     <div>
       <p class="eyebrow">${esc(eyebrow)}</p>
       <h1>${esc(h1)}</h1>
       <p class="hero-copy">${esc(intro)}</p>
       <div class="hero-actions">
-        <a class="button" href="${primaryHref}">Open schedule hub</a>
-        <a class="button secondary" href="/world-cup-2026-tickets/">Ticket guide</a>
+        ${heroActions
+          .map(
+            ([label, href, tone]) =>
+              `<a class="button${tone === "secondary" ? " secondary" : ""}" href="${attr(href)}">${esc(label)}</a>`
+          )
+          .join("")}
       </div>
     </div>
     <aside class="hero-panel" aria-label="Quick facts">
-      ${facts
+      <strong class="hero-panel-title">${esc(panelTitle)}</strong>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      ${rows
         .map(
           ([label, value]) => `<div class="panel-row"><span class="panel-label">${esc(
             label
@@ -160,6 +186,7 @@ const hero = ({ eyebrow, h1, intro, facts, primaryHref = "/world-cup-2026-schedu
     </aside>
   </div>
 </section>`;
+};
 
 const table = (rows) => `<div class="table-wrap">
 <table>
@@ -352,10 +379,15 @@ const renderPage = (page) => {
     canonical: `/${page.slug}/`,
     schema: pageSchema(page),
     body: `${hero({
-      eyebrow: `${page.nav} guide`,
+      eyebrow: page.hero?.eyebrow ?? `${page.nav} guide`,
       h1: page.h1,
       intro: page.intro,
-      facts: page.facts
+      facts: page.facts,
+      variant: page.hero?.variant,
+      actions: page.hero?.actions,
+      panelTitle: page.hero?.panelTitle,
+      panelIntro: page.hero?.panelIntro,
+      panelRows: page.hero?.panelRows
     })}
 <main class="main">
   <section class="section">

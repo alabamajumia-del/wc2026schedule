@@ -9,7 +9,7 @@ Page URL:
 Status:
 
 ```text
-Optimized - first page-level SEO pass completed on 2026-05-23.
+Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23.
 ```
 
 ## 1. Search Intent
@@ -72,7 +72,7 @@ Current primary keyword result after optimization:
 
 ```text
 Exact-match occurrences: 8
-Approximate exact-match density: 1.04%
+Approximate exact-match density: 1.02%
 ```
 
 ## 3. SEO Title and Meta Description
@@ -118,24 +118,24 @@ World Cup 2026 Schedule
 H2:
 
 ```text
-Find the full tournament schedule by date, team, stage, host city and kickoff time.
+Filter the Tournament by Match, Team, Date or City
 Full World Cup 2026 Match Schedule
-Download schedule files
+Export the Full Schedule
 How to Use the World Cup 2026 Match Schedule
 World Cup 2026 Match Dates
 Kickoff Times and Time Zones
 Schedule by Team and Host City
 Group Stage and Knockout Schedule
 Downloads, Sources and Update Notes
-How to use this page
-Related planning pages
+Ways to Navigate the Full Schedule
+Schedule Planning Paths
 FAQ
 ```
 
 H3:
 
 ```text
-Use official sources
+Confirm timing before travel
 When does the World Cup 2026 start?
 How many matches are in the World Cup 2026 schedule?
 Can I filter the schedule by team, date or host city?
@@ -148,12 +148,6 @@ Heading assessment:
 
 ```text
 The page has one H1 and a clear H2 structure. H2 sections cover full schedule, downloads, dates, kickoff times, team/city paths, group stage, knockout stage and source notes.
-```
-
-Future heading improvement:
-
-```text
-The first H2 is currently a long search-intent sentence. Consider changing it to "World Cup 2026 Schedule Overview" in a later UI/content refinement pass.
 ```
 
 ## 5. Content Requirements
@@ -173,7 +167,7 @@ Required by content plan:
 Current metrics:
 
 ```text
-Words: 3089
+Words: 3143
 FAQ items: 6
 H1 count: 1
 H2 count: 12
@@ -183,6 +177,55 @@ External links: 4
 Last updated: present
 Sources: present
 Internal SEO text: not present
+Generic overview module: not present
+Generic usage module: not present
+Generic related-links heading: not present
+Hero variant: hero-schedule
+Primary keyword density: about 1.02%
+```
+
+## 5.1 Custom Page Blueprint
+
+This page must feel like the main schedule workspace, not a generic article.
+
+Hero module:
+
+```text
+Variant: hero-schedule
+Eyebrow: Interactive schedule hub
+Primary action: Jump to full table
+Secondary action: Download PDF
+Panel: Schedule control panel
+Panel rows: Primary view, Fast filters, Next step
+```
+
+Overview module:
+
+```text
+Eyebrow: Schedule workspace
+H2: Filter the Tournament by Match, Team, Date or City
+Purpose: Frame the page as a working table for filtering the 104-match fixture list.
+```
+
+Download module:
+
+```text
+H2: Export the Full Schedule
+Purpose: Explain PDF, Excel and CSV as different export formats for the same schedule data.
+```
+
+Usage module:
+
+```text
+H2: Ways to Navigate the Full Schedule
+Rows: Follow a team, Plan by city, Track tournament stages
+```
+
+Related links module:
+
+```text
+H2: Schedule Planning Paths
+Purpose: Link to PDF, Excel, host cities and ticket guide as planning paths from the main table.
 ```
 
 ## 6. Internal Links
@@ -262,6 +305,16 @@ Completed on 2026-05-23:
 - Verified the page builds successfully.
 - Verified local page returns HTTP 200.
 
+Template-risk fix completed on 2026-05-23:
+
+- Replaced the shared hero with a schedule-specific `hero-schedule` variant.
+- Replaced generic hero buttons with `Jump to full table` and `Download PDF`.
+- Replaced the generic overview module with a schedule workspace module.
+- Replaced the generic download heading with `Export the Full Schedule`.
+- Replaced the generic usage table with schedule-specific navigation rows.
+- Replaced the generic related-pages heading with `Schedule Planning Paths`.
+- Rechecked generated HTML for generic module residue.
+
 ## 10. Quality Check
 
 Latest check:
@@ -275,9 +328,10 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 6
-Word count: 3089
-Primary keyword density: about 1.04%
+Word count: 3143
+Primary keyword density: about 1.02%
 Internal SEO text: not present
+Generic template modules: not present
 ```
 
 ## 11. Remaining Issues
