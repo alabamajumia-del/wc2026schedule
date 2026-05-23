@@ -12,6 +12,12 @@ Status:
 Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23.
 ```
 
+Second-pass optimization reference:
+
+```text
+page-seo-plans/schedule-and-pdf-second-pass-optimization.md
+```
+
 ## 1. Search Intent
 
 Users want the complete World Cup 2026 match schedule by date, team, tournament stage, host city, stadium and kickoff time. The page must help users quickly answer:

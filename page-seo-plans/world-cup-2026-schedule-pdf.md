@@ -12,6 +12,12 @@ Status:
 Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23.
 ```
 
+Second-pass optimization reference:
+
+```text
+page-seo-plans/schedule-and-pdf-second-pass-optimization.md
+```
+
 ## 1. Search Intent
 
 Users want to download, print, save or share a World Cup 2026 schedule file that is easier to use offline than a long web table. The page must help users decide:
