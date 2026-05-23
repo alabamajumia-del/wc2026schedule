@@ -174,7 +174,7 @@ Required by content plan:
 Current metrics:
 
 ```text
-Words: 4068
+Words: 4525
 FAQ items: 6
 H1 count: 1
 H2 count: 12
@@ -188,7 +188,7 @@ Generic overview module: not present
 Generic usage module: not present
 Generic related-links heading: not present
 Hero variant: hero-schedule
-Primary keyword density: about 0.79%
+Primary keyword density: about 0.71%
 Hero visual module: mini schedule preview and filter strip present
 Schedule table rows: 104
 Date-card view: generated from table data after user switches view
@@ -383,6 +383,7 @@ Team and countdown refinement completed on 2026-05-23:
 
 - Changed team names from plain text links into clickable team chips.
 - Added three-letter team code badges for all 48 teams in the current schedule data.
+- Added decorative flag images for real teams using Twemoji SVG assets.
 - Added current selected-timezone time to the schedule control area.
 - Added next-match countdown using the same UTC kickoff data as the timezone converter.
 - Added lightweight Date card match status, refreshed once per minute.
@@ -401,8 +402,8 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 6
-Word count: 4309
-Primary keyword density: about 0.74%
+Word count: 4525
+Primary keyword density: about 0.71%
 Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
@@ -410,6 +411,7 @@ Schedule view switcher: present
 Table rows: 104
 Team chips: 208
 Three-letter team codes: present
+Flag images: 144 table instances, 48 unique assets
 Date card container: present
 Static duplicate date cards: 0
 Date card builder script: present

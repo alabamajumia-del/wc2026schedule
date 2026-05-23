@@ -100,6 +100,64 @@ const teamCodeOverrides = {
   "United States": "USA"
 };
 
+const teamFlagEmojiOverrides = {
+  Algeria: "🇩🇿",
+  Argentina: "🇦🇷",
+  Australia: "🇦🇺",
+  Austria: "🇦🇹",
+  Belgium: "🇧🇪",
+  "Bosnia & Herzegovina": "🇧🇦",
+  Brazil: "🇧🇷",
+  "Cabo Verde": "🇨🇻",
+  Canada: "🇨🇦",
+  "Cape Verde": "🇨🇻",
+  Colombia: "🇨🇴",
+  Croatia: "🇭🇷",
+  "Côte d'Ivoire": "🇨🇮",
+  "Cote d'Ivoire": "🇨🇮",
+  Czechia: "🇨🇿",
+  "Ivory Coast": "🇨🇮",
+  "Curaçao": "🇨🇼",
+  "DR Congo": "🇨🇩",
+  Ecuador: "🇪🇨",
+  Egypt: "🇪🇬",
+  England: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}",
+  France: "🇫🇷",
+  Germany: "🇩🇪",
+  Ghana: "🇬🇭",
+  Haiti: "🇭🇹",
+  Iran: "🇮🇷",
+  Iraq: "🇮🇶",
+  "IR Iran": "🇮🇷",
+  Japan: "🇯🇵",
+  Jordan: "🇯🇴",
+  "Korea Republic": "🇰🇷",
+  Mexico: "🇲🇽",
+  Morocco: "🇲🇦",
+  Netherlands: "🇳🇱",
+  "New Zealand": "🇳🇿",
+  Norway: "🇳🇴",
+  Panama: "🇵🇦",
+  Paraguay: "🇵🇾",
+  Portugal: "🇵🇹",
+  Qatar: "🇶🇦",
+  "Saudi Arabia": "🇸🇦",
+  Scotland: "\u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}",
+  Senegal: "🇸🇳",
+  "South Africa": "🇿🇦",
+  "South Korea": "🇰🇷",
+  Spain: "🇪🇸",
+  Sweden: "🇸🇪",
+  Switzerland: "🇨🇭",
+  Tunisia: "🇹🇳",
+  Türkiye: "🇹🇷",
+  Turkiye: "🇹🇷",
+  Uruguay: "🇺🇾",
+  Uzbekistan: "🇺🇿",
+  USA: "🇺🇸",
+  "United States": "🇺🇸"
+};
+
 const slugify = (value) =>
   String(value)
     .normalize("NFKD")
@@ -128,6 +186,15 @@ const teamCode = (team) =>
     .join("")
     .slice(0, 3)
     .toUpperCase();
+const emojiCodepoints = (emoji) =>
+  [...emoji]
+    .map((char) => char.codePointAt(0).toString(16))
+    .filter((codepoint) => codepoint !== "fe0f")
+    .join("-");
+const teamFlagUrl = (team) => {
+  const emoji = teamFlagEmojiOverrides[team];
+  return emoji ? `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiCodepoints(emoji)}.svg` : "";
+};
 const matchDetailPath = (match) =>
   `/world-cup-2026-match/${match.matchNumber}-${slugify(match.home)}-vs-${slugify(match.away)}/`;
 
@@ -335,9 +402,13 @@ const teamLink = (team) =>
 const teamChip = (team, side = "") => {
   const sideLabel = side ? `<span>${esc(side)}</span>` : "";
   const code = `<b>${esc(teamCode(team))}</b>`;
+  const flagUrl = teamFlagUrl(team);
+  const flag = flagUrl
+    ? `<img class="team-flag" src="${attr(flagUrl)}" alt="" loading="lazy" decoding="async" aria-hidden="true">`
+    : "";
   return isRealTeam(team)
-    ? `<a class="team-chip" href="${attr(teamPath(team))}">${sideLabel}<em>${code}<strong>${esc(team)}</strong></em></a>`
-    : `<span class="team-chip is-placeholder">${sideLabel}<em>${code}<strong>${esc(team)}</strong></em></span>`;
+    ? `<a class="team-chip" href="${attr(teamPath(team))}">${sideLabel}<em>${flag}${code}<strong>${esc(team)}</strong></em></a>`
+    : `<span class="team-chip is-placeholder">${sideLabel}<em>${flag}${code}<strong>${esc(team)}</strong></em></span>`;
 };
 
 const matchupHtml = (home, away) =>
@@ -730,7 +801,7 @@ const renderScheduleTable = () => {
     <p>Try a broader local date, city, team or stage filter.</p>
     <button class="button light" type="button" data-clear-filters>Clear filters</button>
   </div>
-  <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>.</p>
+  <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>. Decorative flag images use <a href="https://github.com/twitter/twemoji">Twemoji SVG assets</a>.</p>
 </section>`;
 };
 
@@ -1560,11 +1631,11 @@ await write(
   const teamHtml = (row, cells, side) => {
     const links = cells[3].querySelectorAll("a");
     const fallback = side === "home" ? row.dataset.home : row.dataset.away;
-    const href = links[side === "home" ? 0 : 1]?.getAttribute("href");
+    const sourceChip = links[side === "home" ? 0 : 1];
     const label = side === "home" ? "Home" : "Away";
-    const code = escapeHtml(links[side === "home" ? 0 : 1]?.querySelector("b")?.textContent || fallback.slice(0, 3).toUpperCase());
-    return href
-      ? '<a class="team-chip" href="' + href + '"><span>' + label + '</span><em><b>' + code + '</b><strong>' + escapeHtml(fallback) + '</strong></em></a>'
+    const code = escapeHtml(sourceChip?.querySelector("b")?.textContent || fallback.slice(0, 3).toUpperCase());
+    return sourceChip
+      ? sourceChip.outerHTML
       : '<span class="team-chip is-placeholder"><span>' + label + '</span><em><b>' + code + '</b><strong>' + escapeHtml(fallback) + '</strong></em></span>';
   };
 

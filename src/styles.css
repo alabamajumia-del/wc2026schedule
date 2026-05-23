@@ -872,10 +872,19 @@ h1 {
 
 .team-chip em {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto auto minmax(0, 1fr);
   gap: 8px;
   align-items: center;
   font-style: normal;
+}
+
+.team-flag {
+  width: 22px;
+  height: 22px;
+  display: block;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(29, 47, 41, 0.12);
+  object-fit: cover;
 }
 
 .team-chip b {
