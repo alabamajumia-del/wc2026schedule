@@ -201,42 +201,90 @@ export const pages = [
     ],
     facts: [
       ["Format", "Printable PDF"],
-      ["Best for", "Offline viewing, sharing and trip folders"],
-      ["Recommended pair", "Use with Excel for filtering"]
+      ["Best for", "Printing, sharing and offline viewing"],
+      ["Includes", "Dates, kickoff times, cities and stadiums"]
     ],
     intro:
-      "The World Cup 2026 schedule PDF page is for fans who want a printable or offline fixture planner. A useful PDF should include match dates, kickoff times, host cities, stadiums and tournament stages without forcing users to copy information from a long web table.",
+      "The World Cup 2026 schedule PDF is built for fans who want a printable, offline fixture list they can save, share or keep in a travel folder. The download includes match dates, kickoff times, teams, tournament stages, venues and stadiums, while this page explains when the PDF is the right format and when the live schedule or Excel planner will serve you better.",
     sections: [
       [
-        "What the PDF Should Include",
+        "Download the Printable Schedule PDF",
         [
-          "The printable schedule should be designed for scanning. Users downloading a PDF often want something they can save to a phone, print for a trip, share with friends or keep beside a TV schedule. The document should avoid visual clutter and present the most important fields first: match date, local kickoff time, stage, teams, city and stadium.",
-          "The PDF should include a clear last-updated date. Tournament information can change, especially around broadcast listings, ticket details or operational notes. A visible update stamp helps users understand whether they need to refresh the file before traveling.",
-          "This page should not duplicate the Excel page. PDF is best for reading, printing and sharing. Excel is best for filtering, sorting and custom planning. When users need a custom schedule, the page should point them toward the spreadsheet version."
+          "Use the download panel on this page when you want a clean copy of the fixture list without opening a large schedule table every time. The PDF is the simplest format for printing, saving to a phone, attaching to a group chat or keeping with travel documents. It is meant to be read quickly, not edited.",
+          "A world cup schedule 2026 pdf download is most useful when you already know you need a fixed reference. For example, you might print it before a watch party, save it before a flight, add it to a shared trip folder, or keep it beside a TV guide. If you expect to sort, filter or add personal notes, use the Excel planner instead.",
+          "Before making paid plans, confirm the latest match information through official sources. The PDF is generated from the same structured schedule data used by wc26schedule, but tournament operations, broadcast details and ticket information can change."
         ]
       ],
       [
-        "Why This Page Can Earn Links",
+        "What Is Included in the PDF?",
         [
-          "A high-quality PDF download page can attract natural links because bloggers, fan groups and travel planners often need a stable fixture reference. For that reason, the page should be accurate, lightweight and updated whenever the source data changes.",
-          "The page should also provide context before the download button. Users should know whether the PDF is a full schedule, team schedule or city schedule. Later releases can add separate versions for Brazil, Argentina, England, USA, Dallas, Atlanta and other high-priority pages."
+          "The printable World Cup schedule 2026 file is organized around the fields fans usually need first: match number, date, kickoff time, teams, stage, group, host city and stadium. Those details make the file useful whether you are following one team, comparing host cities or planning a month-long viewing calendar.",
+          "The PDF groups fixtures in a compact reading format so you can scan the match calendar without using filters. It is intentionally simpler than the web table. The page table is better for searching, while the PDF is better for quick reading and offline reference.",
+          "The current file focuses on the full tournament schedule. Team-specific and city-specific PDF downloads can be generated later from the same match dataset, but the full file remains the best starting point because it shows the entire tournament in one place."
         ]
-      ]
+      ],
+      [
+        "Printable Schedule by Date",
+        [
+          "A PDF works especially well when you think about the tournament by date. Fans often want to know which matches happen on a specific day, whether a weekend has several fixtures, or how the schedule changes as the group stage gives way to knockout matches. A date-based printable file answers those questions faster than a long browser session.",
+          "For travel planning, the date view helps you see whether a match fits your arrival and departure window. For home viewing, it helps you mark the matches you care about before checking local TV or streaming details. For shared planning, it gives everyone the same reference file instead of a changing spreadsheet.",
+          "Kickoff times should still be checked carefully. The PDF uses the schedule data available at generation time and provides a planning reference, but fans outside the venue time zone should verify local viewing times before setting alarms, booking transport or arranging events."
+        ]
+      ],
+      [
+        "How to Use the PDF for Travel Planning",
+        [
+          "If you are traveling to the tournament, start with the PDF to narrow your dates, then open the full schedule page when you need filters. The printable file is good for marking possible matches, circling host cities and sharing options with friends before anyone commits to tickets or hotels.",
+          "After you choose a city, move from the PDF to the relevant host city page. A city page gives you the local match list and stadium context, while the PDF remains your portable overview. This is useful for places with several fixtures, such as Dallas, Atlanta, Los Angeles, Miami or New York New Jersey.",
+          "Use the ticket guide after you identify the matches you want. wc26schedule does not sell tickets, and the PDF should never be treated as proof of ticket availability. It is a planning aid that helps you organize dates and venues before checking official ticket channels."
+        ]
+      ],
+      [
+        "PDF vs Excel vs Live Schedule",
+        [
+          "Choose the PDF when you want a file that is easy to read, print or share. Choose the Excel planner when you want to filter by team, city, date, stage or stadium. Choose the live schedule page when you want the most flexible browsing experience, including team and city links.",
+          "The formats work together rather than competing with each other. A fan tracking Brazil, England or the United States may start with the team filter on the live schedule, save the Excel planner for custom sorting, and keep the PDF as a clean offline copy. A traveler comparing cities may do the same with the city filters.",
+          "If you want to download World Cup fixtures PDF files for a group, use the full PDF first, then keep an eye on later releases for team or city versions. Those narrower downloads are useful, but a full-tournament copy is still the safest reference when plans change."
+        ]
+      ],
+      [
+        "Update Notes and Official Sources",
+        [
+          "The FIFA World Cup 2026 schedule PDF and the wc26schedule PDF serve different roles. FIFA is the authority for official tournament information. wc26schedule turns structured schedule data into planning pages and downloadable files, then points readers back to official sources for final confirmation.",
+          "Download a fresh copy before major planning moments. That includes before buying tickets, before booking non-refundable travel, before printing a watch-party sheet and before sharing the file with a large group. A saved file can become stale if the underlying schedule or operational details change.",
+          "For shared use, add the saved file to a clearly named folder and include the update date in the folder note or message. That small habit helps families, fan clubs and travel groups know which copy they are using. If one person prints a version while another keeps a phone copy, agree to refresh both from the same page before the trip or event.",
+          "The safest habit is simple: use the PDF for organization, use the full schedule for filtering, use the Excel planner for custom work, and use official FIFA or authorized sources for final decisions."
+        ]
+      ],
     ],
     faqs: [
       [
         "Is the World Cup 2026 schedule PDF free?",
-        "The wc26schedule PDF planner is intended to be a free planning resource. Users should always check the live schedule page for the most recent details before making travel or ticket decisions."
+        "Yes. The wc26schedule PDF planner is intended as a free planning resource for fans who want a print-friendly copy. Always check the live schedule page and official sources before making travel, ticket or broadcast decisions."
       ],
       [
-        "Will there be team-specific PDF schedules?",
-        "Yes. The roadmap includes full schedule PDFs, team PDFs and city PDFs so fans can download only the version that matches how they plan to follow the tournament."
+        "What is included in the PDF schedule?",
+        "The PDF includes core fixture details such as match number, date, kickoff time, teams, stage, group, host city and stadium. It is designed for offline reading, printing and sharing rather than filtering or editing."
+      ],
+      [
+        "Is the PDF better than Excel?",
+        "The PDF is better for printing, reading and sharing. Excel is better when you want to filter by team, city, date, stadium or tournament stage. Many fans will use both formats for different parts of their planning."
+      ],
+      [
+        "Can I use the PDF for travel planning?",
+        "Yes, but use it as an overview. The PDF can help you compare dates, cities and stadiums, then you should open the full schedule, host city pages and official sources before booking travel or buying tickets."
+      ],
+      [
+        "How often should I download a fresh copy?",
+        "Download a fresh copy before any important planning step, especially before ticket purchases, hotel bookings, flights, printed watch-party sheets or group sharing. Schedule details and operational notes can change before the tournament."
       ]
     ],
     links: [
       ["Open the live schedule", "/world-cup-2026-schedule/"],
       ["Use the Excel planner", "/world-cup-2026-schedule-excel/"],
-      ["Check tournament dates", "/world-cup-2026-dates/"]
+      ["Check tournament dates", "/world-cup-2026-dates/"],
+      ["Compare host venues", "/world-cup-2026-host-cities/"],
+      ["Read the ticket guide", "/world-cup-2026-tickets/"]
     ]
   },
   {

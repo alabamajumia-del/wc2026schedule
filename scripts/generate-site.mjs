@@ -229,8 +229,9 @@ ${faqs
   .join("")}
 </div></div>`;
 
-const pageSchema = (page) => [
-  {
+const pageSchema = (page) => {
+  const schema = [
+    {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: page.title,
@@ -238,8 +239,8 @@ const pageSchema = (page) => [
     author: { "@type": "Organization", name: `${site.brand} editorial team` },
     publisher: { "@type": "Organization", name: site.brand },
     mainEntityOfPage: `${site.url}/${page.slug}/`
-  },
-  {
+    },
+    {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: page.faqs.map(([question, answer]) => ({
@@ -247,16 +248,51 @@ const pageSchema = (page) => [
       name: question,
       acceptedAnswer: { "@type": "Answer", text: answer }
     }))
-  },
-  {
+    },
+    {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: site.url },
       { "@type": "ListItem", position: 2, name: page.h1, item: `${site.url}/${page.slug}/` }
     ]
+    }
+  ];
+
+  if (page.slug === "world-cup-2026-schedule-pdf") {
+    schema.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: "How to use the World Cup 2026 schedule PDF",
+      description:
+        "Download, save, print and verify the World Cup 2026 schedule PDF before using it for travel, watch-party or ticket planning.",
+      step: [
+        {
+          "@type": "HowToStep",
+          name: "Download the PDF",
+          text: "Use the PDF download link to save the printable schedule to your device."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Review the fixture fields",
+          text: "Check match number, date, kickoff time, teams, stage, host city and stadium."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Compare with live planning pages",
+          text: "Use the live schedule, Excel planner and host city pages when you need filters or local context."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Confirm official details",
+          text: "Verify important travel, ticket and timing decisions with official sources before acting."
+        }
+      ]
+    });
   }
-];
+
+  return schema;
+};
 
 const renderPage = (page) => {
   const sections = page.sections
