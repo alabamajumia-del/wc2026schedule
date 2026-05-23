@@ -279,9 +279,9 @@ export const pages = [
       "world cup 2026 full match schedule overview"
     ],
     facts: [
-      ["PDF files", "3 schedule downloads"],
+      ["PDF files", "4 schedule downloads"],
       ["Best for", "Printing, sharing and visual planning"],
-      ["Includes", "Full schedule, poster matrix and stage overview"]
+      ["Includes", "Full schedule, poster matrix, stage overview and bracket PDF"]
     ],
     intro:
       "Download printable and visual World Cup 2026 schedule PDF files for the tournament across the United States, Canada and Mexico. Choose the full printable schedule, one-page overview poster, full match overview image, or stage overview for group and knockout planning.",
@@ -293,10 +293,10 @@ export const pages = [
         ["Open live schedule", "/world-cup-2026-schedule/", "secondary"]
       ],
       panelTitle: "PDF library checklist",
-      panelIntro: "Use the printable file for detail, the poster for scanning and the stage overview for bracket planning.",
+      panelIntro: "Use the printable file for detail, the poster for scanning, the stage overview for phases and the bracket PDF for knockout planning.",
       panelRows: [
-        ["Files", "3 PDF options"],
-        ["Best use", "Print, scan, compare"],
+        ["Files", "4 PDF options"],
+        ["Best use", "Print, scan, bracket"],
         ["Refresh before", "Tickets or travel"]
       ]
     },
@@ -309,17 +309,18 @@ export const pages = [
         "Printable fixture list",
         "Overview poster PDF",
         "Group and knockout PDF",
+        "Bracket PDF",
         "Full schedule overview image",
         "Offline match planner"
       ],
       noteEyebrow: "File check",
       noteHeading: "Pick the file by task",
       noteCopy:
-        "Use the full printable PDF when details matter, the overview poster when you need a quick scan and the stage overview when group-stage and knockout planning should stay separate."
+        "Use the full printable PDF when details matter, the overview poster when you need a quick scan, the stage overview when tournament phases should stay separate and the bracket PDF when knockout routes and final dates matter most."
     },
     downloadHeading: "Download the PDF Schedule Library",
     downloadIntro:
-      "Start with the PDF that matches your job: full printable details, one-page visual overview, or a two-page stage view. Keep the Excel and CSV versions nearby when you later need filtering, sorting or import into another planning tool.",
+      "Start with the PDF that matches your job: full printable details, one-page visual overview, stage-by-stage view, or bracket and final-date planning. Keep the Excel and CSV versions nearby when you later need filtering, sorting or import into another planning tool.",
     usageHeading: "How to Choose a PDF File",
     usageRows: [
       [

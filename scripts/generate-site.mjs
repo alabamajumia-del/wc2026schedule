@@ -312,6 +312,15 @@ const pdfDownloadFiles = [
     format: "PDF",
     bestFor: "Stage-by-stage visual planning",
     includes: "2-page overview"
+  },
+  {
+    label: "Bracket PDF",
+    href: "/downloads/printable-world-cup-2026-schedule-bracket.pdf",
+    description:
+      "Printable bracket-focused PDF with group-stage fixtures, knockout bracket, match dates, host cities, BST times, semifinals, third-place match and final schedule.",
+    format: "PDF",
+    bestFor: "Bracket, final dates and BST-time planning",
+    includes: "2 pages"
   }
 ];
 
@@ -337,6 +346,10 @@ const siteAssetFiles = [
   [
     "src/assets/2026-world-cup-full-match-schedule-overview.png",
     "assets/2026-world-cup-full-match-schedule-overview.png"
+  ],
+  [
+    "src/assets/printable-world-cup-2026-schedule-bracket.pdf",
+    "downloads/printable-world-cup-2026-schedule-bracket.pdf"
   ]
 ];
 
@@ -803,9 +816,9 @@ const renderPdfVisualSections = () => {
           )
           .join("")}
       </div>
-      <p>For bracket planning, download the stage overview PDF and keep the live match pages nearby. The PDF gives you the shape of the route; match detail pages give you the exact city, stadium, time-zone and related team route once a fixture matters to your plan.</p>
+      <p>For bracket planning, download the bracket PDF and keep the live match pages nearby. The PDF gives you the shape of the route; match detail pages give you the exact city, stadium, time-zone and related team route once a fixture matters to your plan.</p>
       <div class="pdf-feature-actions">
-        <a class="button" href="/downloads/world-cup-2026-stage-overview.pdf" download>Download bracket PDF</a>
+        <a class="button" href="/downloads/printable-world-cup-2026-schedule-bracket.pdf" download>Download bracket PDF</a>
         <a class="button light" href="/world-cup-2026-groups/">Open groups guide</a>
       </div>
     </div>
@@ -954,6 +967,11 @@ const pageSchema = (page) => {
           "@type": "HowToStep",
           name: "Choose the stage overview for bracket planning",
           text: "Use the two-page stage overview PDF when you want group-stage fixtures separate from knockout-stage matches."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Choose the bracket PDF for knockout routes",
+          text: "Use the bracket PDF when you want group-stage fixtures, knockout paths, semifinals, third-place match and final dates in a printable bracket-focused file."
         },
         {
           "@type": "HowToStep",

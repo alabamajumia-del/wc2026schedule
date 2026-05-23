@@ -457,3 +457,51 @@ Saved preview screenshots:
 page-seo-plans/pdf-page-hero-football-background-preview.png
 page-seo-plans/pdf-page-hero-football-background-mobile-preview.png
 ```
+
+## 11. PDF/5 Bracket PDF Addition
+
+Completed on 2026-05-23:
+
+- Read and reviewed `D:\codex\wc2026schedule\PDF\5`.
+- Source files found:
+  - `printable world cup 2026 schedule pdf Bracket.pdf`
+  - `新建文本文档.txt`
+- Added the PDF into the project asset pipeline at:
+
+```text
+src/assets/printable-world-cup-2026-schedule-bracket.pdf
+```
+
+- Published the PDF to the generated site download path:
+
+```text
+/downloads/printable-world-cup-2026-schedule-bracket.pdf
+```
+
+- Added a new PDF download card:
+
+```text
+Bracket PDF
+```
+
+- Updated the PDF page download library count from 3 PDF files to 4 PDF files.
+- Updated PDF page copy to mention the new bracket PDF as a separate use case for knockout routes, semifinals, third-place match and final-date planning.
+- Updated the group/knockout planning module CTA so `Download bracket PDF` points to the new PDF file.
+- Updated HowTo Schema with a bracket PDF selection step.
+
+Validation:
+
+```text
+Build passed.
+PDF file exists at dist/downloads/printable-world-cup-2026-schedule-bracket.pdf.
+Generated page contains the Bracket PDF download card.
+Generated page shows 4 PDF files.
+HowTo Schema includes "Choose the bracket PDF for knockout routes".
+Desktop horizontal overflow: 0.
+```
+
+Saved preview screenshot:
+
+```text
+page-seo-plans/pdf-page-download-library-with-bracket-pdf-preview.png
+```
