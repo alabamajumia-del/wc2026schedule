@@ -376,6 +376,7 @@ const hero = ({
         <div class="hero-planner-result" aria-live="polite">
           <span data-hero-planner-count>Loading matches...</span>
           <strong data-hero-planner-next>Choose a value to preview the next matching fixture.</strong>
+          <em data-hero-planner-target>Choose an option to see where the schedule will open.</em>
         </div>
         <div class="hero-planner-actions">
           <button type="button" data-hero-planner-apply>Apply to schedule</button>
@@ -2750,6 +2751,7 @@ await write(
       const section = document.createElement("section");
       section.className = "date-group";
       section.dataset.dateGroup = "";
+      section.dataset.dateValue = date;
       section.innerHTML =
         '<div class="date-group-heading">' +
         '<div><p class="eyebrow">' +
@@ -2975,6 +2977,7 @@ await write(
   const heroPlannerLabel = document.querySelector("[data-hero-planner-label]");
   const heroPlannerCount = document.querySelector("[data-hero-planner-count]");
   const heroPlannerNext = document.querySelector("[data-hero-planner-next]");
+  const heroPlannerTarget = document.querySelector("[data-hero-planner-target]");
   const heroPlannerApply = document.querySelector("[data-hero-planner-apply]");
   const heroPlannerDetail = document.querySelector("[data-hero-planner-detail]");
   let heroPlannerMode = "team";
@@ -3025,10 +3028,49 @@ await write(
     return "table";
   };
 
+  const heroPlannerDestinationLabel = () => {
+    if (heroPlannerMode === "team") return "Team View";
+    if (heroPlannerMode === "city") return "City View";
+    if (heroPlannerMode === "date") return "Date Cards";
+    return "Full Schedule Table";
+  };
+
+  const highlightPlannerTarget = (target) => {
+    document.querySelectorAll(".planner-target-highlight").forEach((item) => {
+      item.classList.remove("planner-target-highlight");
+    });
+    if (!target) return;
+    target.classList.add("planner-target-highlight");
+    window.setTimeout(() => target.classList.remove("planner-target-highlight"), 2600);
+  };
+
+  const scrollToPlannerDestination = () => {
+    const value = heroPlannerSelect?.value || "";
+    let target = null;
+    if (heroPlannerMode === "team") {
+      target = Array.from(document.querySelectorAll('[data-schedule-view="team"] [data-aggregate-card]')).find(
+        (card) => card.dataset.teamGroup === value
+      );
+    } else if (heroPlannerMode === "city") {
+      target = Array.from(document.querySelectorAll('[data-schedule-view="city"] [data-aggregate-card]')).find(
+        (card) => card.dataset.cityGroup === value
+      );
+    } else if (heroPlannerMode === "date") {
+      target = Array.from(document.querySelectorAll("[data-date-group]")).find((group) => group.dataset.dateValue === value);
+    } else {
+      target = rows.find((row) => !row.hidden);
+    }
+    const fallback = document.querySelector('[data-schedule-view="' + heroPlannerTargetView() + '"]') || document.querySelector("#full-schedule");
+    const destination = target || fallback;
+    destination?.scrollIntoView({ behavior: "smooth", block: target ? "center" : "start" });
+    highlightPlannerTarget(target);
+  };
+
   const updateHeroPlannerSummary = () => {
     if (!heroPlanner || !heroPlannerSelect) return;
     const matched = heroPlannerMatches();
     const first = matched[0];
+    const value = heroPlannerSelect.value;
     if (heroPlannerCount) {
       heroPlannerCount.textContent =
         matched.length + " matching " + (matched.length === 1 ? "match" : "matches");
@@ -3048,6 +3090,16 @@ await write(
     if (heroPlannerDetail) {
       heroPlannerDetail.href = first?.dataset.detailUrl || "#full-schedule";
       heroPlannerDetail.textContent = first ? "Open first match" : "No match detail";
+    }
+    if (heroPlannerTarget) {
+      heroPlannerTarget.textContent = matched.length
+        ? "Will open " + heroPlannerDestinationLabel() + " and highlight " + value + "."
+        : "No destination is available for this choice.";
+    }
+    if (heroPlannerApply) {
+      heroPlannerApply.textContent = matched.length
+        ? "Show " + value + " results"
+        : "Apply to schedule";
     }
   };
 
@@ -3081,7 +3133,7 @@ await write(
     if (heroPlannerMode === "stage" && stage) stage.value = heroPlannerSelect.value;
     setView(heroPlannerTargetView());
     apply();
-    scrollToSchedule();
+    scrollToPlannerDestination();
   };
 
   heroPlannerModeButtons.forEach((button) => {

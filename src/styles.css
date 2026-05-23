@@ -351,6 +351,13 @@ h1 {
   line-height: 1.35;
 }
 
+.hero-planner-result em {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.45;
+}
+
 .hero-planner-actions {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
@@ -380,6 +387,18 @@ h1 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
+}
+
+.planner-target-highlight {
+  position: relative;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(216, 166, 60, 0.24), 0 18px 48px rgba(1, 18, 18, 0.14);
+}
+
+.aggregate-card,
+.date-group,
+[data-match-row] {
+  scroll-margin-top: 96px;
 }
 
 .hero-control-panes {

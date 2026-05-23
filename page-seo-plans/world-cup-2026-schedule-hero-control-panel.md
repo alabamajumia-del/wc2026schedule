@@ -60,3 +60,36 @@ page-seo-plans/schedule-hero-control-panel-mobile-preview.png
 ## 6. Next Recommendation
 
 The control panel now has real page-control value. A later visual pass can add icons, but the module should keep this planner logic: choose a planning mode, choose a real value, preview the result, then apply it.
+
+## 7. Follow-up Fix: Accurate Result Navigation
+
+User feedback on 2026-05-23 showed that selecting `Team -> Belgium` and clicking `Apply to schedule` still felt inaccurate because the page landed near the full schedule area instead of the exact Belgium result.
+
+The planner behavior has been tightened:
+
+- The result panel now states the destination before click, such as `Will open Team View and highlight Belgium`.
+- The primary button changes from a generic label to a selected-result label, such as `Show Belgium results`.
+- Team mode scrolls directly to the selected team aggregate card.
+- City mode scrolls directly to the selected host-city aggregate card.
+- Date mode scrolls directly to the selected date group.
+- Stage mode scrolls to the first visible matching table row.
+- The destination card or row receives a temporary highlight so users can see where the action landed.
+- Target results now scroll into a more visible position instead of sitting under the sticky navigation.
+
+Validation:
+
+```text
+Team example: Belgium -> Team View, Belgium card visible, 3 matches, highlighted
+City example: Dallas -> City View, Dallas card visible, 9 matches
+Date example: selected local date -> Date Cards, matching date group visible
+Stage example: Final -> Table View, 1 visible row, Final row visible
+Build: passed
+Syntax check: passed
+Local page status: 200
+```
+
+Preview artifact:
+
+```text
+page-seo-plans/schedule-planner-belgium-target-preview.png
+```
