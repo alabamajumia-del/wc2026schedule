@@ -632,6 +632,21 @@ export const pages = [
     ],
     intro:
       "The World Cup 2026 host cities page is the travel gateway for wc26schedule. It helps fans compare cities, stadiums, match clusters and planning considerations before moving into city-specific schedule pages.",
+    hero: {
+      variant: "cities",
+      eyebrow: "Host city map",
+      actions: [
+        ["Compare city pages", "#city-schedule-pages", "primary"],
+        ["Open full schedule", "/world-cup-2026-schedule/", "secondary"]
+      ],
+      panelTitle: "City planning guide",
+      panelIntro: "Use the host city hub to compare where matches cluster before opening local schedule pages.",
+      panelRows: [
+        ["Host cities", "16 city guides"],
+        ["Best for", "Travel and stadium planning"],
+        ["Next step", "Open city match pages"]
+      ]
+    },
     sections: [
       [
         "Why City Pages Matter",

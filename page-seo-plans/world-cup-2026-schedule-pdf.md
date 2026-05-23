@@ -617,3 +617,46 @@ page-seo-plans/pdf-page-support-section-cards-preview.png
 page-seo-plans/pdf-page-support-section-cards-mobile-preview.png
 page-seo-plans/pdf-page-format-source-modules-preview.png
 ```
+
+## 14. Official Banner Asset Integration Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Connect the processed PDF-themed banner image and make the PDF page visually distinct from the Schedule and Excel pages.
+```
+
+Optimization completed:
+
+- Connected `world-cup-2026-schedule-pdf-trophy-hero.png` as the PDF page hero background.
+- Kept the page theme centered on printable and visual PDF use cases rather than live filtering.
+- Preserved the PDF library checklist as the right-side value module because it immediately shows file choice, preview and download purpose.
+- Tuned the overlay to keep trophy/stadium atmosphere visible while protecting text contrast.
+- Verified mobile rendering with a full viewport screenshot so the long H1 remains readable and complete.
+
+SEO notes:
+
+- The H1 keeps the core phrase `World Cup 2026 Schedule PDF`.
+- The intro reinforces `printable`, `visual`, `overview poster`, `stage overview` and `group and knockout planning` without repeating the same keyword unnaturally.
+- The first screen now communicates the download intent before users reach the lower file library.
+
+Validation:
+
+```text
+Build passed.
+Desktop overflow: 0
+Mobile overflow: 0
+Hero background asset: /assets/banners/world-cup-2026-schedule-pdf-trophy-hero.png
+Primary CTA: Get printable PDF
+Secondary CTA: Open live schedule
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/banner-pdf-hero-desktop.png
+page-seo-plans/banner-pdf-mobile-viewport.png
+```

@@ -570,3 +570,40 @@ Screenshots saved:
 page-seo-plans/schedule-world-cup-themed-hero-desktop.png
 page-seo-plans/schedule-world-cup-themed-hero-mobile.png
 ```
+
+## 15. Official Banner Asset Integration Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Connect the processed banner image in src/assets/banners to the Schedule page and adapt the page-level visual presentation.
+```
+
+Optimization completed:
+
+- Replaced the temporary Schedule hero image with `world-cup-2026-schedule-stadium-hero.jpg`.
+- Kept the Schedule page visually focused on matchday planning: stadium setting, interactive control panel and direct route into the full table.
+- Tuned the dark overlay so the stadium remains visible while the H1, intro copy and panel controls stay readable.
+- Verified mobile rendering with the real viewport screenshot so the sticky navigation does not hide the page title.
+- Kept the raw `banner/` source folder out of Git and only connected the finalized page asset from `src/assets/banners/`.
+
+Validation:
+
+```text
+Build passed.
+Desktop overflow: 0
+Mobile overflow: 0
+Hero background asset: /assets/banners/world-cup-2026-schedule-stadium-hero.jpg
+Primary CTA: Jump to full table
+Secondary CTA: Download PDF
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/banner-schedule-hero-desktop.png
+page-seo-plans/banner-schedule-mobile-viewport.png
+```

@@ -349,7 +349,22 @@ const siteAssetFiles = [
     "src/assets/2026-world-cup-full-match-schedule-overview.png",
     "assets/2026-world-cup-full-match-schedule-overview.png"
   ],
-  ["src/assets/world-cup-schedule-hero.jpg", "assets/world-cup-schedule-hero.jpg"],
+  [
+    "src/assets/banners/world-cup-2026-schedule-stadium-hero.jpg",
+    "assets/banners/world-cup-2026-schedule-stadium-hero.jpg"
+  ],
+  [
+    "src/assets/banners/world-cup-2026-schedule-pdf-trophy-hero.png",
+    "assets/banners/world-cup-2026-schedule-pdf-trophy-hero.png"
+  ],
+  [
+    "src/assets/banners/world-cup-2026-schedule-excel-data-hero.png",
+    "assets/banners/world-cup-2026-schedule-excel-data-hero.png"
+  ],
+  [
+    "src/assets/banners/world-cup-2026-host-cities-map-hero.png",
+    "assets/banners/world-cup-2026-host-cities-map-hero.png"
+  ],
   [
     "src/assets/printable-world-cup-2026-schedule-bracket.pdf",
     "downloads/printable-world-cup-2026-schedule-bracket.pdf"
@@ -1283,7 +1298,7 @@ const downloadPanel = (page = {}) => {
 
 const cityIndexPanel = () => {
   const cities = citySummaries();
-  return `<section class="section">
+  return `<section class="section" id="city-schedule-pages">
   <h2>City schedule pages</h2>
   <p>Open a host city page to see that city's matches, stadium, date range and planning notes.</p>
   <div class="link-grid">

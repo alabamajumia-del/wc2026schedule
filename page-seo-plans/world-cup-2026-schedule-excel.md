@@ -178,3 +178,46 @@ Screenshots saved:
 page-seo-plans/excel-download-file-selector-desktop-final.png
 page-seo-plans/excel-download-file-selector-mobile-final.png
 ```
+
+## Official Banner Asset Integration Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Connect the processed Excel-themed banner image and adapt the page-level visual presentation.
+```
+
+Optimization completed:
+
+- Connected `world-cup-2026-schedule-excel-data-hero.png` as the Excel page hero background.
+- Kept the visual direction distinct from PDF and Schedule by emphasizing workbook structure, data preview and spreadsheet planning.
+- Preserved the right-side spreadsheet preview panel because it directly explains why users would choose Excel or CSV.
+- Added the final asset to the static build copy list so the page uses a local file rather than a remote or temporary background.
+- Verified desktop and mobile renderings for readable copy, intact CTA buttons and no horizontal overflow.
+
+SEO notes:
+
+- The H1 keeps the exact page intent `World Cup 2026 Schedule Excel`.
+- The first screen naturally supports long-tail searches around Excel workbook, CSV data, filtering fixtures and spreadsheet planning.
+- The module avoids keyword stuffing by showing the file value through table preview, tabs and download options.
+
+Validation:
+
+```text
+Build passed.
+Desktop overflow: 0
+Mobile overflow: 0
+Hero background asset: /assets/banners/world-cup-2026-schedule-excel-data-hero.png
+Primary CTA: Get Excel workbook
+Secondary CTA: Get CSV data
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/banner-excel-hero-desktop.png
+page-seo-plans/banner-excel-mobile-viewport.png
+```

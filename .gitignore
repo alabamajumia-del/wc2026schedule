@@ -13,3 +13,5 @@ pnpm-debug.log*
 *.tsbuildinfo
 FWC26 Match Schedule_v17_10042026_EN.pdf
 PDF/
+banner/
+src/assets/banners/*-2.*
