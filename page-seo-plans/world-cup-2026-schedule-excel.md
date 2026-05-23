@@ -124,3 +124,57 @@ Screenshots saved:
 page-seo-plans/excel-theme-hero-desktop-preview.png
 page-seo-plans/excel-theme-hero-mobile-preview.png
 ```
+
+## Excel Download File Selector Pass
+
+Date: 2026-05-23
+Status: Completed
+
+User task:
+
+```text
+Optimize the /world-cup-2026-schedule-excel/ download file selection module.
+```
+
+Problem found:
+
+- The page had a strong Excel-themed hero, but the lower download area still reused the site-wide file list.
+- Excel, CSV and PDF files were too close in hierarchy, which made the page less useful for users who came specifically for spreadsheet downloads.
+- Anchor jumps to the download module needed better spacing so the sticky header did not cover the module title.
+
+Optimization completed:
+
+- Replaced the generic download panel with an Excel-specific file chooser.
+- Made XLS and CSV the primary choices, each with a clear task, best-use case, compatibility note, included fields and direct download button.
+- Added supporting cards for PDF, live schedule and official-source verification without making them compete with the spreadsheet downloads.
+- Added responsive styles so the file cards stack cleanly on mobile.
+- Added `scroll-margin-top` for the download module, with a larger mobile value because the mobile navigation is taller.
+
+SEO and keyword notes:
+
+- The section keeps the primary intent around `world cup 2026 schedule excel`.
+- It naturally reinforces long-tail intent for `world cup 2026 schedule csv download`, `world cup schedule csv`, `world cup 2026 excel download` and spreadsheet import searches.
+- The module copy is task-led and avoids keyword repetition.
+
+Validation:
+
+```text
+Word count: 1,447
+Primary exact keyword count: 5
+Primary exact density: 0.35%
+Keyword family density: 3.8%
+Desktop overflow: 0
+Mobile overflow: 0
+File cards: 2
+Utility cards: 3
+Download buttons: 2
+Desktop download anchor top: 96px
+Mobile download anchor top: 184px
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/excel-download-file-selector-desktop-final.png
+page-seo-plans/excel-download-file-selector-mobile-final.png
+```

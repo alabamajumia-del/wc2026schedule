@@ -1155,6 +1155,86 @@ const renderExcelSupportSections = () => {
 </section>`;
 };
 
+const renderExcelDownloadSelector = (page = {}) => {
+  const excelFiles = [
+    {
+      format: "XLS",
+      label: "Excel-compatible workbook",
+      href: "/downloads/world-cup-2026-schedule.xls",
+      badge: "Recommended",
+      task: "Filter and sort the schedule",
+      bestFor: "Fans, travelers and editors who want multiple planning sheets.",
+      includes: ["8 sheets", "104 matches", "Team, city, date, stage and venue fields", "Source notes"],
+      worksWith: "Microsoft Excel, Apple Numbers and spreadsheet apps that open .xls files"
+    },
+    {
+      format: "CSV",
+      label: "Clean schedule data",
+      href: "/downloads/world-cup-2026-schedule.csv",
+      badge: "Import file",
+      task: "Move the schedule into another tool",
+      bestFor: "Google Sheets, Airtable, Notion databases, BI tools and custom schedule builders.",
+      includes: ["104 rows", "ET, UTC and venue-local time fields", "Team codes", "Match detail URLs"],
+      worksWith: "Google Sheets, Airtable, databases, scripts and no-code planning tools"
+    }
+  ];
+  return `<section class="section excel-download-selector" id="download-library">
+  <div class="excel-download-head">
+    <div>
+      <p class="eyebrow">Excel file chooser</p>
+      <h2>${esc(page.downloadHeading ?? "Download the Excel and CSV Schedule Files")}</h2>
+      <p>${esc(
+        page.downloadIntro ??
+          "Choose the workbook when you want a ready-made planner. Choose CSV when you need raw schedule data for another tool."
+      )}</p>
+    </div>
+    <aside>
+      <strong>Pick by job</strong>
+      <span>Filter in Excel, import CSV, or switch to the printable PDF after your match list is final.</span>
+    </aside>
+  </div>
+  <div class="excel-file-grid">
+    ${excelFiles
+      .map(
+        (file) => `<article class="excel-file-card">
+      <div class="excel-file-top">
+        <b>${esc(file.format)}</b>
+        <span>${esc(file.badge)}</span>
+      </div>
+      <h3>${esc(file.label)}</h3>
+      <p>${esc(file.task)}</p>
+      <dl>
+        <div><dt>Best for</dt><dd>${esc(file.bestFor)}</dd></div>
+        <div><dt>Works with</dt><dd>${esc(file.worksWith)}</dd></div>
+      </dl>
+      <ul>
+        ${file.includes.map((item) => `<li>${esc(item)}</li>`).join("")}
+      </ul>
+      <a class="button" href="${attr(file.href)}" download>Download ${esc(file.format)} file</a>
+    </article>`
+      )
+      .join("")}
+  </div>
+  <div class="excel-download-utility">
+    <article>
+      <span>Need to print?</span>
+      <strong>Use the PDF library after filtering.</strong>
+      <a href="/world-cup-2026-schedule-pdf/">Open PDF schedule files</a>
+    </article>
+    <article>
+      <span>Need current browsing?</span>
+      <strong>Use the live schedule for timezone and match links.</strong>
+      <a href="/world-cup-2026-schedule/">Open live schedule</a>
+    </article>
+    <article>
+      <span>Before decisions</span>
+      <strong>Check official updates before travel or ticket purchases.</strong>
+      <a href="${attr(officialFifaScheduleUrl)}">Official FIFA schedule</a>
+    </article>
+  </div>
+</section>`;
+};
+
 const downloadPanel = (page = {}) => {
   const dataFiles =
     page.slug === "world-cup-2026-schedule-excel"
@@ -1354,7 +1434,9 @@ const renderPage = (page) => {
     "world-cup-2026-schedule-pdf",
     "world-cup-2026-schedule-excel"
   ].includes(page.slug)
-    ? downloadPanel(page)
+    ? page.slug === "world-cup-2026-schedule-excel"
+      ? renderExcelDownloadSelector(page)
+      : downloadPanel(page)
     : "";
   const pdfVisualBlock =
     page.slug === "world-cup-2026-schedule-pdf" ? renderPdfVisualSections() : "";
