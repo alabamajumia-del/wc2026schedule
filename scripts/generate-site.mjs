@@ -292,6 +292,14 @@ const downloadFiles = [
     format: "PDF",
     bestFor: "Printing, sharing and quick visual scanning",
     includes: "Matrix + details"
+  },
+  {
+    label: "Overview poster PDF",
+    href: "/downloads/world-cup-2026-schedule-overview.pdf",
+    description: "Single-page wc26schedule overview PDF with the host-city and match-date matrix for quick visual scanning.",
+    format: "PDF",
+    bestFor: "Embedding, sharing and quick previews",
+    includes: "1-page matrix"
   }
 ];
 
@@ -2180,7 +2188,7 @@ const pdfEscape = (value) =>
     .replaceAll("(", "\\(")
     .replaceAll(")", "\\)");
 
-const generatePdf = () => {
+const generatePdf = ({ includeDetails = true } = {}) => {
   const pageW = 1191;
   const pageH = 842;
   const colors = {
@@ -2313,39 +2321,41 @@ const generatePdf = () => {
   matrixOps.push(text(`Generated ${updated} by wc26schedule | Primary source: FIFA schedule PDF`, 42, legendY + 18, 8, "F1", colors.muted));
   ops.push(matrixOps.join("\n"));
 
-  const detailRows = matches.map((match) => {
-    const view = matchView(match);
-    return [
-      `#${match.matchNumber}`,
-      match.dateLabel,
-      `${match.kickoffET} ET`,
-      `${teamCode(match.home)} ${match.home} v ${teamCode(match.away)} ${match.away}`,
-      match.group ? `${match.stage} G${match.group}` : match.stage,
-      `${match.city} - ${match.stadium}`,
-      view["Venue local time"]
-    ];
-  });
-  const rowsPerPage = 23;
-  const col = [42, 86, 210, 292, 545, 675, 985];
-  const headers = ["Match", "Date", "ET", "Teams", "Stage", "Venue", "Venue local"];
-  for (let start = 0; start < detailRows.length; start += rowsPerPage) {
-    const pageOps = [];
-    pageOps.push(rect(0, 0, pageW, pageH, "0.970 0.980 0.955"));
-    pageOps.push(rect(0, 0, pageW, 72, colors.dark));
-    pageOps.push(text("World Cup 2026 Match Schedule Details", 42, 44, 18, "F2", colors.white));
-    pageOps.push(text(`Rows ${start + 1}-${Math.min(start + rowsPerPage, detailRows.length)} of ${detailRows.length}`, 1000, 44, 10, "F2", colors.gold));
-    pageOps.push(rect(36, 92, 1120, 28, colors.green));
-    headers.forEach((header, index) => pageOps.push(text(header, col[index], 111, 8, "F2", colors.white)));
-    detailRows.slice(start, start + rowsPerPage).forEach((row, rowIndex) => {
-      const y = 126 + rowIndex * 28;
-      pageOps.push(rect(36, y, 1120, 27, rowIndex % 2 === 0 ? "1 1 1" : "0.940 0.965 0.940", "0.820 0.870 0.830"));
-      row.forEach((cell, index) => {
-        const size = index === 3 || index === 5 ? 7.2 : 7.8;
-        pageOps.push(text(String(cell).slice(0, index === 5 ? 44 : index === 3 ? 48 : 28), col[index], y + 17, size, index === 0 ? "F2" : "F1", colors.dark));
-      });
+  if (includeDetails) {
+    const detailRows = matches.map((match) => {
+      const view = matchView(match);
+      return [
+        `#${match.matchNumber}`,
+        match.dateLabel,
+        `${match.kickoffET} ET`,
+        `${teamCode(match.home)} ${match.home} v ${teamCode(match.away)} ${match.away}`,
+        match.group ? `${match.stage} G${match.group}` : match.stage,
+        `${match.city} - ${match.stadium}`,
+        view["Venue local time"]
+      ];
     });
-    pageOps.push(text("Source note: schedule data follows the structured wc26schedule dataset based on FIFA source material. Confirm final details with official FIFA channels before paid planning.", 42, 792, 8, "F1", "0.290 0.360 0.340"));
-    ops.push(pageOps.join("\n"));
+    const rowsPerPage = 23;
+    const col = [42, 86, 210, 292, 545, 675, 985];
+    const headers = ["Match", "Date", "ET", "Teams", "Stage", "Venue", "Venue local"];
+    for (let start = 0; start < detailRows.length; start += rowsPerPage) {
+      const pageOps = [];
+      pageOps.push(rect(0, 0, pageW, pageH, "0.970 0.980 0.955"));
+      pageOps.push(rect(0, 0, pageW, 72, colors.dark));
+      pageOps.push(text("World Cup 2026 Match Schedule Details", 42, 44, 18, "F2", colors.white));
+      pageOps.push(text(`Rows ${start + 1}-${Math.min(start + rowsPerPage, detailRows.length)} of ${detailRows.length}`, 1000, 44, 10, "F2", colors.gold));
+      pageOps.push(rect(36, 92, 1120, 28, colors.green));
+      headers.forEach((header, index) => pageOps.push(text(header, col[index], 111, 8, "F2", colors.white)));
+      detailRows.slice(start, start + rowsPerPage).forEach((row, rowIndex) => {
+        const y = 126 + rowIndex * 28;
+        pageOps.push(rect(36, y, 1120, 27, rowIndex % 2 === 0 ? "1 1 1" : "0.940 0.965 0.940", "0.820 0.870 0.830"));
+        row.forEach((cell, index) => {
+          const size = index === 3 || index === 5 ? 7.2 : 7.8;
+          pageOps.push(text(String(cell).slice(0, index === 5 ? 44 : index === 3 ? 48 : 28), col[index], y + 17, size, index === 0 ? "F2" : "F1", colors.dark));
+        });
+      });
+      pageOps.push(text("Source note: schedule data follows the structured wc26schedule dataset based on FIFA source material. Confirm final details with official FIFA channels before paid planning.", 42, 792, 8, "F1", "0.290 0.360 0.340"));
+      ops.push(pageOps.join("\n"));
+    }
   }
 
   const objects = [];
@@ -2392,6 +2402,7 @@ await mkdir(dist, { recursive: true });
 await write("downloads/world-cup-2026-schedule.csv", scheduleCsv());
 await write("downloads/world-cup-2026-schedule.xls", scheduleSpreadsheetHtml());
 await write("downloads/world-cup-2026-schedule.pdf", generatePdf());
+await write("downloads/world-cup-2026-schedule-overview.pdf", generatePdf({ includeDetails: false }));
 await write(
   "schedule.js",
   `(() => {

@@ -47,6 +47,8 @@ The official FIFA PDF uses a high-density visual matrix: host cities down the le
   - match number, ET kickoff and team codes inside each block
 - Detail pages list all 104 matches with date, ET time, teams, stage, venue and venue-local time.
 - Current generated PDF has 6 pages.
+- Added a separate `Overview poster PDF` as a clean one-page wc26schedule asset for sharing or embedding.
+- The site does not reuse the watermarked source image and does not remove third-party watermarks or logos.
 
 ## 3. Download Module UI Changes
 
@@ -61,7 +63,8 @@ Build: passed
 Syntax check: passed
 CSV rows: 104 data rows
 Excel sheets: README, All Matches, Group Stage, Knockout, By Date, By Team, Venues, Groups
-PDF pages: 6
+Printable PDF pages: 6
+Overview poster PDF pages: 1
 PDF first page renders as a matrix preview
 Download module screenshot: no horizontal overflow
 ```
@@ -71,7 +74,9 @@ Preview artifacts:
 ```text
 page-seo-plans/download-pdf-matrix-preview.png
 page-seo-plans/download-pdf-detail-preview.png
+page-seo-plans/download-overview-poster-pdf-preview.png
 page-seo-plans/download-module-updated-preview.png
 ```
 
 The official FIFA PDF itself is kept as a local reference file and is intentionally ignored by Git.
+The `PDF/` reference-material folder is also ignored so watermarked working assets are not published.
