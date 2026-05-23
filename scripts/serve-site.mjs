@@ -3,7 +3,6 @@ import { readFile, stat } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
-import "./generate-site.mjs";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const dist = join(root, "dist");
@@ -46,4 +45,3 @@ createServer(async (req, res) => {
 }).listen(port, () => {
   console.log(`wc26schedule preview running at http://localhost:${port}`);
 });
-

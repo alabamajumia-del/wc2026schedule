@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile, copyFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { pages, site } from "../src/content.mjs";
@@ -422,7 +422,7 @@ const renderScheduleCapabilitySections = () => {
     .slice(0, 6);
 
   return `
-  <section class="section capability-section">
+  <section class="section capability-section scroll-mt-24">
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Use the schedule</p>
@@ -432,19 +432,19 @@ const renderScheduleCapabilitySections = () => {
       <a class="button light" href="#full-schedule">Open schedule controls</a>
     </div>
     <div class="capability-grid">
-      <article class="capability-card">
+      <article class="capability-card transition duration-200 hover:shadow-lg hover:border-pitch">
         <span class="capability-number">01</span>
         <h3>Find one World Cup 2026 schedule match fast</h3>
         <p>Use Search for a team, stadium, city, group letter or match number.</p>
         <dl><div><dt>Best input</dt><dd>Team, city or match #</dd></div><div><dt>Output</dt><dd>Filtered table and cards</dd></div></dl>
       </article>
-      <article class="capability-card">
+      <article class="capability-card transition duration-200 hover:shadow-lg hover:border-pitch">
         <span class="capability-number">02</span>
         <h3>Change the World Cup 2026 schedule view</h3>
         <p>Switch between Table, Date cards, Team View and City View without changing data source.</p>
         <dl><div><dt>Best input</dt><dd>View tabs</dd></div><div><dt>Output</dt><dd>Schedule by task</dd></div></dl>
       </article>
-      <article class="capability-card">
+      <article class="capability-card transition duration-200 hover:shadow-lg hover:border-pitch">
         <span class="capability-number">03</span>
         <h3>Keep a World Cup 2026 schedule copy</h3>
         <p>Use PDF for printing, Excel for sorting, or CSV for imports.</p>
@@ -453,7 +453,7 @@ const renderScheduleCapabilitySections = () => {
     </div>
   </section>
 
-  <section class="section capability-section">
+  <section class="section capability-section scroll-mt-24">
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Date and venue planner</p>
@@ -470,13 +470,13 @@ const renderScheduleCapabilitySections = () => {
     <div class="planning-matrix">
       ${topCityRows
         .map(
-          (item) => `<a href="${attr(item.path)}"><strong>${esc(item.city)}</strong><span>${item.count} matches</span><small>${esc(item.stadium)}</small></a>`
+          (item) => `<a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="${attr(item.path)}"><strong>${esc(item.city)}</strong><span>${item.count} matches</span><small>${esc(item.stadium)}</small></a>`
         )
         .join("")}
     </div>
   </section>
 
-  <section class="section capability-section">
+  <section class="section capability-section scroll-mt-24">
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Timezone tool</p>
@@ -493,7 +493,7 @@ const renderScheduleCapabilitySections = () => {
     </div>
   </section>
 
-  <section class="section capability-section">
+  <section class="section capability-section scroll-mt-24">
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Team and city views</p>
@@ -503,12 +503,12 @@ const renderScheduleCapabilitySections = () => {
       <a class="button light" href="#full-schedule">Switch views</a>
     </div>
     <div class="split-tool">
-      <article>
+      <article class="transition duration-200 hover:shadow-lg hover:border-pitch">
         <h3>Team View</h3>
         <p>${confirmedTeams} confirmed team cards group each country's matches with opponent, city, stadium, local time and watch window.</p>
         <ul><li>Best for national-team tracking.</li><li>Uses team chips, flags and three-letter codes.</li><li>Pairs with linked team schedule pages.</li></ul>
       </article>
-      <article>
+      <article class="transition duration-200 hover:shadow-lg hover:border-pitch">
         <h3>City View</h3>
         <p>${cityCount} host city cards group the full schedule by venue market, match count and stage mix.</p>
         <ul><li>Best for travel and stadium planning.</li><li>Shows local match clusters without re-filtering the table.</li><li>Pairs with linked host city pages.</li></ul>
@@ -516,7 +516,7 @@ const renderScheduleCapabilitySections = () => {
     </div>
   </section>
 
-  <section class="section capability-section">
+  <section class="section capability-section scroll-mt-24">
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Tournament path</p>
@@ -532,7 +532,7 @@ const renderScheduleCapabilitySections = () => {
     </div>
   </section>
 
-  <section class="section capability-section">
+  <section class="section capability-section scroll-mt-24">
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Files and trust</p>
@@ -542,9 +542,9 @@ const renderScheduleCapabilitySections = () => {
       <a class="button light" href="/world-cup-2026-schedule-pdf/">Open PDF page</a>
     </div>
     <div class="download-decision-grid">
-      <a href="/world-cup-2026-schedule-pdf/"><strong>PDF</strong><span>Print, save or share a simple offline copy.</span></a>
-      <a href="/world-cup-2026-schedule-excel/"><strong>Excel</strong><span>Sort and filter matches by team, date, city, stage or stadium.</span></a>
-      <a href="/downloads/world-cup-2026-schedule.csv"><strong>CSV</strong><span>Import the structured schedule into another planner.</span></a>
+      <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="/world-cup-2026-schedule-pdf/"><strong>PDF</strong><span>Print, save or share a simple offline copy.</span></a>
+      <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="/world-cup-2026-schedule-excel/"><strong>Excel</strong><span>Sort and filter matches by team, date, city, stage or stadium.</span></a>
+      <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="/downloads/world-cup-2026-schedule.csv"><strong>CSV</strong><span>Import the structured schedule into another planner.</span></a>
     </div>
     <ul class="source-checklist">
       <li>World cup fixtures 2026, downloads and visible tools should be refreshed together.</li>
@@ -554,7 +554,7 @@ const renderScheduleCapabilitySections = () => {
   </section>`;
 };
 
-const renderScheduleNavigation = () => `<section class="section capability-section">
+const renderScheduleNavigation = () => `<section class="section capability-section scroll-mt-24">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Navigation paths</p>
@@ -564,12 +564,12 @@ const renderScheduleNavigation = () => `<section class="section capability-secti
     <a class="button light" href="#full-schedule">Return to schedule</a>
   </div>
   <div class="route-grid">
-    <a href="#full-schedule"><strong>Find a match</strong><span>Search the World Cup 2026 schedule by team, city, stadium, group or match number.</span></a>
-    <a href="#full-schedule"><strong>Follow a team</strong><span>Open Team View, choose one country, then jump to its team page.</span></a>
-    <a href="#full-schedule"><strong>Plan a city trip</strong><span>Open City View and compare match clusters by venue market.</span></a>
-    <a href="/world-cup-2026-schedule-pdf/"><strong>Save offline</strong><span>Use the PDF when you need a printable fixture list.</span></a>
-    <a href="/world-cup-2026-schedule-excel/"><strong>Sort your own way</strong><span>Use Excel when you want custom filtering outside the browser.</span></a>
-    <a href="/world-cup-2026-tickets/"><strong>Check paid decisions</strong><span>Move to ticket guidance before buying or booking around a match.</span></a>
+    <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="#full-schedule"><strong>Find a match</strong><span>Search the World Cup 2026 schedule by team, city, stadium, group or match number.</span></a>
+    <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="#full-schedule"><strong>Follow a team</strong><span>Open Team View, choose one country, then jump to its team page.</span></a>
+    <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="#full-schedule"><strong>Plan a city trip</strong><span>Open City View and compare match clusters by venue market.</span></a>
+    <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="/world-cup-2026-schedule-pdf/"><strong>Save offline</strong><span>Use the PDF when you need a printable fixture list.</span></a>
+    <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="/world-cup-2026-schedule-excel/"><strong>Sort your own way</strong><span>Use Excel when you want custom filtering outside the browser.</span></a>
+    <a class="transition duration-200 hover:shadow-lg hover:border-pitch" href="/world-cup-2026-tickets/"><strong>Check paid decisions</strong><span>Move to ticket guidance before buying or booking around a match.</span></a>
   </div>
 </section>`;
 
@@ -1634,7 +1634,6 @@ const generatePdf = () => {
 
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
-await copyFile(join(root, "src", "styles.css"), join(dist, "styles.css"));
 await write("downloads/world-cup-2026-schedule.csv", scheduleCsv());
 await write("downloads/world-cup-2026-schedule.xls", scheduleSpreadsheetHtml());
 await write("downloads/world-cup-2026-schedule.pdf", generatePdf());

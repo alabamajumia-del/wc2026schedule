@@ -1,3 +1,6 @@
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --bg: #f6f7f2;
   --surface: #ffffff;
@@ -7,6 +10,8 @@
   --line: #d9e0d9;
   --accent: #157a5b;
   --accent-dark: #0c5b43;
+  --green: #157a5b;
+  --green-dark: #0c5b43;
   --gold: #d8a63c;
   --blue: #245d8f;
   --danger: #9f3434;

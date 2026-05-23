@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/generate-site.mjs",
-    "dev": "node scripts/serve-site.mjs",
-    "start": "node scripts/serve-site.mjs"
+    "build": "node scripts/generate-site.mjs && npm run build:css",
+    "build:css": "tailwindcss -c tailwind.config.cjs -i ./src/styles.css -o ./dist/styles.css --minify",
+    "dev": "npm run build && node scripts/serve-site.mjs",
+    "start": "npm run build && node scripts/serve-site.mjs"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
 }

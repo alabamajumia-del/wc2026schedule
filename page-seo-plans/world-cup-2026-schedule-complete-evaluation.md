@@ -204,6 +204,7 @@ Assessment:
 Strengths:
 
 - The page remains static-first and does not require an application backend.
+- Tailwind CSS is now available as a build-time utility layer, with preflight disabled to preserve the existing design system.
 - Date cards are generated from existing table rows, avoiding duplicate static fixture content.
 - Countdown updates once per minute instead of every second, which is more stable and less distracting.
 - The UI logic is centralized in `dist/schedule.js` generated from `scripts/generate-site.mjs`.
@@ -212,6 +213,7 @@ Risks:
 
 - The table is large, so future additions should avoid duplicating all match content in hidden static blocks.
 - Flag CDN dependency should be monitored.
+- Tailwind should be used page by page for specific UI improvements, not as a reason to generate repeated template-like content blocks.
 - If filtered export is added later, it should reuse the current row data instead of creating another schedule data source.
 
 ## 10. Final Judgment
