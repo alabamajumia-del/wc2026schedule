@@ -2543,6 +2543,95 @@ td {
   color: var(--text);
 }
 
+.pdf-chooser-section {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fff 0%, #f7faf5 100%);
+  padding: 26px;
+  box-shadow: var(--shadow);
+}
+
+.pdf-chooser-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.pdf-chooser-head h2 {
+  max-width: 760px;
+}
+
+.pdf-chooser-head p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.pdf-chooser-head aside {
+  border-left: 4px solid var(--gold);
+  background: #fff;
+  padding: 16px 18px;
+}
+
+.pdf-chooser-head aside h3 {
+  margin-bottom: 8px;
+}
+
+.pdf-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.pdf-choice-card {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 9px;
+  min-height: 218px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+}
+
+.pdf-choice-card span {
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pdf-choice-card strong {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.pdf-choice-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.pdf-choice-card em {
+  justify-self: start;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  padding: 9px 10px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.pdf-choice-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
 .download-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -2771,6 +2860,8 @@ td {
   .pdf-feature-grid,
   .pdf-feature-grid.reverse,
   .pdf-use-grid,
+  .pdf-chooser-head,
+  .pdf-choice-grid,
   .download-grid,
   .capability-grid,
   .download-decision-grid,

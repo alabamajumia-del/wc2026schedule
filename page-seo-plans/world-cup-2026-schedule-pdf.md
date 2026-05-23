@@ -505,3 +505,36 @@ Saved preview screenshot:
 ```text
 page-seo-plans/pdf-page-download-library-with-bracket-pdf-preview.png
 ```
+
+## 12. PDF File Chooser Module Upgrade
+
+Completed on 2026-05-23:
+
+- Replaced the low-value overview module that only showed explanatory text and keyword tags.
+- Added a task-based PDF chooser with five direct download paths:
+  - Print complete details -> Printable PDF
+  - Scan the tournament quickly -> Overview poster PDF
+  - Separate group and knockout stages -> Stage overview PDF
+  - Plan bracket routes -> Bracket PDF
+  - Share one image -> Full overview image
+- Each card now explains the user task, names the recommended file and provides a direct download action.
+- Removed the static tag-list from the PDF page overview area.
+- Kept the file check note but moved it into the chooser module as supporting guidance.
+
+Validation:
+
+```text
+Build passed.
+Generated page contains 1 PDF chooser section.
+Generated page contains 5 chooser cards.
+Old static tag-list count on PDF page: 0.
+Desktop horizontal overflow: 0.
+Mobile horizontal overflow: 0.
+```
+
+Saved preview screenshots:
+
+```text
+page-seo-plans/pdf-page-file-chooser-module-preview.png
+page-seo-plans/pdf-page-file-chooser-module-mobile-preview.png
+```

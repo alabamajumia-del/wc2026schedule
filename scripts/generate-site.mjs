@@ -846,6 +846,42 @@ const renderPdfUsageCards = (heading, rows) => `<section class="section">
   </div>
 </section>`;
 
+const renderPdfChooser = (overview) => {
+  const choices = [
+    ["Print complete details", "Printable PDF", "/downloads/world-cup-2026-schedule.pdf", "Use when you need match numbers, dates, teams, cities, stadiums and detail pages in one offline packet."],
+    ["Scan the tournament quickly", "Overview poster PDF", "/downloads/world-cup-2026-schedule-overview.pdf", "Use when you want a one-page visual matrix by host city and match date."],
+    ["Separate group and knockout stages", "Stage overview PDF", "/downloads/world-cup-2026-stage-overview.pdf", "Use when group-stage fixtures and knockout-stage matches should stay on different pages."],
+    ["Plan bracket routes", "Bracket PDF", "/downloads/printable-world-cup-2026-schedule-bracket.pdf", "Use when knockout paths, semifinals, third-place match and final dates are the main task."],
+    ["Share one image", "Full overview image", "/assets/2026-world-cup-full-match-schedule-overview.png", "Use when you need a quick image for a planning board, chat or visual handout."]
+  ];
+  return `<section class="section pdf-chooser-section">
+  <div class="pdf-chooser-head">
+    <div>
+      <p class="eyebrow">${esc(overview.eyebrow)}</p>
+      <h2>${esc(overview.heading)}</h2>
+      <p>${esc(overview.copy)}</p>
+    </div>
+    <aside>
+      <p class="eyebrow">${esc(overview.noteEyebrow)}</p>
+      <h3>${esc(overview.noteHeading)}</h3>
+      <p>${esc(overview.noteCopy)}</p>
+    </aside>
+  </div>
+  <div class="pdf-choice-grid">
+    ${choices
+      .map(
+        ([task, file, href, copy]) => `<a class="pdf-choice-card" href="${attr(href)}" download>
+      <span>${esc(task)}</span>
+      <strong>${esc(file)}</strong>
+      <p>${esc(copy)}</p>
+      <em>Download file</em>
+    </a>`
+      )
+      .join("")}
+  </div>
+</section>`;
+};
+
 const downloadPanel = (page = {}) => {
   const pdfFiles =
     page.slug === "world-cup-2026-schedule-pdf"
@@ -1049,7 +1085,10 @@ const renderPage = (page) => {
       panelRows: page.hero?.panelRows
     })}
 <main class="main">
-  <section class="section">
+  ${
+    page.slug === "world-cup-2026-schedule-pdf"
+      ? renderPdfChooser(overview)
+      : `<section class="section">
     <div class="grid">
       <article class="span-8 card"><div class="card-body">
         <p class="eyebrow">${esc(overview.eyebrow)}</p>
@@ -1065,7 +1104,8 @@ const renderPage = (page) => {
         <p>${esc(overview.noteCopy)}</p>
       </div></aside>
     </div>
-  </section>
+  </section>`
+  }
   ${scheduleBlock}
   ${pdfVisualBlock}
   ${downloadsBlock}
