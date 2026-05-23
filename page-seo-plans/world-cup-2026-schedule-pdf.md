@@ -9,7 +9,7 @@ Page URL:
 Status:
 
 ```text
-Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23.
+Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23. PDF library upgrade completed on 2026-05-23.
 ```
 
 Second-pass optimization reference:
@@ -44,6 +44,9 @@ world cup schedule 2026 pdf download
 printable world cup schedule 2026
 fifa world cup 2026 schedule pdf
 download world cup fixtures pdf
+world cup 2026 bracket pdf
+world cup 2026 group stage schedule pdf
+world cup 2026 knockout schedule pdf
 ```
 
 Semantic keyword family:
@@ -123,6 +126,26 @@ Generic related-links heading: not present
 Hero visual module: PDF sheet preview and download checklist present
 ```
 
+## 3.2 PDF Library Upgrade Metrics
+
+Latest check after expanding from one PDF to a PDF library:
+
+```text
+Build: passed
+Local URL: http://localhost:3000/world-cup-2026-schedule-pdf/
+H1: World Cup 2026 Schedule PDF Library
+SEO title: World Cup 2026 Schedule PDF Library | wc26schedule
+Words: 2009
+FAQ items: 6
+H1 count: 1
+H2 count: 11
+H3 count: 10
+Schema blocks: Article, FAQPage, BreadcrumbList, HowTo
+Download cards: 5
+PDF library cards: Printable PDF, Overview poster PDF, Stage overview PDF
+Mobile horizontal overflow: false
+```
+
 ## 4. Required Optimization
 
 This page must include:
@@ -155,7 +178,7 @@ Download module:
 
 ```text
 H2: Download the Printable PDF and Backup Files
-Purpose: Put the PDF first, then show Excel and CSV as backup formats for filtering and importing.
+Purpose: Earlier version put the single PDF first, then showed Excel and CSV as backup formats. The latest version splits downloads into Data downloads and PDF schedule library so future PDF files can be added without crowding CSV and Excel.
 ```
 
 Usage module:
@@ -166,6 +189,11 @@ Rows:
 - Print or save
 - Mark priority matches
 - Confirm before paying
+
+Latest PDF library rows:
+- Use the printable PDF
+- Use the overview poster
+- Use the stage overview
 ```
 
 Related links module:
@@ -211,16 +239,16 @@ How often should I download a fresh copy?
 Final H2 after optimization:
 
 ```text
-Printable World Cup 2026 Fixture Planner
-Download the Printable PDF and Backup Files
-When the Printable PDF Helps Most
-What Is Included in the PDF?
-Printable Schedule by Date
-How to Use the PDF for Travel Planning
+Choose the Right World Cup 2026 PDF
+Download the PDF Schedule Library
+Which World Cup 2026 Schedule PDF Should You Download?
+What Each PDF Includes
+Printable Schedule by Date, City and Stage
+How to Use the PDF Library for Travel Planning
 PDF vs Excel vs Live Schedule
 Update Notes and Official Sources
-How to Use the Printable PDF
-PDF Planning Links
+How to Choose a PDF File
+PDF Library Planning Links
 FAQ
 ```
 
@@ -280,6 +308,23 @@ Interaction visual improvement completed on 2026-05-23:
 - Added a download checklist showing file type, best use and refresh moment.
 - Kept PDF page actions focused on direct PDF download and live schedule fallback.
 - Rechecked generated HTML for `pdf-sheet` and `download-checklist`.
+
+PDF library upgrade completed on 2026-05-23:
+
+- Updated the page from `World Cup 2026 Schedule PDF` to `World Cup 2026 Schedule PDF Library`.
+- Reframed search intent around choosing the right PDF, not only downloading one printable file.
+- Added long-tail coverage for bracket, group-stage and knockout-stage PDF searches.
+- Rewrote the hero, overview, download intro, usage rows, body sections and FAQ around three PDF files:
+  - Printable PDF
+  - Overview poster PDF
+  - Stage overview PDF
+- Kept CSV and Excel visible as companion formats, but moved them into a separate `Data downloads` group.
+- Updated HowTo Schema to explain how to choose the right PDF file.
+- Verified 5 download cards and 3 PDF library cards on the generated page.
+- Verified desktop and mobile layout without horizontal overflow.
+- Saved preview screenshots:
+  - `page-seo-plans/pdf-library-page-preview.png`
+  - `page-seo-plans/pdf-library-download-section-preview.png`
 
 Remaining issues:
 

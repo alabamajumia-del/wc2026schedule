@@ -788,29 +788,29 @@ const pageSchema = (page) => {
     schema.push({
       "@context": "https://schema.org",
       "@type": "HowTo",
-      name: "How to use the World Cup 2026 schedule PDF",
+      name: "How to choose a World Cup 2026 schedule PDF",
       description:
-        "Download, save, print and verify the World Cup 2026 schedule PDF before using it for travel, watch-party or ticket planning.",
+        "Choose the right World Cup 2026 schedule PDF for printing, quick visual scanning, group-stage planning or knockout-stage planning.",
       step: [
         {
           "@type": "HowToStep",
-          name: "Download the PDF",
-          text: "Use the PDF download link to save the printable schedule to your device."
+          name: "Choose the printable PDF for detail",
+          text: "Use the full printable PDF when you need match numbers, dates, teams, host cities, stadiums and detail pages in one offline file."
         },
         {
           "@type": "HowToStep",
-          name: "Review the fixture fields",
-          text: "Check match number, date, kickoff time, teams, stage, host city and stadium."
+          name: "Choose the overview poster for scanning",
+          text: "Use the one-page overview poster PDF when you want a quick visual matrix of the tournament by host city and date."
         },
         {
           "@type": "HowToStep",
-          name: "Compare with live planning pages",
-          text: "Use the live schedule, Excel planner and host city pages when you need filters or local context."
+          name: "Choose the stage overview for bracket planning",
+          text: "Use the two-page stage overview PDF when you want group-stage fixtures separate from knockout-stage matches."
         },
         {
           "@type": "HowToStep",
           name: "Confirm official details",
-          text: "Verify important travel, ticket and timing decisions with official sources before acting."
+          text: "Use the PDF library for planning, then verify important travel, ticket and timing decisions with official sources before acting."
         }
       ]
     });
