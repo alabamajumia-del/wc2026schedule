@@ -156,6 +156,58 @@ const hero = ({
       ["Ticket guide", "/world-cup-2026-tickets/", "secondary"]
     ];
   const rows = panelRows ?? facts;
+  const panelContent =
+    variant === "schedule"
+      ? `<div class="hero-tool hero-tool-schedule">
+      <strong class="hero-panel-title">${esc(panelTitle)}</strong>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      <div class="hero-filter-strip" aria-label="Schedule filter preview">
+        <span>Team</span>
+        <span>Date</span>
+        <span>City</span>
+        <span>Stage</span>
+      </div>
+      <div class="mini-schedule" aria-label="Schedule table preview">
+        <div><strong>Match</strong><strong>City</strong><strong>Time</strong></div>
+        <div><span>Mexico v South Africa</span><span>Mexico City</span><span>15:00 ET</span></div>
+        <div><span>Canada v TBD</span><span>Toronto</span><span>18:00 ET</span></div>
+        <div><span>United States v TBD</span><span>Los Angeles</span><span>21:00 ET</span></div>
+      </div>
+      <div class="hero-tool-footer">
+        ${rows.map(([label, value]) => `<span><strong>${esc(label)}</strong>${esc(value)}</span>`).join("")}
+      </div>
+    </div>`
+      : variant === "pdf"
+        ? `<div class="hero-tool hero-tool-pdf">
+      <strong class="hero-panel-title">${esc(panelTitle)}</strong>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      <div class="pdf-sheet" aria-label="Printable PDF preview">
+        <div class="pdf-sheet-top">
+          <span>PDF</span>
+          <strong>World Cup 2026 Schedule</strong>
+        </div>
+        <div class="pdf-lines">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="pdf-meta-grid">
+          <span>Dates</span><strong>Jun 11-Jul 19</strong>
+          <span>Matches</span><strong>104</strong>
+          <span>Use</span><strong>Print + share</strong>
+        </div>
+      </div>
+      <div class="download-checklist" aria-label="PDF download checklist">
+        ${rows.map(([label, value]) => `<span><strong>${esc(label)}</strong>${esc(value)}</span>`).join("")}
+      </div>
+    </div>`
+        : `<strong class="hero-panel-title">${esc(panelTitle)}</strong>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      ${rows
+        .map(
+          ([label, value]) => `<div class="panel-row"><span class="panel-label">${esc(
+            label
+          )}</span><span class="panel-value">${esc(value)}</span></div>`
+        )
+        .join("")}`;
 
   return `
 <section class="hero hero-${attr(variant)}">
@@ -174,15 +226,7 @@ const hero = ({
       </div>
     </div>
     <aside class="hero-panel" aria-label="Quick facts">
-      <strong class="hero-panel-title">${esc(panelTitle)}</strong>
-      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
-      ${rows
-        .map(
-          ([label, value]) => `<div class="panel-row"><span class="panel-label">${esc(
-            label
-          )}</span><span class="panel-value">${esc(value)}</span></div>`
-        )
-        .join("")}
+      ${panelContent}
     </aside>
   </div>
 </section>`;

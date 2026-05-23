@@ -167,7 +167,7 @@ Required by content plan:
 Current metrics:
 
 ```text
-Words: 3143
+Words: 3169
 FAQ items: 6
 H1 count: 1
 H2 count: 12
@@ -182,6 +182,7 @@ Generic usage module: not present
 Generic related-links heading: not present
 Hero variant: hero-schedule
 Primary keyword density: about 1.02%
+Hero visual module: mini schedule preview and filter strip present
 ```
 
 ## 5.1 Custom Page Blueprint
@@ -315,6 +316,15 @@ Template-risk fix completed on 2026-05-23:
 - Replaced the generic related-pages heading with `Schedule Planning Paths`.
 - Rechecked generated HTML for generic module residue.
 
+Interaction visual improvement completed on 2026-05-23:
+
+- Added a schedule-specific visual tool preview to the hero.
+- Added filter chips for Team, Date, City and Stage.
+- Added a mini schedule table preview with sample match rows.
+- Added compact hero footer cues for primary view, fast filters and next step.
+- Kept the page focused on the full schedule table instead of a generic article hero.
+- Rechecked generated HTML for `mini-schedule` and `hero-filter-strip`.
+
 ## 10. Quality Check
 
 Latest check:
@@ -328,10 +338,11 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 6
-Word count: 3143
-Primary keyword density: about 1.02%
+Word count: 3169
+Primary keyword density: about 1.01%
 Internal SEO text: not present
 Generic template modules: not present
+Schedule visual preview: present
 ```
 
 ## 11. Remaining Issues
