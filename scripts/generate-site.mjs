@@ -272,17 +272,26 @@ const downloadFiles = [
   {
     label: "Full schedule CSV",
     href: "/downloads/world-cup-2026-schedule.csv",
-    description: "Raw match data for Google Sheets, Excel, Airtable or database import."
+    description: "Import-friendly raw data with match numbers, dates, ET/UTC/local venue times, team codes, cities, stadiums and detail-page URLs.",
+    format: "CSV",
+    bestFor: "Google Sheets, Airtable, databases",
+    includes: "104 rows"
   },
   {
     label: "Excel workbook",
     href: "/downloads/world-cup-2026-schedule.xls",
-    description: "Multi-sheet workbook with full schedule, group stage, knockout, venues and source notes."
+    description: "Styled multi-sheet workbook with full schedule, group stage, knockout, by-date, by-team, venues, groups and source notes.",
+    format: "XLS",
+    bestFor: "Filtering, sorting and offline planning",
+    includes: "8 sheets"
   },
   {
     label: "Printable PDF",
     href: "/downloads/world-cup-2026-schedule.pdf",
-    description: "Compact PDF grouped by date for offline viewing, printing and trip folders."
+    description: "Printable PDF with an official-reference-style city/date matrix plus detailed match list pages for travel folders.",
+    format: "PDF",
+    bestFor: "Printing, sharing and quick visual scanning",
+    includes: "Matrix + details"
   }
 ];
 
@@ -678,8 +687,13 @@ const downloadPanel = (page = {}) => {
     ${files
       .map(
         (file) => `<a class="download-card" href="${attr(file.href)}" download>
+      <b>${esc(file.format)}</b>
       <strong>${esc(file.label)}</strong>
       <span>${esc(file.description)}</span>
+      <dl>
+        <div><dt>Best for</dt><dd>${esc(file.bestFor)}</dd></div>
+        <div><dt>Includes</dt><dd>${esc(file.includes)}</dd></div>
+      </dl>
     </a>`
       )
       .join("")}
@@ -1171,11 +1185,14 @@ const scheduleHeaders = [
   "Stage",
   "Group",
   "Team 1",
+  "Team 1 code",
   "Team 2",
+  "Team 2 code",
   "City",
   "Host country",
   "Stadium",
   "City slug",
+  "Match detail URL",
   "Source status"
 ];
 
@@ -1221,11 +1238,14 @@ const matchView = (match) => {
     Stage: match.stage,
     Group: match.group || "",
     "Team 1": match.home,
+    "Team 1 code": teamCode(match.home),
     "Team 2": match.away,
+    "Team 2 code": teamCode(match.away),
     City: match.city,
     "Host country": meta.country,
     Stadium: match.stadium,
     "City slug": match.citySlug,
+    "Match detail URL": `${site.url}${matchDetailPath(match)}`,
     "Source status": match.sourceStatus
   };
 };
@@ -1985,21 +2005,33 @@ const scheduleCsv = () =>
 
 const xml = (value) => esc(value).replaceAll("'", "&apos;");
 
-const worksheet = (name, rows) => `<Worksheet ss:Name="${xml(name)}">
+const worksheet = (name, rows, options = {}) => {
+  const widths = options.widths || [];
+  const titleRows = new Set(options.titleRows || []);
+  const header = options.header !== false;
+  const rowStyle = (index) => {
+    if (titleRows.has(index)) return "Title";
+    if (header && index === 0) return "Header";
+    return index % 2 === 0 ? "Even" : "Text";
+  };
+
+  return `<Worksheet ss:Name="${xml(name)}">
   <Table>
+    ${widths.map((width) => `<Column ss:Width="${width}"/>`).join("\n")}
     ${rows
       .map(
-        (row) =>
-          `<Row>${row
+        (row, rowIndex) =>
+          `<Row ss:AutoFitHeight="1">${row
             .map(
               (cell) =>
-                `<Cell><Data ss:Type="${typeof cell === "number" ? "Number" : "String"}">${xml(cell ?? "")}</Data></Cell>`
+                `<Cell ss:StyleID="${rowStyle(rowIndex)}"><Data ss:Type="${typeof cell === "number" ? "Number" : "String"}">${xml(cell ?? "")}</Data></Cell>`
             )
             .join("")}</Row>`
       )
       .join("\n")}
   </Table>
 </Worksheet>`;
+};
 
 const venueRows = () => {
   const venues = new Map();
@@ -2035,6 +2067,65 @@ const groupRows = () => {
   return [...unique.values()].sort((a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]));
 };
 
+const dateSummaryRows = () => {
+  const byDate = new Map();
+  for (const match of matches) {
+    const current = byDate.get(match.date) ?? {
+      date: match.date,
+      day: match.dateLabel,
+      matches: [],
+      cities: new Set(),
+      stages: new Set()
+    };
+    current.matches.push(match);
+    current.cities.add(match.city);
+    current.stages.add(match.stage);
+    byDate.set(match.date, current);
+  }
+  return [...byDate.values()]
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((item) => [
+      item.date,
+      item.day,
+      item.matches.length,
+      item.matches[0]?.kickoffET || "",
+      [...item.stages].join(", "),
+      [...item.cities].join(", "),
+      item.matches.map((match) => `#${match.matchNumber}`).join(", ")
+    ]);
+};
+
+const teamSummaryRows = () => {
+  const byTeam = new Map();
+  for (const match of matches.filter((item) => item.stage === "Group stage")) {
+    for (const team of [match.home, match.away].filter(isRealTeam)) {
+      const current = byTeam.get(team) ?? {
+        team,
+        code: teamCode(team),
+        group: match.group || "",
+        matches: [],
+        opponents: new Set(),
+        cities: new Set()
+      };
+      current.matches.push(match);
+      current.opponents.add(match.home === team ? match.away : match.home);
+      current.cities.add(match.city);
+      byTeam.set(team, current);
+    }
+  }
+  return [...byTeam.values()]
+    .sort((a, b) => a.team.localeCompare(b.team))
+    .map((item) => [
+      item.team,
+      item.code,
+      item.group,
+      item.matches.length,
+      [...item.opponents].join(", "),
+      [...item.cities].join(", "),
+      item.matches.map((match) => `#${match.matchNumber}`).join(", ")
+    ]);
+};
+
 const scheduleSpreadsheetHtml = () => {
   const rows = scheduleRows();
   const fullRows = [scheduleHeaders, ...rows.map((row) => scheduleHeaders.map((header) => row[header]))];
@@ -2053,20 +2144,31 @@ const scheduleSpreadsheetHtml = () => {
  xmlns:o="urn:schemas-microsoft-com:office:office"
  xmlns:x="urn:schemas-microsoft-com:office:excel"
  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal"><Font ss:FontName="Arial" ss:Size="10"/><Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/></Style>
+  <Style ss:ID="Title"><Font ss:FontName="Arial" ss:Size="16" ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#062F2A" ss:Pattern="Solid"/></Style>
+  <Style ss:ID="Header"><Font ss:FontName="Arial" ss:Size="10" ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#0B5D50" ss:Pattern="Solid"/><Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D8A63C"/></Borders></Style>
+  <Style ss:ID="Text"><Font ss:FontName="Arial" ss:Size="10" ss:Color="#13221F"/><Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/></Style>
+  <Style ss:ID="Even"><Font ss:FontName="Arial" ss:Size="10" ss:Color="#13221F"/><Interior ss:Color="#F4F8F2" ss:Pattern="Solid"/></Style>
+ </Styles>
  ${worksheet("README", [
    ["wc26schedule World Cup 2026 workbook"],
    ["Generated", updated],
    ["Best use", "Filter by team, city, date, stage or venue."],
    ["Time notes", "Kickoff ET is source time. UTC and venue local time are computed for planning convenience."],
+   ["Workbook sheets", "All Matches, Group Stage, Knockout, By Date, By Team, Venues and Groups."],
    ["Primary source", scheduleMeta.sourceUrl],
    ["Mapping source", scheduleMeta.mappingSourceUrl],
+   ["Official PDF reference", "FWC26 Match Schedule_v17_10042026_EN.pdf was used as a visual reference for the downloadable schedule style."],
    ["Reminder", "Confirm official details before travel, tickets or broadcast decisions."]
- ])}
- ${worksheet("All Matches", fullRows)}
- ${worksheet("Group Stage", groupStageRows)}
- ${worksheet("Knockout", knockoutRows)}
- ${worksheet("Venues", [["City", "Host country", "Stadium", "Matches", "First match date", "Last match date"], ...venueRows()])}
- ${worksheet("Groups", [["Group", "Team"], ...groupRows()])}
+ ], { header: false, titleRows: [0], widths: [170, 700] })}
+ ${worksheet("All Matches", fullRows, { widths: [60, 80, 150, 80, 120, 130, 110, 55, 140, 75, 140, 75, 150, 110, 180, 120, 230, 140] })}
+ ${worksheet("Group Stage", groupStageRows, { widths: [60, 80, 150, 80, 120, 130, 110, 55, 140, 75, 140, 75, 150, 110, 180, 120, 230, 140] })}
+ ${worksheet("Knockout", knockoutRows, { widths: [60, 80, 150, 80, 120, 130, 110, 55, 140, 75, 140, 75, 150, 110, 180, 120, 230, 140] })}
+ ${worksheet("By Date", [["Date", "Day", "Matches", "First kickoff ET", "Stages", "Host cities", "Match numbers"], ...dateSummaryRows()], { widths: [90, 160, 70, 110, 210, 520, 260] })}
+ ${worksheet("By Team", [["Team", "Code", "Group", "Matches", "Opponents", "Host cities", "Match numbers"], ...teamSummaryRows()], { widths: [150, 65, 65, 70, 360, 300, 180] })}
+ ${worksheet("Venues", [["City", "Host country", "Stadium", "Matches", "First match date", "Last match date"], ...venueRows()], { widths: [160, 120, 220, 70, 120, 120] })}
+ ${worksheet("Groups", [["Group", "Team"], ...groupRows()], { widths: [70, 170] })}
 </Workbook>`;
 };
 
@@ -2079,28 +2181,171 @@ const pdfEscape = (value) =>
     .replaceAll(")", "\\)");
 
 const generatePdf = () => {
-  const lines = [
-    "wc26schedule World Cup 2026 Schedule",
-    `Generated ${updated}. Confirm final details with official sources.`,
-    "Grouped by date. Times shown in ET.",
-    ""
+  const pageW = 1191;
+  const pageH = 842;
+  const colors = {
+    dark: "0.040 0.070 0.065",
+    panel: "0.070 0.120 0.180",
+    grid: "0.260 0.285 0.295",
+    line: "0.105 0.130 0.135",
+    white: "1 1 1",
+    muted: "0.690 0.760 0.790",
+    gold: "0.847 0.651 0.235",
+    green: "0.090 0.520 0.390",
+    teal: "0.310 0.720 0.700",
+    orange: "0.960 0.420 0.090"
+  };
+  const groupColors = {
+    A: "0.360 0.780 0.440",
+    B: "0.860 0.120 0.140",
+    C: "0.920 0.820 0.300",
+    D: "0.100 0.400 0.720",
+    E: "0.980 0.520 0.120",
+    F: "0.000 0.520 0.420",
+    G: "0.460 0.410 0.700",
+    H: "0.300 0.720 0.760",
+    I: "0.780 0.120 0.480",
+    J: "0.640 0.090 0.220",
+    K: "0.740 0.330 0.180",
+    L: "0.370 0.260 0.620"
+  };
+  const cityOrder = [
+    "Vancouver",
+    "Seattle",
+    "San Francisco Bay Area",
+    "Los Angeles",
+    "Guadalajara",
+    "Mexico City",
+    "Monterrey",
+    "Houston",
+    "Dallas",
+    "Kansas City",
+    "Atlanta",
+    "Miami",
+    "Toronto",
+    "Boston",
+    "Philadelphia",
+    "New York New Jersey"
   ];
-  let currentDate = "";
+  const regionColor = (city) => {
+    if (["Vancouver", "Seattle", "San Francisco Bay Area", "Los Angeles"].includes(city)) return colors.teal;
+    if (["Guadalajara", "Mexico City", "Monterrey"].includes(city)) return "0.650 0.840 0.250";
+    if (["Toronto", "Boston", "Philadelphia", "New York New Jersey"].includes(city)) return "0.970 0.470 0.390";
+    return "0.370 0.740 0.430";
+  };
+  const matchFill = (match) => {
+    if (match.stage !== "Group stage") return /semi|round of 16/i.test(match.stage) ? colors.teal : colors.orange;
+    return groupColors[match.group] || colors.green;
+  };
+  const dates = [...new Set(matches.map((match) => match.date))].sort();
+  const dateLabelShort = (date) => {
+    const parsed = new Date(`${date}T00:00:00Z`);
+    return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", month: "short", day: "numeric" }).format(parsed);
+  };
+  const weekdayShort = (date) => {
+    const parsed = new Date(`${date}T00:00:00Z`);
+    return new Intl.DateTimeFormat("en-US", { timeZone: "UTC", weekday: "short" }).format(parsed);
+  };
+  const ops = [];
+  const setFill = (color) => `${color} rg`;
+  const setStroke = (color) => `${color} RG`;
+  const rect = (x, yTop, w, h, fill, stroke = "") =>
+    `${fill ? `${setFill(fill)}\n` : ""}${stroke ? `${setStroke(stroke)}\n` : ""}${x.toFixed(2)} ${(pageH - yTop - h).toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re ${fill && stroke ? "B" : fill ? "f" : "S"}`;
+  const text = (value, x, yTop, size = 9, font = "F1", color = colors.white) =>
+    `BT /${font} ${size} Tf ${setFill(color)} ${x.toFixed(2)} ${(pageH - yTop).toFixed(2)} Td (${pdfEscape(value)}) Tj ET`;
+  const line = (x1, y1Top, x2, y2Top, color = colors.line, width = 0.6) =>
+    `${setStroke(color)} ${width} w ${x1.toFixed(2)} ${(pageH - y1Top).toFixed(2)} m ${x2.toFixed(2)} ${(pageH - y2Top).toFixed(2)} l S`;
+
+  const matrixOps = [];
+  matrixOps.push(rect(0, 0, pageW, pageH, colors.dark));
+  matrixOps.push(text("FIFA WORLD CUP 2026", 470, 42, 22, "F2", colors.white));
+  matrixOps.push(text("MATCH SCHEDULE", 42, 90, 30, "F2", colors.white));
+  matrixOps.push(text("wc26schedule printable planning file. Match times use ET; verify official details before travel or tickets.", 42, 126, 10, "F1", colors.muted));
+
+  const gridX = 188;
+  const cityX = 56;
+  const headerY = 146;
+  const gridY = 184;
+  const cityW = 132;
+  const gridW = pageW - gridX - 42;
+  const colW = gridW / dates.length;
+  const rowH = 34;
+  const gridH = cityOrder.length * rowH;
+  matrixOps.push(rect(cityX, gridY, cityW, gridH, "0.170 0.190 0.190", colors.line));
+  matrixOps.push(rect(gridX, gridY, gridW, gridH, "0.230 0.245 0.250", colors.line));
+
+  dates.forEach((date, index) => {
+    const x = gridX + index * colW;
+    const stageSample = matches.find((match) => match.date === date);
+    const fill = stageSample?.stage === "Group stage" ? "0.930 0.930 0.900" : /round of 16|semi/i.test(stageSample?.stage || "") ? colors.teal : colors.orange;
+    matrixOps.push(rect(x, headerY, colW, 38, fill, colors.dark));
+    matrixOps.push(text(weekdayShort(date), x + 2, headerY + 12, 5.5, "F2", stageSample?.stage === "Group stage" ? colors.dark : colors.white));
+    matrixOps.push(text(dateLabelShort(date), x + 2, headerY + 25, 5.5, "F1", stageSample?.stage === "Group stage" ? colors.dark : colors.white));
+    matrixOps.push(line(x, gridY, x, gridY + gridH, colors.line, 0.45));
+  });
+  matrixOps.push(line(gridX + gridW, gridY, gridX + gridW, gridY + gridH, colors.line, 0.45));
+
+  cityOrder.forEach((city, rowIndex) => {
+    const y = gridY + rowIndex * rowH;
+    matrixOps.push(rect(cityX, y, cityW, rowH, regionColor(city), colors.line));
+    matrixOps.push(text(city.toUpperCase().replace("NEW YORK NEW JERSEY", "NEW YORK / NEW JERSEY"), cityX + 8, y + 22, city.length > 18 ? 8 : 10, "F2", colors.dark));
+    matrixOps.push(line(cityX, y, gridX + gridW, y, colors.line, 0.6));
+  });
+  matrixOps.push(line(cityX, gridY + gridH, gridX + gridW, gridY + gridH, colors.line, 0.6));
+
   for (const match of matches) {
-    if (match.date !== currentDate) {
-      currentDate = match.date;
-      lines.push("");
-      lines.push(`${match.dateLabel}`);
-    }
-    lines.push(
-      `M${String(match.matchNumber).padStart(3, "0")}  ${match.kickoffET} ET  ${match.home} v ${match.away}  | ${match.stage}${match.group ? ` ${match.group}` : ""} | ${match.city} | ${match.stadium}`
-    );
+    const rowIndex = cityOrder.indexOf(match.city);
+    const colIndex = dates.indexOf(match.date);
+    if (rowIndex < 0 || colIndex < 0) continue;
+    const x = gridX + colIndex * colW + 1.2;
+    const y = gridY + rowIndex * rowH + 2;
+    const w = Math.max(18, colW - 2.4);
+    const h = rowH - 4;
+    matrixOps.push(rect(x, y, w, h, matchFill(match), ""));
+    matrixOps.push(text(String(match.matchNumber), x + 2, y + 7, 5.4, "F2", colors.white));
+    matrixOps.push(text(match.kickoffET, x + 2, y + 14, 4.8, "F1", colors.white));
+    matrixOps.push(text(teamCode(match.home), x + 2, y + 22, 6, "F2", colors.white));
+    matrixOps.push(text(teamCode(match.away), x + 2, y + 30, 6, "F2", colors.white));
   }
 
-  const pages = [];
-  const pageLines = 46;
-  for (let i = 0; i < lines.length; i += pageLines) {
-    pages.push(lines.slice(i, i + pageLines));
+  const legendY = 755;
+  matrixOps.push(text("Group color blocks show group-stage fixtures; orange/teal blocks show knockout fixtures. City rows follow the host-city matrix style used in the official FIFA schedule reference.", 42, legendY, 9, "F1", colors.muted));
+  matrixOps.push(text(`Generated ${updated} by wc26schedule | Primary source: FIFA schedule PDF`, 42, legendY + 18, 8, "F1", colors.muted));
+  ops.push(matrixOps.join("\n"));
+
+  const detailRows = matches.map((match) => {
+    const view = matchView(match);
+    return [
+      `#${match.matchNumber}`,
+      match.dateLabel,
+      `${match.kickoffET} ET`,
+      `${teamCode(match.home)} ${match.home} v ${teamCode(match.away)} ${match.away}`,
+      match.group ? `${match.stage} G${match.group}` : match.stage,
+      `${match.city} - ${match.stadium}`,
+      view["Venue local time"]
+    ];
+  });
+  const rowsPerPage = 23;
+  const col = [42, 86, 210, 292, 545, 675, 985];
+  const headers = ["Match", "Date", "ET", "Teams", "Stage", "Venue", "Venue local"];
+  for (let start = 0; start < detailRows.length; start += rowsPerPage) {
+    const pageOps = [];
+    pageOps.push(rect(0, 0, pageW, pageH, "0.970 0.980 0.955"));
+    pageOps.push(rect(0, 0, pageW, 72, colors.dark));
+    pageOps.push(text("World Cup 2026 Match Schedule Details", 42, 44, 18, "F2", colors.white));
+    pageOps.push(text(`Rows ${start + 1}-${Math.min(start + rowsPerPage, detailRows.length)} of ${detailRows.length}`, 1000, 44, 10, "F2", colors.gold));
+    pageOps.push(rect(36, 92, 1120, 28, colors.green));
+    headers.forEach((header, index) => pageOps.push(text(header, col[index], 111, 8, "F2", colors.white)));
+    detailRows.slice(start, start + rowsPerPage).forEach((row, rowIndex) => {
+      const y = 126 + rowIndex * 28;
+      pageOps.push(rect(36, y, 1120, 27, rowIndex % 2 === 0 ? "1 1 1" : "0.940 0.965 0.940", "0.820 0.870 0.830"));
+      row.forEach((cell, index) => {
+        const size = index === 3 || index === 5 ? 7.2 : 7.8;
+        pageOps.push(text(String(cell).slice(0, index === 5 ? 44 : index === 3 ? 48 : 28), col[index], y + 17, size, index === 0 ? "F2" : "F1", colors.dark));
+      });
+    });
+    pageOps.push(text("Source note: schedule data follows the structured wc26schedule dataset based on FIFA source material. Confirm final details with official FIFA channels before paid planning.", 42, 792, 8, "F1", "0.290 0.360 0.340"));
+    ops.push(pageOps.join("\n"));
   }
 
   const objects = [];
@@ -2110,23 +2355,12 @@ const generatePdf = () => {
   };
 
   const fontId = addObject("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>");
+  const boldFontId = addObject("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>");
   const pageIds = [];
-  for (const pageLinesChunk of pages) {
-    const content = [
-      "BT",
-      "/F1 9 Tf",
-      "50 760 Td",
-      ...pageLinesChunk.flatMap((line, index) => [
-        index === 0 ? "" : "0 -15 Td",
-        `(${pdfEscape(line).slice(0, 124)}) Tj`
-      ]),
-      "ET"
-    ]
-      .filter(Boolean)
-      .join("\n");
+  for (const content of ops) {
     const streamId = addObject(`<< /Length ${Buffer.byteLength(content, "binary")} >>\nstream\n${content}\nendstream`);
     const pageId = addObject(
-      `<< /Type /Page /Parent PARENT_PLACEHOLDER /MediaBox [0 0 612 792] /Resources << /Font << /F1 ${fontId} 0 R >> >> /Contents ${streamId} 0 R >>`
+      `<< /Type /Page /Parent PARENT_PLACEHOLDER /MediaBox [0 0 ${pageW} ${pageH}] /Resources << /Font << /F1 ${fontId} 0 R /F2 ${boldFontId} 0 R >> >> /Contents ${streamId} 0 R >>`
     );
     pageIds.push(pageId);
   }
