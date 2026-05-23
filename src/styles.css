@@ -424,6 +424,10 @@ h1 {
   grid-column: span 4;
 }
 
+.span-6 {
+  grid-column: span 6;
+}
+
 .span-8 {
   grid-column: span 8;
 }
@@ -486,6 +490,63 @@ h1 {
   display: block;
   margin-top: 5px;
   font-size: 17px;
+}
+
+.match-detail-overview {
+  display: grid;
+  gap: 16px;
+}
+
+.match-detail-scoreboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  border: 1px solid rgba(16, 133, 101, 0.22);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ffffff, #edf8f3);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.match-detail-scoreboard > span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.match-detail-scoreboard .team-chip {
+  min-height: 86px;
+}
+
+.match-detail-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.match-detail-facts div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.match-detail-facts span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.match-detail-facts strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--green-dark);
+  font-size: 18px;
+  line-height: 1.25;
 }
 
 .capability-section {
@@ -1842,6 +1903,7 @@ td {
   }
 
   .span-4,
+  .span-6,
   .span-8 {
     grid-column: span 12;
   }
@@ -1867,6 +1929,11 @@ td {
 
   .schedule-live-board {
     padding: 18px;
+  }
+
+  .match-detail-scoreboard,
+  .match-detail-facts {
+    grid-template-columns: 1fr;
   }
 
   .live-next-match,

@@ -923,7 +923,7 @@ const renderScheduleTable = () => {
         <p class="eyebrow">Next match</p>
         <h3><span data-next-home>Loading</span> <span>vs</span> <span data-next-away>Loading</span></h3>
         <p data-next-meta>Choose a timezone to calculate the next kickoff.</p>
-        <a data-next-detail href="#full-schedule">Jump to match row -></a>
+        <a data-next-detail href="#full-schedule">Match details -></a>
       </div>
       <div class="countdown-grid" aria-label="Countdown to next kickoff">
         <div><strong data-next-days>--</strong><span>Days</span></div>
@@ -1037,6 +1037,7 @@ const renderScheduleTable = () => {
           <th>Source Date</th>
           <th>City</th>
           <th>Stadium</th>
+          <th>Details</th>
         </tr>
       </thead>
       <tbody>
@@ -1053,6 +1054,7 @@ const renderScheduleTable = () => {
           <td>${esc(match.date)}</td>
           <td><a href="${attr(cityPath(match.citySlug))}">${esc(match.city)}</a></td>
           <td>${esc(match.stadium)}</td>
+          <td><a href="${attr(matchDetailPath(match))}">Match details</a></td>
         </tr>`;
           })
           .join("")}
@@ -1067,7 +1069,7 @@ const renderScheduleTable = () => {
     <p>Try a broader local date, city, team or stage filter.</p>
     <button class="button light" type="button" data-clear-filters>Clear filters</button>
   </div>
-  <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>. Decorative flag images use <a href="https://github.com/twitter/twemoji">Twemoji SVG assets</a>.</p>
+  <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>. Decorative flag images use country and region SVG assets.</p>
 </section>`;
 };
 
@@ -1534,6 +1536,253 @@ const renderCityPage = (city) => {
   });
 };
 
+const matchPageTitle = (match) => `Match ${match.matchNumber}: ${match.home} vs ${match.away}`;
+
+const teamRouteSummary = (team, currentMatch) => {
+  if (!isRealTeam(team)) {
+    return `${team} is a bracket placeholder in the current schedule data. The exact participant will depend on earlier World Cup 2026 results, so use this page for date, venue and timing planning until the team is confirmed.`;
+  }
+
+  const teamMatches = matches
+    .filter((item) => item.stage === "Group stage" && (item.home === team || item.away === team))
+    .sort((a, b) => a.date.localeCompare(b.date) || a.kickoffET.localeCompare(b.kickoffET));
+  const opponents = teamMatches
+    .map((item) => (item.home === team ? item.away : item.home))
+    .filter((opponent) => opponent !== currentMatch.home && opponent !== currentMatch.away);
+  const cities = [...new Set(teamMatches.map((item) => item.city))];
+
+  if (!teamMatches.length) {
+    return `${team} is listed for this match in the current schedule data. Open the team page when available to connect this match with the broader team route.`;
+  }
+
+  return `${team} has ${teamMatches.length} listed group-stage fixtures in this data set, with matches in ${cities.join(", ")}. Besides this match, the route also points toward ${opponents.length ? opponents.join(", ") : "the rest of the group schedule"}, which helps fans compare rest days, travel distance and kickoff windows before deciding which fixtures to follow.`;
+};
+
+const matchStageContext = (match) => {
+  if (match.stage === "Group stage") {
+    return `This is a Group ${match.group} fixture, so the result contributes directly to the first-round table. For fans, that makes the match useful beyond the single kickoff: it connects to points, goal difference, qualification scenarios and the order of later group matches. If you are following either team, use this page together with the team schedule pages and the full group guide so you can see where this match sits in the three-game group route.`;
+  }
+  if (/final/i.test(match.stage)) {
+    return `This match is part of the final-week tournament path, where timing, ticket planning and venue confirmation become especially important. The participant labels may depend on earlier knockout results, so this page focuses on the fixed planning details that can already be used: match number, kickoff, city, stadium and official-source reminders.`;
+  }
+  return `This is a knockout-stage fixture, so the listed teams or placeholders depend on the bracket path. The fixed planning value is still clear: the match number, date, kickoff, host city and stadium are available for schedule comparison, while the final participants should be confirmed through official results before travel, tickets or broadcast plans are locked in.`;
+};
+
+const matchFaqs = (match, view) => [
+  [
+    `When is ${matchPageTitle(match)}?`,
+    `${matchPageTitle(match)} is listed for ${match.dateLabel} at ${match.kickoffET} ET. The computed UTC kickoff is ${view["Kickoff UTC"]}, and the venue local time is ${view["Venue local time"]}.`
+  ],
+  [
+    `Where is ${matchPageTitle(match)} played?`,
+    `${matchPageTitle(match)} is listed in ${match.city} at ${match.stadium}. Use the linked city guide for more host-city context, stadium grouping and schedule planning.`
+  ],
+  [
+    `Is this match part of the group stage or knockout stage?`,
+    match.stage === "Group stage"
+      ? `This match is part of the Group ${match.group} schedule. It should be read together with the other Group ${match.group} fixtures.`
+      : `This match is listed as ${match.stage}. Participants may depend on earlier results if the match uses bracket placeholders.`
+  ],
+  [
+    "Can I use this page for ticket or travel decisions?",
+    "Use this page as a planning reference, then confirm paid or time-sensitive decisions with FIFA, official ticket channels, the host city, the stadium and authorized broadcasters."
+  ]
+];
+
+const matchSchema = (match, view) => {
+  const city = cityMeta[match.city] ?? { country: "" };
+  const competitors = [match.home, match.away]
+    .filter(isRealTeam)
+    .map((team) => ({
+      "@type": "SportsTeam",
+      name: team,
+      url: `${site.url}${teamPath(team)}`
+    }));
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: `${matchPageTitle(match)} - World Cup 2026 Match Details`,
+      description: `${matchPageTitle(match)} schedule details with kickoff time, venue, city, stage, group, team links and source notes.`,
+      author: { "@type": "Organization", name: `${site.brand} editorial team` },
+      publisher: { "@type": "Organization", name: site.brand },
+      mainEntityOfPage: `${site.url}${matchDetailPath(match)}`
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsEvent",
+      name: `${matchPageTitle(match)} - FIFA World Cup 2026`,
+      startDate: kickoffUtcIso(match),
+      eventStatus: "https://schema.org/EventScheduled",
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      sport: "Soccer",
+      location: {
+        "@type": "Place",
+        name: match.stadium,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: match.city,
+          addressCountry: city.country
+        }
+      },
+      competitor: competitors,
+      organizer: { "@type": "Organization", name: "FIFA" },
+      url: `${site.url}${matchDetailPath(match)}`
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: matchFaqs(match, view).map(([question, answer]) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer }
+      }))
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "World Cup 2026 Schedule",
+          item: `${site.url}/world-cup-2026-schedule/`
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: `Match ${match.matchNumber}`,
+          item: `${site.url}${matchDetailPath(match)}`
+        }
+      ]
+    }
+  ];
+};
+
+const renderMatchPage = (match) => {
+  const view = matchView(match);
+  const city = cityMeta[match.city] ?? { country: "" };
+  const previousMatch = matches.find((item) => item.matchNumber === match.matchNumber - 1);
+  const nextMatch = matches.find((item) => item.matchNumber === match.matchNumber + 1);
+  const realTeams = [match.home, match.away].filter(isRealTeam);
+  const links = [
+    ["Full World Cup 2026 schedule", "/world-cup-2026-schedule/"],
+    [`${match.city} city guide`, cityPath(match.citySlug)],
+    ["Download schedule files", "/world-cup-2026-schedule-excel/"],
+    ["Ticket guide", "/world-cup-2026-tickets/"]
+  ];
+  for (const team of realTeams) links.unshift([`${team} schedule`, teamPath(team)]);
+  if (previousMatch) links.push([`Previous match: ${previousMatch.home} vs ${previousMatch.away}`, matchDetailPath(previousMatch)]);
+  if (nextMatch) links.push([`Next match: ${nextMatch.home} vs ${nextMatch.away}`, matchDetailPath(nextMatch)]);
+
+  return layout({
+    title: `${matchPageTitle(match)} - World Cup 2026 Match Details`,
+    description: `${matchPageTitle(match)} schedule details: ${match.dateLabel}, ${match.kickoffET} ET, ${match.city}, ${match.stadium}, ${match.stage}${match.group ? ` Group ${match.group}` : ""}.`,
+    canonical: matchDetailPath(match),
+    schema: matchSchema(match, view),
+    body: `${hero({
+      eyebrow: "Match details",
+      h1: `${matchPageTitle(match)}`,
+      intro: `${matchPageTitle(match)} is listed for ${match.dateLabel} at ${match.kickoffET} ET in ${match.city}. The fixture is part of ${match.stage}${match.group ? `, Group ${match.group}` : ""}, and the venue is ${match.stadium}. This page turns the schedule row into a planning page with kickoff conversions, team-route context, city links and official-source reminders.`,
+      facts: [
+        ["Stage", match.group ? `${match.stage} - Group ${match.group}` : match.stage],
+        ["Kickoff", `${match.kickoffET} ET`],
+        ["Venue", `${match.stadium}, ${match.city}`]
+      ],
+      actions: [
+        ["Back to full schedule", "/world-cup-2026-schedule/", "primary"],
+        ["Open city guide", cityPath(match.citySlug), "secondary"]
+      ],
+      primaryHref: "/world-cup-2026-schedule/"
+    })}
+<main class="main">
+  <section class="section match-detail-overview">
+    <div class="match-detail-scoreboard">
+      <div>${teamChip(match.home, "Home")}</div>
+      <span>vs</span>
+      <div>${teamChip(match.away, "Away")}</div>
+    </div>
+    <div class="match-detail-facts">
+      <div><span>Match</span><strong>${match.matchNumber}</strong></div>
+      <div><span>Date</span><strong>${esc(match.dateLabel)}</strong></div>
+      <div><span>Venue local</span><strong>${esc(view["Venue local time"])}</strong></div>
+      <div><span>Host city</span><strong>${esc(match.city)}</strong></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="grid">
+      <article class="span-8 card"><div class="card-body">
+        <p class="eyebrow">Match overview</p>
+        <h2>${esc(matchPageTitle(match))} schedule context</h2>
+        <p>${esc(matchStageContext(match))}</p>
+        <p>${esc(`${match.home} vs ${match.away} is useful to track from several angles: the official match number, the source ET kickoff time, the computed UTC time, the venue local time, the host city and the stadium. Keeping those fields together reduces the chance of mixing source time with local time when you are planning a watch party, comparing TV windows, coordinating travel or building a personal World Cup 2026 calendar.`)}</p>
+      </div></article>
+      <aside class="span-4 card"><div class="card-body">
+        <p class="eyebrow">Verification note</p>
+        <h3>Confirm final details</h3>
+        <p>This page is generated from the structured wc26schedule match data. Before buying tickets, booking travel or making paid plans, verify the latest information with FIFA, official ticket sources, the host city, the stadium and authorized broadcasters.</p>
+      </div></aside>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Kickoff Time and Time Zone Details</h2>
+    ${table([
+      ["Source date", match.dateLabel, "The date attached to the source schedule row."],
+      ["Source kickoff", `${match.kickoffET} ET`, "Use this as the baseline when comparing against official schedule materials."],
+      ["UTC kickoff", view["Kickoff UTC"], "Useful for calendar imports, international planning and technical schedule checks."],
+      ["Venue local time", view["Venue local time"], `Computed for ${match.city}, ${city.country || "host city"}.`]
+    ])}
+    <p>The full schedule page can convert every fixture into your selected timezone. This match page keeps the source fields visible so you can compare the official ET listing with UTC and the host-city local time. That distinction matters for fans outside North America, because a late match in the host city can become the next calendar day in Europe, Africa, Asia or Oceania.</p>
+  </section>
+  <section class="section">
+    <h2>Team Route Context</h2>
+    <div class="grid">
+      <article class="span-6 card"><div class="card-body">
+        <p class="eyebrow">Home side</p>
+        <h3>${esc(match.home)}</h3>
+        <p>${esc(teamRouteSummary(match.home, match))}</p>
+      </div></article>
+      <article class="span-6 card"><div class="card-body">
+        <p class="eyebrow">Away side</p>
+        <h3>${esc(match.away)}</h3>
+        <p>${esc(teamRouteSummary(match.away, match))}</p>
+      </div></article>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Venue and City Planning</h2>
+    <p>${esc(`${match.city} hosts this fixture at ${match.stadium}. The city page groups every listed World Cup 2026 match in the same host market, which is more useful than reading this fixture in isolation if you are comparing multi-match travel routes. Use the city guide to see the local match cluster, then return to this page when you need the exact team, time and source-note fields for this specific fixture.`)}</p>
+    ${table([
+      ["Host city", match.city, "Open the city page to compare every local fixture."],
+      ["Host country", city.country || "Listed host market", "Use official city and stadium sources for transport and venue operations."],
+      ["Stadium", match.stadium, "Confirm entry, access and matchday information before attending."],
+      ["Source status", match.sourceStatus, "Keep this field visible when auditing data changes."]
+    ])}
+  </section>
+  <section class="section">
+    <h2>How to Use This Match Detail Page</h2>
+    ${table([
+      ["Check the match", `${match.home} vs ${match.away}`, "Use the matchup, match number and stage before moving into tickets or TV planning."],
+      ["Check the time", `${match.kickoffET} ET and ${view["Venue local time"]}`, "Compare source time with venue local time and your own timezone."],
+      ["Check the place", `${match.stadium}, ${match.city}`, "Open the city guide for wider host-city context."],
+      ["Check the route", match.stage === "Group stage" ? `Group ${match.group}` : match.stage, "Connect this page with team pages, group pages and the bracket path."]
+    ])}
+  </section>
+  <section class="section">
+    <h2>Related Match Planning Links</h2>
+    ${linkGrid(links)}
+  </section>
+  <section class="section">
+    <h2>FAQ</h2>
+    ${faqHtml(matchFaqs(match, view))}
+  </section>
+  <section class="source-note"><strong>Last updated:</strong> ${updated}. ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>.</section>
+</main>`
+  });
+};
+
 const scheduleRows = () => matches.map(matchView);
 
 const scheduleCsv = () =>
@@ -1912,7 +2161,7 @@ await write(
           " - " +
           upcoming.row.querySelectorAll("td")[9].textContent.trim();
       }
-      if (nextDetail) nextDetail.setAttribute("href", "#match-" + upcoming.row.dataset.matchNumber);
+      if (nextDetail) nextDetail.setAttribute("href", upcoming.row.dataset.detailUrl || "#match-" + upcoming.row.dataset.matchNumber);
       if (nextMatchLabel) {
         nextMatchLabel.textContent =
           "Match " +
@@ -1952,9 +2201,9 @@ await write(
               row.dataset.city +
               " - " +
               escapeHtml(cells[9].textContent.trim()) +
-              '</small></div><a href="#match-' +
-              row.dataset.matchNumber +
-              '">Jump to match -></a></article>'
+              '</small></div><a href="' +
+              row.dataset.detailUrl +
+              '">Match details -></a></article>'
             );
           })
           .join("");
@@ -2087,7 +2336,9 @@ await write(
           row.dataset.city +
           '</a><span>' +
           escapeHtml(cells[9].textContent.trim()) +
-          '</span></div>';
+          '</span><a href="' +
+          row.dataset.detailUrl +
+          '">Match details</a></div>';
         list.append(item);
       }
 
@@ -2174,7 +2425,9 @@ await write(
           row.dataset.watchWindow +
           '</span></div><div class="aggregate-place"><span>' +
           escapeHtml(cells[9].textContent.trim()) +
-          '</span></div>';
+          '</span><a href="' +
+          row.dataset.detailUrl +
+          '">Match details</a></div>';
         list.append(item);
       }
 
@@ -2359,6 +2612,8 @@ await write(
           '</dd></div><div><dt>Stadium</dt><dd>' +
           cells[9].textContent.trim() +
           '</dd></div></dl><div class="match-card-actions"><a href="' +
+          row.dataset.detailUrl +
+          '">Match details</a><a href="' +
           cells[8].querySelector("a").getAttribute("href") +
           '">City guide</a></div>';
         grid.append(article);
@@ -2542,6 +2797,10 @@ for (const team of teams) {
   await write(join(team.path.replace(/^\/|\/$/g, ""), "index.html"), renderTeamPage(team));
 }
 
+for (const match of matches) {
+  await write(join(matchDetailPath(match).replace(/^\/|\/$/g, ""), "index.html"), renderMatchPage(match));
+}
+
 await write(
   "robots.txt",
   `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\nHost: ${site.url}\n`
@@ -2553,7 +2812,8 @@ await write(
     site.url,
     ...pages.map((page) => `${site.url}/${page.slug}/`),
     ...cities.map((city) => `${site.url}${city.path}`),
-    ...teams.map((team) => `${site.url}${team.path}`)
+    ...teams.map((team) => `${site.url}${team.path}`),
+    ...matches.map((match) => `${site.url}${matchDetailPath(match)}`)
   ]
     .map(
       (url) =>
@@ -2562,4 +2822,4 @@ await write(
     .join("\n")}\n</urlset>\n`
 );
 
-console.log(`Generated ${pages.length + cities.length + teams.length + 1} pages in ${dist}`);
+console.log(`Generated ${pages.length + cities.length + teams.length + matches.length + 1} pages in ${dist}`);

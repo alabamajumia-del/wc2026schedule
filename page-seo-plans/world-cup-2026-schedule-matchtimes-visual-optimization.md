@@ -111,14 +111,14 @@ Visible live-board flag URLs resolve to explicit country/region SVG paths such a
 
 ## 7. Follow-Up Recommendation
 
+Completed follow-up:
+
+```text
+Real single-match detail pages have been generated for all 104 schedule rows, and the schedule-page actions now point to Match details pages.
+```
+
 Next visual step:
 
 ```text
-Create real single-match detail pages before changing "Jump to match row" into "Match details".
-```
-
-Reason:
-
-```text
-The reference site uses match-detail entries. We should not create a button that leads to a thin or empty page. A proper match-detail page should include kickoff time, teams, venue, city context, local timezone conversion, group/stage context, source notes and related internal links.
+Improve the match detail page scoreboard so it feels closer to a match center while preserving page-specific SEO content and source notes.
 ```
