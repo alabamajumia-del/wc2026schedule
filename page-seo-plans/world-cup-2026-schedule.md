@@ -9,7 +9,7 @@ Page URL:
 Status:
 
 ```text
-Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23.
+Optimized - first page-level SEO pass completed on 2026-05-23. Template-risk review completed on 2026-05-23. Schedule Phase A completed on 2026-05-23.
 ```
 
 Second-pass optimization reference:
@@ -173,7 +173,7 @@ Required by content plan:
 Current metrics:
 
 ```text
-Words: 3169
+Words: 3607
 FAQ items: 6
 H1 count: 1
 H2 count: 12
@@ -187,8 +187,11 @@ Generic overview module: not present
 Generic usage module: not present
 Generic related-links heading: not present
 Hero variant: hero-schedule
-Primary keyword density: about 1.02%
+Primary keyword density: about 0.89%
 Hero visual module: mini schedule preview and filter strip present
+Schedule table rows: 104
+Date-card view: generated from table data after user switches view
+Static duplicate match cards in HTML: 0
 ```
 
 ## 5.1 Custom Page Blueprint
@@ -331,6 +334,17 @@ Interaction visual improvement completed on 2026-05-23:
 - Kept the page focused on the full schedule table instead of a generic article hero.
 - Rechecked generated HTML for `mini-schedule` and `hero-filter-strip`.
 
+Schedule Phase A completed on 2026-05-23:
+
+- Added a schedule view switcher above the match results.
+- Kept Table as the default view for users who want the full scannable fixture list.
+- Added Date cards as a second view for users who want matches grouped by matchday.
+- Kept Team and City as visible next-phase view options, disabled until their dedicated view logic is built.
+- Generated Date cards from the existing table data in the browser instead of duplicating all 104 matches in static HTML.
+- Connected search, stage, group, date, city and team filters to both the table view and the date-card view.
+- Added responsive card styling so mobile users can scan match number, teams, kickoff ET, city and stadium without horizontal scrolling.
+- Preserved the SEO page structure: one H1, existing H2 sections, visible FAQ, source note and no hidden keyword blocks.
+
 ## 10. Quality Check
 
 Latest check:
@@ -344,11 +358,16 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 6
-Word count: 3169
-Primary keyword density: about 1.01%
+Word count: 3607
+Primary keyword density: about 0.89%
 Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
+Schedule view switcher: present
+Table rows: 104
+Date card container: present
+Static duplicate date cards: 0
+Date card builder script: present
 ```
 
 ## 11. Remaining Issues
@@ -356,7 +375,8 @@ Schedule visual preview: present
 Remaining content and product issues:
 
 - Time-zone converter is not yet implemented.
-- MatchCard mobile display can be improved later if table usability becomes weak on small screens.
+- Team and City switcher views are visible but disabled until the next implementation phase.
+- Date-card interaction needs final visual QA in the in-app browser; the automated browser connection timed out during this run.
 - Official FIFA updates should be checked before production deployment.
 - Keyword family density should be reviewed manually because the schedule table contains many "Group stage" labels that can distort automated density checks.
 - The first H2 can be made shorter and cleaner in a later refinement.

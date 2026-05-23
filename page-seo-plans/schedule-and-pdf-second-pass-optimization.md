@@ -34,19 +34,20 @@ http://localhost:3000/world-cup-2026-schedule/
 Current status:
 
 ```text
-Optimized first pass. Template-risk review completed. Hero visual improved.
+Optimized first pass. Template-risk review completed. Hero visual improved. Schedule Phase A completed.
 ```
 
 Current metrics:
 
 ```text
-Words: 3169
+Words: 3607
 FAQ items: 6
 H1 count: 1
 H2 count: 12
 Schema blocks: 3
-Exact primary keyword density: about 1.01%
+Exact primary keyword density: about 0.89%
 Schedule rows: 104
+Date-card view: generated on interaction from the table data
 Generic template residue: none
 Current visual module: mini schedule preview + filter strip
 ```
@@ -61,10 +62,9 @@ Current strengths:
 
 Current limits:
 
-- The main interaction still depends on one large table.
-- Mobile experience still leans too much on horizontal scrolling.
+- The main interaction now supports Table and Date cards, but Team and City views are not yet active.
+- Mobile experience is improved for Date cards, while the table remains horizontally scrollable for dense scanning.
 - The hero preview is visual only; it does not make the page feel fully interactive yet.
-- There is no Table / Date / Team / City view switch.
 - No local time or timezone helper yet.
 - No calendar reuse action.
 
@@ -156,10 +156,10 @@ Second-pass modules:
 1. View switcher:
 
 ```text
-Table View
-Date View
-Team View
-City View
+Table View - completed in Schedule Phase A
+Date View - completed in Schedule Phase A
+Team View - planned next
+City View - planned next
 ```
 
 2. Date View:
@@ -168,6 +168,7 @@ City View
 Group matches by date.
 Each date section shows match cards.
 Cards include match number, stage, group, teams, kickoff ET, city and stadium.
+Completed in Schedule Phase A. Cards are built from existing table data after the user switches views, avoiding static HTML duplication.
 ```
 
 3. Quick filter chips:

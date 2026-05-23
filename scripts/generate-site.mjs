@@ -476,6 +476,23 @@ const renderScheduleTable = () => {
   const teamOptions = [
     ...new Set(matches.flatMap((match) => [match.home, match.away]).filter((team) => team && !team.includes("/") && !team.startsWith("W") && !team.startsWith("2") && !team.startsWith("1") && team !== "TBD"))
   ].sort((a, b) => a.localeCompare(b));
+  const matchDataset = (match) => {
+    const searchable = [
+      match.matchNumber,
+      match.stage,
+      match.group,
+      match.date,
+      match.dateLabel,
+      match.home,
+      match.away,
+      match.city,
+      match.stadium,
+      match.kickoffET
+    ]
+      .join(" ")
+      .toLowerCase();
+    return `data-stage="${attr(match.stage)}" data-group="${attr(match.group)}" data-date="${attr(match.date)}" data-date-label="${attr(match.dateLabel)}" data-city="${attr(match.city)}" data-home="${attr(match.home)}" data-away="${attr(match.away)}" data-search="${attr(searchable)}"`;
+  };
 
   return `<section class="section schedule-tool" id="full-schedule">
   <div class="section-heading-row">
@@ -521,8 +538,14 @@ const renderScheduleTable = () => {
       </select>
     </label>
   </div>
+  <div class="view-switcher" role="tablist" aria-label="Schedule view">
+    <button class="view-tab active" type="button" role="tab" aria-selected="true" data-view-toggle="table">Table</button>
+    <button class="view-tab" type="button" role="tab" aria-selected="false" data-view-toggle="date">Date cards</button>
+    <button class="view-tab" type="button" role="tab" aria-selected="false" aria-disabled="true" data-view-toggle="team" disabled>Team</button>
+    <button class="view-tab" type="button" role="tab" aria-selected="false" aria-disabled="true" data-view-toggle="city" disabled>City</button>
+  </div>
   <p class="schedule-count"><span data-schedule-count>${matches.length}</span> matches shown</p>
-  <div class="table-wrap schedule-table-wrap">
+  <div class="table-wrap schedule-table-wrap" data-schedule-view="table">
     <table class="schedule-table">
       <thead>
         <tr>
@@ -539,21 +562,7 @@ const renderScheduleTable = () => {
       <tbody>
         ${matches
           .map((match) => {
-            const teams = `${match.home} v ${match.away}`;
-            const searchable = [
-              match.matchNumber,
-              match.stage,
-              match.group,
-              match.date,
-              match.home,
-              match.away,
-              match.city,
-              match.stadium,
-              match.kickoffET
-            ]
-              .join(" ")
-              .toLowerCase();
-            return `<tr data-match-row data-stage="${attr(match.stage)}" data-group="${attr(match.group)}" data-date="${attr(match.date)}" data-city="${attr(match.city)}" data-home="${attr(match.home)}" data-away="${attr(match.away)}" data-search="${attr(searchable)}">
+            return `<tr data-match-row ${matchDataset(match)}>
           <td><strong>${match.matchNumber}</strong></td>
           <td>${esc(match.stage)}</td>
           <td>${match.group ? `Group ${esc(match.group)}` : "-"}</td>
@@ -568,6 +577,7 @@ const renderScheduleTable = () => {
       </tbody>
     </table>
   </div>
+  <div class="date-card-view" data-schedule-view="date" hidden></div>
   <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>.</p>
 </section>`;
 };
@@ -1224,6 +1234,11 @@ await write(
   `(() => {
   const rows = Array.from(document.querySelectorAll("[data-match-row]"));
   if (!rows.length) return;
+  const dateView = document.querySelector('[data-schedule-view="date"]');
+  const views = Array.from(document.querySelectorAll("[data-schedule-view]"));
+  const viewButtons = Array.from(document.querySelectorAll("[data-view-toggle]"));
+  let cards = [];
+  let dateGroups = [];
 
   const search = document.querySelector("[data-filter-search]");
   const stage = document.querySelector("[data-filter-stage]");
@@ -1232,6 +1247,90 @@ await write(
   const city = document.querySelector("[data-filter-city]");
   const team = document.querySelector("[data-filter-team]");
   const count = document.querySelector("[data-schedule-count]");
+
+  const copyMatchData = (source, target) => {
+    ["stage", "group", "date", "dateLabel", "city", "home", "away", "search"].forEach((key) => {
+      target.dataset[key] = source.dataset[key] || "";
+    });
+  };
+
+  const buildDateCards = () => {
+    if (!dateView || cards.length) return;
+    const groups = new Map();
+    for (const row of rows) {
+      const date = row.dataset.date;
+      if (!groups.has(date)) groups.set(date, []);
+      groups.get(date).push(row);
+    }
+
+    for (const [date, groupRows] of groups.entries()) {
+      const section = document.createElement("section");
+      section.className = "date-group";
+      section.dataset.dateGroup = "";
+      section.innerHTML =
+        '<div class="date-group-heading">' +
+        '<div><p class="eyebrow">' +
+        date +
+        '</p><h3>' +
+        (groupRows[0].dataset.dateLabel || date) +
+        '</h3></div><span><span data-date-count>' +
+        groupRows.length +
+        '</span> matches</span></div><div class="match-card-grid"></div>';
+      const grid = section.querySelector(".match-card-grid");
+
+      for (const row of groupRows) {
+        const cells = row.querySelectorAll("td");
+        const article = document.createElement("article");
+        article.className = "match-card";
+        article.dataset.matchCard = "";
+        copyMatchData(row, article);
+        article.innerHTML =
+          '<div class="match-card-top"><strong>Match ' +
+          cells[0].textContent.trim() +
+          "</strong><span>" +
+          row.dataset.stage +
+          (row.dataset.group ? " - Group " + row.dataset.group : "") +
+          '</span></div><div class="match-card-teams">' +
+          cells[3].innerHTML +
+          '</div><dl class="match-card-meta"><div><dt>Kickoff ET</dt><dd>' +
+          cells[4].textContent.replace(" ET", "").trim() +
+          '</dd></div><div><dt>Host city</dt><dd>' +
+          cells[6].innerHTML +
+          '</dd></div><div><dt>Stadium</dt><dd>' +
+          cells[7].textContent.trim() +
+          "</dd></div></dl>";
+        grid.append(article);
+      }
+
+      dateView.append(section);
+    }
+
+    cards = Array.from(document.querySelectorAll("[data-match-card]"));
+    dateGroups = Array.from(document.querySelectorAll("[data-date-group]"));
+  };
+
+  const matchesFilters = (item, searchValue, stageValue, groupValue, dateValue, cityValue, teamValue) => {
+    const matchesSearch = !searchValue || item.dataset.search.includes(searchValue);
+    const matchesStage = !stageValue || item.dataset.stage === stageValue;
+    const matchesGroup = !groupValue || item.dataset.group === groupValue;
+    const matchesDate = !dateValue || item.dataset.date === dateValue;
+    const matchesCity = !cityValue || item.dataset.city === cityValue;
+    const matchesTeam =
+      !teamValue || item.dataset.home === teamValue || item.dataset.away === teamValue;
+    return matchesSearch && matchesStage && matchesGroup && matchesDate && matchesCity && matchesTeam;
+  };
+
+  const setView = (nextView) => {
+    if (nextView === "date") buildDateCards();
+    for (const view of views) {
+      view.hidden = view.dataset.scheduleView !== nextView;
+    }
+    for (const button of viewButtons) {
+      const active = button.dataset.viewToggle === nextView;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", String(active));
+    }
+  };
 
   const apply = () => {
     const searchValue = (search?.value || "").trim().toLowerCase();
@@ -1243,24 +1342,43 @@ await write(
     let visible = 0;
 
     for (const row of rows) {
-      const matchesSearch = !searchValue || row.dataset.search.includes(searchValue);
-      const matchesStage = !stageValue || row.dataset.stage === stageValue;
-      const matchesGroup = !groupValue || row.dataset.group === groupValue;
-      const matchesDate = !dateValue || row.dataset.date === dateValue;
-      const matchesCity = !cityValue || row.dataset.city === cityValue;
-      const matchesTeam =
-        !teamValue || row.dataset.home === teamValue || row.dataset.away === teamValue;
-      const show = matchesSearch && matchesStage && matchesGroup && matchesDate && matchesCity && matchesTeam;
+      const show = matchesFilters(row, searchValue, stageValue, groupValue, dateValue, cityValue, teamValue);
       row.hidden = !show;
       if (show) visible += 1;
+    }
+
+    for (const card of cards) {
+      card.hidden = !matchesFilters(card, searchValue, stageValue, groupValue, dateValue, cityValue, teamValue);
+    }
+
+    for (const dateGroup of dateGroups) {
+      const visibleCards = Array.from(dateGroup.querySelectorAll("[data-match-card]")).filter(
+        (card) => !card.hidden
+      );
+      const dateCount = dateGroup.querySelector("[data-date-count]");
+      dateGroup.hidden = visibleCards.length === 0;
+      if (dateCount) dateCount.textContent = String(visibleCards.length);
     }
 
     if (count) count.textContent = String(visible);
   };
 
   [search, stage, group, date, city, team].forEach((control) => {
-    if (control) control.addEventListener("input", apply);
+    if (!control) return;
+    control.addEventListener("input", apply);
+    control.addEventListener("change", apply);
   });
+
+  viewButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (button.disabled) return;
+      setView(button.dataset.viewToggle);
+      apply();
+    });
+  });
+
+  setView("table");
+  apply();
 })();\n`
 );
 await write("index.html", renderHome());
