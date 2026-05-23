@@ -6,38 +6,47 @@ Date: 2026-05-23
 
 The schedule hero panel looked like a control panel, but it behaved like a static visual preview. It did not help users control the page.
 
-## 2. Optimization Completed
+## 2. Initial Optimization
 
-The hero panel now works as a real control panel:
+The first control-panel pass made the panel clickable, but it still had a weakness: too many actions were preset shortcuts, and the panel did not let users make full choices from the actual schedule data.
 
-- `Team`, `Date`, `City` and `Stage` switch the control panel's internal mode instead of sending every click to the same schedule block.
-- Team mode provides concrete team choices and applies the team filter plus Team View.
-- Date mode provides fixture-day choices and applies the local date filter plus Date cards.
-- City mode provides host-city choices and applies the city filter plus City View.
-- Stage mode provides tournament-phase choices and applies the stage filter in the full table.
-- Featured match rows link to real match detail pages.
-- Reset restores the full 104-match table.
-- Search focuses the schedule search box.
-- Export opens the Excel planner page.
+## 3. Redesign Completed
 
-## 3. Files Changed
+The panel has now been redesigned as a real Quick Planner:
+
+- Users choose a planner mode: Team, City, Date or Stage.
+- The select field is populated from real schedule data, not hardcoded examples.
+- Team mode exposes 48 confirmed team options.
+- City mode exposes all host-city options.
+- Date mode exposes local match dates based on the selected timezone.
+- Stage mode exposes tournament phases.
+- The panel previews the number of matching matches.
+- The panel previews the first matching fixture.
+- `Apply to schedule` applies the selected filter and opens the right view.
+- `Open first match` links to the first matching match detail page.
+- Reset, manual search and Excel export remain available as secondary actions.
+
+## 4. Files Changed
 
 ```text
 scripts/generate-site.mjs
 src/styles.css
 ```
 
-## 4. Validation
+## 5. Validation
 
 ```text
-Hero panel tabs: 4
-Hero option buttons: 16
-Featured match detail links: 2
+Planner modes: 4
+Team options: 48
+Date options in Asia/Shanghai test: 33
 Team example: Mexico -> Team View, 3 matches
-Date example: Opening match -> Date cards, 2 matches in selected timezone
 City example: Dallas -> City View, 9 matches
+Date example: selected local date -> Date cards, 1 match
 Stage example: Final -> Table View, 1 match
+First match link for Final: /world-cup-2026-match/104-w101-vs-w102/
 Reset: returns to 104 matches
+Mobile city example: Dallas -> 9 matches
+Mobile horizontal overflow: false
 Frontend errors: 0
 ```
 
@@ -45,8 +54,9 @@ Preview artifact:
 
 ```text
 page-seo-plans/schedule-hero-control-panel-module-preview.png
+page-seo-plans/schedule-hero-control-panel-mobile-preview.png
 ```
 
-## 5. Next Recommendation
+## 6. Next Recommendation
 
-The control panel now has real page-control value. A later visual pass can add icons or compact select menus, but the priority issue has been resolved: users now make a choice inside the panel and that choice applies a real schedule view or filter.
+The control panel now has real page-control value. A later visual pass can add icons, but the module should keep this planner logic: choose a planning mode, choose a real value, preview the result, then apply it.

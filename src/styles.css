@@ -268,6 +268,120 @@ h1 {
   color: #fff;
 }
 
+.hero-planner {
+  display: grid;
+  gap: 12px;
+  padding: 0 16px 16px;
+}
+
+.hero-planner-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.hero-planner-tabs button,
+.hero-planner-actions button,
+.hero-planner-secondary button,
+.hero-planner-secondary a {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 10px;
+  text-align: center;
+}
+
+.hero-planner-tabs button[aria-selected="true"],
+.hero-planner-tabs button:hover,
+.hero-planner-tabs button:focus-visible,
+.hero-planner-actions button:hover,
+.hero-planner-actions button:focus-visible,
+.hero-planner-secondary button:hover,
+.hero-planner-secondary button:focus-visible,
+.hero-planner-secondary a:hover,
+.hero-planner-secondary a:focus-visible {
+  border-color: var(--gold);
+  background: rgba(216, 166, 60, 0.18);
+}
+
+.hero-planner-field {
+  display: grid;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(4, 18, 20, 0.34);
+  padding: 12px;
+}
+
+.hero-planner-field span,
+.hero-planner-result span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.hero-planner-field select {
+  min-height: 42px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+  padding: 9px 10px;
+}
+
+.hero-planner-result {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(216, 166, 60, 0.32);
+  border-radius: 8px;
+  background: rgba(4, 18, 20, 0.5);
+  padding: 12px;
+}
+
+.hero-planner-result strong {
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.hero-planner-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: 8px;
+}
+
+.hero-planner-actions button {
+  background: var(--accent);
+  border-color: transparent;
+  min-height: 42px;
+}
+
+.hero-planner-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  border: 1px solid rgba(216, 166, 60, 0.42);
+  border-radius: 6px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 950;
+  padding: 10px;
+}
+
+.hero-planner-secondary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
 .hero-control-panes {
   padding: 0 16px 14px;
 }
@@ -2344,6 +2458,12 @@ td {
 
   .hero-filter-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-planner-tabs,
+  .hero-planner-actions,
+  .hero-planner-secondary {
+    grid-template-columns: 1fr;
   }
 
   .mini-schedule {
