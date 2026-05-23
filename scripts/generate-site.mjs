@@ -191,7 +191,66 @@ const emojiCodepoints = (emoji) =>
     .map((char) => char.codePointAt(0).toString(16))
     .filter((codepoint) => codepoint !== "fe0f")
     .join("-");
+const teamFlagCodeOverrides = {
+  Algeria: "dz",
+  Argentina: "ar",
+  Australia: "au",
+  Austria: "at",
+  Belgium: "be",
+  "Bosnia & Herzegovina": "ba",
+  Brazil: "br",
+  "Cabo Verde": "cv",
+  Canada: "ca",
+  "Cape Verde": "cv",
+  Colombia: "co",
+  Croatia: "hr",
+  "C么te d'Ivoire": "ci",
+  "Cote d'Ivoire": "ci",
+  Czechia: "cz",
+  "Ivory Coast": "ci",
+  "Cura莽ao": "cw",
+  "DR Congo": "cd",
+  Ecuador: "ec",
+  Egypt: "eg",
+  England: "gb-eng",
+  France: "fr",
+  Germany: "de",
+  Ghana: "gh",
+  Haiti: "ht",
+  Iran: "ir",
+  Iraq: "iq",
+  "IR Iran": "ir",
+  Japan: "jp",
+  Jordan: "jo",
+  "Korea Republic": "kr",
+  Mexico: "mx",
+  Morocco: "ma",
+  Netherlands: "nl",
+  "New Zealand": "nz",
+  Norway: "no",
+  Panama: "pa",
+  Paraguay: "py",
+  Portugal: "pt",
+  Qatar: "qa",
+  "Saudi Arabia": "sa",
+  Scotland: "gb-sct",
+  Senegal: "sn",
+  "South Africa": "za",
+  "South Korea": "kr",
+  Spain: "es",
+  Sweden: "se",
+  Switzerland: "ch",
+  Tunisia: "tn",
+  T眉rkiye: "tr",
+  Turkiye: "tr",
+  Uruguay: "uy",
+  Uzbekistan: "uz",
+  USA: "us",
+  "United States": "us"
+};
 const teamFlagUrl = (team) => {
+  const code = teamFlagCodeOverrides[team];
+  if (code) return `https://flagcdn.com/${code}.svg`;
   const emoji = teamFlagEmojiOverrides[team];
   return emoji ? `https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiCodepoints(emoji)}.svg` : "";
 };
@@ -858,6 +917,27 @@ const renderScheduleTable = () => {
     </div>
     <a class="button light" href="${attr(scheduleMeta.sourceUrl)}">Official source</a>
   </div>
+  <section class="schedule-live-board" aria-label="Next World Cup 2026 match">
+    <article class="live-next-match">
+      <div>
+        <p class="eyebrow">Next match</p>
+        <h3><span data-next-home>Loading</span> <span>vs</span> <span data-next-away>Loading</span></h3>
+        <p data-next-meta>Choose a timezone to calculate the next kickoff.</p>
+        <a data-next-detail href="#full-schedule">Jump to match row -></a>
+      </div>
+      <div class="countdown-grid" aria-label="Countdown to next kickoff">
+        <div><strong data-next-days>--</strong><span>Days</span></div>
+        <div><strong data-next-hours>--</strong><span>Hours</span></div>
+        <div><strong data-next-minutes>--</strong><span>Min</span></div>
+        <div><strong data-next-seconds>--</strong><span>Sec</span></div>
+      </div>
+    </article>
+    <div class="upcoming-board-head">
+      <h3>Upcoming matches</h3>
+      <a href="#schedule-views">View all -></a>
+    </div>
+    <div class="upcoming-match-grid" data-upcoming-rail></div>
+  </section>
   <div class="filters" aria-label="Schedule filters">
     <label>Search
       <input data-filter-search type="search" placeholder="Team, match number, stage">
@@ -930,7 +1010,7 @@ const renderScheduleTable = () => {
     </div>
     <button class="clear-filter-button" type="button" data-clear-filters>Clear filters</button>
   </div>
-  <div class="view-switcher" role="tablist" aria-label="Schedule view">
+  <div class="view-switcher" id="schedule-views" role="tablist" aria-label="Schedule view">
     <button class="view-tab active" type="button" role="tab" aria-selected="true" data-view-toggle="table">Table</button>
     <button class="view-tab" type="button" role="tab" aria-selected="false" data-view-toggle="date">Date cards</button>
     <button class="view-tab" type="button" role="tab" aria-selected="false" data-view-toggle="team">Team</button>
@@ -963,7 +1043,7 @@ const renderScheduleTable = () => {
         ${matches
           .map((match) => {
             return `<tr data-match-row ${matchDataset(match)}>
-          <td><strong>${match.matchNumber}</strong></td>
+          <td id="match-${attr(match.matchNumber)}"><strong>${match.matchNumber}</strong></td>
           <td>${esc(match.stage)}</td>
           <td>${match.group ? `Group ${esc(match.group)}` : "-"}</td>
           <td>${matchupHtml(match.home, match.away)}</td>
@@ -1657,6 +1737,15 @@ await write(
   const currentTime = document.querySelector("[data-current-time]");
   const nextCountdown = document.querySelector("[data-next-countdown]");
   const nextMatchLabel = document.querySelector("[data-next-match-label]");
+  const nextHome = document.querySelector("[data-next-home]");
+  const nextAway = document.querySelector("[data-next-away]");
+  const nextMeta = document.querySelector("[data-next-meta]");
+  const nextDetail = document.querySelector("[data-next-detail]");
+  const nextDays = document.querySelector("[data-next-days]");
+  const nextHours = document.querySelector("[data-next-hours]");
+  const nextMinutes = document.querySelector("[data-next-minutes]");
+  const nextSeconds = document.querySelector("[data-next-seconds]");
+  const upcomingRail = document.querySelector("[data-upcoming-rail]");
   const timezoneStorageKey = "wc26schedule-timezone";
   const nowOverride = Date.parse(document.documentElement.dataset.now || "");
   let activeView = "table";
@@ -1774,6 +1863,24 @@ await write(
     return minutes + "m";
   };
 
+  const countdownParts = (target, reference = now()) => {
+    const diff = Math.max(0, target - reference);
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return { days, hours, minutes, seconds };
+  };
+
+  const setCountdownParts = (target, reference = now()) => {
+    const parts = countdownParts(target, reference);
+    if (nextDays) nextDays.textContent = String(parts.days).padStart(2, "0");
+    if (nextHours) nextHours.textContent = String(parts.hours).padStart(2, "0");
+    if (nextMinutes) nextMinutes.textContent = String(parts.minutes).padStart(2, "0");
+    if (nextSeconds) nextSeconds.textContent = String(parts.seconds).padStart(2, "0");
+  };
+
   const matchStatusLabel = (target, reference = now()) => {
     const diffMinutes = Math.floor((target - reference) / 60000);
     if (diffMinutes <= -120) return "Completed or in progress";
@@ -1787,12 +1894,25 @@ await write(
     const timezone = selectedTimezone();
     const current = now();
     if (currentTime) currentTime.textContent = compactTimeLabel(current, timezone);
-    const upcoming = rows
+    const upcomingMatches = rows
       .map((row) => ({ row, kickoff: new Date(row.dataset.kickoffUtc) }))
       .filter((item) => item.kickoff > current)
-      .sort((a, b) => a.kickoff - b.kickoff)[0];
+      .sort((a, b) => a.kickoff - b.kickoff);
+    const upcoming = upcomingMatches[0];
     if (upcoming) {
       if (nextCountdown) nextCountdown.textContent = countdownLabel(upcoming.kickoff, current);
+      setCountdownParts(upcoming.kickoff, current);
+      if (nextHome) nextHome.textContent = upcoming.row.dataset.home;
+      if (nextAway) nextAway.textContent = upcoming.row.dataset.away;
+      if (nextMeta) {
+        nextMeta.textContent =
+          localTimeLabel(upcoming.kickoff, timezone) +
+          " - " +
+          upcoming.row.dataset.city +
+          " - " +
+          upcoming.row.querySelectorAll("td")[9].textContent.trim();
+      }
+      if (nextDetail) nextDetail.setAttribute("href", "#match-" + upcoming.row.dataset.matchNumber);
       if (nextMatchLabel) {
         nextMatchLabel.textContent =
           "Match " +
@@ -1804,9 +1924,49 @@ await write(
           " - " +
           localTimeLabel(upcoming.kickoff, timezone);
       }
+      if (upcomingRail) {
+        upcomingRail.innerHTML = upcomingMatches
+          .slice(0, 4)
+          .map(({ row, kickoff }) => {
+            const cells = row.querySelectorAll("td");
+            const home = teamHtml(row, cells, "home");
+            const away = teamHtml(row, cells, "away");
+            return (
+              '<article class="upcoming-match-card">' +
+              '<div class="upcoming-card-top"><span class="stage-pill">' +
+              row.dataset.stage +
+              (row.dataset.group ? " - Group " + row.dataset.group : "") +
+              '</span><span>#' +
+              row.dataset.matchNumber +
+              '</span></div><div class="upcoming-teams">' +
+              home +
+              '<span>vs</span>' +
+              away +
+              '</div><div class="upcoming-card-meta"><strong>' +
+              localTimeLabel(kickoff, timezone) +
+              '</strong><span class="watch-tag" data-watch-type="' +
+              row.dataset.watchType +
+              '">' +
+              row.dataset.watchWindow +
+              '</span><small>' +
+              row.dataset.city +
+              " - " +
+              escapeHtml(cells[9].textContent.trim()) +
+              '</small></div><a href="#match-' +
+              row.dataset.matchNumber +
+              '">Jump to match -></a></article>'
+            );
+          })
+          .join("");
+      }
     } else {
       if (nextCountdown) nextCountdown.textContent = "Tournament complete";
       if (nextMatchLabel) nextMatchLabel.textContent = "No future matches remain in the current schedule data.";
+      if (nextHome) nextHome.textContent = "Tournament";
+      if (nextAway) nextAway.textContent = "complete";
+      if (nextMeta) nextMeta.textContent = "No future matches remain in the current schedule data.";
+      setCountdownParts(current, current);
+      if (upcomingRail) upcomingRail.innerHTML = "";
     }
   };
 
@@ -2358,7 +2518,7 @@ await write(
         }
       }
     }
-  }, 60000);
+  }, 1000);
 
   updateTimeDisplays();
   syncDateOptions();

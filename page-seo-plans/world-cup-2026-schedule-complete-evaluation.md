@@ -205,8 +205,9 @@ Strengths:
 
 - The page remains static-first and does not require an application backend.
 - Tailwind CSS is now available as a build-time utility layer, with preflight disabled to preserve the existing design system.
+- A Matchtimes-inspired live board now gives the schedule page a stronger next-match visual focus, including a seconds countdown and upcoming-match cards.
 - Date cards are generated from existing table rows, avoiding duplicate static fixture content.
-- Countdown updates once per minute instead of every second, which is more stable and less distracting.
+- The next-match countdown updates every second, while heavier schedule data is still generated from the existing static rows.
 - The UI logic is centralized in `dist/schedule.js` generated from `scripts/generate-site.mjs`.
 
 Risks:
@@ -214,6 +215,7 @@ Risks:
 - The table is large, so future additions should avoid duplicating all match content in hidden static blocks.
 - Flag CDN dependency should be monitored.
 - Tailwind should be used page by page for specific UI improvements, not as a reason to generate repeated template-like content blocks.
+- The live board currently links to match rows. Real single-match detail pages should be created before changing those actions into full "Match details" links.
 - If filtered export is added later, it should reuse the current row data instead of creating another schedule data source.
 
 ## 10. Final Judgment
