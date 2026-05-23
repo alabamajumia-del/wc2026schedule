@@ -370,6 +370,15 @@ Usability and accuracy refinement completed on 2026-05-23:
 - Renamed table headers from generic date/time wording to `Your Time`, `Source Time` and `Source Date`.
 - Removed unfinished match-detail wording from the visible Date cards while keeping planned detail URLs in data attributes for future generation.
 
+Expression and rendering refinement completed on 2026-05-23:
+
+- Added a watch-window legend so Morning, Afternoon, Prime time, Late night and Overnight are visually explained.
+- Added active filter chips so users can see and remove individual filters.
+- Added clear-filters actions near the schedule controls and in the empty state.
+- Added a no-results state for filter combinations that return zero matches.
+- Strengthened Date card hierarchy with match-number badges, stage pills and split team layout.
+- Kept the added elements functional and compact, without adding keyword-heavy explanatory text.
+
 ## 10. Quality Check
 
 Latest check:
@@ -383,8 +392,8 @@ Title length: 61
 Meta description length: 141
 H1 count: 1
 FAQ count: 6
-Word count: 4051
-Primary keyword density: about 0.79%
+Word count: 4085
+Primary keyword density: about 0.78%
 Internal SEO text: not present
 Generic template modules: not present
 Schedule visual preview: present
@@ -402,6 +411,10 @@ Local date regrouping logic: present
 Local-date filter: present
 Active result context: present
 Unfinished match-detail text in UI: not present
+Watch-window legend: present
+Active filter chips: present
+Empty state: present
+Clear filters action: present
 ```
 
 ## 11. Remaining Issues

@@ -572,6 +572,23 @@ const renderScheduleTable = () => {
       </select>
     </label>
   </div>
+  <div class="schedule-insight-row" aria-label="Schedule reading guide">
+    <div class="insight-card">
+      <span>Local date logic</span>
+      <strong data-local-date-range>Dates follow your selected timezone.</strong>
+    </div>
+    <div class="insight-card insight-wide">
+      <span>Watch windows</span>
+      <div class="watch-legend" aria-label="Watch-time label meanings">
+        <span class="watch-tag" data-watch-type="morning">Morning</span>
+        <span class="watch-tag" data-watch-type="afternoon">Afternoon</span>
+        <span class="watch-tag" data-watch-type="prime">Prime time</span>
+        <span class="watch-tag" data-watch-type="late">Late night</span>
+        <span class="watch-tag" data-watch-type="overnight">Overnight</span>
+      </div>
+    </div>
+    <button class="clear-filter-button" type="button" data-clear-filters>Clear filters</button>
+  </div>
   <div class="view-switcher" role="tablist" aria-label="Schedule view">
     <button class="view-tab active" type="button" role="tab" aria-selected="true" data-view-toggle="table">Table</button>
     <button class="view-tab" type="button" role="tab" aria-selected="false" data-view-toggle="date">Date cards</button>
@@ -579,7 +596,10 @@ const renderScheduleTable = () => {
     <button class="view-tab" type="button" role="tab" aria-selected="false" aria-disabled="true" data-view-toggle="city" disabled>City</button>
   </div>
   <div class="schedule-result-bar">
-    <p class="schedule-count"><span data-schedule-count>${matches.length}</span> matches shown</p>
+    <div>
+      <p class="schedule-count"><span data-schedule-count>${matches.length}</span> matches shown</p>
+      <div class="active-filter-list" data-active-filters aria-label="Active filters"></div>
+    </div>
     <p data-active-context>Times use your selected timezone. Source ET remains visible for verification.</p>
   </div>
   <div class="table-wrap schedule-table-wrap" data-schedule-view="table">
@@ -619,6 +639,11 @@ const renderScheduleTable = () => {
     </table>
   </div>
   <div class="date-card-view" data-schedule-view="date" hidden></div>
+  <div class="schedule-empty" data-empty-state hidden>
+    <strong>No matches found</strong>
+    <p>Try a broader local date, city, team or stage filter.</p>
+    <button class="button light" type="button" data-clear-filters>Clear filters</button>
+  </div>
   <p class="source-note inline-note"><strong>Data note:</strong> ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>.</p>
 </section>`;
 };
@@ -1281,6 +1306,10 @@ await write(
   const timezoneSelect = document.querySelector("[data-timezone-select]");
   const timezoneSummary = document.querySelector("[data-timezone-summary]");
   const activeContext = document.querySelector("[data-active-context]");
+  const activeFilters = document.querySelector("[data-active-filters]");
+  const clearButtons = Array.from(document.querySelectorAll("[data-clear-filters]"));
+  const emptyState = document.querySelector("[data-empty-state]");
+  const localDateRange = document.querySelector("[data-local-date-range]");
   const timezoneStorageKey = "wc26schedule-timezone";
   let activeView = "table";
   let cards = [];
@@ -1372,6 +1401,19 @@ await write(
     return ["Overnight", "overnight"];
   };
 
+  const escapeHtml = (value) =>
+    String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+
+  const teamHtml = (row, cells, side) => {
+    const links = cells[3].querySelectorAll("a");
+    const fallback = side === "home" ? row.dataset.home : row.dataset.away;
+    return links[side === "home" ? 0 : 1]?.outerHTML || escapeHtml(fallback);
+  };
+
   const syncDateOptions = () => {
     if (!date) return;
     const currentValue = date.value;
@@ -1384,6 +1426,12 @@ await write(
       date.add(new Option(label, value));
     }
     date.value = options.has(currentValue) ? currentValue : "";
+    if (localDateRange) {
+      const values = [...options.values()];
+      localDateRange.textContent = values.length
+        ? values[0] + " to " + values[values.length - 1]
+        : "Dates follow your selected timezone.";
+    }
   };
 
   const updateTimeDisplays = () => {
@@ -1411,6 +1459,39 @@ await write(
         timezone.replaceAll("_", " ") +
         ". The date filter and Date cards both use this local date.";
     }
+  };
+
+  const controlLabel = (control) => {
+    if (!control?.value) return "";
+    if (control.tagName === "SELECT") return control.selectedOptions[0]?.textContent || control.value;
+    return control.value;
+  };
+
+  const updateActiveFilters = () => {
+    if (!activeFilters) return;
+    const filters = [
+      ["Search", search, "search"],
+      ["Stage", stage, "stage"],
+      ["Group", group, "group"],
+      ["Local date", date, "date"],
+      ["City", city, "city"],
+      ["Team", team, "team"]
+    ].filter(([, control]) => control?.value);
+
+    activeFilters.innerHTML = filters.length
+      ? filters
+          .map(
+            ([label, control, key]) =>
+              '<button type="button" data-clear-filter="' +
+              key +
+              '">' +
+              label +
+              ": " +
+              escapeHtml(controlLabel(control)) +
+              "</button>"
+          )
+          .join("")
+      : '<span>No filters active</span>';
   };
 
   const copyMatchData = (source, target) => {
@@ -1466,19 +1547,24 @@ await write(
 
       for (const row of groupRows) {
         const cells = row.querySelectorAll("td");
+        const home = teamHtml(row, cells, "home");
+        const away = teamHtml(row, cells, "away");
         const article = document.createElement("article");
         article.className = "match-card";
         article.dataset.matchCard = "";
         copyMatchData(row, article);
         article.innerHTML =
-          '<div class="match-card-top"><strong>Match ' +
+          '<div class="match-card-top"><strong class="match-number-badge">Match ' +
           row.dataset.matchNumber +
-          "</strong><span>" +
+          '</strong><span class="stage-pill">' +
           row.dataset.stage +
           (row.dataset.group ? " - Group " + row.dataset.group : "") +
           '</span></div><div class="match-card-teams">' +
-          cells[3].innerHTML +
-          '</div><div class="match-card-time"><strong data-card-local-time>' +
+          '<div class="team-line">' +
+          home +
+          '</div><span>vs</span><div class="team-line">' +
+          away +
+          '</div></div><div class="match-card-time"><strong data-card-local-time>' +
           row.dataset.localTime +
           '</strong><span class="watch-tag" data-watch-type="' +
           row.dataset.watchType +
@@ -1557,6 +1643,7 @@ await write(
     }
 
     if (count) count.textContent = String(visible);
+    if (emptyState) emptyState.hidden = visible !== 0;
     if (activeContext) {
       const pieces = [selectedTimezone().replaceAll("_", " ")];
       if (dateValue && date?.selectedOptions?.[0]) pieces.push(date.selectedOptions[0].textContent);
@@ -1565,6 +1652,7 @@ await write(
       if (cityValue) pieces.push(cityValue);
       activeContext.textContent = "Showing " + visible + " matches for " + pieces.join(" / ") + ".";
     }
+    updateActiveFilters();
   };
 
   [search, stage, group, date, city, team].forEach((control) => {
@@ -1578,6 +1666,24 @@ await write(
     updateTimeDisplays();
     syncDateOptions();
     if (activeView === "date") buildDateCards();
+    apply();
+  });
+
+  clearButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      [search, stage, group, date, city, team].forEach((control) => {
+        if (control) control.value = "";
+      });
+      apply();
+    });
+  });
+
+  activeFilters?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-clear-filter]");
+    if (!button) return;
+    const controls = { search, stage, group, date, city, team };
+    const control = controls[button.dataset.clearFilter];
+    if (control) control.value = "";
     apply();
   });
 

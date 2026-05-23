@@ -78,6 +78,17 @@ The result bar shows how many matches are visible and which timezone/filter cont
 Table headers now distinguish "Your Time" from "Source Time" and "Source Date".
 ```
 
+Expression and rendering refinement:
+
+```text
+Added a watch-window legend so color labels have clear meaning.
+Added active filter chips that can remove one filter at a time.
+Added a clear-filters action near the schedule controls and in the empty state.
+Added an empty state for no-result combinations.
+Strengthened Date card hierarchy with match-number badges, stage pills and left/right team layout.
+Kept the UI focused on user actions rather than editorial explanation.
+```
+
 ## 3. Data Assumption
 
 The schedule source gives kickoff time in ET. Since the tournament runs in June and July, ET is treated as EDT, or UTC-4, for the computed UTC value used by the timezone converter.
@@ -103,8 +114,8 @@ Local URL: http://localhost:3000/world-cup-2026-schedule/
 HTTP status: 200
 H1 count: 1
 H2 count: 12
-Word count: 4051
-Primary exact-match density: about 0.79%
+Word count: 4085
+Primary exact-match density: about 0.78%
 Table rows: 104
 UTC kickoff fields: 104
 Local time cells: 104
@@ -116,6 +127,10 @@ Local-date regrouping logic: present
 Local-date filter: present
 Active result context: present
 Unfinished match-detail text in UI: not present
+Watch-window legend: present
+Active filter chips: present
+Empty state: present
+Clear filters action: present
 ```
 
 ## 6. Remaining Work
