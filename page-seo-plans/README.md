@@ -30,12 +30,20 @@ Required fields for each page:
 
 - Page URL
 - Optimization status
+- Reference model
+- Competitor inspiration
+- Page tool type
 - Search intent
 - Primary keyword
 - Long-tail keywords
 - Semantic keyword family
 - SEO Title and Meta Description
 - H1 / H2 / H3 structure
+- Custom page blueprint
+- Hero interaction
+- Reusable action
+- Retention mechanism
+- Mobile behavior
 - Content requirements
 - Internal links
 - External sources
