@@ -265,7 +265,7 @@ export const pages = [
     title: "World Cup 2026 Schedule PDF - USA, Canada and Mexico",
     description:
       "Download World Cup 2026 schedule PDF files for printing, quick visual scanning, group-stage planning and knockout-stage planning.",
-    h1: "World Cup 2026 Schedule PDF - USA, Canada and Mexico",
+    h1: "World Cup 2026 Schedule PDF for USA, Canada and Mexico",
     keyword: "world cup 2026 schedule pdf",
     intent: "Choose the right printable or visual PDF schedule for offline planning.",
     longTail: [
@@ -284,7 +284,7 @@ export const pages = [
       ["Includes", "Full schedule, poster matrix and stage overview"]
     ],
     intro:
-      "The World Cup 2026 schedule PDF page gives fans printable and visual downloads for the tournament across the United States, Canada and Mexico. You can download a complete printable schedule with match details, a one-page overview poster for quick scanning, or a two-page stage overview that separates the group stage from the knockout rounds. This page explains which PDF to use, what each file includes and when the live schedule or Excel workbook is still the better planning tool.",
+      "Download printable and visual World Cup 2026 schedule PDF files for the tournament across the United States, Canada and Mexico. Choose the full printable schedule, one-page overview poster, full match overview image, or stage overview for group and knockout planning.",
     hero: {
       variant: "pdf",
       eyebrow: "PDF library",

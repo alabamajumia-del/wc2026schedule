@@ -433,3 +433,27 @@ Saved preview screenshots:
 page-seo-plans/pdf-page-full-overview-image-module-preview.png
 page-seo-plans/pdf-page-download-library-with-image-preview.png
 ```
+
+## 10. Hero Football Background and Typography Fix
+
+Completed on 2026-05-23:
+
+- Replaced the PDF page hero background from a generic document/office image to a football stadium image so the first viewport better matches World Cup and soccer search intent.
+- Reduced the PDF hero H1 size on desktop and controlled line height so the long title reads as a designed headline instead of an oversized block.
+- Shortened the hero intro copy and moved detailed explanation into the page body modules.
+- Added a gold left accent line to the hero copy to improve scanability without turning the hero text into a card.
+- Improved the hero panel contrast against the new stadium background.
+- Added PDF-page-specific mobile rules:
+  - one-column hero grid
+  - natural title wrapping
+  - full-width hero panel
+  - reduced hero spacing
+- Verified desktop and mobile horizontal overflow at `0`.
+- Verified desktop CTA buttons remain visible in the first viewport.
+
+Saved preview screenshots:
+
+```text
+page-seo-plans/pdf-page-hero-football-background-preview.png
+page-seo-plans/pdf-page-hero-football-background-mobile-preview.png
+```
