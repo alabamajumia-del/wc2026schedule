@@ -20,6 +20,9 @@ Turn the module into a dynamic schedule surface that supports real browsing beha
 
 - Added range text such as `Showing 1-4 of 104`.
 - Added `Prev` and `Next` controls for paging through upcoming fixtures.
+- Converted the fixture cards from a static grid into a horizontal scroll rail.
+- Desktop users can click `Prev` / `Next`; mobile and touchpad users can swipe or scroll horizontally.
+- The rail uses scroll snap so each card group lands cleanly instead of stopping halfway through a card.
 - Added a dynamic scope label, such as `Filtered upcoming matches for Belgium`.
 - Added `View all` as an action button that opens the relevant schedule view.
 - Rebuilt the card rail from the active match pool instead of hardcoding the first four matches.
@@ -30,11 +33,11 @@ Turn the module into a dynamic schedule surface that supports real browsing beha
 ## 4. Validation
 
 ```text
-Default state: Showing 1-4 of 104, 4 cards, Next enabled, Prev disabled
-After Next: Showing 5-8 of 104, first card changes to match #5, Prev enabled
+Default state: horizontal rail renders 104 cards, shows 1-4 of 104, Next enabled, Prev disabled
+After Next: rail scrolls right, shows 5-8 of 104, first visible card is match #5, Prev enabled
 Filtered example: Belgium -> Showing 1-3 of 3, 3 cards, all cards include Belgium
 View all after Belgium filter: opens Team View with Belgium active context
-Mobile check: no horizontal overflow, controls remain visible
+Mobile check: rail scrolls one card at a time, page has no horizontal overflow, controls remain visible
 Build: passed
 Syntax check: passed
 ```
@@ -43,4 +46,5 @@ Preview artifact:
 
 ```text
 page-seo-plans/schedule-dynamic-upcoming-preview.png
+page-seo-plans/schedule-upcoming-horizontal-scroll-preview.png
 ```

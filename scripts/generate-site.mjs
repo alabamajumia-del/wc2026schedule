@@ -2201,7 +2201,9 @@ await write(
   let aggregateMatches = [];
   let upcomingPage = 0;
   let upcomingFilterSignature = "";
-  const upcomingPageSize = 4;
+  let upcomingRenderSignature = "";
+  let upcomingTotal = 0;
+  let upcomingNeedsScroll = false;
 
   const search = document.querySelector("[data-filter-search]");
   const stage = document.querySelector("[data-filter-stage]");
@@ -2375,35 +2377,82 @@ await write(
 
   const activeUpcomingSignature = () => JSON.stringify(filterValues());
 
-  const renderUpcomingRail = (upcomingMatches, timezone) => {
-    if (!upcomingRail) return;
-    const maxPage = Math.max(0, Math.ceil(upcomingMatches.length / upcomingPageSize) - 1);
-    upcomingPage = Math.min(Math.max(0, upcomingPage), maxPage);
-    const start = upcomingPage * upcomingPageSize;
-    const visibleMatches = upcomingMatches.slice(start, start + upcomingPageSize);
+  const upcomingPageSize = () => {
+    if (window.matchMedia("(max-width: 860px)").matches) return 1;
+    if (window.matchMedia("(max-width: 1100px)").matches) return 2;
+    return 4;
+  };
 
-    if (upcomingScope) upcomingScope.textContent = upcomingScopeLabel();
+  const updateUpcomingControls = () => {
+    const size = upcomingPageSize();
+    const maxPage = Math.max(0, Math.ceil(upcomingTotal / size) - 1);
+    upcomingPage = Math.min(Math.max(0, upcomingPage), maxPage);
+    const start = upcomingTotal ? upcomingPage * size : 0;
+    const end = Math.min(start + size, upcomingTotal);
     if (upcomingRange) {
-      upcomingRange.textContent = upcomingMatches.length
-        ? "Showing " + (start + 1) + "-" + (start + visibleMatches.length) + " of " + upcomingMatches.length
+      upcomingRange.textContent = upcomingTotal
+        ? "Showing " + (start + 1) + "-" + end + " of " + upcomingTotal
         : "No upcoming matches";
     }
-    if (upcomingPrev) upcomingPrev.disabled = upcomingPage === 0 || upcomingMatches.length === 0;
-    if (upcomingNext) upcomingNext.disabled = upcomingPage >= maxPage || upcomingMatches.length === 0;
+    if (upcomingPrev) upcomingPrev.disabled = upcomingPage === 0 || upcomingTotal === 0;
+    if (upcomingNext) upcomingNext.disabled = upcomingPage >= maxPage || upcomingTotal === 0;
+  };
 
-    if (!visibleMatches.length) {
+  const scrollUpcomingRailToPage = (behavior = "smooth") => {
+    if (!upcomingRail) return;
+    const start = upcomingPage * upcomingPageSize();
+    const target = upcomingRail.querySelector('[data-upcoming-index="' + start + '"]');
+    if (!target) {
+      upcomingRail.scrollTo({ left: 0, behavior });
+      return;
+    }
+    upcomingRail.scrollTo({ left: target.offsetLeft - upcomingRail.offsetLeft, behavior });
+  };
+
+  const syncUpcomingPageFromScroll = () => {
+    if (!upcomingRail || !upcomingTotal) return;
+    const cards = Array.from(upcomingRail.querySelectorAll("[data-upcoming-index]"));
+    if (!cards.length) return;
+    const size = upcomingPageSize();
+    const railLeft = upcomingRail.scrollLeft;
+    const nearest = cards.reduce(
+      (best, card) => {
+        const distance = Math.abs(card.offsetLeft - upcomingRail.offsetLeft - railLeft);
+        return distance < best.distance ? { distance, index: Number(card.dataset.upcomingIndex || 0) } : best;
+      },
+      { distance: Infinity, index: 0 }
+    );
+    upcomingPage = Math.floor(nearest.index / size);
+    updateUpcomingControls();
+  };
+
+  const renderUpcomingRail = (upcomingMatches, timezone) => {
+    if (!upcomingRail) return;
+    upcomingTotal = upcomingMatches.length;
+
+    if (upcomingScope) upcomingScope.textContent = upcomingScopeLabel();
+
+    if (!upcomingMatches.length) {
+      upcomingRenderSignature = "empty";
       upcomingRail.innerHTML =
         '<article class="upcoming-empty"><strong>No upcoming matches match the active filters.</strong><span>Clear filters or switch to the full schedule table to continue browsing.</span></article>';
+      updateUpcomingControls();
       return;
     }
 
-    upcomingRail.innerHTML = visibleMatches
-      .map(({ row, kickoff }, index) => {
+    const renderSignature =
+      timezone + "|" + upcomingMatches.map(({ row }) => row.dataset.matchNumber).join(",");
+    if (renderSignature !== upcomingRenderSignature) {
+      upcomingRenderSignature = renderSignature;
+      upcomingRail.innerHTML = upcomingMatches
+        .map(({ row, kickoff }, index) => {
         const cells = row.querySelectorAll("td");
         const home = teamHtml(row, cells, "home");
         const away = teamHtml(row, cells, "away");
         return (
-          '<article class="upcoming-match-card">' +
+          '<article class="upcoming-match-card" data-upcoming-index="' +
+          index +
+          '">' +
           '<div class="upcoming-card-top"><span class="stage-pill">' +
           row.dataset.stage +
           (row.dataset.group ? " - Group " + row.dataset.group : "") +
@@ -2431,6 +2480,17 @@ await write(
         );
       })
       .join("");
+    } else {
+      upcomingMatches.forEach(({ kickoff }, index) => {
+        const countdown = upcomingRail.querySelector('[data-upcoming-index="' + index + '"] .upcoming-card-actions span');
+        if (countdown) countdown.textContent = countdownLabel(kickoff);
+      });
+    }
+    updateUpcomingControls();
+    if (upcomingNeedsScroll) {
+      scrollUpcomingRailToPage(upcomingPage === 0 ? "auto" : "smooth");
+      upcomingNeedsScroll = false;
+    }
   };
 
   const updateLiveTime = () => {
@@ -2440,6 +2500,7 @@ await write(
     if (nextFilterSignature !== upcomingFilterSignature) {
       upcomingFilterSignature = nextFilterSignature;
       upcomingPage = 0;
+      upcomingNeedsScroll = true;
     }
     if (currentTime) currentTime.textContent = compactTimeLabel(current, timezone);
     const allUpcomingMatches = rows
@@ -3043,12 +3104,23 @@ await write(
 
   upcomingPrev?.addEventListener("click", () => {
     upcomingPage = Math.max(0, upcomingPage - 1);
+    upcomingNeedsScroll = true;
     updateLiveTime();
   });
 
   upcomingNext?.addEventListener("click", () => {
     upcomingPage += 1;
+    upcomingNeedsScroll = true;
     updateLiveTime();
+  });
+
+  upcomingRail?.addEventListener("scroll", () => {
+    window.requestAnimationFrame(syncUpcomingPageFromScroll);
+  });
+
+  window.addEventListener("resize", () => {
+    updateUpcomingControls();
+    scrollUpcomingRailToPage("auto");
   });
 
   upcomingViewAll?.addEventListener("click", () => {
