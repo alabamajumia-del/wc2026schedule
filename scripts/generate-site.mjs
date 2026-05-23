@@ -317,11 +317,27 @@ const pdfDownloadFiles = [
 
 const downloadFiles = [...dataDownloadFiles, ...pdfDownloadFiles];
 
+const visualDownloadFiles = [
+  {
+    label: "Full match schedule overview image",
+    href: "/assets/2026-world-cup-full-match-schedule-overview.png",
+    description:
+      "Single-image overview covering group-stage fixtures, knockout rounds, third-place playoff and final with match numbers, dates, venues and bracket placeholders.",
+    format: "PNG",
+    bestFor: "Quick visual reference and sharing",
+    includes: "Group stage + knockout overview"
+  }
+];
+
 const siteAssetFiles = [
   ["page-seo-plans/download-pdf-matrix-preview.png", "assets/download-pdf-matrix-preview.png"],
   ["page-seo-plans/download-overview-poster-pdf-preview.png", "assets/download-overview-poster-pdf-preview.png"],
   ["page-seo-plans/stage-overview-pdf-group-preview.png", "assets/stage-overview-pdf-group-preview.png"],
-  ["page-seo-plans/stage-overview-pdf-knockout-preview.png", "assets/stage-overview-pdf-knockout-preview.png"]
+  ["page-seo-plans/stage-overview-pdf-knockout-preview.png", "assets/stage-overview-pdf-knockout-preview.png"],
+  [
+    "src/assets/2026-world-cup-full-match-schedule-overview.png",
+    "assets/2026-world-cup-full-match-schedule-overview.png"
+  ]
 ];
 
 const nav = () =>
@@ -711,6 +727,26 @@ const renderPdfVisualSections = () => {
   return `<section class="section pdf-feature-section">
   <div class="pdf-feature-grid">
     <div class="pdf-feature-copy">
+      <p class="eyebrow">Single-image reference</p>
+      <h2>Full Match Schedule Overview Image</h2>
+      <p>The full match schedule overview image is built for users who want the entire tournament on one visual reference. It lists the group-stage fixtures from M1 through M72, then shows the knockout stage from the Round of 32 through the Round of 16, quarter-finals, semi-finals, third-place playoff and final.</p>
+      <p>Use this image when you need a fast visual handout, a planning-board reference or a shareable snapshot before moving into the PDF library. It includes match numbers, dates, host cities, venues and bracket placeholder notation such as 1A, 2D and 3ABCDF, while the full PDF and live schedule remain better for detailed filtering and time-zone checks.</p>
+      <div class="pdf-feature-actions">
+        <a class="button" href="/assets/2026-world-cup-full-match-schedule-overview.png" download>Download overview image</a>
+        <a class="button light" href="/downloads/world-cup-2026-schedule.pdf" download>Download printable PDF</a>
+      </div>
+    </div>
+    <aside class="pdf-preview-card pdf-preview-card-wide">
+      <span>Full overview image</span>
+      <img src="/assets/2026-world-cup-full-match-schedule-overview.png" alt="World Cup 2026 full match schedule overview image preview" loading="eager" decoding="async">
+      <a href="/assets/2026-world-cup-full-match-schedule-overview.png" download>Open the overview image</a>
+    </aside>
+  </div>
+</section>
+
+<section class="section pdf-feature-section">
+  <div class="pdf-feature-grid">
+    <div class="pdf-feature-copy">
       <p class="eyebrow">Printable download</p>
       <h2>2026 World Cup Schedule PDF for USA, Canada and Mexico</h2>
       <p>The complete printable PDF is the right first file when you want all 104 matches in one offline reference. It keeps the host-city matrix on the opening page, then follows with match detail pages that include date, kickoff time, team names, match number, stage, host city and stadium.</p>
@@ -827,6 +863,14 @@ const downloadPanel = (page = {}) => {
       <div class="download-group-heading"><h3>PDF schedule library</h3><span>${pdfFiles.length} PDF files</span></div>
       <div class="download-grid">${pdfFiles.map(card).join("")}</div>
     </div>
+    ${
+      page.slug === "world-cup-2026-schedule-pdf"
+        ? `<div class="download-group">
+      <div class="download-group-heading"><h3>Visual overview image</h3><span>${visualDownloadFiles.length} PNG file</span></div>
+      <div class="download-grid">${visualDownloadFiles.map(card).join("")}</div>
+    </div>`
+        : ""
+    }
   </div>
 </section>`;
 };

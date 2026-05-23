@@ -374,3 +374,62 @@ page-seo-plans/pdf-page-reference-style-preview.png
 page-seo-plans/pdf-page-feature-module-preview.png
 page-seo-plans/pdf-page-reference-style-mobile-preview.png
 ```
+
+## 9. PDF/4 Full Overview Image Addition
+
+Completed on 2026-05-23:
+
+- Read and reviewed `D:\codex\wc2026schedule\PDF\4`.
+- Source files found:
+  - `2026 FIFA World Cup Full Match Schedule Overview.png`
+  - `文案.txt`
+- Added the supplied overview image into the project asset pipeline at:
+
+```text
+src/assets/2026-world-cup-full-match-schedule-overview.png
+```
+
+- Added a new custom PDF-page module:
+
+```text
+Full Match Schedule Overview Image
+```
+
+- Added the supplied content as page copy explaining that the image covers:
+  - group-stage fixtures from M1 through M72
+  - Round of 32
+  - Round of 16
+  - quarter-finals
+  - semi-finals
+  - third-place playoff
+  - final
+  - match numbers, dates, host cities, venues and bracket placeholder notation
+- Added a new download group to the PDF page:
+
+```text
+Visual overview image
+```
+
+- Added one downloadable PNG resource:
+
+```text
+/assets/2026-world-cup-full-match-schedule-overview.png
+```
+
+Validation:
+
+```text
+Build passed.
+Generated page contains 4 PDF visual feature sections.
+Generated page contains 3 download groups: Data downloads, PDF schedule library, Visual overview image.
+Overview image loaded successfully at 1458x1079.
+Desktop horizontal overflow: 0.
+Mobile horizontal overflow: 0.
+```
+
+Saved preview screenshots:
+
+```text
+page-seo-plans/pdf-page-full-overview-image-module-preview.png
+page-seo-plans/pdf-page-download-library-with-image-preview.png
+```

@@ -275,7 +275,8 @@ export const pages = [
       "download world cup fixtures pdf",
       "world cup 2026 bracket pdf",
       "world cup 2026 group stage schedule pdf",
-      "world cup 2026 knockout schedule pdf"
+      "world cup 2026 knockout schedule pdf",
+      "world cup 2026 full match schedule overview"
     ],
     facts: [
       ["PDF files", "3 schedule downloads"],
@@ -308,6 +309,7 @@ export const pages = [
         "Printable fixture list",
         "Overview poster PDF",
         "Group and knockout PDF",
+        "Full schedule overview image",
         "Offline match planner"
       ],
       noteEyebrow: "File check",

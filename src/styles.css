@@ -2430,6 +2430,12 @@ td {
   background: #eef3ee;
 }
 
+.pdf-preview-card-wide img {
+  object-fit: contain;
+  object-position: center;
+  background: #070807;
+}
+
 .pdf-preview-card a {
   justify-self: start;
   color: var(--accent-dark);
