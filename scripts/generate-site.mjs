@@ -945,8 +945,16 @@ const renderScheduleTable = () => {
       </div>
     </article>
     <div class="upcoming-board-head">
-      <h3>Upcoming matches</h3>
-      <a href="#schedule-views">View all -></a>
+      <div>
+        <h3>Upcoming matches</h3>
+        <p data-upcoming-scope>Showing the next matches from the full schedule.</p>
+      </div>
+      <div class="upcoming-board-controls" aria-label="Upcoming match controls">
+        <span data-upcoming-range>Loading matches</span>
+        <button type="button" data-upcoming-prev aria-label="Show previous upcoming matches">Prev</button>
+        <button type="button" data-upcoming-next aria-label="Show next upcoming matches">Next</button>
+        <button type="button" data-upcoming-view-all>View all</button>
+      </div>
     </div>
     <div class="upcoming-match-grid" data-upcoming-rail></div>
   </section>
@@ -2179,6 +2187,11 @@ await write(
   const nextMinutes = document.querySelector("[data-next-minutes]");
   const nextSeconds = document.querySelector("[data-next-seconds]");
   const upcomingRail = document.querySelector("[data-upcoming-rail]");
+  const upcomingRange = document.querySelector("[data-upcoming-range]");
+  const upcomingScope = document.querySelector("[data-upcoming-scope]");
+  const upcomingPrev = document.querySelector("[data-upcoming-prev]");
+  const upcomingNext = document.querySelector("[data-upcoming-next]");
+  const upcomingViewAll = document.querySelector("[data-upcoming-view-all]");
   const timezoneStorageKey = "wc26schedule-timezone";
   const nowOverride = Date.parse(document.documentElement.dataset.now || "");
   let activeView = "table";
@@ -2186,6 +2199,9 @@ await write(
   let dateGroups = [];
   let aggregateCards = [];
   let aggregateMatches = [];
+  let upcomingPage = 0;
+  let upcomingFilterSignature = "";
+  const upcomingPageSize = 4;
 
   const search = document.querySelector("[data-filter-search]");
   const stage = document.querySelector("[data-filter-stage]");
@@ -2323,14 +2339,114 @@ await write(
     return "Starts in " + Math.floor(diffMinutes / 1440) + "d";
   };
 
+  const filterValues = () => ({
+    searchValue: (search?.value || "").trim().toLowerCase(),
+    stageValue: stage?.value || "",
+    groupValue: group?.value || "",
+    dateValue: date?.value || "",
+    cityValue: city?.value || "",
+    teamValue: team?.value || ""
+  });
+
+  const rowMatchesCurrentFilters = (row) => {
+    const values = filterValues();
+    const matchesSearch = !values.searchValue || row.dataset.search.includes(values.searchValue);
+    const matchesStage = !values.stageValue || row.dataset.stage === values.stageValue;
+    const matchesGroup = !values.groupValue || row.dataset.group === values.groupValue;
+    const matchesDate = !values.dateValue || row.dataset.localDate === values.dateValue;
+    const matchesCity = !values.cityValue || row.dataset.city === values.cityValue;
+    const matchesTeam = !values.teamValue || row.dataset.home === values.teamValue || row.dataset.away === values.teamValue;
+    return matchesSearch && matchesStage && matchesGroup && matchesDate && matchesCity && matchesTeam;
+  };
+
+  const upcomingScopeLabel = () => {
+    const values = filterValues();
+    const pieces = [];
+    if (values.teamValue) pieces.push(values.teamValue);
+    if (values.cityValue) pieces.push(values.cityValue);
+    if (values.stageValue) pieces.push(values.stageValue);
+    if (values.groupValue) pieces.push("Group " + values.groupValue);
+    if (values.dateValue && date?.selectedOptions?.[0]) pieces.push(date.selectedOptions[0].textContent);
+    if (values.searchValue) pieces.push("search: " + (search?.value || "").trim());
+    return pieces.length
+      ? "Filtered upcoming matches for " + pieces.join(" / ") + "."
+      : "Showing upcoming matches from the full schedule.";
+  };
+
+  const activeUpcomingSignature = () => JSON.stringify(filterValues());
+
+  const renderUpcomingRail = (upcomingMatches, timezone) => {
+    if (!upcomingRail) return;
+    const maxPage = Math.max(0, Math.ceil(upcomingMatches.length / upcomingPageSize) - 1);
+    upcomingPage = Math.min(Math.max(0, upcomingPage), maxPage);
+    const start = upcomingPage * upcomingPageSize;
+    const visibleMatches = upcomingMatches.slice(start, start + upcomingPageSize);
+
+    if (upcomingScope) upcomingScope.textContent = upcomingScopeLabel();
+    if (upcomingRange) {
+      upcomingRange.textContent = upcomingMatches.length
+        ? "Showing " + (start + 1) + "-" + (start + visibleMatches.length) + " of " + upcomingMatches.length
+        : "No upcoming matches";
+    }
+    if (upcomingPrev) upcomingPrev.disabled = upcomingPage === 0 || upcomingMatches.length === 0;
+    if (upcomingNext) upcomingNext.disabled = upcomingPage >= maxPage || upcomingMatches.length === 0;
+
+    if (!visibleMatches.length) {
+      upcomingRail.innerHTML =
+        '<article class="upcoming-empty"><strong>No upcoming matches match the active filters.</strong><span>Clear filters or switch to the full schedule table to continue browsing.</span></article>';
+      return;
+    }
+
+    upcomingRail.innerHTML = visibleMatches
+      .map(({ row, kickoff }, index) => {
+        const cells = row.querySelectorAll("td");
+        const home = teamHtml(row, cells, "home");
+        const away = teamHtml(row, cells, "away");
+        return (
+          '<article class="upcoming-match-card">' +
+          '<div class="upcoming-card-top"><span class="stage-pill">' +
+          row.dataset.stage +
+          (row.dataset.group ? " - Group " + row.dataset.group : "") +
+          '</span><span>#' +
+          row.dataset.matchNumber +
+          '</span></div><div class="upcoming-teams">' +
+          home +
+          '<span>vs</span>' +
+          away +
+          '</div><div class="upcoming-card-meta"><strong>' +
+          localTimeLabel(kickoff, timezone) +
+          '</strong><span class="watch-tag" data-watch-type="' +
+          row.dataset.watchType +
+          '">' +
+          row.dataset.watchWindow +
+          '</span><small>' +
+          row.dataset.city +
+          " - " +
+          escapeHtml(cells[9].textContent.trim()) +
+          '</small></div><div class="upcoming-card-actions"><a href="' +
+          row.dataset.detailUrl +
+          '">Match details -></a><span>' +
+          countdownLabel(kickoff) +
+          '</span></div></article>'
+        );
+      })
+      .join("");
+  };
+
   const updateLiveTime = () => {
     const timezone = selectedTimezone();
     const current = now();
+    const nextFilterSignature = activeUpcomingSignature();
+    if (nextFilterSignature !== upcomingFilterSignature) {
+      upcomingFilterSignature = nextFilterSignature;
+      upcomingPage = 0;
+    }
     if (currentTime) currentTime.textContent = compactTimeLabel(current, timezone);
-    const upcomingMatches = rows
+    const allUpcomingMatches = rows
       .map((row) => ({ row, kickoff: new Date(row.dataset.kickoffUtc) }))
       .filter((item) => item.kickoff > current)
       .sort((a, b) => a.kickoff - b.kickoff);
+    const upcomingMatches = allUpcomingMatches.filter(({ row }) => rowMatchesCurrentFilters(row));
     const upcoming = upcomingMatches[0];
     if (upcoming) {
       if (nextCountdown) nextCountdown.textContent = countdownLabel(upcoming.kickoff, current);
@@ -2357,49 +2473,24 @@ await write(
           " - " +
           localTimeLabel(upcoming.kickoff, timezone);
       }
-      if (upcomingRail) {
-        upcomingRail.innerHTML = upcomingMatches
-          .slice(0, 4)
-          .map(({ row, kickoff }) => {
-            const cells = row.querySelectorAll("td");
-            const home = teamHtml(row, cells, "home");
-            const away = teamHtml(row, cells, "away");
-            return (
-              '<article class="upcoming-match-card">' +
-              '<div class="upcoming-card-top"><span class="stage-pill">' +
-              row.dataset.stage +
-              (row.dataset.group ? " - Group " + row.dataset.group : "") +
-              '</span><span>#' +
-              row.dataset.matchNumber +
-              '</span></div><div class="upcoming-teams">' +
-              home +
-              '<span>vs</span>' +
-              away +
-              '</div><div class="upcoming-card-meta"><strong>' +
-              localTimeLabel(kickoff, timezone) +
-              '</strong><span class="watch-tag" data-watch-type="' +
-              row.dataset.watchType +
-              '">' +
-              row.dataset.watchWindow +
-              '</span><small>' +
-              row.dataset.city +
-              " - " +
-              escapeHtml(cells[9].textContent.trim()) +
-              '</small></div><a href="' +
-              row.dataset.detailUrl +
-              '">Match details -></a></article>'
-            );
-          })
-          .join("");
-      }
+      renderUpcomingRail(upcomingMatches, timezone);
     } else {
-      if (nextCountdown) nextCountdown.textContent = "Tournament complete";
-      if (nextMatchLabel) nextMatchLabel.textContent = "No future matches remain in the current schedule data.";
-      if (nextHome) nextHome.textContent = "Tournament";
-      if (nextAway) nextAway.textContent = "complete";
-      if (nextMeta) nextMeta.textContent = "No future matches remain in the current schedule data.";
+      const fallbackUpcoming = allUpcomingMatches[0];
+      if (nextCountdown) nextCountdown.textContent = fallbackUpcoming ? "No filtered match" : "Tournament complete";
+      if (nextMatchLabel) {
+        nextMatchLabel.textContent = fallbackUpcoming
+          ? "No future matches match the active filters."
+          : "No future matches remain in the current schedule data.";
+      }
+      if (nextHome) nextHome.textContent = fallbackUpcoming ? "No filtered" : "Tournament";
+      if (nextAway) nextAway.textContent = fallbackUpcoming ? "match" : "complete";
+      if (nextMeta) {
+        nextMeta.textContent = fallbackUpcoming
+          ? "Clear filters to return to the next match in the full schedule."
+          : "No future matches remain in the current schedule data.";
+      }
       setCountdownParts(current, current);
-      if (upcomingRail) upcomingRail.innerHTML = "";
+      renderUpcomingRail([], timezone);
     }
   };
 
@@ -2905,6 +2996,7 @@ await write(
       activeContext.textContent = "Showing " + visible + " matches for " + pieces.join(" / ") + ".";
     }
     updateActiveFilters();
+    updateLiveTime();
   };
 
   [search, stage, group, date, city, team].forEach((control) => {
@@ -2947,6 +3039,25 @@ await write(
       setView(button.dataset.viewToggle);
       apply();
     });
+  });
+
+  upcomingPrev?.addEventListener("click", () => {
+    upcomingPage = Math.max(0, upcomingPage - 1);
+    updateLiveTime();
+  });
+
+  upcomingNext?.addEventListener("click", () => {
+    upcomingPage += 1;
+    updateLiveTime();
+  });
+
+  upcomingViewAll?.addEventListener("click", () => {
+    if (team?.value) setView("team");
+    else if (city?.value) setView("city");
+    else if (date?.value) setView("date");
+    else setView("table");
+    apply();
+    scrollToSchedule();
   });
 
   const scrollToSchedule = () => {

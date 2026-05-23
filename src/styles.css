@@ -1317,9 +1317,55 @@ h1 {
 }
 
 .upcoming-board-head h3 {
-  margin: 0;
+  margin: 0 0 5px;
   color: #fff;
   font-size: 22px;
+}
+
+.upcoming-board-head p {
+  margin: 0;
+  color: #8ba2b5;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.upcoming-board-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+.upcoming-board-controls span {
+  color: #a9bdcf;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.upcoming-board-controls button {
+  min-height: 34px;
+  border: 1px solid rgba(216, 166, 60, 0.34);
+  border-radius: 999px;
+  background: rgba(216, 166, 60, 0.08);
+  color: var(--gold);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 950;
+  padding: 7px 12px;
+}
+
+.upcoming-board-controls button:hover,
+.upcoming-board-controls button:focus-visible {
+  background: rgba(216, 166, 60, 0.16);
+}
+
+.upcoming-board-controls button:disabled {
+  border-color: rgba(139, 162, 181, 0.16);
+  background: rgba(139, 162, 181, 0.08);
+  color: #6f8296;
+  cursor: not-allowed;
 }
 
 .upcoming-match-grid {
@@ -1419,6 +1465,37 @@ h1 {
 .upcoming-card-meta small {
   color: #8ba2b5;
   line-height: 1.35;
+}
+
+.upcoming-card-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.upcoming-card-actions span {
+  color: #8ba2b5;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.upcoming-empty {
+  display: grid;
+  gap: 6px;
+  grid-column: 1 / -1;
+  border: 1px dashed rgba(139, 162, 181, 0.28);
+  border-radius: 8px;
+  background: rgba(16, 24, 42, 0.72);
+  padding: 22px;
+}
+
+.upcoming-empty strong {
+  color: #fff;
+}
+
+.upcoming-empty span {
+  color: #8ba2b5;
 }
 
 .schedule-insight-row {
@@ -2364,6 +2441,15 @@ td {
   .live-next-match,
   .upcoming-match-grid {
     grid-template-columns: 1fr;
+  }
+
+  .upcoming-board-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .upcoming-board-controls {
+    justify-content: flex-start;
   }
 
   .countdown-grid {
