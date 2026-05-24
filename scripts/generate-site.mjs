@@ -379,6 +379,28 @@ const visualDownloadFiles = [
   }
 ];
 
+const cityImageFiles = [
+  "atlanta",
+  "boston",
+  "dallas",
+  "guadalajara",
+  "houston",
+  "kansas-city",
+  "los-angeles",
+  "mexico-city",
+  "miami",
+  "monterrey",
+  "new-york-new-jersey",
+  "philadelphia",
+  "san-francisco-bay-area",
+  "seattle",
+  "toronto",
+  "vancouver"
+].map((slug) => [
+  `src/assets/cities/world-cup-2026-schedule-host-cities-${slug}.jpg`,
+  `assets/cities/world-cup-2026-schedule-host-cities-${slug}.jpg`
+]);
+
 const siteAssetFiles = [
   ["page-seo-plans/download-pdf-matrix-preview.png", "assets/download-pdf-matrix-preview.png"],
   ["page-seo-plans/download-overview-poster-pdf-preview.png", "assets/download-overview-poster-pdf-preview.png"],
@@ -407,7 +429,8 @@ const siteAssetFiles = [
   [
     "src/assets/printable-world-cup-2026-schedule-bracket.pdf",
     "downloads/printable-world-cup-2026-schedule-bracket.pdf"
-  ]
+  ],
+  ...cityImageFiles
 ];
 
 const nav = () =>
@@ -2162,6 +2185,28 @@ const cityStageSummary = (city) => {
     .map(([stage, count]) => `${stage}: ${count}`);
 };
 
+const cityImagePath = (city) =>
+  `/assets/cities/world-cup-2026-schedule-host-cities-${citySlugOverrides[city.citySlug] ?? city.citySlug}.jpg`;
+
+const cityCapacity = {
+  Atlanta: "71,000 seats",
+  Boston: "65,878 seats",
+  Dallas: "80,000 seats",
+  Guadalajara: "48,071 seats",
+  Houston: "72,220 seats",
+  "Kansas City": "76,416 seats",
+  "Los Angeles": "70,240 seats",
+  "Mexico City": "87,523 seats",
+  Miami: "64,767 seats",
+  Monterrey: "53,500 seats",
+  "New York New Jersey": "82,500 seats",
+  Philadelphia: "69,879 seats",
+  "San Francisco Bay Area": "68,500 seats",
+  Seattle: "69,000 seats",
+  Toronto: "45,500 seats",
+  Vancouver: "54,500 seats"
+};
+
 const cityStageRank = (stage) =>
   ({
     Final: 7,
@@ -2204,6 +2249,51 @@ const cityPlanningFit = (city) => {
   if (knockoutCount >= 2) return "Strong knockout route for fans following the bracket.";
   if (city.country !== "United States") return "Cross-border planning stop with country-specific travel checks.";
   return "Focused city schedule for checking stadium, date window and stage mix.";
+};
+
+const cityRouteBadge = (city) => {
+  if (city.matches.some((match) => match.matchNumber === 104)) return "Final host";
+  if (city.matches.some((match) => match.matchNumber === 1)) return "Opening match";
+  if (city.matches.some((match) => match.stage === "Semi-finals")) return "Semifinal route";
+  if (city.matches.some((match) => match.stage === "Bronze final")) return "Third-place";
+  if (city.region === "West") return "West route";
+  if (city.country !== "United States") return city.country;
+  if (city.matches.length >= 8) return "8+ matches";
+  return city.regionLabel;
+};
+
+const renderFeaturedCityCards = (cities) => {
+  const featuredOrder = [
+    "New York New Jersey",
+    "Los Angeles",
+    "Miami",
+    "Dallas",
+    "Atlanta",
+    "Mexico City",
+    "Toronto",
+    "Vancouver"
+  ];
+  const featured = featuredOrder
+    .map((name) => cities.find((city) => city.city === name))
+    .filter(Boolean);
+
+  return `<div class="featured-city-strip" aria-label="Featured World Cup 2026 host city guides">
+    ${featured
+      .map(
+        (city) => `<article class="featured-city-card">
+      <img src="${attr(cityImagePath(city))}" alt="${attr(`${city.city} World Cup 2026 host city schedule guide`)}" loading="lazy">
+      <div class="featured-city-shade"></div>
+      <div class="featured-city-content">
+        <span>${esc(cityRouteBadge(city))}</span>
+        <h3>${esc(city.city)}</h3>
+        <p>${esc(city.stadiums.join(", "))}</p>
+        <small>${city.matches.length} matches - ${esc(cityCapacity[city.city] ?? "Venue capacity listed by stadium")}</small>
+        <a href="${attr(city.path)}">Open city guide -&gt;</a>
+      </div>
+    </article>`
+      )
+      .join("")}
+  </div>`;
 };
 
 const renderHostCitiesExplorer = () => {
@@ -2365,6 +2455,8 @@ const renderHostCitiesExplorer = () => {
     <button type="button" data-city-preset="cross-border">Canada and Mexico</button>
     <button type="button" data-city-preset="">Reset</button>
   </div>
+
+  ${renderFeaturedCityCards(cities)}
 
   <div class="host-city-comparison" aria-label="Recommended host city comparison paths">
     ${compareCards

@@ -114,11 +114,12 @@ Vancouver World Cup 2026 schedule
 Current measured reference from generated HTML:
 
 ```text
-Visible word count: 2,421
+Visible word count: 2,537
 City cards: 16
+Featured visual city cards: 8
 FAQ count: 5
-Measured keyword-family hits in reference set: 113
-Measured reference density: 4.67%
+Measured keyword-family hits in reference set: 121
+Measured reference density: 4.77%
 ```
 
 Important optimization note:
@@ -247,6 +248,16 @@ Interactive comparison cards added:
 - Knockout route
 - Canada and Mexico
 - West route
+
+Visual featured city cards added:
+- New York New Jersey
+- Los Angeles
+- Miami
+- Dallas
+- Atlanta
+- Mexico City
+- Toronto
+- Vancouver
 ```
 
 Heading guidance for future optimization:
@@ -319,6 +330,28 @@ San Francisco Bay Area
 Seattle
 Toronto
 Vancouver
+```
+
+Featured city card module:
+
+```text
+Placement:
+Above the comparison cards and detailed 16-city grid.
+
+Purpose:
+Create a more visual, editorial-style city entry experience while preserving the deeper planning filters below.
+
+Card content:
+- City image
+- Route/value badge
+- City name
+- Stadium name
+- Match count
+- Capacity label
+- Open city guide CTA
+
+Image asset path:
+/assets/cities/world-cup-2026-schedule-host-cities-{city-slug}.jpg
 ```
 
 Support modules:
@@ -471,6 +504,7 @@ Do next:
 [ ] Check each city card for unique city value, not just repeated labels.
 [ ] Add better city-specific preview text for high-priority cities: Dallas, Atlanta, Los Angeles, New York New Jersey, Miami, Mexico City, Toronto, Vancouver.
 [ ] Add image alt audit for the host-city map hero and any future city images.
+[x] Add visual city images with descriptive host-city alt text for featured cards.
 [ ] Consider adding a visible "Which cities host knockout matches?" mini-answer module.
 [ ] Confirm all city page links resolve after city detail pages are expanded.
 ```

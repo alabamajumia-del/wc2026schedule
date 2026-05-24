@@ -334,3 +334,65 @@ Screenshots saved:
 page-seo-plans/host-cities-phase-b-desktop-preview.png
 page-seo-plans/host-cities-phase-b-mobile-preview.png
 ```
+
+## 8. Phase C Visual Featured City Cards
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Use the city image folder and optimize the city layout toward the provided visual-card reference.
+```
+
+Source image folder:
+
+```text
+D:\codex\wc2026schedule\iamges\citys
+```
+
+Optimization completed:
+
+- Copied 16 city images into the site asset directory with SEO-friendly filenames under `src/assets/cities/`.
+- Added `Featured city cards` above the detailed planner comparison cards.
+- Added 8 visual city entry cards:
+  - New York New Jersey
+  - Los Angeles
+  - Miami
+  - Dallas
+  - Atlanta
+  - Mexico City
+  - Toronto
+  - Vancouver
+- Each featured card includes:
+  - City image
+  - Route/value badge
+  - City name
+  - Stadium name
+  - Match count
+  - Stadium capacity label
+  - `Open city guide` CTA
+- Kept the existing Region filter, comparison cards and 16-card planner intact below the visual entry strip.
+- Added lazy-loaded image tags with descriptive alt text.
+
+Validation:
+
+```text
+Build passed.
+Featured city cards: 8
+Featured city images in HTML: 8
+Images copied to dist/assets/cities: 16
+Detailed city cards remain: 16
+Keyword family density: 4.77%
+Desktop overflow: 0
+Mobile overflow: 0
+Image load check: passed
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/host-cities-phase-c-featured-cards-desktop.png
+page-seo-plans/host-cities-phase-c-featured-cards-mobile.png
+```
