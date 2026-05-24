@@ -526,6 +526,111 @@ h1 {
   font-weight: 800;
 }
 
+.hero-tool-cities {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.hero-tool-cities .hero-panel-title {
+  padding: 0;
+}
+
+.hero-tool-cities p {
+  padding: 0;
+  line-height: 1.45;
+}
+
+.city-hero-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.city-hero-fields label {
+  display: grid;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(4, 18, 20, 0.34);
+  padding: 12px;
+}
+
+.city-hero-fields span,
+.city-hero-result span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.city-hero-fields select {
+  min-height: 42px;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  padding: 10px;
+}
+
+.city-hero-result {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(216, 166, 60, 0.32);
+  border-radius: 8px;
+  background: rgba(4, 18, 20, 0.5);
+  padding: 12px;
+}
+
+.city-hero-result strong {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.city-hero-result em {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.city-hero-actions,
+.city-hero-presets {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.78fr);
+  gap: 8px;
+}
+
+.city-hero-actions button,
+.city-hero-presets button {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 950;
+  padding: 10px;
+}
+
+.city-hero-actions button:first-child {
+  border-color: transparent;
+  background: var(--accent);
+}
+
+.city-hero-actions button:hover,
+.city-hero-actions button:focus-visible,
+.city-hero-presets button:hover,
+.city-hero-presets button:focus-visible,
+.city-hero-presets button[aria-pressed="true"] {
+  border-color: var(--gold);
+  background: rgba(216, 166, 60, 0.18);
+}
+
 .hero-filter-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

@@ -234,3 +234,48 @@ Screenshots saved:
 ```text
 page-seo-plans/host-cities-title-description-update-preview.png
 ```
+
+## 6. Hero Copy and Functional Control Panel Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User feedback:
+
+```text
+The left hero copy needs to better match the page core keyword, SEO and GEO. The right control panel has no functional value and is only a display.
+```
+
+Optimization completed:
+
+- Rewrote the hero copy around `World Cup 2026 schedule host cities`, full match dates, venues, fixtures, group stage, knockout rounds, semifinals, third-place match and final planning.
+- Kept the opening copy answer-led for GEO/AI retrieval: what the page covers, how many host markets it compares and what planning tasks it solves.
+- Replaced the static right-side `City planning guide` with a functional `Find the right host city` planner.
+- Added a hero city selector populated from the 16 host city cards.
+- Added a hero planning-need selector for all fixture types, most matches, knockout rounds, final-week route and Canada/Mexico venues.
+- Added hero actions that apply the selected city or planning need to the main host city planner below.
+- Added automatic scroll and card highlight after applying the hero planner.
+- Added quick preset buttons for knockout hosts and final-week route.
+
+Validation:
+
+```text
+Build passed.
+Hero city options: 17 including All host cities
+Dallas hero filter result: 1 city shown
+Dallas card highlighted: yes
+Final week route result: 4 cities shown
+Visible word count: 2,069
+Keyword family density: 3.67%
+FAQ count: 5
+Desktop overflow: 0
+Mobile overflow: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/host-cities-hero-functional-panel-preview.png
+page-seo-plans/host-cities-hero-dallas-filter-preview.png
+page-seo-plans/host-cities-hero-functional-panel-mobile-preview.png
+```

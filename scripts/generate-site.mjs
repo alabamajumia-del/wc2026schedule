@@ -524,6 +524,42 @@ const hero = ({
         <a href="/downloads/world-cup-2026-schedule.csv" download><strong>CSV</strong><span>Import data</span></a>
       </div>
     </div>`
+          : variant === "cities"
+            ? `<div class="hero-tool hero-tool-cities" data-city-hero-planner>
+      <strong class="hero-panel-title">${esc(panelTitle)}</strong>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      <div class="city-hero-fields">
+        <label>
+          <span>Host city</span>
+          <select data-city-hero-city>
+            <option value="">All host cities</option>
+          </select>
+        </label>
+        <label>
+          <span>Planning need</span>
+          <select data-city-hero-need>
+            <option value="">All fixture types</option>
+            <option value="high-volume">Most matches</option>
+            <option value="knockout">Knockout rounds</option>
+            <option value="final-week">Semifinals, third-place and final week</option>
+            <option value="cross-border">Canada or Mexico venues</option>
+          </select>
+        </label>
+      </div>
+      <div class="city-hero-result" aria-live="polite">
+        <span data-city-hero-count>Loading host cities...</span>
+        <strong data-city-hero-primary>Choose a city or planning need.</strong>
+        <em data-city-hero-secondary>Results will open in the host city planner below.</em>
+      </div>
+      <div class="city-hero-actions">
+        <button type="button" data-city-hero-apply>Show matching cities</button>
+        <button type="button" data-city-hero-reset>Reset</button>
+      </div>
+      <div class="city-hero-presets">
+        <button type="button" data-city-hero-preset="knockout">Knockout hosts</button>
+        <button type="button" data-city-hero-preset="final-week">Final week route</button>
+      </div>
+    </div>`
         : `<strong class="hero-panel-title">${esc(panelTitle)}</strong>
       ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
       ${rows
@@ -4768,9 +4804,17 @@ await write(
   const sort = explorer.querySelector("[data-city-sort]");
   const resultCount = explorer.querySelector("[data-city-result-count]");
   const presetButtons = Array.from(explorer.querySelectorAll("[data-city-preset]"));
+  const heroPlanner = document.querySelector("[data-city-hero-planner]");
+  const heroCity = document.querySelector("[data-city-hero-city]");
+  const heroNeed = document.querySelector("[data-city-hero-need]");
+  const heroCount = document.querySelector("[data-city-hero-count]");
+  const heroPrimary = document.querySelector("[data-city-hero-primary]");
+  const heroSecondary = document.querySelector("[data-city-hero-secondary]");
+  const heroApply = document.querySelector("[data-city-hero-apply]");
+  const heroReset = document.querySelector("[data-city-hero-reset]");
+  const heroPresetButtons = Array.from(document.querySelectorAll("[data-city-hero-preset]"));
 
-  const matchesNeed = (card) => {
-    const value = need?.value || "";
+  const matchesNeedValue = (card, value = "") => {
     const matchCount = Number(card.dataset.matchCount || 0);
     const knockout = Number(card.dataset.knockout || 0);
     if (!value) return true;
@@ -4780,6 +4824,8 @@ await write(
     if (value === "cross-border") return card.dataset.country !== "United States";
     return true;
   };
+
+  const matchesNeed = (card) => matchesNeedValue(card, need?.value || "");
 
   const sortCards = () => {
     const value = sort?.value || "matches";
@@ -4810,6 +4856,95 @@ await write(
     if (resultCount) resultCount.textContent = String(visible);
   };
 
+  const cityName = (card) => card.querySelector("h3")?.textContent.trim() || "";
+
+  const heroMatches = () => {
+    const selectedCity = heroCity?.value || "";
+    const selectedNeed = heroNeed?.value || "";
+    return cards.filter((card) => {
+      const matchesCity = !selectedCity || cityName(card) === selectedCity;
+      return matchesCity && matchesNeedValue(card, selectedNeed);
+    });
+  };
+
+  const updateHeroPlanner = () => {
+    if (!heroPlanner) return;
+    const matched = heroMatches();
+    const first = matched[0];
+    const needLabel = heroNeed?.selectedOptions?.[0]?.textContent || "all fixture types";
+    if (heroCount) {
+      heroCount.textContent = matched.length + " " + (matched.length === 1 ? "city" : "cities") + " matched";
+    }
+    if (heroPrimary) {
+      heroPrimary.textContent = first
+        ? cityName(first) + " - " + first.dataset.matchCount + " matches"
+        : "No host city matches this choice.";
+    }
+    if (heroSecondary) {
+      heroSecondary.textContent = first
+        ? "Need: " + needLabel + ". Opens the matching city cards below."
+        : "Try all fixture types or reset the planner.";
+    }
+  };
+
+  const highlightCityCard = (card) => {
+    document.querySelectorAll(".planner-target-highlight").forEach((item) => item.classList.remove("planner-target-highlight"));
+    if (!card) return;
+    card.classList.add("planner-target-highlight");
+    window.setTimeout(() => card.classList.remove("planner-target-highlight"), 2600);
+  };
+
+  const applyHeroPlanner = () => {
+    const selectedCity = heroCity?.value || "";
+    if (search) search.value = selectedCity;
+    if (country) country.value = "";
+    if (need) need.value = heroNeed?.value || "";
+    if (sort) sort.value = selectedCity ? "name" : "matches";
+    presetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+    apply();
+    const first = cards.find((card) => !card.hidden);
+    explorer.scrollIntoView({ behavior: "smooth", block: "start" });
+    highlightCityCard(first);
+  };
+
+  if (heroCity) {
+    const options = cards
+      .map((card) => cityName(card))
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b));
+    for (const name of options) heroCity.add(new Option(name, name));
+  }
+
+  [heroCity, heroNeed].forEach((control) => {
+    control?.addEventListener("change", updateHeroPlanner);
+    control?.addEventListener("input", updateHeroPlanner);
+  });
+
+  heroApply?.addEventListener("click", applyHeroPlanner);
+  heroReset?.addEventListener("click", () => {
+    if (heroCity) heroCity.value = "";
+    if (heroNeed) heroNeed.value = "";
+    if (search) search.value = "";
+    if (country) country.value = "";
+    if (need) need.value = "";
+    if (sort) sort.value = "matches";
+    presetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+    heroPresetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+    updateHeroPlanner();
+    apply();
+    explorer.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  heroPresetButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (heroCity) heroCity.value = "";
+      if (heroNeed) heroNeed.value = button.dataset.cityHeroPreset || "";
+      heroPresetButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      updateHeroPlanner();
+      applyHeroPlanner();
+    });
+  });
+
   [search, country, need, sort].forEach((control) => {
     control?.addEventListener("input", apply);
     control?.addEventListener("change", apply);
@@ -4825,6 +4960,7 @@ await write(
     });
   });
 
+  updateHeroPlanner();
   apply();
 })();\n`
 );

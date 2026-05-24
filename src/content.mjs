@@ -632,16 +632,16 @@ export const pages = [
       ["Next action", "Open a city schedule page"]
     ],
     intro:
-      "The World Cup 2026 schedule host cities page is the travel gateway for wc26schedule. It helps fans compare cities, stadiums, match clusters and planning considerations before moving into city-specific schedule pages.",
+      "Use the World Cup 2026 schedule host cities guide to compare all 16 host markets by full match dates, venues and fixtures. It connects group stage matches, knockout rounds, semifinals, the third-place match and the final with city-specific planning paths.",
     hero: {
       variant: "cities",
       eyebrow: "Host city map",
       actions: [
-        ["Compare city pages", "#city-schedule-pages", "primary"],
+        ["Compare city fixtures", "#city-schedule-pages", "primary"],
         ["Open full schedule", "/world-cup-2026-schedule/", "secondary"]
       ],
-      panelTitle: "City planning guide",
-      panelIntro: "Use the host city hub to compare where matches cluster before opening local schedule pages.",
+      panelTitle: "Find the right host city",
+      panelIntro: "Choose a city or planning need, then jump straight to matching venues and fixture cards.",
       panelRows: [
         ["Host cities", "16 city guides"],
         ["Best for", "Travel and stadium planning"],
