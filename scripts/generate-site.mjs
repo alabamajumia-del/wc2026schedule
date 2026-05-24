@@ -2479,7 +2479,7 @@ const renderHostCitiesExplorer = () => {
       .join("")}
   </div>
 
-  <div class="host-city-results-line">
+  <div class="host-city-results-line" id="host-city-results">
     <strong><span data-city-result-count>${cities.length}</span> cities shown</strong>
     <span>Full tournament city window: ${esc(shortDate(firstDate))} to ${esc(shortDate(lastDate))}</span>
   </div>
@@ -5082,6 +5082,7 @@ await write(
   const heroApply = document.querySelector("[data-city-hero-apply]");
   const heroReset = document.querySelector("[data-city-hero-reset]");
   const heroPresetButtons = Array.from(document.querySelectorAll("[data-city-hero-preset]"));
+  const resultAnchor = document.querySelector("#host-city-results") || explorer;
 
   const matchesNeedValue = (card, value = "") => {
     const matchCount = Number(card.dataset.matchCount || 0);
@@ -5095,6 +5096,24 @@ await write(
   };
 
   const matchesNeed = (card) => matchesNeedValue(card, need?.value || "");
+
+  const scrollToResults = () => {
+    resultAnchor.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const updateUrlPath = ({ reset = false } = {}) => {
+    if (reset) {
+      window.history.replaceState({}, "", window.location.pathname + "#city-schedule-pages");
+      return;
+    }
+    const params = new URLSearchParams();
+    const selectedCity = heroCity?.value || search?.value || "";
+    const selectedNeed = heroNeed?.value || need?.value || "";
+    if (selectedCity) params.set("city", selectedCity);
+    if (selectedNeed) params.set("need", selectedNeed);
+    const query = params.toString();
+    window.history.replaceState({}, "", window.location.pathname + (query ? "?" + query : "") + "#host-city-results");
+  };
 
   const sortCards = () => {
     const value = sort?.value || "matches";
@@ -5165,7 +5184,7 @@ await write(
     window.setTimeout(() => card.classList.remove("planner-target-highlight"), 2600);
   };
 
-  const applyHeroPlanner = () => {
+  const applyHeroPlanner = ({ scroll = true, updatePath = true } = {}) => {
     const selectedCity = heroCity?.value || "";
     if (search) search.value = selectedCity;
     if (country) country.value = "";
@@ -5175,7 +5194,8 @@ await write(
     presetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
     apply();
     const first = cards.find((card) => !card.hidden);
-    explorer.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (updatePath) updateUrlPath();
+    if (scroll) scrollToResults();
     highlightCityCard(first);
   };
 
@@ -5186,6 +5206,25 @@ await write(
       .sort((a, b) => a.localeCompare(b));
     for (const name of options) heroCity.add(new Option(name, name));
   }
+
+  const readUrlState = () => {
+    const params = new URLSearchParams(window.location.search);
+    const urlCity = params.get("city") || "";
+    const urlNeed = params.get("need") || "";
+    if (urlCity && heroCity && Array.from(heroCity.options).some((option) => option.value === urlCity)) {
+      heroCity.value = urlCity;
+    }
+    if (urlNeed && heroNeed && Array.from(heroNeed.options).some((option) => option.value === urlNeed)) {
+      heroNeed.value = urlNeed;
+    }
+    heroPresetButtons.forEach((item) =>
+      item.setAttribute("aria-pressed", String(Boolean(urlNeed) && item.dataset.cityHeroPreset === urlNeed))
+    );
+    if (urlCity || urlNeed) {
+      updateHeroPlanner();
+      applyHeroPlanner({ scroll: window.location.hash === "#host-city-results", updatePath: false });
+    }
+  };
 
   [heroCity, heroNeed].forEach((control) => {
     control?.addEventListener("change", updateHeroPlanner);
@@ -5206,6 +5245,7 @@ await write(
     heroPresetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
     updateHeroPlanner();
     apply();
+    updateUrlPath({ reset: true });
     explorer.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
@@ -5252,6 +5292,7 @@ await write(
 
   updateHeroPlanner();
   apply();
+  readUrlState();
 })();\n`
 );
 

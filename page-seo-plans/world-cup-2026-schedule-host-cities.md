@@ -405,3 +405,38 @@ Screenshots saved:
 page-seo-plans/host-cities-all-16-featured-cards-desktop.png
 page-seo-plans/host-cities-all-16-featured-cards-mobile.png
 ```
+
+## 9. Hero Planner Navigation Path Fix
+
+Date: 2026-05-24
+Status: Completed
+
+User issue:
+
+```text
+The four buttons in the hero city planner do not use the correct navigation paths.
+```
+
+Optimization completed:
+
+- Added a dedicated `#host-city-results` anchor to the filtered result area.
+- Changed `Show matching cities` so it applies the selected city or planning need, updates the URL state and lands on the matching city cards.
+- Changed `Knockout hosts` to create `/world-cup-2026-schedule-host-cities/?need=knockout#host-city-results` and show the 15 knockout host cities.
+- Changed `Late tournament route` to create `/world-cup-2026-schedule-host-cities/?need=final-week#host-city-results` and show the 4 late-tournament route cities.
+- Changed `Reset` to clear filters and return to `/world-cup-2026-schedule-host-cities/#city-schedule-pages`.
+- Added URL-state reading on page load so filtered host-city links remain reusable after refresh or sharing.
+
+Validation:
+
+```text
+Build passed.
+Show matching cities path: /world-cup-2026-schedule-host-cities/?need=knockout#host-city-results
+Show matching cities result count: 15
+Reset path: /world-cup-2026-schedule-host-cities/#city-schedule-pages
+Reset result count: 16
+Knockout hosts path: /world-cup-2026-schedule-host-cities/?need=knockout#host-city-results
+Knockout hosts result count: 15
+Late tournament route path: /world-cup-2026-schedule-host-cities/?need=final-week#host-city-results
+Late tournament route result count: 4
+Reload filtered path keeps final-week filter: passed
+```
