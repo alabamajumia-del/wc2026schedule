@@ -4078,6 +4078,23 @@ td {
   padding: 28px 0;
 }
 
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+  color: var(--gold);
+}
+
 .muted {
   color: var(--muted);
 }

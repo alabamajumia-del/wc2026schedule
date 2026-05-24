@@ -419,6 +419,12 @@ const layout = ({ title, description, canonical, body, schema = [], titleSuffix 
     <div class="footer-inner">
       <strong>${esc(site.brand)}</strong>
       <span>Independent planning guide for ${esc(site.domain)}. Always confirm official schedule, ticket and broadcast details with primary sources.</span>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+        <a href="/disclaimer/">Disclaimer</a>
+      </nav>
     </div>
   </footer>
 </body>
@@ -1583,9 +1589,10 @@ const renderPage = (page) => {
     page.slug === "world-cup-2026-schedule-pdf" ? renderPdfVisualSections() : "";
   const cityBlock = page.slug === "world-cup-2026-schedule-host-cities" ? renderHostCitiesExplorer() : "";
   const sourceNote =
-    page.slug === "world-cup-2026-schedule"
+    page.sourceNote ??
+    (page.slug === "world-cup-2026-schedule"
       ? `This page is maintained as an independent fixture planner for fans. Sources: FIFA official schedule, structured match data, host city and stadium references. Editorial note: kickoff times, ticket details and broadcast information may change, so confirm paid or time-sensitive decisions with official sources.`
-      : `wc26schedule is an independent planning guide. Sources include FIFA official schedule information, official ticket information, host city sites, stadium sites and authorized broadcaster pages where relevant. Editorial note: times, ticket details and broadcaster information may change, so confirm important decisions with official sources.`;
+      : `wc26schedule is an independent planning guide. Sources include FIFA official schedule information, official ticket information, host city sites, stadium sites and authorized broadcaster pages where relevant. Editorial note: times, ticket details and broadcaster information may change, so confirm important decisions with official sources.`);
   const overview = page.overview ?? {
     eyebrow: "Guide overview",
     heading: page.intent,

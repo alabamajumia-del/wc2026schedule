@@ -878,5 +878,374 @@ export const pages = [
     sections: [["Country-by-Country Viewing", ["Viewing intent is local. A user in the United States, United Kingdom, Canada, Australia or India needs a different answer. The page should therefore organize guidance by region and avoid one generic paragraph that tries to serve everyone.", "Each country section should distinguish confirmed broadcasters from expected or pending details. That improves trust and keeps the site from publishing low-quality speculation."]]],
     faqs: [["Why are viewing options different by country?", "World Cup broadcast and streaming rights are sold by territory, so channels and platforms vary by country. Users should confirm details with local broadcasters."]],
     links: [["TV schedule", "/world-cup-2026-tv-schedule/"], ["Full schedule", "/world-cup-2026-schedule/"], ["Tournament dates", "/world-cup-2026-dates/"]]
+  },
+  {
+    slug: "privacy-policy",
+    nav: "Privacy",
+    title: "Privacy Policy",
+    description:
+      "Read the wc26schedule privacy policy for worldcup2026schedule.net, including analytics, ads, cookies, contact messages and data-use notes.",
+    h1: "Privacy Policy",
+    keyword: "wc26schedule privacy policy",
+    intent: "Explain how worldcup2026schedule.net handles privacy, analytics, cookies, ads and contact messages.",
+    longTail: [
+      "worldcup2026schedule.net privacy policy",
+      "wc26schedule cookies",
+      "wc26schedule analytics",
+      "wc26schedule ads privacy"
+    ],
+    facts: [
+      ["Site", "worldcup2026schedule.net"],
+      ["Brand", "wc26schedule"],
+      ["Purpose", "Independent World Cup 2026 planning guide"]
+    ],
+    intro:
+      "This Privacy Policy explains how wc26schedule handles information for visitors using worldcup2026schedule.net. The site is an independent World Cup 2026 schedule, download and planning guide, and this page describes the basic privacy practices that apply when you read pages, use tools, download files or contact the site.",
+    hero: {
+      eyebrow: "Site policy",
+      actions: [
+        ["Contact wc26schedule", "/contact/", "primary"],
+        ["Read disclaimer", "/disclaimer/", "secondary"]
+      ],
+      panelTitle: "Privacy scope",
+      panelIntro: "Covers analytics, cookies, advertising preparation, contact messages and third-party links.",
+      panelRows: [
+        ["Personal accounts", "Not required"],
+        ["Schedule downloads", "No login needed"],
+        ["Ads", "Prepared for future AdSense use"]
+      ]
+    },
+    overview: {
+      eyebrow: "Privacy summary",
+      heading: "What This Policy Covers",
+      copy:
+        "wc26schedule is designed as a public information and planning site. You can browse the World Cup 2026 schedule pages, city guides, PDF downloads and Excel files without creating an account. Some standard technical information may still be processed by hosting, analytics, security or advertising tools.",
+      tags: ["No user account required", "Public schedule tools", "Future ad-readiness", "Contact form privacy"],
+      noteEyebrow: "Important note",
+      noteHeading: "Do not send sensitive information",
+      noteCopy:
+        "Please do not send passport numbers, payment details, ticket order numbers or other sensitive personal information through contact messages."
+    },
+    sections: [
+      [
+        "Information We May Collect",
+        [
+          "When you visit worldcup2026schedule.net, standard technical information may be collected automatically by hosting, security, analytics or performance tools. This can include browser type, approximate device information, referring pages, pages viewed, timestamps, general location inferred from network information and basic interaction data.",
+          "If you contact wc26schedule, the message may include the name, email address and content you choose to provide. Contact information is used to read and respond to your message, review site feedback, handle correction requests or improve planning pages.",
+          "The site does not require visitors to create an account, log in, submit a profile or provide payment information to use the schedule, PDF, Excel or host city planning pages."
+        ]
+      ],
+      [
+        "Cookies, Analytics and Advertising",
+        [
+          "worldcup2026schedule.net may use cookies or similar technologies for basic site functionality, analytics, security, performance measurement and future advertising features. Cookies help measure which pages are useful, whether downloads are working and how visitors move through the schedule tools.",
+          "The site is being prepared for possible Google AdSense use. If advertising is enabled later, Google and advertising partners may use cookies or similar technologies to serve, measure and improve ads. The site will use the official AdSense publisher information only after the account is ready and the domain is connected.",
+          "You can control cookies through your browser settings. Blocking cookies may not prevent you from reading the schedule pages, but some analytics, preference or advertising features may not work as intended."
+        ]
+      ],
+      [
+        "How Information Is Used",
+        [
+          "Information is used to operate the site, improve schedule pages, understand which planning tools are helpful, maintain security, respond to contact messages and prepare the site for compliant advertising.",
+          "wc26schedule does not sell personal contact messages. If third-party tools are used for hosting, analytics, security, email delivery or advertising, those providers may process information under their own policies and technical controls.",
+          "Schedule, ticket, city, stadium and broadcast links may send you to third-party websites. Those websites are not operated by wc26schedule, and their privacy practices are controlled by their own policies."
+        ]
+      ],
+      [
+        "Updates to This Policy",
+        [
+          "This policy may be updated as the site adds new pages, advertising support, analytics settings, contact options or planning tools. The latest version will be available on this page.",
+          "If a major privacy-related feature is added, such as a newsletter, account system or advertising provider change, this page should be reviewed and updated before the feature is promoted across the site."
+        ]
+      ]
+    ],
+    usageHeading: "Privacy Checks for Visitors",
+    usageRows: [
+      ["Browse the site", "No account is required to read schedule pages or use download links.", "Use browser settings if you want to limit cookies."],
+      ["Contact the site", "Messages should only include information needed to explain the issue.", "Avoid sending sensitive personal or payment details."],
+      ["Follow external links", "Official and third-party sites have their own privacy rules.", "Review those policies before buying tickets or creating accounts."]
+    ],
+    relatedHeading: "Related Trust Pages",
+    faqs: [
+      ["Do I need an account to use wc26schedule?", "No. The site is built as a public World Cup 2026 schedule and planning guide, so visitors can read pages and download files without creating an account."],
+      ["Does wc26schedule use cookies?", "The site may use cookies or similar technologies for analytics, security, performance measurement and future advertising features."],
+      ["Will the site use Google AdSense?", "The site is being prepared for possible Google AdSense use. Official AdSense code and ads.txt details should only be added after the account and domain are ready."],
+      ["Can I request a correction?", "Yes. Use the Contact page to report a schedule, source, wording or download issue."],
+      ["Is wc26schedule an official World Cup website?", "No. wc26schedule is an independent planning guide and is not an official FIFA or tournament organizer website."]
+    ],
+    links: [["Contact", "/contact/"], ["About", "/about/"], ["Disclaimer", "/disclaimer/"]],
+    sourceNote:
+      "Privacy note: this page describes the site policy for wc26schedule and should be reviewed again before enabling live advertising, newsletters, accounts or new third-party tools."
+  },
+  {
+    slug: "about",
+    nav: "About",
+    title: "About wc26schedule",
+    description:
+      "Learn about wc26schedule, an independent World Cup 2026 schedule planning site for match dates, host cities, downloads and travel research.",
+    h1: "About wc26schedule",
+    keyword: "about wc26schedule",
+    intent: "Explain who runs wc26schedule, what the site is for and how it should be used.",
+    longTail: [
+      "about worldcup2026schedule.net",
+      "wc26schedule independent guide",
+      "World Cup 2026 schedule planning site",
+      "World Cup 2026 unofficial schedule guide"
+    ],
+    facts: [
+      ["Site focus", "World Cup 2026 schedule planning"],
+      ["Status", "Independent guide"],
+      ["Core value", "Readable fixtures, downloads and planning tools"]
+    ],
+    intro:
+      "wc26schedule is an independent planning site for fans who need a clear World Cup 2026 schedule hub. The site organizes match dates, kickoff times, host cities, stadiums, groups, PDF files, Excel downloads and related planning pages into one practical workspace.",
+    hero: {
+      eyebrow: "About the site",
+      actions: [
+        ["Open full schedule", "/world-cup-2026-schedule/", "primary"],
+        ["Contact us", "/contact/", "secondary"]
+      ],
+      panelTitle: "Editorial promise",
+      panelIntro: "Build useful planning pages first, then support them with sources, downloads and update notes.",
+      panelRows: [
+        ["Coverage", "Schedule, cities, groups, downloads"],
+        ["Independence", "Not an official tournament site"],
+        ["Priority", "Clear tools over generic text"]
+      ]
+    },
+    overview: {
+      eyebrow: "What wc26schedule does",
+      heading: "A Practical Planning Hub for World Cup 2026",
+      copy:
+        "The site is built around real planning tasks: finding a match, comparing host cities, saving a PDF, filtering a spreadsheet, checking groups and moving from one page to the next without losing context.",
+      tags: ["Independent guide", "Schedule-first structure", "Downloadable files", "Source reminders"],
+      noteEyebrow: "Editorial note",
+      noteHeading: "Use official sources for final decisions",
+      noteCopy:
+        "wc26schedule helps organize information, but official sources should be used before buying tickets, booking travel or relying on time-sensitive details."
+    },
+    sections: [
+      [
+        "Why This Site Exists",
+        [
+          "The 2026 tournament has 104 matches across the United States, Canada and Mexico. A plain fixture list is often not enough because fans also need to compare cities, kickoff windows, team routes, printable files, spreadsheet data, ticket context and TV planning.",
+          "wc26schedule is built to make those tasks easier. Instead of treating every page as a long article, the site is gradually turning key pages into useful tools: schedule tables, city planners, download selectors, match detail pages and route links."
+        ]
+      ],
+      [
+        "How Content Is Built",
+        [
+          "Pages are written to answer a planning question clearly, then connect to related pages. A schedule page should help users find matches, a PDF page should help users choose the right file, and a host city page should help users compare places before opening a city-specific schedule.",
+          "The site uses source reminders because tournament details can change. Match timing, ticket guidance, broadcaster information, stadium operations and local travel details should be checked with official or primary sources before a paid or time-sensitive decision."
+        ]
+      ],
+      [
+        "Independence and Brand Use",
+        [
+          "wc26schedule is not an official FIFA website and is not operated by the tournament organizers. The site name is used as an independent brand for schedule planning and fan research.",
+          "References to the World Cup, FIFA, host cities, teams, stadiums or broadcasters are used for descriptive and informational purposes. The site should not imply official endorsement, ticket authorization or commercial partnership."
+        ]
+      ]
+    ],
+    usageHeading: "How to Use wc26schedule",
+    usageRows: [
+      ["Start with the schedule", "Use the full schedule when you need match number, team, city, venue and kickoff context.", "Open the schedule hub."],
+      ["Move into a planning page", "Use PDF, Excel, host city, group, TV or ticket pages when one task becomes more important.", "Follow the related links on each page."],
+      ["Confirm final details", "Use official sources before booking travel, buying tickets or depending on broadcast details.", "Check official links and update notes."]
+    ],
+    relatedHeading: "Core Site Areas",
+    faqs: [
+      ["What is wc26schedule?", "wc26schedule is an independent World Cup 2026 schedule planning site with fixture pages, downloads, host city context and related guides."],
+      ["Is this an official World Cup website?", "No. wc26schedule is independent and should not be treated as an official tournament, ticketing or broadcaster website."],
+      ["What makes the site useful?", "The site focuses on practical planning tools such as schedule tables, PDF files, Excel data, host city comparison and match detail pages."],
+      ["How often should the content be checked?", "Schedule, ticket and broadcast details should be reviewed whenever official sources publish changes or before major user-facing updates."],
+      ["How can I report an issue?", "Use the Contact page to report corrections, broken downloads, source issues or page suggestions."]
+    ],
+    links: [["Full schedule", "/world-cup-2026-schedule/"], ["PDF downloads", "/world-cup-2026-schedule-pdf/"], ["Host cities", "/world-cup-2026-schedule-host-cities/"]],
+    sourceNote:
+      "Editorial note: wc26schedule is an independent planning guide. It is built to organize public schedule information and should not be treated as an official tournament source."
+  },
+  {
+    slug: "contact",
+    nav: "Contact",
+    title: "Contact wc26schedule",
+    description:
+      "Contact wc26schedule to report schedule corrections, broken downloads, source issues, page feedback or advertising and policy questions.",
+    h1: "Contact wc26schedule",
+    keyword: "contact wc26schedule",
+    intent: "Give visitors a clear way to contact the site about corrections, downloads, policies and feedback.",
+    longTail: [
+      "contact worldcup2026schedule.net",
+      "wc26schedule corrections",
+      "World Cup 2026 schedule correction",
+      "wc26schedule broken download"
+    ],
+    facts: [
+      ["Best use", "Corrections and site feedback"],
+      ["Do not send", "Payment, passport or ticket order details"],
+      ["Response focus", "Schedule, source and download issues"]
+    ],
+    intro:
+      "Use this page to contact wc26schedule about corrections, broken links, download issues, source questions, page feedback or policy questions. The site is an independent World Cup 2026 planning guide, so official ticket, stadium and broadcaster requests should be sent to the relevant official provider.",
+    hero: {
+      eyebrow: "Contact",
+      actions: [
+        ["Read privacy policy", "/privacy-policy/", "primary"],
+        ["Read disclaimer", "/disclaimer/", "secondary"]
+      ],
+      panelTitle: "Before sending",
+      panelIntro: "Share the page URL, the issue you found and the source that supports the correction.",
+      panelRows: [
+        ["Corrections", "Schedule, venue, wording"],
+        ["Downloads", "PDF, Excel, CSV links"],
+        ["Sensitive data", "Do not send"]
+      ]
+    },
+    overview: {
+      eyebrow: "Contact guidance",
+      heading: "What to Include in a Useful Message",
+      copy:
+        "A clear report helps fix issues faster. Include the page URL, the match number or page section, what looks wrong and a source link when possible.",
+      tags: ["Correction requests", "Broken downloads", "Source issues", "Policy questions"],
+      noteEyebrow: "Safety note",
+      noteHeading: "Keep sensitive details out",
+      noteCopy:
+        "Do not send payment details, passport numbers, private ticket order IDs or login credentials. wc26schedule cannot help with official ticket accounts."
+    },
+    sections: [
+      [
+        "Contact Topics",
+        [
+          "You can use this page to report a schedule correction, a broken download, a typo, an outdated source, a confusing page section or a technical issue with a planning tool.",
+          "For official tournament tickets, account access, stadium operations, refunds, broadcaster subscriptions or travel bookings, contact the official provider directly. wc26schedule does not sell tickets, manage official accounts or operate stadium services."
+        ]
+      ],
+      [
+        "Suggested Message Format",
+        [
+          "Include the affected page URL, the match number or section heading, a short description of the issue and a source link if the message is about a factual correction.",
+          "For download issues, include the file type you tried to open, such as PDF, Excel or CSV, and whether the issue happened on desktop or mobile."
+        ]
+      ],
+      [
+        "Email",
+        [
+          "Contact email: contact@worldcup2026schedule.net. If this mailbox is not yet active during development, it should be configured before the public launch and before any AdSense application is submitted.",
+          "This contact channel is intended for site feedback and corrections. It is not an official support channel for FIFA, host cities, stadiums, teams, broadcasters or ticketing providers."
+        ]
+      ]
+    ],
+    usageHeading: "Contact Checklist",
+    usageRows: [
+      ["Correction", "Page URL, match number, incorrect detail and source link.", "Send a concise correction note."],
+      ["Broken file", "File type, page URL and device context.", "Report whether PDF, Excel or CSV failed."],
+      ["Official help", "Tickets, refunds, stadium policies or account access.", "Contact the official provider instead."]
+    ],
+    relatedHeading: "Before You Contact",
+    faqs: [
+      ["Can wc26schedule help with official tickets?", "No. wc26schedule does not sell tickets or manage official ticket accounts. Use official ticketing sources for ticket support."],
+      ["What should I include in a correction request?", "Include the page URL, match number or section, the detail that looks wrong and a reliable source link."],
+      ["Can I send personal ticket information?", "No. Do not send payment details, passport numbers, ticket order IDs or login information."],
+      ["Can I report a broken download?", "Yes. Include the page URL, file type and what happened when you tried to open the file."],
+      ["Is this contact page for official tournament services?", "No. It is only for wc26schedule site feedback, corrections and policy questions."]
+    ],
+    links: [["Privacy Policy", "/privacy-policy/"], ["About", "/about/"], ["Disclaimer", "/disclaimer/"]],
+    sourceNote:
+      "Contact note: this page is for wc26schedule website feedback only. Official ticket, stadium, broadcaster or tournament service requests should go to the relevant official provider."
+  },
+  {
+    slug: "disclaimer",
+    nav: "Disclaimer",
+    title: "Disclaimer",
+    description:
+      "Read the wc26schedule disclaimer about unofficial status, schedule changes, tickets, travel, broadcasters, downloads and third-party links.",
+    h1: "Disclaimer",
+    keyword: "wc26schedule disclaimer",
+    intent: "Clarify unofficial status, source limits and user responsibility for tickets, travel and broadcast decisions.",
+    longTail: [
+      "worldcup2026schedule.net disclaimer",
+      "wc26schedule unofficial guide",
+      "World Cup 2026 schedule disclaimer",
+      "wc26schedule ticket disclaimer"
+    ],
+    facts: [
+      ["Status", "Independent unofficial guide"],
+      ["No ticket sales", "Planning links only"],
+      ["User action", "Verify official details before decisions"]
+    ],
+    intro:
+      "This disclaimer explains the limits of wc26schedule. worldcup2026schedule.net is an independent planning guide for World Cup 2026 schedule research and is not an official FIFA, tournament organizer, ticketing, stadium, host city, team or broadcaster website.",
+    hero: {
+      eyebrow: "Unofficial guide",
+      actions: [
+        ["Open official-source schedule hub", "/world-cup-2026-schedule/", "primary"],
+        ["Contact us", "/contact/", "secondary"]
+      ],
+      panelTitle: "Use responsibly",
+      panelIntro: "Plan with wc26schedule, then verify important actions with official or primary sources.",
+      panelRows: [
+        ["Tickets", "Not sold here"],
+        ["Schedule", "May change"],
+        ["Travel", "Verify locally"]
+      ]
+    },
+    overview: {
+      eyebrow: "Disclaimer summary",
+      heading: "Independent Planning Information, Not Official Advice",
+      copy:
+        "wc26schedule organizes public-facing planning information into easier pages and tools. It does not replace official tournament notices, ticketing terms, stadium rules, broadcaster announcements or travel advisories.",
+      tags: ["Unofficial guide", "No ticket sales", "Verify sources", "Third-party links"],
+      noteEyebrow: "Important",
+      noteHeading: "Check before paying or traveling",
+      noteCopy:
+        "Before buying tickets, booking travel, choosing accommodation or relying on broadcast access, confirm details with official or primary sources."
+    },
+    sections: [
+      [
+        "Unofficial Status",
+        [
+          "wc26schedule is not affiliated with, endorsed by or operated by FIFA, the tournament organizers, host cities, stadiums, teams, broadcasters or ticketing providers. Names of tournaments, teams, cities, stadiums and organizations may appear for descriptive and informational purposes.",
+          "The site brand wc26schedule is used to identify this independent planning guide. It should not be interpreted as an official source, official ticket seller or official tournament service."
+        ]
+      ],
+      [
+        "Schedule, Ticket and Travel Information",
+        [
+          "The site may summarize schedule details, host city information, ticket planning notes, TV guidance and downloads. Those details can change. Kickoff times, venue operations, ticket availability, broadcaster rights, local transport and security guidance should be verified with official or primary sources.",
+          "wc26schedule does not sell tickets, set ticket prices, operate ticket accounts, process refunds, manage stadium entry or provide travel services. Any payment, booking or official account action should happen only through trusted official providers."
+        ]
+      ],
+      [
+        "Downloads and Third-Party Links",
+        [
+          "PDF, Excel, CSV and visual downloads are provided as planning aids. They should be checked against official sources before use for travel, ticketing, media, commercial or time-sensitive purposes.",
+          "The site may link to external websites for official schedules, tickets, stadiums, cities, broadcasters or other references. External sites are controlled by their own owners and policies, and wc26schedule is not responsible for their content, availability or changes."
+        ]
+      ],
+      [
+        "No Professional Advice",
+        [
+          "Content on wc26schedule is informational. It is not legal, financial, travel, safety, immigration, medical, tax or professional advice.",
+          "Visitors are responsible for checking requirements that apply to their own travel, tickets, visas, insurance, health, payments, accessibility needs and local event rules."
+        ]
+      ]
+    ],
+    usageHeading: "How to Use This Disclaimer",
+    usageRows: [
+      ["Planning", "Use wc26schedule to compare pages and organize research.", "Confirm final details elsewhere."],
+      ["Tickets", "Treat ticket content as guidance, not sales or account support.", "Use official ticketing providers."],
+      ["Downloads", "Use files as convenient planning copies.", "Verify before paid or time-sensitive decisions."]
+    ],
+    relatedHeading: "Related Policy Pages",
+    faqs: [
+      ["Is wc26schedule official?", "No. wc26schedule is an independent unofficial planning guide."],
+      ["Does wc26schedule sell World Cup tickets?", "No. The site does not sell tickets, manage accounts, process refunds or guarantee ticket availability."],
+      ["Can schedule details change?", "Yes. Match timing, stadium operations, ticket details and broadcaster information can change, so official sources should be checked."],
+      ["Are downloads official documents?", "No. Downloads are planning aids created for convenience and should be checked against official sources."],
+      ["Who is responsible for travel decisions?", "Visitors are responsible for confirming ticket, travel, visa, accommodation, safety and local event details before acting."]
+    ],
+    links: [["Privacy Policy", "/privacy-policy/"], ["About", "/about/"], ["Contact", "/contact/"]],
+    sourceNote:
+      "Disclaimer note: wc26schedule is an independent unofficial guide. Confirm official schedule, ticket, stadium, broadcaster and travel details before acting."
   }
 ];
