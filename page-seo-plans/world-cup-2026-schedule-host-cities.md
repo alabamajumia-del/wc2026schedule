@@ -440,3 +440,52 @@ Late tournament route path: /world-cup-2026-schedule-host-cities/?need=final-wee
 Late tournament route result count: 4
 Reload filtered path keeps final-week filter: passed
 ```
+
+## 10. Host City Detail Pages Deep Optimization
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Execute Host City Detail Pages deep optimization.
+```
+
+Optimization completed:
+
+- Rebuilt all 16 city detail pages under `/world-cup-2026-schedule/{city}/`.
+- Changed each city page H1/title format to `World Cup 2026 Schedule {City}: Match Dates, Stadium & Fixtures`.
+- Added city-specific hero backgrounds using the prepared host-city image assets.
+- Added a city schedule snapshot panel with match count, date window, knockout count and stadium.
+- Added independent city planning copy for all 16 cities instead of only swapping city names.
+- Added a visual match timeline with team chips, three-letter codes, flags, date, kickoff, venue and match-detail links.
+- Added city-specific teams and stages section.
+- Added stadium, travel and ticket planning notes with city-specific guidance.
+- Added full city fixture table with team links and match-detail links.
+- Added usage table, related planning links and expanded FAQ.
+- Added responsive city detail styling for desktop and mobile.
+
+Validation:
+
+```text
+Build passed.
+Generated pages: 185.
+City detail pages checked: 16.
+HTTP status for all checked city pages: 200.
+H1 count per checked city page: 1.
+H2 count per checked city page: 8.
+Minimum visible word count across 16 city pages: 984.
+Maximum visible word count across 16 city pages: 1,285.
+City image load check: passed.
+Desktop overflow: 0.
+Mobile overflow spot-check: 0.
+FAQ count per checked city page: 5.
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/host-city-detail-new-york-new-jersey-desktop.png
+page-seo-plans/host-city-detail-new-york-new-jersey-mobile.png
+```

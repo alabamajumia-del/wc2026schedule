@@ -2262,6 +2262,130 @@ const cityRouteBadge = (city) => {
   return city.regionLabel;
 };
 
+const cityGuideMeta = {
+  Atlanta: {
+    lead: "Atlanta is one of the strongest knockout-route choices because its schedule combines a heavy group-stage base with a semifinal date. The city page is useful when you want to compare several early fixtures and still keep a late-tournament path in view.",
+    planningAngle: "Use Atlanta when your trip depends on both match volume and a possible semifinal anchor.",
+    stadiumNote: "Mercedes-Benz Stadium sits in a major downtown event district, so stadium access, nearby hotel demand and event-day transport planning should be checked early.",
+    travelNote: "Atlanta works best as a Southeast base with strong air connectivity and several match days to compare before choosing tickets.",
+    ticketNote: "Prioritize the semifinal and any team-specific group fixtures first, then use the full schedule to check whether nearby dates justify a longer stay."
+  },
+  Boston: {
+    lead: "Boston gives fans a Northeast route with eight matches and a strong knockout mix. The page is built for users comparing New England travel, stadium access and whether the city can work as part of a Boston-New York-Philadelphia corridor.",
+    planningAngle: "Use Boston when you want an Eastern USA base with several stages but do not need the final itself.",
+    stadiumNote: "Gillette Stadium is outside central Boston, so local transport, ride timing and post-match return plans matter more than they would in a downtown venue.",
+    travelNote: "Boston pairs naturally with other Northeast city pages if you are comparing rail, flight and hotel options across multiple host markets.",
+    ticketNote: "Check the knockout dates before booking flexible travel, because those fixtures may become more valuable once the bracket is known."
+  },
+  Dallas: {
+    lead: "Dallas is one of the highest-volume World Cup 2026 host cities, with nine matches and a major late-round role. It is a practical page for fans who want the most fixture choice in one market and need to compare date windows before committing to tickets.",
+    planningAngle: "Use Dallas when match quantity, knockout options and a central travel base are the main planning questions.",
+    stadiumNote: "AT&T Stadium is a large event venue in the Arlington area, so parking, shuttle guidance and stadium-entry rules should be checked close to match day.",
+    travelNote: "Dallas can work as a hub for fans who want several matches without changing cities, especially if hotel and transport plans are made around stadium distance.",
+    ticketNote: "Start with the semifinal and other knockout fixtures, then decide whether group-stage dates make the trip worth extending."
+  },
+  Guadalajara: {
+    lead: "Guadalajara is a focused Mexico host city with a compact group-stage schedule. This page is most useful for fans comparing Mexico-based fixtures, local stadium logistics and cross-border planning questions before opening team or match pages.",
+    planningAngle: "Use Guadalajara when your priority is a Mexico fixture stop rather than a long multi-stage tournament route.",
+    stadiumNote: "Estadio Akron planning should include local arrival timing, stadium access guidance and official venue instructions as the tournament approaches.",
+    travelNote: "Guadalajara is best compared with Mexico City and Monterrey if you want a Mexico-only route or need country-specific travel checks.",
+    ticketNote: "Because the city has fewer matches, choose by team interest first, then confirm whether the date works with nearby Mexico fixtures."
+  },
+  Houston: {
+    lead: "Houston offers a Texas match base with seven fixtures and multiple knockout dates. The page helps fans compare whether Houston is a better fit than Dallas when stadium access, travel distance and specific teams are more important than total match count.",
+    planningAngle: "Use Houston when you want a Texas schedule with knockout value but a different date window from Dallas.",
+    stadiumNote: "NRG Stadium is a major event venue, so event-day traffic, parking rules and public transport updates should be confirmed before booking tight transfers.",
+    travelNote: "Houston is useful for fans comparing Texas match clusters, especially if flights and hotels make one city more practical than another.",
+    ticketNote: "Look at the Round of 16 and Round of 32 fixtures first, then use the city table to see whether group matches add value."
+  },
+  "Kansas City": {
+    lead: "Kansas City is a compact central route with six matches and two knockout fixtures. This page works well when you want a smaller host market, a clear date window and a schedule that still includes bracket-stage value.",
+    planningAngle: "Use Kansas City when you want a central USA stop with a manageable match list and knockout upside.",
+    stadiumNote: "GEHA Field at Arrowhead Stadium planning should include official parking, gate and local arrival instructions because stadium-site logistics can shape the match-day experience.",
+    travelNote: "Kansas City is best used as a targeted stop rather than a full tournament base, especially for fans following teams that land in the city.",
+    ticketNote: "Compare the early group match with later knockout possibilities before deciding whether one ticket or a longer stay makes sense."
+  },
+  "Los Angeles": {
+    lead: "Los Angeles is a top high-volume city with nine matches, a semifinal and a West Coast route. The page is valuable for fans comparing multiple match days, stadium access around SoFi Stadium and whether Los Angeles should anchor a longer Western USA trip.",
+    planningAngle: "Use Los Angeles when you want maximum match choice on the West Coast with late-round value.",
+    stadiumNote: "SoFi Stadium sits in a large event district, so airport choice, local traffic, ride timing and stadium-entry guidance should be planned with extra margin.",
+    travelNote: "Los Angeles pairs naturally with San Francisco Bay Area and Seattle for fans comparing a Western USA route across several host cities.",
+    ticketNote: "Treat the semifinal as the premium planning point, then use the remaining match dates to decide whether to stay for several fixtures."
+  },
+  "Mexico City": {
+    lead: "Mexico City is the opening-match anchor and one of the most important city pages for early tournament planning. It helps fans compare the first match, Mexico-based group fixtures and the local stadium context before moving into team or ticket decisions.",
+    planningAngle: "Use Mexico City when your planning starts with the tournament opener or a Mexico-focused route.",
+    stadiumNote: "Estadio Banorte has unique event demand around the opening match, so official stadium guidance, entry timing and local transport updates should be checked carefully.",
+    travelNote: "Mexico City should be compared with Guadalajara and Monterrey if your trip is built around Mexico venues and country-specific travel requirements.",
+    ticketNote: "Opening-match tickets and early fixtures may drive higher demand, so confirm official ticket information before making travel commitments."
+  },
+  Miami: {
+    lead: "Miami is a late-tournament route city with seven matches, including the third-place match. This page is useful when your priority is knockout football, warm-weather travel planning and comparing Florida's date window against other Eastern USA cities.",
+    planningAngle: "Use Miami when third-place match timing or a Florida-based knockout route matters most.",
+    stadiumNote: "Hard Rock Stadium is a major event venue outside the densest tourist areas, so transport time, traffic and local event guidance should be part of the plan.",
+    travelNote: "Miami works best for fans who want a clear late-stage target or a trip that combines football with extra travel days.",
+    ticketNote: "Start with the third-place match and knockout rounds, then check whether earlier group fixtures are worth adding."
+  },
+  Monterrey: {
+    lead: "Monterrey provides a Northern Mexico match stop with a compact four-match schedule. It is best for fans who already know a team or date they want and need a quick way to confirm the local fixture list, stadium and travel context.",
+    planningAngle: "Use Monterrey when you want a focused Mexico stop rather than a broad multi-city comparison.",
+    stadiumNote: "Estadio BBVA planning should include official access instructions and local traffic guidance because fewer fixtures mean each event day matters more.",
+    travelNote: "Monterrey should be compared with Mexico City and Guadalajara when choosing between Mexico host cities.",
+    ticketNote: "Because the match count is compact, start from the team matchup and then decide whether the date fits your wider route."
+  },
+  "New York New Jersey": {
+    lead: "New York New Jersey is the championship-week anchor because it hosts the World Cup 2026 final and several earlier fixtures. The page is designed for fans comparing the tournament finish, Northeast travel and whether to combine the final with other regional city pages.",
+    planningAngle: "Use New York New Jersey when the final, late-round planning or a Northeast route is your main focus.",
+    stadiumNote: "MetLife Stadium planning should include official event-day transport, stadium-entry rules and extra time for very high-demand matches.",
+    travelNote: "New York New Jersey pairs with Boston and Philadelphia for fans comparing a Northeast corridor instead of a single-city trip.",
+    ticketNote: "Treat the final as the anchor decision, then use earlier fixtures to decide whether a longer stay is worthwhile."
+  },
+  Philadelphia: {
+    lead: "Philadelphia gives fans a Northeast city page with six matches and one knockout fixture. It is useful for comparing a focused match stop with nearby New York New Jersey and Boston pages before choosing a travel corridor.",
+    planningAngle: "Use Philadelphia when you want a Northeast schedule without relying only on the final-host market.",
+    stadiumNote: "Lincoln Financial Field sits in a major sports complex, so parking, transit and event-entry details should be checked against official venue guidance.",
+    travelNote: "Philadelphia works well as a regional comparison page for fans weighing shorter stays, nearby airports and possible multi-city movement.",
+    ticketNote: "Start with the Round of 16 fixture, then compare group-stage dates against your team interests."
+  },
+  "San Francisco Bay Area": {
+    lead: "San Francisco Bay Area is a West Coast page for fans comparing Bay Area fixtures, stadium travel and whether a California route should include Los Angeles as well. The schedule is focused but still includes a knockout match.",
+    planningAngle: "Use San Francisco Bay Area when you want a West Coast stop with a clear stadium and date window.",
+    stadiumNote: "Levi's Stadium is in Santa Clara, so distance from San Francisco, local rail options, driving time and official stadium operations should be planned before match day.",
+    travelNote: "The Bay Area pairs naturally with Los Angeles and Seattle if you are comparing a Western USA football trip.",
+    ticketNote: "Check the Round of 32 match first, then decide whether group-stage fixtures justify a longer local stay."
+  },
+  Seattle: {
+    lead: "Seattle is a Pacific Northwest route with six matches and two knockout fixtures. The page helps fans compare a concentrated West Coast schedule with stadium access, date windows and possible links to Vancouver or San Francisco Bay Area.",
+    planningAngle: "Use Seattle when you want a Pacific Northwest base with knockout value and cross-border comparison potential.",
+    stadiumNote: "Lumen Field is close to central Seattle, but official guidance for gates, crowd movement and event-day transport should still be checked close to the match.",
+    travelNote: "Seattle is especially useful when paired with Vancouver for fans considering a regional route across the United States and Canada.",
+    ticketNote: "Prioritize knockout fixtures first, then use group-stage dates to see whether the trip should be extended."
+  },
+  Toronto: {
+    lead: "Toronto is an Eastern Canada schedule page with six matches and a Round of 32 fixture. It is useful for fans comparing Canadian host cities, border documents and whether Toronto or Vancouver better matches a team route.",
+    planningAngle: "Use Toronto when Canada-based planning, Eastern Canada access or a Round of 32 fixture is important.",
+    stadiumNote: "BMO Field planning should include official stadium access, local transit guidance and border-aware travel timing for international fans.",
+    travelNote: "Toronto is best compared with Vancouver and nearby Eastern USA cities when building a cross-border route.",
+    ticketNote: "Check whether a team you follow appears in Toronto before using the knockout fixture as the anchor."
+  },
+  Vancouver: {
+    lead: "Vancouver is a Western Canada host city with six matches and a Round of 32 fixture. The page is useful when fans are weighing Canada-based travel, Pacific Northwest routes and whether to connect Vancouver with Seattle.",
+    planningAngle: "Use Vancouver when you want Western Canada fixtures or a cross-border route with Seattle.",
+    stadiumNote: "BC Place planning should include official entry rules, downtown crowd movement and local transport updates before match day.",
+    travelNote: "Vancouver works best as a Canada-West comparison page, especially for fans considering Seattle on the same trip.",
+    ticketNote: "Start with the Round of 32 date, then compare group fixtures by team interest and travel timing."
+  }
+};
+
+const cityGuide = (city) =>
+  cityGuideMeta[city.city] ?? {
+    lead: `${city.city} is a World Cup 2026 host city with a local schedule that should be reviewed by match date, stadium and stage before travel or ticket decisions.`,
+    planningAngle: `Use ${city.city} when its date window, teams and stadium location fit your tournament route.`,
+    stadiumNote: `Confirm ${city.stadiums.join(", ")} access, gates and local operations with official sources before match day.`,
+    travelNote: `Compare ${city.city} with nearby host cities before booking hotels or flights.`,
+    ticketNote: "Confirm official ticket availability and match details before making paid decisions."
+  };
+
 const renderFeaturedCityCards = (cities) => {
   const featuredOrder = [
     "New York New Jersey",
@@ -2673,8 +2797,8 @@ const citySchema = (city) => [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: `${city.city} World Cup 2026 Schedule`,
-    description: `See the World Cup 2026 schedule for ${city.city}, including match dates, ET kickoff times, stadiums and tournament stages.`,
+    headline: `World Cup 2026 Schedule ${city.city}: Match Dates, Stadium & Fixtures`,
+    description: `See the World Cup 2026 schedule for ${city.city}, including match dates, kickoff times, teams, stages, stadium details and local planning notes.`,
     author: { "@type": "Organization", name: `${site.brand} editorial team` },
     publisher: { "@type": "Organization", name: site.brand },
     mainEntityOfPage: `${site.url}${city.path}`
@@ -2698,6 +2822,14 @@ const citySchema = (city) => [
           "@type": "Answer",
           text: `${city.city} matches are listed at ${city.stadiums.join(", ")}.`
         }
+      },
+      {
+        "@type": "Question",
+        name: `What is the best way to use the ${city.city} schedule page?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Use the ${city.city} schedule page to compare local match dates, teams, stages and stadium context, then confirm final travel and ticket decisions with official sources.`
+        }
       }
     ]
   },
@@ -2718,50 +2850,138 @@ const citySchema = (city) => [
 ];
 
 const renderCityPage = (city) => {
-  const title = `${city.city} World Cup 2026 Schedule`;
-  const description = `See ${city.city} World Cup 2026 matches with dates, ET kickoff times, stages, teams and stadium details.`;
+  const guide = cityGuide(city);
+  const title = `World Cup 2026 Schedule ${city.city}: Match Dates, Stadium & Fixtures`;
+  const description = `${city.city} World Cup 2026 schedule with match dates, stadium, teams, stages, kickoff times and local planning notes for fans comparing host city fixtures.`;
+  const featured = cityFeaturedMatch(city);
+  const firstMatch = city.matches[0];
+  const knockoutMatches = city.matches.filter((match) => match.stage !== "Group stage");
+  const stageSummary = cityStageSummary(city);
+  const valueTags = cityValueTags(city);
+  const visibleTeams = city.teams.filter(isRealTeam);
+  const matchRows = city.matches
+    .map(
+      (match) => `<article class="city-detail-match-card">
+        <div>
+          <span>Match ${match.matchNumber}</span>
+          <strong>${esc(`${match.home} vs ${match.away}`)}</strong>
+          <small>${esc(match.group ? `${match.stage} - Group ${match.group}` : match.stage)}</small>
+        </div>
+        <div class="matchup">${teamChip(match.home, "Home")}<span>vs</span>${teamChip(match.away, "Away")}</div>
+        <dl>
+          <div><dt>Date</dt><dd>${esc(match.dateLabel || match.date)}</dd></div>
+          <div><dt>Kickoff</dt><dd>${esc(match.kickoffET)} ET</dd></div>
+          <div><dt>Venue</dt><dd>${esc(match.stadium)}</dd></div>
+        </dl>
+        <a href="${attr(matchDetailPath(match))}">Open match details</a>
+      </article>`
+    )
+    .join("");
 
   return layout({
     title,
     description,
     canonical: city.path,
     schema: citySchema(city),
-    body: `${hero({
-      eyebrow: "Host city schedule",
-      h1: title,
-      intro: `${city.city} hosts ${city.matches.length} World Cup 2026 matches from ${city.firstDate} to ${city.lastDate}. This guide lists the local match schedule, stadium details, stages and planning links for fans comparing city itineraries.`,
-      facts: [
-        ["Matches", `${city.matches.length}`],
-        ["Host country", city.country],
-        ["Stadium", city.stadiums.join(", ")]
-      ],
-      primaryHref: "/world-cup-2026-schedule/"
-    })}
+    body: `<section class="hero city-detail-hero" style="--city-image: url('${attr(cityImagePath(city))}')">
+  <div class="hero-inner">
+    <div>
+      <p class="eyebrow">${esc(cityRouteBadge(city))}</p>
+      <h1>${esc(title)}</h1>
+      <p class="hero-copy">${esc(guide.lead)}</p>
+      <div class="hero-actions">
+        <a class="button" href="#city-fixtures">View ${esc(city.city)} fixtures</a>
+        <a class="button secondary" href="/world-cup-2026-schedule-host-cities/">Compare host cities</a>
+      </div>
+    </div>
+    <aside class="hero-panel city-detail-hero-panel">
+      <strong class="hero-panel-title">City schedule snapshot</strong>
+      <p>${esc(guide.planningAngle)}</p>
+      <div class="download-checklist" aria-label="${attr(city.city)} schedule snapshot">
+        <span><strong>${city.matches.length}</strong>matches</span>
+        <span><strong>${esc(cityDateWindow(city))}</strong>date window</span>
+        <span><strong>${knockoutMatches.length}</strong>knockout matches</span>
+        <span><strong>${esc(city.stadiums.join(", "))}</strong>stadium</span>
+      </div>
+    </aside>
+  </div>
+</section>
 <main class="main">
-  <section class="section">
-    <div class="grid">
-      <article class="span-8 card"><div class="card-body">
-        <p class="eyebrow">City overview</p>
-        <h2>${esc(city.city)} match schedule</h2>
-        <p>Use this city page to check every listed match in ${esc(city.city)}, compare dates, review the stadium, and move back to the full schedule when you want to filter by team, stage or date.</p>
-      </div></article>
-      <aside class="span-4 card"><div class="card-body">
-        <p class="eyebrow">Planning note</p>
-        <h3>Confirm before booking</h3>
-        <p>Times, ticket details, stadium operations and local transport information can change. Use this page as a planning aid and confirm final details with official sources.</p>
-      </div></aside>
+  <section class="section city-detail-overview">
+    <div class="city-detail-media">
+      <img src="${attr(cityImagePath(city))}" alt="${attr(`${city.city} World Cup 2026 schedule host city guide`)}" loading="eager" decoding="async">
+      <div>
+        ${valueTags.map((tag) => `<span>${esc(tag)}</span>`).join("")}
+      </div>
+    </div>
+    <div class="city-detail-copy">
+      <p class="eyebrow">City match planner</p>
+      <h2>${esc(city.city)} Match Dates and Venue Snapshot</h2>
+      <p>${esc(`${city.city} hosts ${city.matches.length} listed World Cup 2026 matches from ${shortDate(city.firstDate)} to ${shortDate(city.lastDate)} at ${city.stadiums.join(", ")}. The local schedule covers ${stageSummary.join(", ")}, so this page is designed to help you decide whether the city fits a team route, a travel window, a knockout-stage plan or a stadium-focused trip.`)}</p>
+      <p>${esc(guide.travelNote)}</p>
+      <div class="city-detail-stat-grid">
+        <div><strong>${city.matches.length}</strong><span>total fixtures</span></div>
+        <div><strong>${visibleTeams.length}</strong><span>listed teams</span></div>
+        <div><strong>${city.stages.length}</strong><span>stage types</span></div>
+        <div><strong>${knockoutMatches.length}</strong><span>knockout fixtures</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="city-fixtures">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Local timeline</p>
+        <h2>${esc(city.city)} Match Timeline</h2>
+        <p>Scan each local fixture by match number, team pairing, date, kickoff time and tournament stage before opening the detailed match page.</p>
+      </div>
+      <a class="button light" href="/world-cup-2026-schedule/?city=${attr(encodeURIComponent(city.city))}#full-schedule">Open full table</a>
+    </div>
+    <div class="city-detail-match-grid">
+      ${matchRows}
     </div>
   </section>
   <section class="section">
-    <h2>${esc(city.city)} fixtures</h2>
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Teams and stages</p>
+        <h2>Teams and Stages Playing in ${esc(city.city)}</h2>
+        <p>Use this section when you are deciding whether to follow a national team, chase a knockout route or choose the city because of its stadium and date window.</p>
+      </div>
+      <strong class="pill">${esc(city.country)}</strong>
+    </div>
+    <div class="city-detail-team-cloud">
+      ${visibleTeams.map((team) => teamChip(team)).join("")}
+    </div>
+    <div class="host-city-paths">
+      <article class="host-city-path"><span>Featured fixture</span><strong>${esc(`#${featured.matchNumber} ${featured.home} vs ${featured.away}`)}</strong><p>${esc(`${featured.stage}${featured.group ? ` - Group ${featured.group}` : ""} on ${featured.dateLabel || featured.date}.`)}</p></article>
+      <article class="host-city-path"><span>Stage mix</span><strong>${esc(stageSummary.join(", "))}</strong><p>${esc(`${city.city} is strongest when your plan depends on ${cityPlanningFit(city).toLowerCase()}`)}</p></article>
+      <article class="host-city-path"><span>First local match</span><strong>${esc(`#${firstMatch.matchNumber} ${firstMatch.home} vs ${firstMatch.away}`)}</strong><p>${esc(`${firstMatch.dateLabel || firstMatch.date} at ${firstMatch.kickoffET} ET. Use this to check arrival timing before adding later fixtures.`)}</p></article>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Planning notes</p>
+        <h2>Stadium, Travel and Ticket Planning Notes</h2>
+        <p>These notes turn the fixture list into a practical planning page. They are not a substitute for official stadium, host-city or ticket guidance.</p>
+      </div>
+    </div>
+    <div class="host-city-source-grid">
+      <article><span>Stadium access</span><strong>${esc(city.stadiums.join(", "))}</strong><p>${esc(guide.stadiumNote)}</p><a href="/world-cup-2026-tickets/">Check ticket guidance</a></article>
+      <article><span>Travel fit</span><strong>${esc(city.travelFit)}</strong><p>${esc(guide.travelNote)}</p><a href="/world-cup-2026-schedule-host-cities/">Compare cities</a></article>
+      <article><span>Ticket priority</span><strong>${esc(cityRouteBadge(city))}</strong><p>${esc(guide.ticketNote)}</p><a href="/world-cup-2026-schedule-pdf/">Download planning files</a></article>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Full ${esc(city.city)} Fixture Table</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Match</th><th>Date</th><th>Time ET</th><th>Stage</th><th>Group</th><th>Teams</th><th>Stadium</th></tr></thead>
+        <thead><tr><th>Match</th><th>Date</th><th>Time ET</th><th>Stage</th><th>Group</th><th>Teams</th><th>Stadium</th><th>Details</th></tr></thead>
         <tbody>
           ${city.matches
             .map(
               (match) =>
-                `<tr><td>${match.matchNumber}</td><td>${esc(match.date)}</td><td>${esc(match.kickoffET)} ET</td><td>${esc(match.stage)}</td><td>${esc(match.group || "-")}</td><td>${esc(`${match.home} v ${match.away}`)}</td><td>${esc(match.stadium)}</td></tr>`
+                `<tr><td>${match.matchNumber}</td><td>${esc(match.date)}</td><td>${esc(match.kickoffET)} ET</td><td>${esc(match.stage)}</td><td>${esc(match.group || "-")}</td><td>${teamLink(match.home)} v ${teamLink(match.away)}</td><td>${esc(match.stadium)}</td><td><a href="${attr(matchDetailPath(match))}">Match details</a></td></tr>`
             )
             .join("")}
         </tbody>
@@ -2769,28 +2989,33 @@ const renderCityPage = (city) => {
     </div>
   </section>
   <section class="section">
-    <h2>How to use this city page</h2>
+    <h2>How to Use the ${esc(city.city)} City Schedule</h2>
     ${table([
-      ["Compare dates", `${city.firstDate} to ${city.lastDate}.`, "Check whether the city fits your travel window."],
-      ["Review stages", city.stages.join(", "), "Decide whether you want group-stage, knockout or final-week matches."],
-      ["Check stadium", city.stadiums.join(", "), "Confirm access, gates and local operations with official venue sources."]
+      ["Choose the anchor match", `#${featured.matchNumber} ${featured.home} vs ${featured.away}`, "Start from the fixture with the highest planning value, then add nearby matches only if the dates work."],
+      ["Compare the date window", `${cityDateWindow(city)}`, "Check whether the city fits your arrival and departure plan before booking hotels or flights."],
+      ["Confirm stadium context", city.stadiums.join(", "), "Use official venue and host-city guidance for gates, transport, prohibited items and local event operations."],
+      ["Move to match details", `${city.matches.length} local match pages`, "Open individual match pages when you need team context, countdown timing, same-group matches or route links."]
     ])}
   </section>
   <section class="section">
-    <h2>Related planning pages</h2>
+    <h2>Related Planning Pages</h2>
     ${linkGrid([
       ["Full World Cup 2026 schedule", "/world-cup-2026-schedule/"],
       ["All host cities", "/world-cup-2026-schedule-host-cities/"],
       ["Ticket guide", "/world-cup-2026-tickets/"],
-      ["Download schedule files", "/world-cup-2026-schedule-excel/"]
+      ["PDF downloads", "/world-cup-2026-schedule-pdf/"],
+      ["Excel schedule planner", "/world-cup-2026-schedule-excel/"],
+      [`${city.city} first match details`, matchDetailPath(firstMatch)]
     ])}
   </section>
   <section class="section">
-    <h2>FAQ</h2>
+    <h2>${esc(city.city)} World Cup 2026 Schedule FAQ</h2>
     ${faqHtml([
-      [`How many World Cup 2026 matches are in ${city.city}?`, `${city.city} currently has ${city.matches.length} matches in the wc26schedule data set, covering ${city.stages.join(", ")}.`],
-      [`Which stadium hosts matches in ${city.city}?`, `${city.city} matches are listed at ${city.stadiums.join(", ")}.`],
-      [`Can I download the ${city.city} schedule?`, "The current download files include the full schedule. City-specific downloads can be generated from the same data in a later phase."]
+      [`How many World Cup 2026 matches are in ${city.city}?`, `${city.city} currently has ${city.matches.length} listed matches in the wc26schedule data set, covering ${stageSummary.join(", ")}.`],
+      [`Which stadium hosts World Cup 2026 matches in ${city.city}?`, `${city.city} matches are listed at ${city.stadiums.join(", ")}. Always check official stadium and host-city guidance before match day.`],
+      [`What is the most important ${city.city} fixture to check first?`, `Start with #${featured.matchNumber} ${featured.home} vs ${featured.away}, because it has the strongest stage value on this city page: ${featured.stage}.`],
+      [`Can I use this page for ${city.city} travel planning?`, `Yes, use it to compare local fixture dates, teams, stages and stadium context. Confirm transport, ticket, hotel and event operations with official sources before making paid decisions.`],
+      [`Can I download the ${city.city} schedule?`, "The current download files include the full tournament schedule in PDF, Excel and CSV formats. Use the city page for local context, then use downloads when you need an offline planning file."]
     ])}
   </section>
   <section class="source-note"><strong>Last updated:</strong> ${updated}. Match data is generated from the structured wc26schedule dataset and should be checked against official sources before travel or ticket decisions.</section>
