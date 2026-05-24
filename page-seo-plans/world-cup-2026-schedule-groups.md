@@ -80,3 +80,55 @@ Screenshots saved:
 page-seo-plans/world-cup-2026-schedule-groups-density-desktop.png
 page-seo-plans/world-cup-2026-schedule-groups-density-mobile.png
 ```
+
+## 3. Groups Phase B: Visual and Interaction Deepening
+
+Date: 2026-05-24
+Status: Completed
+
+User instruction:
+
+```text
+Groups page visual and interaction deepening.
+```
+
+Optimization completed:
+
+- Added an interactive A-L group explorer instead of leaving the group section as long static text.
+- Added an `All groups` control and 12 group buttons that filter the page to a single group.
+- Added URL state support so a filtered group can be shared or reopened, for example `/world-cup-2026-schedule-groups/?group=J#group-j`.
+- Expanded each group card with the full six-match group fixture path.
+- Added match detail links inside each group card, giving users a direct path from group overview to individual fixture pages.
+- Added host city route chips inside each group card, connecting group browsing to city planning.
+- Adjusted the Groups page hero and overview copy so the page reads as a group explorer, not a generic schedule article.
+
+Validation:
+
+```text
+Build passed.
+Default visible word count: 2,102
+Default keyword-family hits: 64
+Default keyword-family density: 3.04%
+Filtered visible word count: 1,074
+Filtered keyword-family hits: 53
+Filtered keyword-family density: 4.93%
+Target density: 3%-5%
+H1 count: 1
+H2 count: 8
+Group cards: 12
+Team chips: 48
+Fixture detail links: 72
+FAQ count: 5
+Desktop overflow: 0
+Mobile overflow: 0
+Group B click URL: /world-cup-2026-schedule-groups/?group=B#group-b
+Group B filtered count: 1
+Group J reload state: preserved
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/world-cup-2026-schedule-groups-phase-b-desktop.png
+page-seo-plans/world-cup-2026-schedule-groups-phase-b-mobile.png
+```

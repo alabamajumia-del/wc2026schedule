@@ -47,15 +47,29 @@ Current density validation:
 
 ```text
 Build passed.
-Visible word count: 1,394
-Keyword-family hits: 55
-Keyword-family density: 3.95%
+Default visible word count: 2,102
+Default keyword-family hits: 64
+Default keyword-family density: 3.04%
+Filtered visible word count: 1,074
+Filtered keyword-family hits: 53
+Filtered keyword-family density: 4.93%
 Target density: 3%-5%
 H1 count: 1
 H2 count: 8
 Group cards: 12
 Team chips: 48
+Fixture detail links: 72
 FAQ count: 5
 Desktop overflow: 0
 Mobile overflow: 0
+```
+
+Current interaction reference:
+
+```text
+The Groups page now uses an A-L group explorer.
+Clicking a group filters the visible cards and updates the URL state.
+Example: /world-cup-2026-schedule-groups/?group=B#group-b
+Reloading /world-cup-2026-schedule-groups/?group=J#group-j preserves Group J.
+Each group card links to full fixture detail pages and related host city routes.
 ```

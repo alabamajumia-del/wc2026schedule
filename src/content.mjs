@@ -576,6 +576,24 @@ export const pages = [
       ["Related page", "Standings and bracket"],
       ["Content type", "Explanatory guide plus tables"]
     ],
+    hero: {
+      eyebrow: "Group explorer",
+      actions: [
+        ["Open group cards", "#groups-explorer"],
+        ["Open standings", "/world-cup-2026-standings/", "secondary"]
+      ]
+    },
+    overview: {
+      eyebrow: "Groups workflow",
+      heading: "Choose a group, then follow teams, fixtures and qualification paths.",
+      copy:
+        "Use this page when the draw matters more than the full 104-match table. Start with a group card, scan its teams and six fixtures, then move into match details, team routes, standings or bracket planning.",
+      tags: ["12 groups", "48 teams", "72 group fixtures", "Standings path"],
+      noteEyebrow: "Result note",
+      noteHeading: "Standings are separate",
+      noteCopy:
+        "Before the tournament, the group cards show structure and fixtures. Once matches begin, use the standings page for live points, goal difference and qualification status."
+    },
     intro:
       "The World Cup 2026 schedule groups page explains how the tournament is organized before the knockout rounds. It helps users move from a broad group overview to fixtures, standings, team pages and qualification scenarios.",
     sections: [

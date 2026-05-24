@@ -477,6 +477,7 @@ const layout = ({ title, description, canonical, body, schema = [], titleSuffix 
   ${body}
   <script src="/schedule.js" defer></script>
   <script src="/host-cities.js" defer></script>
+  <script src="/groups.js" defer></script>
   <script src="/match-detail.js" defer></script>
   <footer class="footer">
     <div class="footer-inner">
@@ -932,19 +933,27 @@ const renderGroupsSupportSections = () => {
   </div>
 </section>
 
-<section class="section">
+<section class="section groups-explorer" id="groups-explorer" data-groups-explorer>
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Group cards</p>
       <h2>World Cup 2026 Schedule Groups and Fixtures</h2>
-      <p>Each card shows the teams, first fixture, date window and host-city spread for one group. Open team pages when you follow one country, or open match details when you need kickoff time, stadium and source notes.</p>
+      <p>Each card shows the teams, all six group fixtures, date window and host-city spread for one group. Open team pages when you follow one country, city routes when you compare venues, or match details when you need kickoff time, stadium and source notes.</p>
     </div>
     <a class="button light" href="/world-cup-2026-schedule/#full-schedule">Open full schedule</a>
+  </div>
+  <div class="groups-tabbar" role="tablist" aria-label="Choose a World Cup 2026 schedule group">
+    <button type="button" data-group-filter="" aria-pressed="true">All groups</button>
+    ${groups.map((item) => `<button type="button" data-group-filter="${attr(item.group)}">Group ${esc(item.group)}</button>`).join("")}
+  </div>
+  <div class="host-city-results-line" id="group-results">
+    <strong><span data-group-result-count>${groups.length}</span> groups shown</strong>
+    <span>Use A-L tabs to focus the group cards without leaving the page.</span>
   </div>
   <div class="groups-card-grid">
     ${groups
       .map(
-        (item) => `<article class="groups-card">
+        (item) => `<article class="groups-card" id="group-${attr(item.group.toLowerCase())}" data-group-card="${attr(item.group)}">
       <div class="groups-card-head">
         <span>Group ${esc(item.group)}</span>
         <strong>${item.matches.length} fixtures</strong>
@@ -952,11 +961,25 @@ const renderGroupsSupportSections = () => {
       <div class="city-detail-team-cloud">
         ${item.teams.map((team) => teamChip(team)).join("")}
       </div>
+      <div class="group-city-routes" aria-label="Host cities for Group ${attr(item.group)}">
+        ${item.cities.map((city) => `<a href="${attr(cityPath(slugify(city)))}">${esc(city)}</a>`).join("")}
+      </div>
       <dl>
         <div><dt>Date window</dt><dd>${esc(shortDate(item.firstMatch.date))}-${esc(shortDate(item.lastMatch.date))}</dd></div>
         <div><dt>Host cities</dt><dd>${esc(item.cities.slice(0, 4).join(", "))}${item.cities.length > 4 ? "..." : ""}</dd></div>
         <div><dt>First fixture</dt><dd>#${item.firstMatch.matchNumber} ${esc(item.firstMatch.home)} vs ${esc(item.firstMatch.away)}</dd></div>
       </dl>
+      <div class="group-fixture-list">
+        ${item.matches
+          .map(
+            (match) => `<a href="${attr(matchDetailPath(match))}">
+          <span>#${match.matchNumber}</span>
+          <strong>${esc(`${match.home} vs ${match.away}`)}</strong>
+          <small>${esc(`${shortDate(match.date)} - ${match.city}`)}</small>
+        </a>`
+          )
+          .join("")}
+      </div>
       <div class="host-city-actions">
         <a href="${attr(matchDetailPath(item.firstMatch))}">Open first match</a>
         <a href="/world-cup-2026-schedule/?group=${attr(item.group)}#full-schedule">View group fixtures</a>
@@ -5621,6 +5644,56 @@ await write(
   updateHeroPlanner();
   apply();
   readUrlState();
+})();\n`
+);
+
+await write(
+  "groups.js",
+  `(() => {
+  const explorer = document.querySelector("[data-groups-explorer]");
+  if (!explorer) return;
+
+  const cards = Array.from(explorer.querySelectorAll("[data-group-card]"));
+  const buttons = Array.from(explorer.querySelectorAll("[data-group-filter]"));
+  const resultCount = explorer.querySelector("[data-group-result-count]");
+  const resultAnchor = explorer.querySelector("#group-results") || explorer;
+
+  const setUrl = (group) => {
+    const target = group ? "?group=" + encodeURIComponent(group) + "#group-" + group.toLowerCase() : "#groups-explorer";
+    window.history.replaceState({}, "", window.location.pathname + target);
+  };
+
+  const applyGroup = (group = "", { scroll = true, updatePath = true } = {}) => {
+    let visible = 0;
+    for (const card of cards) {
+      const show = !group || card.dataset.groupCard === group;
+      card.hidden = !show;
+      if (show) visible += 1;
+    }
+    buttons.forEach((button) => {
+      button.setAttribute("aria-pressed", String((button.dataset.groupFilter || "") === group));
+    });
+    if (resultCount) resultCount.textContent = String(visible);
+    if (updatePath) setUrl(group);
+    if (scroll) {
+      const target = group ? explorer.querySelector("[data-group-card='" + group + "']") : resultAnchor;
+      (target || resultAnchor).scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      applyGroup(button.dataset.groupFilter || "");
+    });
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const urlGroup = (params.get("group") || "").toUpperCase();
+  if (urlGroup && cards.some((card) => card.dataset.groupCard === urlGroup)) {
+    applyGroup(urlGroup, { scroll: window.location.hash.startsWith("#group-"), updatePath: false });
+  } else {
+    applyGroup("", { scroll: false, updatePath: false });
+  }
 })();\n`
 );
 
