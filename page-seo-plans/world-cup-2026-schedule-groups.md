@@ -227,3 +227,58 @@ Screenshots saved:
 page-seo-plans/world-cup-2026-schedule-groups-hero-tool-desktop.png
 page-seo-plans/world-cup-2026-schedule-groups-hero-tool-mobile.png
 ```
+
+## 6. Groups Hero Finder UX Correction
+
+Date: 2026-05-24
+Status: Completed
+
+User feedback:
+
+```text
+After selecting Group A, the Teams control still shows all teams. Also check whether two select boxes are necessary or user-friendly.
+```
+
+Optimization completed:
+
+- Replaced the two always-visible selectors with a mode switch: `By group` and `By team`.
+- UX decision: two always-visible selectors were removed because the Group and Team tasks are alternative entry paths, not two filters that must be used together.
+- Default mode is `By group`, showing only the group selector.
+- When a user selects Group A, the panel displays the four Group A teams directly: Mexico, South Africa, South Korea and Czechia.
+- The full 48-team selector only appears when the user intentionally switches to `By team`.
+- The `Show group card` action still filters the explorer to the selected group.
+- The `Open first match` and `Open standings` links remain mapped to the selected group.
+
+Reference checked:
+
+```text
+Nielsen Norman Group: Dropdowns can conserve space, but they are often overused and long dropdowns make choices harder to scan.
+Nielsen Norman Group: Avoid dependent dropdown behavior that causes options to appear/disappear unexpectedly.
+UX conclusion for this page: Use a visible mode switch, then show only the relevant selector for the user's current task.
+```
+
+Validation:
+
+```text
+Build passed.
+Default selected mode: By group
+Group A selected: true
+Team field hidden in group mode: true
+Group A team preview: Mexico, South Africa, South Korea, Czechia
+Apply result URL: /world-cup-2026-schedule-groups/?group=A#group-a
+Visible group after apply: A
+Team mode shows team selector: true
+Team option count in team mode: 49 including placeholder
+Default visible word count: 3,434
+Default keyword-family hits: 123
+Default keyword-family density: 3.58%
+Desktop overflow: 0
+Mobile overflow: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/world-cup-2026-schedule-groups-hero-mode-desktop.png
+page-seo-plans/world-cup-2026-schedule-groups-hero-mode-mobile.png
+```

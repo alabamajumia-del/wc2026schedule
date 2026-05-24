@@ -639,21 +639,28 @@ const hero = ({
                   return `<div class="hero-tool hero-tool-groups" data-group-hero-tool>
       <strong class="hero-panel-title">${esc(panelTitle)}</strong>
       ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      <div class="group-hero-mode" role="tablist" aria-label="Choose how to find a group route">
+        <button type="button" role="tab" aria-selected="true" data-group-hero-mode="group">By group</button>
+        <button type="button" role="tab" aria-selected="false" data-group-hero-mode="team">By team</button>
+      </div>
       <div class="group-hero-fields">
-        <label>
+        <label data-group-hero-field="group">
           <span>Choose group</span>
           <select data-group-hero-group>
             <option value="">All groups</option>
             ${groupItems.map((item) => `<option value="${attr(item.group)}">Group ${esc(item.group)} - ${esc(item.teams.join(", "))}</option>`).join("")}
           </select>
         </label>
-        <label>
+        <label data-group-hero-field="team" hidden>
           <span>Choose team</span>
           <select data-group-hero-team>
             <option value="">Any team</option>
             ${teamOptions.map((item) => `<option value="${attr(item.team)}" data-group="${attr(item.group)}">${esc(item.team)} - Group ${esc(item.group)}</option>`).join("")}
           </select>
         </label>
+      </div>
+      <div class="group-hero-team-preview" data-group-hero-team-preview aria-live="polite">
+        <span>Teams will appear after you choose a group.</span>
       </div>
       <div class="group-hero-result" aria-live="polite">
         <span data-group-hero-count>${groupItems.length} groups ready</span>
@@ -5777,6 +5784,9 @@ await write(
   const heroTool = document.querySelector("[data-group-hero-tool]");
   const heroGroup = heroTool?.querySelector("[data-group-hero-group]");
   const heroTeam = heroTool?.querySelector("[data-group-hero-team]");
+  const heroModeButtons = Array.from(heroTool?.querySelectorAll("[data-group-hero-mode]") || []);
+  const heroFields = Array.from(heroTool?.querySelectorAll("[data-group-hero-field]") || []);
+  const heroTeamPreview = heroTool?.querySelector("[data-group-hero-team-preview]");
   const heroCount = heroTool?.querySelector("[data-group-hero-count]");
   const heroPrimary = heroTool?.querySelector("[data-group-hero-primary]");
   const heroSecondary = heroTool?.querySelector("[data-group-hero-secondary]");
@@ -5796,7 +5806,31 @@ await write(
     window.history.replaceState({}, "", window.location.pathname + target);
   };
 
+  let heroMode = "group";
+
   const cardForGroup = (group) => (group ? explorer.querySelector("[data-group-card='" + group + "']") : null);
+
+  const setHeroMode = (mode) => {
+    heroMode = mode === "team" ? "team" : "group";
+    heroModeButtons.forEach((button) => {
+      button.setAttribute("aria-selected", String(button.dataset.groupHeroMode === heroMode));
+    });
+    heroFields.forEach((field) => {
+      field.hidden = field.dataset.groupHeroField !== heroMode;
+    });
+  };
+
+  const renderTeamPreview = (group = "") => {
+    if (!heroTeamPreview) return;
+    const card = cardForGroup(group);
+    if (!card) {
+      heroTeamPreview.innerHTML = "<span>Choose a group to show its four teams here.</span>";
+      return;
+    }
+    const teams = (card.dataset.groupTeams || "").split(", ").filter(Boolean);
+    heroTeamPreview.innerHTML =
+      "<strong>Group " + group + " teams</strong><div>" + teams.map((team) => "<span>" + team + "</span>").join("") + "</div>";
+  };
 
   const updateHeroTool = (group = "") => {
     if (!heroTool) return;
@@ -5807,6 +5841,7 @@ await write(
       if (heroSecondary) heroSecondary.textContent = "Use this panel to move directly to group cards, standings or the first fixture.";
       if (heroStandings) heroStandings.href = "/world-cup-2026-standings/";
       if (heroFirst) heroFirst.href = "#groups-explorer";
+      renderTeamPreview("");
       return;
     }
     const teams = card.dataset.groupTeams || "";
@@ -5817,6 +5852,7 @@ await write(
     if (heroSecondary) heroSecondary.textContent = "First match: " + first + ". Host city route: " + cities + ".";
     if (heroStandings) heroStandings.href = "/world-cup-2026-standings/#group-" + group.toLowerCase();
     if (heroFirst) heroFirst.href = card.dataset.groupFirstPath || "#group-" + group.toLowerCase();
+    renderTeamPreview(group);
   };
 
   const updateQualificationPanel = (group) => {
@@ -5876,6 +5912,12 @@ await write(
   });
 
   if (heroTool) {
+    heroModeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setHeroMode(button.dataset.groupHeroMode);
+        updateHeroTool(heroGroup?.value || heroTeam?.selectedOptions[0]?.dataset.group || "");
+      });
+    });
     heroGroup?.addEventListener("change", () => {
       if (heroTeam) heroTeam.value = "";
       updateHeroTool(heroGroup.value || "");
@@ -5892,6 +5934,7 @@ await write(
     heroReset?.addEventListener("click", () => {
       if (heroGroup) heroGroup.value = "";
       if (heroTeam) heroTeam.value = "";
+      setHeroMode("group");
       applyGroup("");
     });
   }
@@ -5903,6 +5946,7 @@ await write(
   } else {
     applyGroup("", { scroll: false, updatePath: false });
   }
+  setHeroMode("group");
 })();\n`
 );
 

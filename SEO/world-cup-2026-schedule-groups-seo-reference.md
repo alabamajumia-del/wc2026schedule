@@ -47,9 +47,9 @@ Current density validation:
 
 ```text
 Build passed.
-Default visible word count: 3,421
+Default visible word count: 3,434
 Default keyword-family hits: 123
-Default keyword-family density: 3.60%
+Default keyword-family density: 3.58%
 Target density: 3%-5%
 H1 count: 1
 H2 count: 8
@@ -75,4 +75,5 @@ Each group card includes a pre-tournament standings preview without showing fake
 The hero panel is now a functional Group Finder with group/team selectors.
 Selecting a team maps to the correct group, standings anchor and first match detail page.
 The Groups hero uses its own blue/gold stadium theme instead of the repeated dark-green treatment.
+The hero finder now uses a mode switch. `By group` shows only the group selector and a four-team preview, while `By team` shows the full team selector only when needed.
 ```
