@@ -114,12 +114,12 @@ Vancouver World Cup 2026 schedule
 Current measured reference from generated HTML:
 
 ```text
-Visible word count: 2,537
+Visible word count: 2,651
 City cards: 16
-Featured visual city cards: 8
+Featured visual city cards: 16
 FAQ count: 5
-Measured keyword-family hits in reference set: 121
-Measured reference density: 4.77%
+Measured keyword-family hits in reference set: 99
+Measured reference density: 3.73%
 ```
 
 Important optimization note:
@@ -258,6 +258,14 @@ Visual featured city cards added:
 - Mexico City
 - Toronto
 - Vancouver
+- Seattle
+- San Francisco Bay Area
+- Boston
+- Philadelphia
+- Houston
+- Kansas City
+- Guadalajara
+- Monterrey
 ```
 
 Heading guidance for future optimization:

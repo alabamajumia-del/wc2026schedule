@@ -2271,7 +2271,15 @@ const renderFeaturedCityCards = (cities) => {
     "Atlanta",
     "Mexico City",
     "Toronto",
-    "Vancouver"
+    "Vancouver",
+    "Seattle",
+    "San Francisco Bay Area",
+    "Boston",
+    "Philadelphia",
+    "Houston",
+    "Kansas City",
+    "Guadalajara",
+    "Monterrey"
   ];
   const featured = featuredOrder
     .map((name) => cities.find((city) => city.city === name))

@@ -356,7 +356,7 @@ Optimization completed:
 
 - Copied 16 city images into the site asset directory with SEO-friendly filenames under `src/assets/cities/`.
 - Added `Featured city cards` above the detailed planner comparison cards.
-- Added 8 visual city entry cards:
+- Added 16 visual city entry cards:
   - New York New Jersey
   - Los Angeles
   - Miami
@@ -365,6 +365,14 @@ Optimization completed:
   - Mexico City
   - Toronto
   - Vancouver
+  - Seattle
+  - San Francisco Bay Area
+  - Boston
+  - Philadelphia
+  - Houston
+  - Kansas City
+  - Guadalajara
+  - Monterrey
 - Each featured card includes:
   - City image
   - Route/value badge
@@ -380,11 +388,12 @@ Validation:
 
 ```text
 Build passed.
-Featured city cards: 8
-Featured city images in HTML: 8
+Featured city cards: 16
+Featured city images in HTML: 16
 Images copied to dist/assets/cities: 16
 Detailed city cards remain: 16
-Keyword family density: 4.77%
+Visible word count: 2,651
+Keyword family density: 3.73%
 Desktop overflow: 0
 Mobile overflow: 0
 Image load check: passed
@@ -393,6 +402,6 @@ Image load check: passed
 Screenshots saved:
 
 ```text
-page-seo-plans/host-cities-phase-c-featured-cards-desktop.png
-page-seo-plans/host-cities-phase-c-featured-cards-mobile.png
+page-seo-plans/host-cities-all-16-featured-cards-desktop.png
+page-seo-plans/host-cities-all-16-featured-cards-mobile.png
 ```
