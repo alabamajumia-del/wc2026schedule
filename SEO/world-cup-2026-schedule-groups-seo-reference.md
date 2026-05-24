@@ -42,3 +42,20 @@ Use phrase variants naturally in headings and body copy.
 Avoid using "world cup group stage schedule" as the core keyword because that belongs closer to the full schedule/table intent.
 When the page is deeply optimized, include group cards, teams, fixtures, qualification rules, standings links and tie-breaker guidance.
 ```
+
+Current density validation:
+
+```text
+Build passed.
+Visible word count: 1,394
+Keyword-family hits: 55
+Keyword-family density: 3.95%
+Target density: 3%-5%
+H1 count: 1
+H2 count: 8
+Group cards: 12
+Team chips: 48
+FAQ count: 5
+Desktop overflow: 0
+Mobile overflow: 0
+```

@@ -2570,6 +2570,77 @@ h1 {
   margin: 16px 0;
 }
 
+.groups-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.groups-card {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(16, 133, 101, 0.2);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff, #f5faf7);
+  padding: 16px;
+  box-shadow: 0 16px 34px rgba(29, 47, 41, 0.07);
+}
+
+.groups-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+
+.groups-card-head span {
+  border-radius: 999px;
+  background: var(--green-dark);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 950;
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+.groups-card-head strong {
+  color: var(--green-dark);
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.groups-card dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.groups-card dl div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 10px;
+}
+
+.groups-card dt,
+.groups-card dd {
+  margin: 0;
+}
+
+.groups-card dt {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.groups-card dd {
+  margin-top: 5px;
+  color: var(--text);
+  font-weight: 900;
+}
+
 .host-city-explorer-head {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.7fr);
@@ -4697,6 +4768,7 @@ td {
   .host-city-source-grid,
   .city-detail-overview,
   .city-detail-match-grid,
+  .groups-card-grid,
   .utility-card-grid,
   .decision-card-grid,
   .capability-grid,

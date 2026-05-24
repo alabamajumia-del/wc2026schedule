@@ -892,6 +892,107 @@ const groupListItems = () => {
     .map(([group, teams]) => [group, [...teams]]);
 };
 
+const groupSummaries = () =>
+  groupListItems().map(([group, teams]) => {
+    const groupMatches = matches
+      .filter((match) => match.stage === "Group stage" && match.group === group)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.kickoffET.localeCompare(b.kickoffET));
+    const cities = [...new Set(groupMatches.map((match) => match.city))].sort((a, b) => a.localeCompare(b));
+    const stadiums = [...new Set(groupMatches.map((match) => match.stadium))].sort((a, b) => a.localeCompare(b));
+    const firstMatch = groupMatches[0];
+    const lastMatch = groupMatches.at(-1);
+    return { group, teams, matches: groupMatches, cities, stadiums, firstMatch, lastMatch };
+  });
+
+const renderGroupsSupportSections = () => {
+  const groups = groupSummaries();
+  const groupMatchCount = groups.reduce((total, group) => total + group.matches.length, 0);
+  const teams = groups.flatMap((group) => group.teams);
+  const cityCount = new Set(groups.flatMap((group) => group.cities)).size;
+
+  return `<section class="section host-city-tool-section">
+  <div class="host-city-explorer-head">
+    <div>
+      <p class="eyebrow">Group stage map</p>
+      <h2>World Cup 2026 Schedule Groups by Teams, Fixtures and Cities</h2>
+      <p>The World Cup 2026 schedule groups view connects each four-team group with its fixed group-stage fixtures, host cities and next planning pages. Use it when you want the group structure first, then open the full schedule, standings, team pages or match details for a narrower decision.</p>
+    </div>
+    <div class="host-city-scoreboard" aria-label="World Cup 2026 groups summary">
+      <div><strong>${groups.length}</strong><span>groups</span></div>
+      <div><strong>${teams.length}</strong><span>teams</span></div>
+      <div><strong>${groupMatchCount}</strong><span>group fixtures</span></div>
+      <div><strong>${cityCount}</strong><span>host cities used</span></div>
+    </div>
+  </div>
+  <div class="utility-card-grid">
+    <article><strong>Find one group</strong><span>Start with Group A through Group L when you already know a team's draw position.</span></article>
+    <article><strong>Check fixture spread</strong><span>Compare the cities and match dates attached to that group before opening a team route.</span></article>
+    <article><strong>Understand advancement</strong><span>The top two teams in each group plus the best third-place teams move toward the knockout bracket.</span></article>
+    <article><strong>Move to standings</strong><span>Before results, this is a planning page. During the tournament, standings become the live table.</span></article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Group cards</p>
+      <h2>World Cup 2026 Schedule Groups and Fixtures</h2>
+      <p>Each card shows the teams, first fixture, date window and host-city spread for one group. Open team pages when you follow one country, or open match details when you need kickoff time, stadium and source notes.</p>
+    </div>
+    <a class="button light" href="/world-cup-2026-schedule/#full-schedule">Open full schedule</a>
+  </div>
+  <div class="groups-card-grid">
+    ${groups
+      .map(
+        (item) => `<article class="groups-card">
+      <div class="groups-card-head">
+        <span>Group ${esc(item.group)}</span>
+        <strong>${item.matches.length} fixtures</strong>
+      </div>
+      <div class="city-detail-team-cloud">
+        ${item.teams.map((team) => teamChip(team)).join("")}
+      </div>
+      <dl>
+        <div><dt>Date window</dt><dd>${esc(shortDate(item.firstMatch.date))}-${esc(shortDate(item.lastMatch.date))}</dd></div>
+        <div><dt>Host cities</dt><dd>${esc(item.cities.slice(0, 4).join(", "))}${item.cities.length > 4 ? "..." : ""}</dd></div>
+        <div><dt>First fixture</dt><dd>#${item.firstMatch.matchNumber} ${esc(item.firstMatch.home)} vs ${esc(item.firstMatch.away)}</dd></div>
+      </dl>
+      <div class="host-city-actions">
+        <a href="${attr(matchDetailPath(item.firstMatch))}">Open first match</a>
+        <a href="/world-cup-2026-schedule/?group=${attr(item.group)}#full-schedule">View group fixtures</a>
+      </div>
+    </article>`
+      )
+      .join("")}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Qualification path</p>
+      <h2>How the Schedule Groups Connect to Standings and the Bracket</h2>
+      <p>The groups page should answer the planning question before results arrive and the qualification question once results begin. The schedule tells you who plays, when and where; standings explain points and ranking; the bracket explains where qualified teams go next.</p>
+    </div>
+  </div>
+  <div class="host-city-source-grid">
+    <article><span>Before kickoff</span><strong>Use groups for structure</strong><p>Compare teams, cities, fixtures and date windows without mixing fixed group-stage matches with knockout placeholders.</p><a href="/world-cup-2026-schedule/">Filter schedule</a></article>
+    <article><span>During group play</span><strong>Use standings for ranking</strong><p>Track points, goal difference and qualification status when results start changing the table.</p><a href="/world-cup-2026-standings/">Open standings</a></article>
+    <article><span>After groups</span><strong>Use bracket for routes</strong><p>Move from group placement into the Round of 32, then follow the knockout path toward the final.</p><a href="/world-cup-2026-bracket/">Open bracket</a></article>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Ways to Use the World Cup 2026 Schedule Groups Page</h2>
+  ${table([
+    ["Follow one team", "Open its group card, then use the linked team page and match pages.", "Compare opponents, rest days and host cities."],
+    ["Plan around a group", "Use the fixture spread to see where the six group matches are played.", "Open the full schedule with the group filter."],
+    ["Check qualification", "Use this page for structure and the standings page for live ranking.", "Review tie-breakers before knockout qualification scenarios."],
+    ["Prepare bracket planning", "Once the group stage ends, group placement feeds the bracket.", "Open the bracket page for knockout paths."]
+  ])}
+</section>`;
+};
+
 const renderPdfVisualSections = () => {
   const groups = groupListItems();
   return `<section class="section pdf-feature-section">
@@ -1628,6 +1729,8 @@ const renderPage = (page) => {
         ? renderExcelSupportSections()
       : page.slug === "world-cup-2026-schedule-host-cities"
         ? renderHostCitiesSupportSections()
+      : page.slug === "world-cup-2026-schedule-groups"
+        ? renderGroupsSupportSections()
       : page.sections
           .map(
             ([heading, paragraphs]) => `<section class="section">

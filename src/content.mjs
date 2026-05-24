@@ -601,9 +601,28 @@ export const pages = [
         "Groups show how teams are organized before matches are played. Standings show each team's points and ranking after results begin to come in."
       ],
       [
+        "How many World Cup 2026 schedule groups are there?",
+        "There are 12 World Cup 2026 schedule groups, labeled Group A through Group L, with four teams in each group."
+      ],
+      [
+        "Do the groups include match fixtures?",
+        "Yes. The groups page connects each group with its fixed group-stage fixtures, first match, host cities and links to match detail pages."
+      ],
+      [
+        "How do teams advance from the group stage?",
+        "The top two teams from each group advance, along with the eight best third-place teams. The standings page should be used for live ranking once results begin."
+      ],
+      [
         "Where can I go next from the groups page?",
         "From the groups page, fans can move to the full schedule, standings, bracket, team pages and relevant match pages to check fixtures, points and possible knockout routes."
       ]
+    ],
+    usageHeading: "Quick Group Planning Workflow",
+    usageRows: [
+      ["Choose a group", "Start with Group A through Group L and check the four teams listed together.", "Open the group card that matches your team or draw question."],
+      ["Open fixed fixtures", "Use the first match and group fixture links to move into match detail pages.", "Check kickoff time, city, stadium and source notes."],
+      ["Track the table", "Use standings once results begin because points and tie-breakers decide advancement.", "Move from group structure into live ranking."],
+      ["Plan the bracket", "Use group placement to understand where qualified teams can enter the Round of 32.", "Open the bracket page after reviewing standings."]
     ],
     links: [
       ["See standings", "/world-cup-2026-standings/"],
