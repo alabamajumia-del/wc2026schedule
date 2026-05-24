@@ -210,7 +210,7 @@ Hero class: hero hero-groups
 Selected team: Brazil
 Mapped group: C
 Hero result: Group C: Brazil, Morocco, Haiti, Scotland
-Standings link: /world-cup-2026-standings/#group-c
+Standings link: /world-cup-2026-schedule-standings/#group-c
 First match link: /world-cup-2026-match/6-brazil-vs-morocco/
 Apply result URL: /world-cup-2026-schedule-groups/?group=C#group-c
 Visible group after apply: C

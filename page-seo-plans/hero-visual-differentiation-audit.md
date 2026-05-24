@@ -41,7 +41,7 @@ page-seo-plans/hero-audit/tickets-hero-desktop.png
 | `/world-cup-2026-schedule-excel/` | `hero-excel` spreadsheet/stadium background | Medium | Good theme fit, but panel is mostly preview/download rather than tool | Low-Medium |
 | `/world-cup-2026-schedule-host-cities/` | `hero-cities` map background | High | Useful, but visually too close to the old dark-green control panel pattern | High |
 | `/world-cup-2026-schedule-groups/` | `hero-groups` blue/gold stadium background | High | Recently improved; needs only minor polish | Low |
-| `/world-cup-2026-standings/` | `hero-default` | None | Static quick facts, same stock background as several pages | Critical |
+| `/world-cup-2026-schedule-standings/` | `hero-standings` | High | Completed Phase Hero A.1; now uses ranking-board preview and group table anchors | Completed |
 | `/world-cup-2026-bracket/` | `hero-default` | None | Static quick facts, no bracket interaction or visual bracket signal | Critical |
 | `/world-cup-2026-dates/` | `hero-default` | None | Static quick facts, no timeline/date planning experience | High |
 | `/world-cup-2026-tv-schedule/` | `hero-default` | None | Static quick facts, no timezone/broadcast planning tool | High |
@@ -90,7 +90,7 @@ Schedule, Host Cities and several default pages still lean heavily on dark-green
 Priority pages:
 
 ```text
-1. /world-cup-2026-standings/
+1. /world-cup-2026-schedule-standings/ - completed
 2. /world-cup-2026-bracket/
 3. /world-cup-2026-dates/
 4. /world-cup-2026-tv-schedule/

@@ -1,4 +1,4 @@
-# World Cup 2026 Standings Page SEO and Optimization Plan
+# World Cup 2026 Schedule Standings Page SEO and Optimization Plan
 
 ## 1. Phase Hero A.1: Standings Hero Redesign
 
@@ -14,13 +14,14 @@ Groups page now sends users to Standings through group cards, qualification pane
 Core keyword:
 
 ```text
-world cup standings 2026
+world-cup-2026-schedule-standings
 ```
 
 Long-tail keyword family:
 
 ```text
 world cup 2026 standings
+world cup standings 2026
 world cup group standings
 fifa world cup 2026 table
 world cup group table
@@ -34,7 +35,7 @@ Optimization completed:
 - Added a group selector that updates the hero ranking preview.
 - Added a primary action that jumps to the selected group table.
 - Added 12 group standings cards in the page body.
-- Added true anchors for Groups page links, such as `/world-cup-2026-standings/#group-c`.
+- Added true anchors for Groups page links, such as `/world-cup-2026-schedule-standings/#group-c`.
 - Added full standings columns: P, W, D, L, GF, GA, GD, Pts and Status.
 - Used zeroed pre-tournament values without inventing live results.
 - Added qualification labels: direct qualifying lane, cross-group watch and needs points.
@@ -46,20 +47,20 @@ Validation:
 Build passed.
 Generated pages: 185
 Hero class: hero hero-standings
-H1: World Cup 2026 Standings
+H1: World Cup 2026 Schedule Standings
 H1 count: 1
 Group cards: 12
 Standings tables: 12
 Group C hero preview works: true
-Hero apply URL: /world-cup-2026-standings/#group-c
-Hash load /world-cup-2026-standings/#group-j preserves Group J: true
+Hero apply URL: /world-cup-2026-schedule-standings/#group-c
+Hash load /world-cup-2026-schedule-standings/#group-j preserves Group J: true
 Desktop page overflow: 0
 Desktop standings table overflow: 0
 Mobile page overflow: 0
 Mobile standings table uses internal horizontal scroll: true
-Visible word count: 1,833
-Keyword-family hits: 57
-Keyword-family density: 3.11%
+Visible word count: 1,840
+Keyword-family hits: 59
+Keyword-family density: 3.21%
 Target density: 3%-5%
 ```
 
@@ -76,7 +77,36 @@ Next recommended optimization:
 Standings Phase B: table filtering polish, status explanation, and future live-result update model.
 ```
 
-## 2. Navigation Visibility Fix
+## 2. Core Keyword and URL Alignment
+
+Date: 2026-05-24
+Status: Completed
+
+User instruction:
+
+```text
+Core keyword should be world-cup-2026-schedule-standings.
+URL should be /world-cup-2026-schedule-standings/.
+```
+
+Completed:
+
+- Changed the page slug from `/world-cup-2026-standings/` to `/world-cup-2026-schedule-standings/`.
+- Changed the H1 to `World Cup 2026 Schedule Standings`.
+- Changed the page keyword field to `world-cup-2026-schedule-standings`.
+- Updated the title to `World Cup 2026 Schedule Standings: Group Tables & Qualification`.
+- Updated the meta description to include `World Cup 2026 schedule standings`.
+- Updated internal links from Groups, Bracket, Schedule support content and the primary navigation.
+- Added a noindex redirect page from `/world-cup-2026-standings/` to `/world-cup-2026-schedule-standings/`.
+
+Validation target:
+
+```text
+New URL: /world-cup-2026-schedule-standings/
+Old URL redirect: /world-cup-2026-standings/ -> /world-cup-2026-schedule-standings/
+```
+
+## 3. Navigation Visibility Fix
 
 Date: 2026-05-24
 Status: Completed
@@ -84,7 +114,7 @@ Status: Completed
 Issue:
 
 ```text
-The Standings page existed at /world-cup-2026-standings/ but was not visible in the top navigation because the navigation only displayed the first eight pages.
+The Standings page existed but was not visible in the top navigation because the navigation only displayed the first eight pages.
 ```
 
 Fix completed:
@@ -98,7 +128,7 @@ Validation:
 
 ```text
 Desktop nav labels: Schedule, Dates, Groups, Standings, Bracket, Cities, PDF, Excel, TV, Tickets
-Standings href: /world-cup-2026-standings/
+Standings href: /world-cup-2026-schedule-standings/
 Bracket href: /world-cup-2026-bracket/
 Desktop topbar overflow: 0
 Desktop page overflow: 0

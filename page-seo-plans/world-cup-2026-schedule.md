@@ -266,7 +266,7 @@ Important internal link targets:
 /world-cup-2026-schedule-host-cities/
 /world-cup-2026-tickets/
 /world-cup-2026-schedule-groups/
-/world-cup-2026-standings/
+/world-cup-2026-schedule-standings/
 /world-cup-2026-bracket/
 /world-cup-2026-tv-schedule/
 /where-to-watch-world-cup-2026/

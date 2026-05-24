@@ -437,7 +437,7 @@ const primaryNavSlugs = [
   "world-cup-2026-schedule",
   "world-cup-2026-dates",
   "world-cup-2026-schedule-groups",
-  "world-cup-2026-standings",
+  "world-cup-2026-schedule-standings",
   "world-cup-2026-bracket",
   "world-cup-2026-schedule-host-cities",
   "world-cup-2026-schedule-pdf",
@@ -684,7 +684,7 @@ const hero = ({
       </div>
       <div class="group-hero-actions">
         <button type="button" data-group-hero-apply>Show group card</button>
-        <a href="/world-cup-2026-standings/" data-group-hero-standings>Open standings</a>
+        <a href="/world-cup-2026-schedule-standings/" data-group-hero-standings>Open standings</a>
       </div>
       <div class="group-hero-secondary-actions">
         <a href="#groups-explorer" data-group-hero-first>Open first match</a>
@@ -1042,7 +1042,7 @@ const renderStandingsSupportSections = () => {
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Group tables</p>
-      <h2>World Cup 2026 Standings by Group</h2>
+      <h2>World Cup 2026 Schedule Standings by Group</h2>
       <p>Every group table is prepared before kickoff so users can move from the Groups page into the ranking view without a dead end. Results remain at zero until official match outcomes are available.</p>
     </div>
     <a class="button light" href="/world-cup-2026-schedule-groups/">Open groups page</a>
@@ -1093,7 +1093,7 @@ const renderStandingsSupportSections = () => {
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Qualification rules</p>
-      <h2>How to Read the World Cup 2026 Standings</h2>
+      <h2>How to Read the World Cup 2026 Schedule Standings</h2>
       <p>The standings page should answer ranking questions fast. During the tournament, users need points, goal difference and qualification status before they need long explanations.</p>
     </div>
   </div>
@@ -1174,7 +1174,7 @@ const renderGroupsSupportSections = () => {
       </article>
     </div>
     <div class="qualification-panel-actions">
-      <a href="/world-cup-2026-standings/" data-qualification-standings>Open standings</a>
+      <a href="/world-cup-2026-schedule-standings/" data-qualification-standings>Open standings</a>
       <a href="/world-cup-2026-bracket/">Open bracket path</a>
     </div>
   </aside>
@@ -1198,7 +1198,7 @@ const renderGroupsSupportSections = () => {
             <span>Standings preview</span>
             <strong>Group ${esc(item.group)} starts level</strong>
           </div>
-          <a href="/world-cup-2026-standings/#group-${attr(item.group.toLowerCase())}">Live table</a>
+          <a href="/world-cup-2026-schedule-standings/#group-${attr(item.group.toLowerCase())}">Live table</a>
         </div>
         <div class="group-standings-table-wrap">
           <table class="group-standings-table">
@@ -1257,7 +1257,7 @@ const renderGroupsSupportSections = () => {
   </div>
   <div class="host-city-source-grid">
     <article><span>Before kickoff</span><strong>Use groups for structure</strong><p>Compare teams, cities, fixtures and date windows without mixing fixed group-stage matches with knockout placeholders.</p><a href="/world-cup-2026-schedule/">Filter schedule</a></article>
-    <article><span>During group play</span><strong>Use standings for ranking</strong><p>Track points, goal difference and qualification status when results start changing the table.</p><a href="/world-cup-2026-standings/">Open standings</a></article>
+    <article><span>During group play</span><strong>Use standings for ranking</strong><p>Track points, goal difference and qualification status when results start changing the table.</p><a href="/world-cup-2026-schedule-standings/">Open standings</a></article>
     <article><span>After groups</span><strong>Use bracket for routes</strong><p>Move from group placement into the Round of 32, then follow the knockout path toward the final.</p><a href="/world-cup-2026-bracket/">Open bracket</a></article>
   </div>
 </section>
@@ -2011,7 +2011,7 @@ const renderPage = (page) => {
         ? renderHostCitiesSupportSections()
       : page.slug === "world-cup-2026-schedule-groups"
         ? renderGroupsSupportSections()
-      : page.slug === "world-cup-2026-standings"
+      : page.slug === "world-cup-2026-schedule-standings"
         ? renderStandingsSupportSections()
       : page.sections
           .map(
@@ -5974,7 +5974,7 @@ await write(
       if (heroCount) heroCount.textContent = cards.length + " groups ready";
       if (heroPrimary) heroPrimary.textContent = "Choose a group or team to jump into the right schedule path.";
       if (heroSecondary) heroSecondary.textContent = "Use this panel to move directly to group cards, standings or the first fixture.";
-      if (heroStandings) heroStandings.href = "/world-cup-2026-standings/";
+      if (heroStandings) heroStandings.href = "/world-cup-2026-schedule-standings/";
       if (heroFirst) heroFirst.href = "#groups-explorer";
       renderTeamPreview("");
       return;
@@ -5985,7 +5985,7 @@ await write(
     if (heroCount) heroCount.textContent = "Group " + group + " selected";
     if (heroPrimary) heroPrimary.textContent = "Group " + group + ": " + teams;
     if (heroSecondary) heroSecondary.textContent = "First match: " + first + ". Host city route: " + cities + ".";
-    if (heroStandings) heroStandings.href = "/world-cup-2026-standings/#group-" + group.toLowerCase();
+    if (heroStandings) heroStandings.href = "/world-cup-2026-schedule-standings/#group-" + group.toLowerCase();
     if (heroFirst) heroFirst.href = card.dataset.groupFirstPath || "#group-" + group.toLowerCase();
     renderTeamPreview(group);
   };
@@ -6001,7 +6001,7 @@ await write(
       }
       if (qualificationTop) qualificationTop.textContent = "24 teams qualify directly from first and second place.";
       if (qualificationThird) qualificationThird.textContent = "Eight third-place teams qualify after comparing records across groups.";
-      if (qualificationStandings) qualificationStandings.href = "/world-cup-2026-standings/";
+      if (qualificationStandings) qualificationStandings.href = "/world-cup-2026-schedule-standings/";
       return;
     }
     const teams = card.dataset.groupTeams || "";
@@ -6015,7 +6015,7 @@ await write(
     }
     if (qualificationTop) qualificationTop.textContent = "First and second place from Group " + group + " move directly into the Round of 32.";
     if (qualificationThird) qualificationThird.textContent = "Third place in Group " + group + " may still qualify through the best third-place comparison.";
-    if (qualificationStandings) qualificationStandings.href = "/world-cup-2026-standings/#group-" + group.toLowerCase();
+    if (qualificationStandings) qualificationStandings.href = "/world-cup-2026-schedule-standings/#group-" + group.toLowerCase();
   };
 
   const applyGroup = (group = "", { scroll = true, updatePath = true } = {}) => {
@@ -6151,9 +6151,23 @@ await write(
     applyGroup(heroSelect?.value || "A");
   });
 
-  const hashGroup = (window.location.hash.match(/^#group-([a-z])$/i)?.[1] || "").toUpperCase();
-  if (hashGroup && cards.some((card) => card.dataset.standingsCard === hashGroup)) {
-    applyGroup(hashGroup, { scroll: true, updatePath: false });
+  const groupFromHash = () => (window.location.hash.match(/^#group-([a-z])$/i)?.[1] || "").toUpperCase();
+  const applyHashGroup = ({ scroll = true } = {}) => {
+    const hashGroup = groupFromHash();
+    if (!hashGroup || !cards.some((card) => card.dataset.standingsCard === hashGroup)) return false;
+    applyGroup(hashGroup, { scroll, updatePath: false });
+    return true;
+  };
+
+  window.addEventListener("hashchange", () => {
+    if (applyHashGroup({ scroll: true })) return;
+    if (window.location.hash === "#standings-tables") {
+      applyGroup("", { scroll: true, updatePath: false });
+    }
+  });
+
+  if (applyHashGroup({ scroll: true })) {
+    // Hash links from Groups or Bracket should open the selected table directly.
   } else {
     renderHeroPreview(heroSelect?.value || "A");
     applyGroup("", { scroll: false, updatePath: false });
@@ -6268,6 +6282,11 @@ await write(
 await write(
   join("world-cup-2026-groups", "index.html"),
   redirectPage("/world-cup-2026-schedule-groups/")
+);
+
+await write(
+  join("world-cup-2026-standings", "index.html"),
+  redirectPage("/world-cup-2026-schedule-standings/")
 );
 
 const cities = citySummaries();
