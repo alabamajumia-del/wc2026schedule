@@ -738,6 +738,10 @@ h1 {
   padding: 12px;
 }
 
+.group-hero-fields label[hidden] {
+  display: none;
+}
+
 .group-hero-fields span,
 .group-hero-result span {
   color: var(--accent-dark);

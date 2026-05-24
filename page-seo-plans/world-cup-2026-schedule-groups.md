@@ -282,3 +282,12 @@ Screenshots saved:
 page-seo-plans/world-cup-2026-schedule-groups-hero-mode-desktop.png
 page-seo-plans/world-cup-2026-schedule-groups-hero-mode-mobile.png
 ```
+
+Follow-up fix:
+
+```text
+Issue: The hidden field state was being overridden by the label display style, so By team still showed the Group selector.
+Fix: Added an explicit `.group-hero-fields label[hidden] { display: none; }` rule.
+Validation: By team now shows only the Team selector; By group now shows only the Group selector.
+Screenshot: page-seo-plans/world-cup-2026-schedule-groups-hero-hidden-field-fix.png
+```
