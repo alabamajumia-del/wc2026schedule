@@ -805,7 +805,7 @@ const renderScheduleCapabilitySections = () => {
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Use the schedule</p>
-        <h2>How to Use the World Cup 2026 Match Schedule</h2>
+        <h2>How to Use the World Cup 2026 Schedule Match Table</h2>
         <p>Use the World Cup 2026 schedule by what you already know: a team, a city, a date, a group or a match number.</p>
       </div>
       <a class="button light" href="#full-schedule">Open schedule controls</a>
@@ -859,7 +859,7 @@ const renderScheduleCapabilitySections = () => {
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Timezone tool</p>
-        <h2>Kickoff Times and Time Zones</h2>
+        <h2>World Cup 2026 Schedule Kickoff Times and Time Zones</h2>
         <p>Select your timezone once, then every visible World Cup 2026 schedule view uses the same local kickoff time and local date.</p>
       </div>
       <a class="button light" href="#full-schedule">Use timezone selector</a>
@@ -876,19 +876,19 @@ const renderScheduleCapabilitySections = () => {
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Team and city views</p>
-        <h2>Schedule by Team and Host City</h2>
+        <h2>World Cup 2026 Schedule by Team and Host City</h2>
         <p>Use Team View when following a country. Use City View when planning travel around World Cup 2026 schedule with venue details.</p>
       </div>
       <a class="button light" href="#full-schedule">Switch views</a>
     </div>
     <div class="split-tool">
       <article class="transition duration-200 hover:shadow-lg hover:border-pitch">
-        <h3>Team View</h3>
+        <h3>World Cup 2026 Schedule Team View</h3>
         <p>${confirmedTeams} confirmed team cards group each country's matches with opponent, city, stadium, local time and watch window.</p>
         <ul><li>Best for national-team tracking.</li><li>Uses team chips, flags and three-letter codes.</li><li>Pairs with linked team schedule pages.</li></ul>
       </article>
       <article class="transition duration-200 hover:shadow-lg hover:border-pitch">
-        <h3>City View</h3>
+        <h3>World Cup 2026 Schedule City View</h3>
         <p>${cityCount} host city cards group the full schedule by venue market, match count and stage mix.</p>
         <ul><li>Best for travel and stadium planning.</li><li>Shows local match clusters without re-filtering the table.</li><li>Pairs with linked host city pages.</li></ul>
       </article>
@@ -915,7 +915,7 @@ const renderScheduleCapabilitySections = () => {
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Files and trust</p>
-        <h2>Downloads, Sources and Update Notes</h2>
+        <h2>World Cup 2026 Schedule Downloads, Sources and Update Notes</h2>
         <p>Choose a World Cup 2026 schedule PDF, Excel or CSV file by use case, then verify time-sensitive decisions against official sources.</p>
       </div>
       <a class="button light" href="/world-cup-2026-schedule-pdf/">Open PDF page</a>
@@ -937,7 +937,7 @@ const renderScheduleNavigation = () => `<section class="section capability-secti
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Navigation paths</p>
-      <h2>Ways to Navigate the Full Schedule</h2>
+      <h2>World Cup 2026 Schedule Navigation Paths</h2>
       <p>Pick a World Cup 2026 schedule path based on the decision you are trying to make now.</p>
     </div>
     <a class="button light" href="#full-schedule">Return to schedule</a>
@@ -1738,6 +1738,7 @@ const renderExcelDownloadSelector = (page = {}) => {
 };
 
 const downloadPanel = (page = {}) => {
+  const isSchedulePage = page.slug === "world-cup-2026-schedule";
   const dataFiles =
     page.slug === "world-cup-2026-schedule-excel"
       ? [...dataDownloadFiles].sort((a, b) => (a.format === "XLS" ? -1 : b.format === "XLS" ? 1 : 0))
@@ -1764,11 +1765,11 @@ const downloadPanel = (page = {}) => {
   )}</p>
   <div class="download-library">
     <div class="download-group">
-      <div class="download-group-heading"><h3>Data downloads</h3><span>Structured files</span></div>
+      <div class="download-group-heading"><h3>${isSchedulePage ? "World Cup 2026 Schedule Data Downloads" : "Data downloads"}</h3><span>Structured files</span></div>
       <div class="download-grid">${dataFiles.map(card).join("")}</div>
     </div>
     <div class="download-group">
-      <div class="download-group-heading"><h3>PDF schedule library</h3><span>${pdfFiles.length} PDF files</span></div>
+      <div class="download-group-heading"><h3>${isSchedulePage ? "World Cup 2026 Schedule PDF Library" : "PDF schedule library"}</h3><span>${pdfFiles.length} PDF files</span></div>
       <div class="download-grid">${pdfFiles.map(card).join("")}</div>
     </div>
     ${
@@ -2173,7 +2174,7 @@ const renderScheduleTable = () => {
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Full schedule table</p>
-      <h2>Full World Cup 2026 Match Schedule</h2>
+      <h2>Full World Cup 2026 Schedule Match Table</h2>
       <p>Use the ${matches.length}-match table to check match number, date, Eastern Time kickoff, teams, stage, group, host city and stadium.</p>
     </div>
     <a class="button light" href="${attr(scheduleMeta.sourceUrl)}">Official source</a>
@@ -2182,7 +2183,7 @@ const renderScheduleTable = () => {
     <article class="live-next-match">
       <div>
         <p class="eyebrow">Next match</p>
-        <h3><span data-next-home>Loading</span> <span>vs</span> <span data-next-away>Loading</span></h3>
+        <h3>World Cup 2026 Schedule Next Match: <span data-next-home>Loading</span> <span>vs</span> <span data-next-away>Loading</span></h3>
         <p data-next-meta>Choose a timezone to calculate the next kickoff.</p>
         <a data-next-detail href="#full-schedule">Match details -></a>
       </div>
@@ -2195,7 +2196,7 @@ const renderScheduleTable = () => {
     </article>
     <div class="upcoming-board-head">
       <div>
-        <h3>Upcoming matches</h3>
+        <h3>World Cup 2026 Schedule Upcoming Matches</h3>
         <p data-upcoming-scope>Showing the next matches from the full schedule.</p>
       </div>
       <div class="upcoming-board-controls" aria-label="Upcoming match controls">
@@ -4874,7 +4875,7 @@ await write(
     const intro = document.createElement("div");
     intro.className = "aggregate-view-heading";
     intro.innerHTML =
-      '<div><p class="eyebrow">Team view</p><h3>Confirmed Team Schedules</h3></div><span><span data-team-group-count>' +
+      '<div><p class="eyebrow">Team view</p><h3>World Cup 2026 Schedule Confirmed Team Schedules</h3></div><span><span data-team-group-count>' +
       groups.size +
       '</span> teams</span>';
     teamView.append(intro);
@@ -4970,7 +4971,7 @@ await write(
     const intro = document.createElement("div");
     intro.className = "aggregate-view-heading";
     intro.innerHTML =
-      '<div><p class="eyebrow">City view</p><h3>Host City Match Groups</h3></div><span><span data-city-group-count>' +
+      '<div><p class="eyebrow">City view</p><h3>World Cup 2026 Schedule Host City Match Groups</h3></div><span><span data-city-group-count>' +
       groups.size +
       '</span> cities</span>';
     cityView.append(intro);
@@ -4986,7 +4987,7 @@ await write(
       card.dataset.cityGroup = group.name;
       card.dataset.search = (group.name + " " + [...group.stadiums].join(" ") + " " + [...group.stages].join(" ")).toLowerCase();
       card.innerHTML =
-        '<div class="aggregate-card-header city-card-header"><div><p class="eyebrow">Host city</p><h3><a href="' +
+        '<div class="aggregate-card-header city-card-header"><div><p class="eyebrow">Host city</p><h3>World Cup 2026 Schedule <a href="' +
         group.path +
         '">' +
         group.name +
@@ -5168,7 +5169,7 @@ await write(
         '<div class="date-group-heading">' +
         '<div><p class="eyebrow">' +
         date +
-        '</p><h3>' +
+        '</p><h3>World Cup 2026 Schedule ' +
         (groupRows[0].dataset.localDateLabel || groupRows[0].dataset.dateLabel || date) +
         '</h3></div><span><span data-date-count>' +
         groupRows.length +
