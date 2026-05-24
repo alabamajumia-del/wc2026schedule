@@ -613,7 +613,7 @@ export const pages = [
   {
     slug: "world-cup-2026-schedule-host-cities",
     nav: "Cities",
-    title: "World Cup 2026 Schedule Host Cities: Stadiums, Matches & Travel Guide",
+    title: "World Cup 2026 Schedule Host Cities Guide",
     description:
       "Compare World Cup 2026 schedule host cities, stadiums, match planning notes, transportation context and city-specific schedule guides.",
     h1: "World Cup 2026 Schedule Host Cities",
@@ -667,12 +667,31 @@ export const pages = [
     faqs: [
       [
         "Should host city pages include travel advice?",
-        "Yes. City pages should combine schedule information with stadium access, airports, hotel areas, ticket reminders and local planning notes."
+        "Yes. City pages should combine fixture information with stadium access, airports, hotel areas, ticket reminders and local planning notes. The city hub should help you choose where to look next, while each city page should handle the local details."
       ],
       [
         "Which city pages should be built first?",
-        "Dallas, Atlanta, Los Angeles and New York New Jersey should be built early because they match strong schedule, stadium and travel search intent."
+        "Dallas, Atlanta, Los Angeles and New York New Jersey should be built early because they combine strong match volume, stadium interest and travel search demand. Mexico City, Toronto and Vancouver also need careful local context because cross-border planning questions are different."
+      ],
+      [
+        "How can I compare World Cup 2026 host cities quickly?",
+        "Use the city planner controls to filter by country, match volume, knockout value or final-week route. Then open the city schedule page that matches your trip window, team route or stadium interest."
+      ],
+      [
+        "Do the host city cards replace official sources?",
+        "No. The cards are planning shortcuts built from the site schedule dataset. Use them to compare cities and find the right next page, then confirm paid or time-sensitive decisions with FIFA, the relevant host city, the stadium and official ticket sources."
+      ],
+      [
+        "Can I use this page for travel planning?",
+        "Yes, but use it as a starting point. The page can show city clusters, date windows and stage mix, while hotel, transport, airport, ticket and stadium-access details should be checked against current official or local sources before booking."
       ]
+    ],
+    usageHeading: "Ways to Plan by Host City",
+    usageRows: [
+      ["Compare match clusters", "Use match count, date window and stage mix to see which cities fit a trip.", "Open a city page before booking travel."],
+      ["Follow a team route", "Start with the full schedule if your priority is one national team.", "Filter by team, then return to the city pages."],
+      ["Focus on knockout value", "Use the knockout preset when later-round venues matter more than group-stage volume.", "Confirm the bracket path once teams advance."],
+      ["Save a planning file", "Use PDF for a printable overview or Excel when you want to sort cities and fixtures.", "Keep downloads as planning aids, not official ticket proof."]
     ],
     links: [
       ["Full tournament schedule", "/world-cup-2026-schedule/"],

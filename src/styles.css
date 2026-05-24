@@ -2522,6 +2522,50 @@ h1 {
   gap: 14px;
 }
 
+.host-city-source-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.host-city-source-grid article {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid rgba(16, 133, 101, 0.18);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+}
+
+.host-city-source-grid span {
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.host-city-source-grid strong {
+  font-size: 19px;
+  line-height: 1.25;
+}
+
+.host-city-source-grid p {
+  margin: 0;
+}
+
+.host-city-source-grid a {
+  justify-self: start;
+  border: 1px solid rgba(16, 133, 101, 0.22);
+  border-radius: 8px;
+  background: #f8fbf9;
+  color: var(--green-dark);
+  font-size: 13px;
+  font-weight: 950;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
 .host-city-path {
   border: 1px solid rgba(16, 133, 101, 0.18);
   border-radius: 8px;
@@ -4100,6 +4144,7 @@ td {
   .host-city-controls,
   .host-city-grid,
   .host-city-paths,
+  .host-city-source-grid,
   .utility-card-grid,
   .decision-card-grid,
   .capability-grid,

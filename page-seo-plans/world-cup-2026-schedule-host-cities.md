@@ -137,3 +137,57 @@ H1: World Cup 2026 Schedule Host Cities
 Core keyword: world-cup-2026-schedule-host-cities
 Build passed.
 ```
+
+## 4. SEO and Content Plan Optimization Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Optimize the current page according to the SEO plan and content plan.
+```
+
+Problems found:
+
+- The page met the 800+ word requirement, but FAQ coverage was too thin with only 2 visible questions.
+- The page did not include visible external official-source links inside the main content area.
+- The keyword family density was slightly above the 3%-5% target, so the page needed more useful supporting content rather than more keyword repetition.
+- The page had Article, FAQ and Breadcrumb schema, but a tool-like page also benefits from HowTo schema.
+
+Optimization completed:
+
+- Shortened the SEO title to keep the rendered title concise: `World Cup 2026 Schedule Host Cities Guide | wc26schedule`.
+- Added a source and update checks module with official FIFA schedule and ticket information links.
+- Added a page-specific HowTo schema for comparing schedule host cities.
+- Expanded FAQ from 2 to 5 questions with answers that cover travel advice, city prioritization, city comparison, official-source limits and travel planning use.
+- Replaced the generic usage table heading with `Ways to Plan by Host City`.
+- Added page-specific usage rows for match clusters, team routes, knockout value and offline planning files.
+- Preserved one core keyword: `world-cup-2026-schedule-host-cities`.
+
+Validation:
+
+```text
+Build passed.
+Rendered title length: 56 characters
+Meta description length: 134 characters
+Visible word count: 2,014
+H1 count: 1
+H2 count: 7
+H3 count: 21
+FAQ count: 5
+External official links: 2
+Schema types: Article, FAQPage, BreadcrumbList, HowTo
+Keyword family density: 4.92%
+Desktop overflow: 0
+Mobile overflow: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/host-cities-seo-optimization-preview.png
+page-seo-plans/host-cities-source-checks-preview.png
+page-seo-plans/host-cities-source-checks-mobile-preview.png
+```

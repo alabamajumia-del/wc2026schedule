@@ -1340,6 +1340,34 @@ const renderHostCitiesSupportSections = () => `<section class="section host-city
     <article><span>Watching knockout rounds</span><strong>Start with knockout hosts</strong><p>Use the knockout preset to focus on cities that carry bracket-stage value.</p><a href="#city-schedule-pages">Find knockout hosts</a></article>
     <article><span>Need an offline copy</span><strong>Use PDF or Excel next</strong><p>After choosing a city, save the schedule as a printable PDF or sortable workbook.</p><a href="/world-cup-2026-schedule-pdf/">Open downloads</a></article>
   </div>
+</section>
+
+<section class="section host-city-tool-section">
+  <div class="tool-section-head">
+    <p class="eyebrow">Source and update checks</p>
+    <h2>Confirm City Details Before Travel or Tickets</h2>
+    <p>The city planner is useful for narrowing choices, but final decisions should be checked against official schedule, ticket and local venue information.</p>
+  </div>
+  <div class="host-city-source-grid">
+    <article>
+      <span>Schedule source</span>
+      <strong>Match numbers, dates and venues</strong>
+      <p>Use the FIFA match schedule as the primary reference when a date, opponent, kickoff or venue affects travel plans.</p>
+      <a href="${attr(scheduleMeta.sourceUrl)}">Open FIFA schedule source</a>
+    </article>
+    <article>
+      <span>Ticket decisions</span>
+      <strong>Availability can change</strong>
+      <p>The city cards do not show ticket inventory. Use them to decide which matches to inspect, then confirm availability through official ticket channels.</p>
+      <a href="https://www.fifa.com/tickets">Open FIFA ticket information</a>
+    </article>
+    <article>
+      <span>Local checks</span>
+      <strong>Transport, stadium access and timing</strong>
+      <p>After choosing a city, check stadium operations, public transport, airport routes and local event guidance close to your travel date.</p>
+      <a href="/world-cup-2026-tickets/">Use ticket planning guide</a>
+    </article>
+  </div>
 </section>`;
 
 const faqHtml = (faqs) => `<div class="card"><div class="card-body">
@@ -1445,6 +1473,38 @@ const pageSchema = (page) => {
           "@type": "HowToStep",
           name: "Verify official details",
           text: "Confirm time-sensitive travel, ticket and broadcast decisions with official sources before acting."
+        }
+      ]
+    });
+  }
+
+  if (page.slug === "world-cup-2026-schedule-host-cities") {
+    schema.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: "How to compare World Cup 2026 schedule host cities",
+      description:
+        "Use the host city planner to compare countries, stadiums, match windows, knockout value and city-specific schedule pages.",
+      step: [
+        {
+          "@type": "HowToStep",
+          name: "Choose a planning angle",
+          text: "Start with country, match volume, knockout host, final-week route or cross-border travel needs."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Compare city cards",
+          text: "Review match count, stadium, date window, stage mix and first listed match before opening a city page."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Open the city schedule",
+          text: "Use the city-specific schedule page for fixtures, stadium context, related teams and next planning links."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Confirm official details",
+          text: "Check official schedule, ticket, stadium and local guidance before making paid or time-sensitive decisions."
         }
       ]
     });
