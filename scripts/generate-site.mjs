@@ -413,6 +413,7 @@ const layout = ({ title, description, canonical, body, schema = [] }) => `<!doct
   </header>
   ${body}
   <script src="/schedule.js" defer></script>
+  <script src="/host-cities.js" defer></script>
   <script src="/match-detail.js" defer></script>
   <footer class="footer">
     <div class="footer-inner">
@@ -1314,6 +1315,33 @@ const cityIndexPanel = () => {
 </section>`;
 };
 
+const renderHostCitiesSupportSections = () => `<section class="section host-city-tool-section">
+  <div class="tool-section-head">
+    <p class="eyebrow">City planning workflow</p>
+    <h2>How to Use the World Cup 2026 Host Cities Hub</h2>
+    <p>Move from broad city comparison to a city schedule page, then confirm match details before travel, tickets or broadcast planning.</p>
+  </div>
+  <div class="utility-card-grid">
+    <article><strong>1. Pick a planning angle</strong><span>Use country, match volume, knockout host or final-week presets to narrow the city list.</span></article>
+    <article><strong>2. Compare the city card</strong><span>Check match count, stadium, date window, stage mix and first listed match before opening a city page.</span></article>
+    <article><strong>3. Open the local schedule</strong><span>Use the city page for fixtures, stadium context, related teams and next planning links.</span></article>
+    <article><strong>4. Confirm official details</strong><span>Before booking travel or buying tickets, verify timing, access and ticket information with official sources.</span></article>
+  </div>
+</section>
+
+<section class="section host-city-tool-section">
+  <div class="tool-section-head">
+    <p class="eyebrow">Decision guide</p>
+    <h2>Which Host City Should You Open First?</h2>
+  </div>
+  <div class="decision-card-grid">
+    <article><span>Following one team</span><strong>Start with the full schedule</strong><p>Filter by team first, then open the cities that appear in that team's route.</p><a href="/world-cup-2026-schedule/">Filter by team</a></article>
+    <article><span>Planning a trip</span><strong>Start with match clusters</strong><p>Choose cities with several fixtures or a date window that fits your arrival and departure plan.</p><a href="#city-schedule-pages">Compare cities</a></article>
+    <article><span>Watching knockout rounds</span><strong>Start with knockout hosts</strong><p>Use the knockout preset to focus on cities that carry bracket-stage value.</p><a href="#city-schedule-pages">Find knockout hosts</a></article>
+    <article><span>Need an offline copy</span><strong>Use PDF or Excel next</strong><p>After choosing a city, save the schedule as a printable PDF or sortable workbook.</p><a href="/world-cup-2026-schedule-pdf/">Open downloads</a></article>
+  </div>
+</section>`;
+
 const faqHtml = (faqs) => `<div class="card"><div class="card-body">
 ${faqs
   .map(
@@ -1433,6 +1461,8 @@ const renderPage = (page) => {
         ? renderPdfSupportSections()
       : page.slug === "world-cup-2026-schedule-excel"
         ? renderExcelSupportSections()
+      : page.slug === "world-cup-2026-host-cities"
+        ? renderHostCitiesSupportSections()
       : page.sections
           .map(
             ([heading, paragraphs]) => `<section class="section">
@@ -1455,7 +1485,7 @@ const renderPage = (page) => {
     : "";
   const pdfVisualBlock =
     page.slug === "world-cup-2026-schedule-pdf" ? renderPdfVisualSections() : "";
-  const cityBlock = page.slug === "world-cup-2026-host-cities" ? cityIndexPanel() : "";
+  const cityBlock = page.slug === "world-cup-2026-host-cities" ? renderHostCitiesExplorer() : "";
   const sourceNote =
     page.slug === "world-cup-2026-schedule"
       ? `This page is maintained as an independent fixture planner for fans. Sources: FIFA official schedule, structured match data, host city and stadium references. Editorial note: kickoff times, ticket details and broadcast information may change, so confirm paid or time-sensitive decisions with official sources.`
@@ -1502,6 +1532,8 @@ const renderPage = (page) => {
       ? renderPdfChooser(overview)
       : page.slug === "world-cup-2026-schedule-excel"
         ? excelPlannerBlock
+      : page.slug === "world-cup-2026-host-cities"
+        ? ""
       : `<section class="section">
     <div class="grid">
       <article class="span-8 card"><div class="card-body">
@@ -1935,6 +1967,167 @@ const citySummaries = () => {
       lastDate: city.matches.map((match) => match.date).sort().at(-1)
     }))
     .sort((a, b) => a.city.localeCompare(b.city));
+};
+
+const shortDate = (date) =>
+  new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(`${date}T12:00:00Z`));
+
+const cityDateWindow = (city) => `${shortDate(city.firstDate)}-${shortDate(city.lastDate)}`;
+
+const cityStageSummary = (city) => {
+  const stageCounts = new Map();
+  for (const match of city.matches) stageCounts.set(match.stage, (stageCounts.get(match.stage) ?? 0) + 1);
+  return [...stageCounts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([stage, count]) => `${stage}: ${count}`);
+};
+
+const cityPlanningFit = (city) => {
+  const hasFinal = city.matches.some((match) => match.matchNumber === 104);
+  const hasOpening = city.matches.some((match) => match.matchNumber === 1);
+  const knockoutCount = city.matches.filter((match) => match.stage !== "Group stage").length;
+  if (hasFinal) return "Final-week anchor for fans planning the tournament finish.";
+  if (hasOpening) return "Opening-match anchor with early tournament demand.";
+  if (city.matches.length >= 9) return "High-volume base for comparing several match days in one market.";
+  if (knockoutCount >= 2) return "Strong knockout route for fans following the bracket.";
+  if (city.country !== "United States") return "Cross-border planning stop with country-specific travel checks.";
+  return "Focused city schedule for checking stadium, date window and stage mix.";
+};
+
+const renderHostCitiesExplorer = () => {
+  const cities = citySummaries();
+  const countries = [...new Set(cities.map((city) => city.country))].sort((a, b) => a.localeCompare(b));
+  const totalMatches = matches.length;
+  const maxMatches = Math.max(...cities.map((city) => city.matches.length));
+  const knockoutHosts = cities.filter((city) => city.matches.some((match) => match.stage !== "Group stage")).length;
+  const firstDate = cities.map((city) => city.firstDate).sort()[0];
+  const lastDate = cities.map((city) => city.lastDate).sort().at(-1);
+  const topCities = [...cities]
+    .sort((a, b) => b.matches.length - a.matches.length || a.city.localeCompare(b.city))
+    .slice(0, 5);
+  const finalWeekCities = cities.filter((city) => city.matches.some((match) => match.date >= "2026-07-13"));
+
+  const card = (city) => {
+    const knockoutCount = city.matches.filter((match) => match.stage !== "Group stage").length;
+    const firstMatch = city.matches[0];
+    const sampleTeams = city.teams.filter(isRealTeam).slice(0, 4);
+    return `<article class="host-city-card" data-city-card data-country="${attr(city.country)}" data-match-count="${city.matches.length}" data-knockout="${knockoutCount}" data-final-week="${city.matches.some((match) => match.date >= "2026-07-13") ? "true" : "false"}" data-first-date="${attr(city.firstDate)}" data-search="${attr(`${city.city} ${city.country} ${city.stadiums.join(" ")} ${city.stages.join(" ")} ${city.teams.join(" ")}`.toLowerCase())}">
+      <div class="host-city-card-top">
+        <div>
+          <span class="city-country">${esc(city.country)}</span>
+          <h3>${esc(city.city)}</h3>
+          <p>${esc(city.stadiums.join(", "))}</p>
+        </div>
+        <strong>${city.matches.length}<span>matches</span></strong>
+      </div>
+      <dl class="host-city-stats">
+        <div><dt>Date window</dt><dd>${esc(cityDateWindow(city))}</dd></div>
+        <div><dt>Knockout</dt><dd>${knockoutCount}</dd></div>
+        <div><dt>Stages</dt><dd>${city.stages.length}</dd></div>
+      </dl>
+      <div class="stage-chip-row">
+        ${cityStageSummary(city)
+          .map((stage) => `<span>${esc(stage)}</span>`)
+          .join("")}
+      </div>
+      <p class="city-fit">${esc(cityPlanningFit(city))}</p>
+      <div class="city-next-match">
+        <span>First listed match</span>
+        <strong>#${firstMatch.matchNumber} ${esc(firstMatch.home)} vs ${esc(firstMatch.away)}</strong>
+        <small>${esc(firstMatch.dateLabel)} at ${esc(firstMatch.kickoffET)} ET</small>
+      </div>
+      <div class="city-team-sample">
+        ${sampleTeams.map((team) => `<span>${esc(teamCode(team))}</span>`).join("")}
+      </div>
+      <div class="host-city-actions">
+        <a href="${attr(city.path)}">Open city schedule</a>
+        <a href="/world-cup-2026-schedule/#full-schedule">Open full schedule</a>
+      </div>
+    </article>`;
+  };
+
+  return `<section class="section host-city-explorer" id="city-schedule-pages" data-city-explorer>
+  <div class="host-city-explorer-head">
+    <div>
+      <p class="eyebrow">Host city planner</p>
+      <h2>Compare World Cup 2026 Host Cities by Country, Stadium and Match Window</h2>
+      <p>Use this city hub to narrow the 16 World Cup 2026 host cities by country, match volume, knockout value and travel timing before opening a city-specific schedule page.</p>
+    </div>
+    <div class="host-city-scoreboard" aria-label="Host city summary">
+      <div><strong>${cities.length}</strong><span>host cities</span></div>
+      <div><strong>${totalMatches}</strong><span>matches</span></div>
+      <div><strong>${countries.length}</strong><span>countries</span></div>
+      <div><strong>${knockoutHosts}</strong><span>knockout hosts</span></div>
+    </div>
+  </div>
+
+  <div class="host-city-controls" aria-label="Host city filters">
+    <label>
+      <span>Search city, stadium or team</span>
+      <input type="search" placeholder="Try Dallas, BMO Field or Mexico" data-city-search>
+    </label>
+    <label>
+      <span>Country</span>
+      <select data-city-country>
+        <option value="">All countries</option>
+        ${countries.map((country) => `<option value="${attr(country)}">${esc(country)}</option>`).join("")}
+      </select>
+    </label>
+    <label>
+      <span>Planning need</span>
+      <select data-city-need>
+        <option value="">All city types</option>
+        <option value="high-volume">Most matches</option>
+        <option value="knockout">Knockout hosts</option>
+        <option value="final-week">Final week cities</option>
+        <option value="cross-border">Canada or Mexico</option>
+      </select>
+    </label>
+    <label>
+      <span>Sort</span>
+      <select data-city-sort>
+        <option value="matches">Most matches first</option>
+        <option value="date">Earliest first match</option>
+        <option value="name">City name</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="host-city-presets" aria-label="Quick city comparisons">
+    <button type="button" data-city-preset="high-volume">Most matches</button>
+    <button type="button" data-city-preset="knockout">Knockout hosts</button>
+    <button type="button" data-city-preset="final-week">Final week route</button>
+    <button type="button" data-city-preset="cross-border">Canada and Mexico</button>
+    <button type="button" data-city-preset="">Reset</button>
+  </div>
+
+  <div class="host-city-results-line">
+    <strong><span data-city-result-count>${cities.length}</span> cities shown</strong>
+    <span>Full tournament city window: ${esc(shortDate(firstDate))} to ${esc(shortDate(lastDate))}</span>
+  </div>
+
+  <div class="host-city-grid" data-city-grid>
+    ${cities.map(card).join("")}
+  </div>
+</section>
+
+<section class="section host-city-paths">
+  <div class="host-city-path">
+    <span>Best high-volume bases</span>
+    <strong>${topCities.map((city) => city.city).join(", ")}</strong>
+    <p>Start here when your main question is how many fixtures can fit into one travel market.</p>
+  </div>
+  <div class="host-city-path">
+    <span>Final-week route</span>
+    <strong>${finalWeekCities.map((city) => city.city).join(", ")}</strong>
+    <p>Use these cities when semifinals, third-place match and final timing matter most.</p>
+  </div>
+  <div class="host-city-path">
+    <span>Cross-border planning</span>
+    <strong>${cities.filter((city) => city.country !== "United States").map((city) => city.city).join(", ")}</strong>
+    <p>Compare Canada and Mexico cities separately because travel documents, airports and local logistics differ.</p>
+  </div>
+</section>`;
 };
 
 const teamSummaries = () => {
@@ -4482,6 +4675,81 @@ await write(
   syncDateOptions();
   populateHeroPlanner("team");
   setView("table");
+  apply();
+})();\n`
+);
+
+await write(
+  "host-cities.js",
+  `(() => {
+  const explorer = document.querySelector("[data-city-explorer]");
+  if (!explorer) return;
+
+  const cards = Array.from(explorer.querySelectorAll("[data-city-card]"));
+  const grid = explorer.querySelector("[data-city-grid]");
+  const search = explorer.querySelector("[data-city-search]");
+  const country = explorer.querySelector("[data-city-country]");
+  const need = explorer.querySelector("[data-city-need]");
+  const sort = explorer.querySelector("[data-city-sort]");
+  const resultCount = explorer.querySelector("[data-city-result-count]");
+  const presetButtons = Array.from(explorer.querySelectorAll("[data-city-preset]"));
+
+  const matchesNeed = (card) => {
+    const value = need?.value || "";
+    const matchCount = Number(card.dataset.matchCount || 0);
+    const knockout = Number(card.dataset.knockout || 0);
+    if (!value) return true;
+    if (value === "high-volume") return matchCount >= 8;
+    if (value === "knockout") return knockout > 0;
+    if (value === "final-week") return card.dataset.finalWeek === "true";
+    if (value === "cross-border") return card.dataset.country !== "United States";
+    return true;
+  };
+
+  const sortCards = () => {
+    const value = sort?.value || "matches";
+    const ordered = [...cards].sort((a, b) => {
+      if (value === "name") return a.querySelector("h3").textContent.localeCompare(b.querySelector("h3").textContent);
+      if (value === "date") return (a.dataset.firstDate || "").localeCompare(b.dataset.firstDate || "");
+      return Number(b.dataset.matchCount || 0) - Number(a.dataset.matchCount || 0) ||
+        a.querySelector("h3").textContent.localeCompare(b.querySelector("h3").textContent);
+    });
+    ordered.forEach((card) => grid?.append(card));
+  };
+
+  const apply = () => {
+    const query = (search?.value || "").trim().toLowerCase();
+    const selectedCountry = country?.value || "";
+    let visible = 0;
+
+    sortCards();
+    for (const card of cards) {
+      const show =
+        (!query || card.dataset.search.includes(query)) &&
+        (!selectedCountry || card.dataset.country === selectedCountry) &&
+        matchesNeed(card);
+      card.hidden = !show;
+      if (show) visible += 1;
+    }
+
+    if (resultCount) resultCount.textContent = String(visible);
+  };
+
+  [search, country, need, sort].forEach((control) => {
+    control?.addEventListener("input", apply);
+    control?.addEventListener("change", apply);
+  });
+
+  presetButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (need) need.value = button.dataset.cityPreset || "";
+      if (country && button.dataset.cityPreset === "cross-border") country.value = "";
+      presetButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button && Boolean(button.dataset.cityPreset))));
+      apply();
+      explorer.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
   apply();
 })();\n`
 );
