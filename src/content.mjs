@@ -578,8 +578,11 @@ export const pages = [
     ],
     hero: {
       eyebrow: "Group explorer",
+      variant: "groups",
+      panelTitle: "Find your group route",
+      panelIntro: "Pick a group or team, then jump straight to fixtures, standings or the first match detail.",
       actions: [
-        ["Open group cards", "#groups-explorer"],
+        ["Use group finder", "#groups-explorer"],
         ["Open standings", "/world-cup-2026-standings/", "secondary"]
       ]
     },

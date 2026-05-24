@@ -630,6 +630,46 @@ const hero = ({
         <button type="button" data-city-hero-preset="final-week">Late tournament route</button>
       </div>
     </div>`
+            : variant === "groups"
+              ? (() => {
+                  const groupItems = groupSummaries();
+                  const teamOptions = groupItems
+                    .flatMap((item) => item.teams.map((team) => ({ team, group: item.group })))
+                    .sort((a, b) => a.team.localeCompare(b.team));
+                  return `<div class="hero-tool hero-tool-groups" data-group-hero-tool>
+      <strong class="hero-panel-title">${esc(panelTitle)}</strong>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      <div class="group-hero-fields">
+        <label>
+          <span>Choose group</span>
+          <select data-group-hero-group>
+            <option value="">All groups</option>
+            ${groupItems.map((item) => `<option value="${attr(item.group)}">Group ${esc(item.group)} - ${esc(item.teams.join(", "))}</option>`).join("")}
+          </select>
+        </label>
+        <label>
+          <span>Choose team</span>
+          <select data-group-hero-team>
+            <option value="">Any team</option>
+            ${teamOptions.map((item) => `<option value="${attr(item.team)}" data-group="${attr(item.group)}">${esc(item.team)} - Group ${esc(item.group)}</option>`).join("")}
+          </select>
+        </label>
+      </div>
+      <div class="group-hero-result" aria-live="polite">
+        <span data-group-hero-count>${groupItems.length} groups ready</span>
+        <strong data-group-hero-primary>Choose a group or team to jump into the right schedule path.</strong>
+        <em data-group-hero-secondary>Use this panel to move directly to group cards, standings or the first fixture.</em>
+      </div>
+      <div class="group-hero-actions">
+        <button type="button" data-group-hero-apply>Show group card</button>
+        <a href="/world-cup-2026-standings/" data-group-hero-standings>Open standings</a>
+      </div>
+      <div class="group-hero-secondary-actions">
+        <a href="#groups-explorer" data-group-hero-first>Open first match</a>
+        <button type="button" data-group-hero-reset>Reset</button>
+      </div>
+    </div>`;
+                })()
         : `<strong class="hero-panel-title">${esc(panelTitle)}</strong>
       ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
       ${rows
@@ -1001,7 +1041,7 @@ const renderGroupsSupportSections = () => {
   <div class="groups-card-grid">
     ${groups
       .map(
-        (item) => `<article class="groups-card" id="group-${attr(item.group.toLowerCase())}" data-group-card="${attr(item.group)}" data-group-teams="${attr(item.teams.join(", "))}" data-group-first="#${attr(item.firstMatch.matchNumber)} ${attr(item.firstMatch.home)} vs ${attr(item.firstMatch.away)}" data-group-last="${attr(shortDate(item.lastMatch.date))}" data-group-cities="${attr(item.cities.join(", "))}">
+        (item) => `<article class="groups-card" id="group-${attr(item.group.toLowerCase())}" data-group-card="${attr(item.group)}" data-group-teams="${attr(item.teams.join(", "))}" data-group-first="#${attr(item.firstMatch.matchNumber)} ${attr(item.firstMatch.home)} vs ${attr(item.firstMatch.away)}" data-group-first-path="${attr(matchDetailPath(item.firstMatch))}" data-group-last="${attr(shortDate(item.lastMatch.date))}" data-group-cities="${attr(item.cities.join(", "))}">
       <div class="groups-card-head">
         <span>Group ${esc(item.group)}</span>
         <strong>${item.matches.length} fixtures</strong>
@@ -5734,6 +5774,16 @@ await write(
   const buttons = Array.from(explorer.querySelectorAll("[data-group-filter]"));
   const resultCount = explorer.querySelector("[data-group-result-count]");
   const resultAnchor = explorer.querySelector("#group-results") || explorer;
+  const heroTool = document.querySelector("[data-group-hero-tool]");
+  const heroGroup = heroTool?.querySelector("[data-group-hero-group]");
+  const heroTeam = heroTool?.querySelector("[data-group-hero-team]");
+  const heroCount = heroTool?.querySelector("[data-group-hero-count]");
+  const heroPrimary = heroTool?.querySelector("[data-group-hero-primary]");
+  const heroSecondary = heroTool?.querySelector("[data-group-hero-secondary]");
+  const heroApply = heroTool?.querySelector("[data-group-hero-apply]");
+  const heroReset = heroTool?.querySelector("[data-group-hero-reset]");
+  const heroStandings = heroTool?.querySelector("[data-group-hero-standings]");
+  const heroFirst = heroTool?.querySelector("[data-group-hero-first]");
   const qualificationPanel = explorer.querySelector("[data-group-qualification-panel]");
   const qualificationTitle = explorer.querySelector("[data-qualification-title]");
   const qualificationCopy = explorer.querySelector("[data-qualification-copy]");
@@ -5746,9 +5796,32 @@ await write(
     window.history.replaceState({}, "", window.location.pathname + target);
   };
 
+  const cardForGroup = (group) => (group ? explorer.querySelector("[data-group-card='" + group + "']") : null);
+
+  const updateHeroTool = (group = "") => {
+    if (!heroTool) return;
+    const card = cardForGroup(group);
+    if (!card) {
+      if (heroCount) heroCount.textContent = cards.length + " groups ready";
+      if (heroPrimary) heroPrimary.textContent = "Choose a group or team to jump into the right schedule path.";
+      if (heroSecondary) heroSecondary.textContent = "Use this panel to move directly to group cards, standings or the first fixture.";
+      if (heroStandings) heroStandings.href = "/world-cup-2026-standings/";
+      if (heroFirst) heroFirst.href = "#groups-explorer";
+      return;
+    }
+    const teams = card.dataset.groupTeams || "";
+    const first = card.dataset.groupFirst || "the first fixture";
+    const cities = card.dataset.groupCities || "the host cities";
+    if (heroCount) heroCount.textContent = "Group " + group + " selected";
+    if (heroPrimary) heroPrimary.textContent = "Group " + group + ": " + teams;
+    if (heroSecondary) heroSecondary.textContent = "First match: " + first + ". Host city route: " + cities + ".";
+    if (heroStandings) heroStandings.href = "/world-cup-2026-standings/#group-" + group.toLowerCase();
+    if (heroFirst) heroFirst.href = card.dataset.groupFirstPath || "#group-" + group.toLowerCase();
+  };
+
   const updateQualificationPanel = (group) => {
     if (!qualificationPanel) return;
-    const card = group ? explorer.querySelector("[data-group-card='" + group + "']") : null;
+    const card = cardForGroup(group);
     if (!card) {
       if (qualificationTitle) qualificationTitle.textContent = "All World Cup 2026 Schedule Groups";
       if (qualificationCopy) {
@@ -5784,7 +5857,10 @@ await write(
     buttons.forEach((button) => {
       button.setAttribute("aria-pressed", String((button.dataset.groupFilter || "") === group));
     });
+    if (heroGroup && heroGroup.value !== group) heroGroup.value = group;
+    if (!group && heroTeam) heroTeam.value = "";
     if (resultCount) resultCount.textContent = String(visible);
+    updateHeroTool(group);
     updateQualificationPanel(group);
     if (updatePath) setUrl(group);
     if (scroll) {
@@ -5798,6 +5874,27 @@ await write(
       applyGroup(button.dataset.groupFilter || "");
     });
   });
+
+  if (heroTool) {
+    heroGroup?.addEventListener("change", () => {
+      if (heroTeam) heroTeam.value = "";
+      updateHeroTool(heroGroup.value || "");
+    });
+    heroTeam?.addEventListener("change", () => {
+      const group = heroTeam.selectedOptions[0]?.dataset.group || "";
+      if (heroGroup) heroGroup.value = group;
+      updateHeroTool(group);
+    });
+    heroApply?.addEventListener("click", () => {
+      const group = heroGroup?.value || heroTeam?.selectedOptions[0]?.dataset.group || "";
+      applyGroup(group);
+    });
+    heroReset?.addEventListener("click", () => {
+      if (heroGroup) heroGroup.value = "";
+      if (heroTeam) heroTeam.value = "";
+      applyGroup("");
+    });
+  }
 
   const params = new URLSearchParams(window.location.search);
   const urlGroup = (params.get("group") || "").toUpperCase();

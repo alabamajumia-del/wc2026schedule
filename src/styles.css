@@ -166,6 +166,61 @@ select {
   background: rgba(5, 20, 22, 0.62);
 }
 
+.hero-groups {
+  background:
+    radial-gradient(circle at 70% 18%, rgba(216, 166, 60, 0.38), transparent 24%),
+    radial-gradient(circle at 88% 72%, rgba(200, 42, 60, 0.28), transparent 30%),
+    linear-gradient(105deg, rgba(4, 21, 42, 0.94), rgba(10, 57, 92, 0.82) 46%, rgba(22, 95, 118, 0.56)),
+    url(/assets/banners/world-cup-2026-schedule-stadium-hero-2.jpg);
+  background-position: center 48%;
+  background-size: cover;
+}
+
+.hero-groups::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 88px),
+    linear-gradient(0deg, rgba(7, 15, 30, 0.1), rgba(7, 15, 30, 0.34));
+  content: "";
+  pointer-events: none;
+}
+
+.hero-groups .hero-inner {
+  position: relative;
+  grid-template-columns: minmax(0, 0.92fr) minmax(380px, 0.78fr);
+  align-items: center;
+  gap: 50px;
+  padding: 70px 0 54px;
+}
+
+.hero-groups h1 {
+  max-width: 760px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+}
+
+.hero-groups .hero-copy {
+  max-width: 720px;
+  border-left: 4px solid var(--gold);
+  padding-left: 18px;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.hero-groups .hero-panel {
+  align-self: center;
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(249, 251, 246, 0.94);
+  color: var(--text);
+}
+
+.hero-groups .hero-panel-title {
+  color: var(--text);
+}
+
+.hero-groups .hero-panel p {
+  color: var(--muted);
+}
+
 .hero-pdf {
   background:
     linear-gradient(90deg, rgba(5, 21, 27, 0.96), rgba(5, 21, 27, 0.78) 44%, rgba(5, 21, 27, 0.36)),
@@ -629,6 +684,129 @@ h1 {
 .city-hero-presets button[aria-pressed="true"] {
   border-color: var(--gold);
   background: rgba(216, 166, 60, 0.18);
+}
+
+.hero-tool-groups {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.hero-tool-groups p {
+  padding: 0;
+  line-height: 1.5;
+}
+
+.group-hero-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.group-hero-fields label {
+  display: grid;
+  gap: 7px;
+  border: 1px solid #d3dfdc;
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+}
+
+.group-hero-fields span,
+.group-hero-result span {
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.group-hero-fields select {
+  min-height: 42px;
+  width: 100%;
+  border: 1px solid #bfd5ce;
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+  padding: 9px 10px;
+}
+
+.group-hero-result {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(36, 93, 143, 0.28);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #eef6fb, #fff8df);
+  padding: 12px;
+}
+
+.group-hero-result strong {
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.group-hero-result em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.group-hero-actions,
+.group-hero-secondary-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: 8px;
+}
+
+.group-hero-actions button,
+.group-hero-actions a,
+.group-hero-secondary-actions button,
+.group-hero-secondary-actions a {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c5d8d2;
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 950;
+  padding: 10px;
+  text-align: center;
+}
+
+.group-hero-actions button {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+}
+
+.group-hero-actions a {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.group-hero-secondary-actions a {
+  border-color: var(--gold);
+  background: #fff6dc;
+  color: #523d08;
+}
+
+.group-hero-actions button:hover,
+.group-hero-actions button:focus-visible,
+.group-hero-actions a:hover,
+.group-hero-actions a:focus-visible,
+.group-hero-secondary-actions button:hover,
+.group-hero-secondary-actions button:focus-visible,
+.group-hero-secondary-actions a:hover,
+.group-hero-secondary-actions a:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(19, 44, 58, 0.14);
 }
 
 .hero-filter-strip {
@@ -5090,6 +5268,28 @@ td {
     width: 100%;
   }
 
+  .hero-groups .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 48px 0 34px;
+  }
+
+  .hero-groups h1 {
+    max-width: 100%;
+    font-size: clamp(34px, 10vw, 42px);
+    line-height: 1.05;
+  }
+
+  .hero-groups .hero-copy {
+    max-width: 100%;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .hero-groups .hero-panel {
+    width: 100%;
+  }
+
   .city-detail-hero .hero-inner {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -5415,7 +5615,9 @@ td {
 
   .hero-planner-tabs,
   .hero-planner-actions,
-  .hero-planner-secondary {
+  .hero-planner-secondary,
+  .group-hero-actions,
+  .group-hero-secondary-actions {
     grid-template-columns: 1fr;
   }
 

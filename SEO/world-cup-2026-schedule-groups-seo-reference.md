@@ -47,9 +47,9 @@ Current density validation:
 
 ```text
 Build passed.
-Default visible word count: 3,137
+Default visible word count: 3,421
 Default keyword-family hits: 123
-Default keyword-family density: 3.92%
+Default keyword-family density: 3.60%
 Target density: 3%-5%
 H1 count: 1
 H2 count: 8
@@ -72,4 +72,7 @@ Reloading /world-cup-2026-schedule-groups/?group=J#group-j preserves Group J.
 Each group card links to full fixture detail pages and related host city routes.
 The qualification panel changes by selected group.
 Each group card includes a pre-tournament standings preview without showing fake live results.
+The hero panel is now a functional Group Finder with group/team selectors.
+Selecting a team maps to the correct group, standings anchor and first match detail page.
+The Groups hero uses its own blue/gold stadium theme instead of the repeated dark-green treatment.
 ```

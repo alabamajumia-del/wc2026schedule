@@ -180,3 +180,50 @@ Screenshots saved:
 page-seo-plans/world-cup-2026-schedule-groups-phase-c-desktop.png
 page-seo-plans/world-cup-2026-schedule-groups-phase-c-mobile.png
 ```
+
+## 5. Groups Hero Tool and Visual Theme Correction
+
+Date: 2026-05-24
+Status: Completed
+
+User feedback:
+
+```text
+The hero control panel has no real function, and the repeated dark-green background does not fit the World Cup theme.
+```
+
+Optimization completed:
+
+- Replaced the static `Quick facts` panel with a real Group Finder tool.
+- Added a group selector and team selector inside the hero.
+- Selecting a team automatically maps the user to the correct group.
+- The hero tool now updates its result summary, standings link and first-match link based on the selected group.
+- The `Show group card` button now filters the Groups explorer and scrolls to the correct group card.
+- Reworked the Groups page hero into a page-specific visual theme with blue, gold, white and stadium lighting instead of another dark-green panel.
+- Kept the page title, H1 and core keyword alignment unchanged.
+
+Validation:
+
+```text
+Build passed.
+Hero class: hero hero-groups
+Selected team: Brazil
+Mapped group: C
+Hero result: Group C: Brazil, Morocco, Haiti, Scotland
+Standings link: /world-cup-2026-standings/#group-c
+First match link: /world-cup-2026-match/6-brazil-vs-morocco/
+Apply result URL: /world-cup-2026-schedule-groups/?group=C#group-c
+Visible group after apply: C
+Default visible word count: 3,421
+Default keyword-family hits: 123
+Default keyword-family density: 3.60%
+Desktop overflow: 0
+Mobile overflow: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/world-cup-2026-schedule-groups-hero-tool-desktop.png
+page-seo-plans/world-cup-2026-schedule-groups-hero-tool-mobile.png
+```
