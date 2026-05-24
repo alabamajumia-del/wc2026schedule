@@ -905,6 +905,26 @@ const groupSummaries = () =>
     return { group, teams, matches: groupMatches, cities, stadiums, firstMatch, lastMatch };
   });
 
+const groupStandingsPreviewRows = (teams) =>
+  teams
+    .map((team, index) => {
+      const rank = index + 1;
+      const status = rank <= 2 ? "Top-two route" : rank === 3 ? "Rank-three watch" : "Needs results";
+      const note =
+        rank <= 2
+          ? "Would advance if this position holds."
+        : rank === 3
+            ? "Must compare record with other groups."
+            : "Needs points to climb.";
+      return `<tr>
+      <td><span>${rank}</span></td>
+      <td>${teamChip(team)}</td>
+      <td>0</td>
+      <td><strong>${status}</strong><small>${note}</small></td>
+    </tr>`;
+    })
+    .join("");
+
 const renderGroupsSupportSections = () => {
   const groups = groupSummaries();
   const groupMatchCount = groups.reduce((total, group) => total + group.matches.length, 0);
@@ -950,10 +970,38 @@ const renderGroupsSupportSections = () => {
     <strong><span data-group-result-count>${groups.length}</span> groups shown</strong>
     <span>Use A-L tabs to focus the group cards without leaving the page.</span>
   </div>
+  <aside class="group-qualification-panel" data-group-qualification-panel>
+    <div>
+      <p class="eyebrow">Qualification path</p>
+      <h3 data-qualification-title>All World Cup 2026 Schedule Groups</h3>
+      <p data-qualification-copy>Every group starts level before the tournament begins. The top two teams from each group advance, while third-place teams move into a cross-group comparison for the remaining Round of 32 places.</p>
+    </div>
+    <div class="qualification-path-grid">
+      <article>
+        <span>1</span>
+        <strong>Top two</strong>
+        <small data-qualification-top>24 teams qualify directly from first and second place.</small>
+      </article>
+      <article>
+        <span>3</span>
+        <strong>Third-place race</strong>
+        <small data-qualification-third>Eight third-place teams qualify after comparing records across groups.</small>
+      </article>
+      <article>
+        <span>TB</span>
+        <strong>Tie-breakers</strong>
+        <small>Points, goal difference, goals scored and FIFA tie-break rules decide close groups.</small>
+      </article>
+    </div>
+    <div class="qualification-panel-actions">
+      <a href="/world-cup-2026-standings/" data-qualification-standings>Open standings</a>
+      <a href="/world-cup-2026-bracket/">Open bracket path</a>
+    </div>
+  </aside>
   <div class="groups-card-grid">
     ${groups
       .map(
-        (item) => `<article class="groups-card" id="group-${attr(item.group.toLowerCase())}" data-group-card="${attr(item.group)}">
+        (item) => `<article class="groups-card" id="group-${attr(item.group.toLowerCase())}" data-group-card="${attr(item.group)}" data-group-teams="${attr(item.teams.join(", "))}" data-group-first="#${attr(item.firstMatch.matchNumber)} ${attr(item.firstMatch.home)} vs ${attr(item.firstMatch.away)}" data-group-last="${attr(shortDate(item.lastMatch.date))}" data-group-cities="${attr(item.cities.join(", "))}">
       <div class="groups-card-head">
         <span>Group ${esc(item.group)}</span>
         <strong>${item.matches.length} fixtures</strong>
@@ -964,11 +1012,40 @@ const renderGroupsSupportSections = () => {
       <div class="group-city-routes" aria-label="Host cities for Group ${attr(item.group)}">
         ${item.cities.map((city) => `<a href="${attr(cityPath(slugify(city)))}">${esc(city)}</a>`).join("")}
       </div>
+      <section class="group-standings-preview" aria-label="Group ${attr(item.group)} standings preview">
+        <div class="group-standings-head">
+          <div>
+            <span>Standings preview</span>
+            <strong>Group ${esc(item.group)} starts level</strong>
+          </div>
+          <a href="/world-cup-2026-standings/#group-${attr(item.group.toLowerCase())}">Live table</a>
+        </div>
+        <div class="group-standings-table-wrap">
+          <table class="group-standings-table">
+            <thead>
+              <tr><th>Rank</th><th>Team</th><th>Pts</th><th>Route</th></tr>
+            </thead>
+            <tbody>
+              ${groupStandingsPreviewRows(item.teams)}
+            </tbody>
+          </table>
+        </div>
+      </section>
       <dl>
         <div><dt>Date window</dt><dd>${esc(shortDate(item.firstMatch.date))}-${esc(shortDate(item.lastMatch.date))}</dd></div>
         <div><dt>Host cities</dt><dd>${esc(item.cities.slice(0, 4).join(", "))}${item.cities.length > 4 ? "..." : ""}</dd></div>
         <div><dt>First fixture</dt><dd>#${item.firstMatch.matchNumber} ${esc(item.firstMatch.home)} vs ${esc(item.firstMatch.away)}</dd></div>
       </dl>
+      <div class="group-route-panel">
+        <div>
+          <span>First decision point</span>
+          <strong>${esc(shortDate(item.firstMatch.date))}: #${item.firstMatch.matchNumber} ${esc(item.firstMatch.home)} vs ${esc(item.firstMatch.away)}</strong>
+        </div>
+        <div>
+          <span>Final group day</span>
+          <strong>${esc(shortDate(item.lastMatch.date))}: standings and third-place watch become clearer</strong>
+        </div>
+      </div>
       <div class="group-fixture-list">
         ${item.matches
           .map(
@@ -5657,10 +5734,44 @@ await write(
   const buttons = Array.from(explorer.querySelectorAll("[data-group-filter]"));
   const resultCount = explorer.querySelector("[data-group-result-count]");
   const resultAnchor = explorer.querySelector("#group-results") || explorer;
+  const qualificationPanel = explorer.querySelector("[data-group-qualification-panel]");
+  const qualificationTitle = explorer.querySelector("[data-qualification-title]");
+  const qualificationCopy = explorer.querySelector("[data-qualification-copy]");
+  const qualificationTop = explorer.querySelector("[data-qualification-top]");
+  const qualificationThird = explorer.querySelector("[data-qualification-third]");
+  const qualificationStandings = explorer.querySelector("[data-qualification-standings]");
 
   const setUrl = (group) => {
     const target = group ? "?group=" + encodeURIComponent(group) + "#group-" + group.toLowerCase() : "#groups-explorer";
     window.history.replaceState({}, "", window.location.pathname + target);
+  };
+
+  const updateQualificationPanel = (group) => {
+    if (!qualificationPanel) return;
+    const card = group ? explorer.querySelector("[data-group-card='" + group + "']") : null;
+    if (!card) {
+      if (qualificationTitle) qualificationTitle.textContent = "All World Cup 2026 Schedule Groups";
+      if (qualificationCopy) {
+        qualificationCopy.textContent =
+          "Every group starts level before the tournament begins. The top two teams from each group advance, while third-place teams move into a cross-group comparison for the remaining Round of 32 places.";
+      }
+      if (qualificationTop) qualificationTop.textContent = "24 teams qualify directly from first and second place.";
+      if (qualificationThird) qualificationThird.textContent = "Eight third-place teams qualify after comparing records across groups.";
+      if (qualificationStandings) qualificationStandings.href = "/world-cup-2026-standings/";
+      return;
+    }
+    const teams = card.dataset.groupTeams || "";
+    const first = card.dataset.groupFirst || "the first group fixture";
+    const last = card.dataset.groupLast || "the final group day";
+    const cities = card.dataset.groupCities || "its host cities";
+    if (qualificationTitle) qualificationTitle.textContent = "Group " + group + " qualification preview";
+    if (qualificationCopy) {
+      qualificationCopy.textContent =
+        "Group " + group + " includes " + teams + ". Start with " + first + ", then watch the table through " + last + " across " + cities + ".";
+    }
+    if (qualificationTop) qualificationTop.textContent = "First and second place from Group " + group + " move directly into the Round of 32.";
+    if (qualificationThird) qualificationThird.textContent = "Third place in Group " + group + " may still qualify through the best third-place comparison.";
+    if (qualificationStandings) qualificationStandings.href = "/world-cup-2026-standings/#group-" + group.toLowerCase();
   };
 
   const applyGroup = (group = "", { scroll = true, updatePath = true } = {}) => {
@@ -5674,6 +5785,7 @@ await write(
       button.setAttribute("aria-pressed", String((button.dataset.groupFilter || "") === group));
     });
     if (resultCount) resultCount.textContent = String(visible);
+    updateQualificationPanel(group);
     if (updatePath) setUrl(group);
     if (scroll) {
       const target = group ? explorer.querySelector("[data-group-card='" + group + "']") : resultAnchor;

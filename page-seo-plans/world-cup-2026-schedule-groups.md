@@ -132,3 +132,51 @@ Screenshots saved:
 page-seo-plans/world-cup-2026-schedule-groups-phase-b-desktop.png
 page-seo-plans/world-cup-2026-schedule-groups-phase-b-mobile.png
 ```
+
+## 4. Groups Phase C: Standings Preview and Qualification Path Panel
+
+Date: 2026-05-24
+Status: Completed
+
+User instruction:
+
+```text
+Add Group Standings Preview + Qualification Path Panel.
+```
+
+Optimization completed:
+
+- Added a dynamic qualification path panel inside the Groups explorer.
+- The panel now changes when a user selects Group A through Group L.
+- Added a standings preview table to every group card without pretending to show live results before the tournament begins.
+- Added clear route labels for top-two qualification, rank-three watch and teams that need results to climb.
+- Added first decision point and final group day notes to each group card.
+- Kept match detail links, team chips and host city route links inside the same group workflow.
+- Adjusted the standings preview table so it fits inside desktop and mobile cards without horizontal page overflow.
+
+Validation:
+
+```text
+Build passed.
+Default visible word count: 3,137
+Default keyword-family hits: 123
+Default keyword-family density: 3.92%
+Target density: 3%-5%
+H1 count: 1
+Group cards: 12
+Standings preview tables: 12
+Visible Group C standings rows: 4
+Visible Group C fixture links: 6
+Group C panel title: Group C qualification preview
+Desktop page overflow: 0
+Desktop standings table overflow: 0
+Mobile page overflow: 0
+Mobile standings table overflow: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/world-cup-2026-schedule-groups-phase-c-desktop.png
+page-seo-plans/world-cup-2026-schedule-groups-phase-c-mobile.png
+```
