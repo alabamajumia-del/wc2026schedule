@@ -1,7 +1,7 @@
 # AdSense Trust and Compliance Pages
 
 Date: 2026-05-24
-Status: Completed
+Status: Architecture completed; owner-specific content required before launch
 
 Task:
 
@@ -66,4 +66,54 @@ page-seo-plans/adsense-trust-pages-preview.png
 [ ] Add /ads.txt content only after AdSense provides the publisher line.
 [ ] Recheck Core Web Vitals after any ad placements are added.
 [ ] Review Privacy Policy again before enabling live ad scripts.
+```
+
+## Owner Information Gap Record
+
+Date added: 2026-05-25
+
+Reason:
+
+```text
+The trust page architecture exists, but the site owner has not yet provided final public identity, contact, privacy-tool, retention, AdSense or legal-review details. These details must not be invented by Codex.
+```
+
+New checklist file:
+
+```text
+launch-checklists/trust-pages-prelaunch-info-checklist.md
+```
+
+Current trust page status:
+
+```text
+/about/           Framework ready; owner/operator wording must be confirmed.
+/contact/         Framework ready; public mailbox must be confirmed active.
+/privacy-policy/  Framework ready; actual analytics, hosting, cookies, contact-message handling and AdSense setup must be confirmed.
+/disclaimer/      Framework ready; final unofficial-status and liability wording must be owner-reviewed.
+```
+
+Known missing information:
+
+```text
+[ ] Public owner/operator name or decision to use only wc26schedule.
+[ ] Country/region of operation, if the owner wants it disclosed.
+[ ] Active public contact email.
+[ ] Whether contact@worldcup2026schedule.net is live.
+[ ] Whether a contact form will be added.
+[ ] Hosting provider.
+[ ] Analytics provider.
+[ ] Cookie/cookie-less analytics decision.
+[ ] Email provider and message retention handling.
+[ ] AdSense publisher ID.
+[ ] AdSense verification method selected in the AdSense interface.
+[ ] Final ads.txt line from AdSense.
+[ ] Whether a cookie consent layer is required for target regions.
+[ ] Final owner approval of unofficial, no-ticket-sales and source-verification language.
+```
+
+Launch reminder:
+
+```text
+Do not submit the site to AdSense until the checklist is completed, the contact mailbox is tested, the Privacy Policy matches the actual production setup and no placeholder identity or verification data appears in the generated site.
 ```

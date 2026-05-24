@@ -99,3 +99,23 @@ Final local build was rerun with all AdSense settings cleared so no test publish
 [ ] Rebuild and confirm source HTML before submitting.
 [ ] Replace comment-only ads.txt with the real generated line by enabling ADSENSE_ENABLE_ADS_TXT=true.
 ```
+
+## Dependency on Trust Page Information
+
+Date added: 2026-05-25
+
+Before the AdSense application:
+
+```text
+[ ] Complete launch-checklists/trust-pages-prelaunch-info-checklist.md.
+[ ] Confirm /about/ does not contain invented owner/operator information.
+[ ] Confirm /contact/ uses a real active mailbox.
+[ ] Confirm /privacy-policy/ reflects the actual production analytics, ads, cookies, hosting and contact-message setup.
+[ ] Confirm /disclaimer/ has owner-approved unofficial-status, no-ticket-sales and official-source language.
+```
+
+Important:
+
+```text
+AdSense verification infrastructure is technically ready, but AdSense submission should wait until the trust pages contain owner-provided final details.
+```
