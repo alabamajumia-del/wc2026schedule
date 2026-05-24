@@ -556,18 +556,19 @@ export const pages = [
     ]
   },
   {
-    slug: "world-cup-2026-groups",
+    slug: "world-cup-2026-schedule-groups",
     nav: "Groups",
-    title: "World Cup 2026 Groups: Teams, Fixtures & Standings Guide",
+    title: "World Cup 2026 Schedule Groups: Teams, Fixtures & Standings Guide",
     description:
-      "Explore World Cup 2026 groups, group stage fixtures, qualification rules, standings links and tie-breaker guidance.",
-    h1: "World Cup 2026 Groups",
-    keyword: "world cup 2026 groups",
+      "Explore World Cup 2026 schedule groups, group stage fixtures, qualification rules, standings links and tie-breaker guidance.",
+    h1: "World Cup 2026 Schedule Groups",
+    keyword: "world-cup-2026-schedule-groups",
     intent: "Understand the group structure and how teams advance.",
     longTail: [
-      "fifa world cup groups",
-      "world cup group stage 2026",
-      "world cup groups and fixtures",
+      "world cup 2026 schedule groups",
+      "fifa world cup 2026 groups",
+      "world cup 2026 group stage fixtures",
+      "world cup 2026 groups and fixtures",
       "world cup group draw"
     ],
     facts: [
@@ -576,7 +577,7 @@ export const pages = [
       ["Content type", "Explanatory guide plus tables"]
     ],
     intro:
-      "The World Cup 2026 groups page explains how the tournament is organized before the knockout rounds. It helps users move from a broad group overview to fixtures, standings, team pages and qualification scenarios.",
+      "The World Cup 2026 schedule groups page explains how the tournament is organized before the knockout rounds. It helps users move from a broad group overview to fixtures, standings, team pages and qualification scenarios.",
     sections: [
       [
         "How the Group Stage Page Helps Users",
@@ -826,7 +827,7 @@ export const pages = [
       "The World Cup 2026 standings page is designed for the high-frequency questions that arrive once matches begin: who leads each group, which teams can advance and how tie-breakers affect the table.",
     sections: [["Before and During the Tournament", ["Before the first match, this page should clearly explain that live standings will update after results are available. It can still be useful by explaining points, tie-breakers and how group performance connects to the knockout bracket.", "During the tournament, it should become one of the most frequently updated pages on the site. The standings experience should prioritize clarity, showing each group table, rank, points, goal difference and qualification status without forcing users to dig through long paragraphs."]]],
     faqs: [["When will standings update?", "Standings should update after match results are confirmed. Before the tournament begins, the page should explain the ranking format and link users to the group schedule."]],
-    links: [["View groups", "/world-cup-2026-groups/"], ["Open bracket", "/world-cup-2026-bracket/"], ["Full schedule", "/world-cup-2026-schedule/"]]
+    links: [["View groups", "/world-cup-2026-schedule-groups/"], ["Open bracket", "/world-cup-2026-bracket/"], ["Full schedule", "/world-cup-2026-schedule/"]]
   },
   {
     slug: "world-cup-2026-bracket",

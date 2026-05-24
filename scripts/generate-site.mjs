@@ -812,7 +812,7 @@ const renderScheduleCapabilitySections = () => {
         <h2>FIFA World Cup 2026 Schedule Group and Bracket Planning</h2>
         <p>Use this FIFA World Cup 2026 schedule group and bracket module to separate fixed group-stage fixtures from knockout placeholders.</p>
       </div>
-      <a class="button light" href="/world-cup-2026-groups/">Open groups guide</a>
+      <a class="button light" href="/world-cup-2026-schedule-groups/">Open groups guide</a>
     </div>
     <div class="path-board">
       <div><span>Group stage</span><strong>${groupCountMatches} matches</strong><small>Use the world cup group stage schedule across ${groupCount} groups with fixed teams, dates and venues.</small></div>
@@ -976,7 +976,7 @@ const renderPdfVisualSections = () => {
       <p>For knockout-route planning, open the bracket PDF and keep the live match pages nearby. The PDF gives you the shape of the route; match detail pages give you the exact city, stadium, time-zone and related team route once a fixture matters to your plan.</p>
       <div class="pdf-feature-actions">
         <a class="button" href="/downloads/printable-world-cup-2026-schedule-bracket.pdf" download>Get bracket PDF</a>
-        <a class="button light" href="/world-cup-2026-groups/">Open groups guide</a>
+        <a class="button light" href="/world-cup-2026-schedule-groups/">Open groups guide</a>
       </div>
     </div>
     <aside class="pdf-preview-card">
@@ -2776,7 +2776,7 @@ const renderTeamPage = (team) =>
     <h2>Related planning pages</h2>
     ${linkGrid([
       ["Full World Cup 2026 schedule", "/world-cup-2026-schedule/"],
-      ["Groups guide", "/world-cup-2026-groups/"],
+      ["Groups guide", "/world-cup-2026-schedule-groups/"],
       ["Download schedule files", "/world-cup-2026-schedule-excel/"],
       ["Ticket guide", "/world-cup-2026-tickets/"]
     ])}
@@ -3337,7 +3337,7 @@ const renderMatchPage = (match) => {
         <h2>Group ${esc(match.group)} Matches Around This Fixture</h2>
         <p>Use these Group ${esc(match.group)} fixtures to understand how ${esc(match.home)} vs ${esc(match.away)} fits into the wider group route, rest-day pattern and qualification picture.</p>
       </div>
-      <a class="button light" href="/world-cup-2026-groups/">Open groups guide</a>
+      <a class="button light" href="/world-cup-2026-schedule-groups/">Open groups guide</a>
     </div>
     <div class="related-match-grid">
       ${groupMatches
@@ -5623,6 +5623,11 @@ for (const page of pages) {
 await write(
   join("world-cup-2026-host-cities", "index.html"),
   redirectPage("/world-cup-2026-schedule-host-cities/")
+);
+
+await write(
+  join("world-cup-2026-groups", "index.html"),
+  redirectPage("/world-cup-2026-schedule-groups/")
 );
 
 const cities = citySummaries();

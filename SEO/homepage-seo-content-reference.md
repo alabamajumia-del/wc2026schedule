@@ -107,7 +107,7 @@ world cup 2026 schedule hub
 world cup 2026 match schedule
 world cup 2026 dates
 world cup 2026 host cities
-world cup 2026 groups
+world-cup-2026-schedule-groups
 world cup 2026 PDF schedule
 world cup 2026 Excel schedule
 world cup 2026 TV schedule
@@ -191,7 +191,7 @@ Primary navigation links:
 /world-cup-2026-dates/
 /world-cup-2026-schedule-pdf/
 /world-cup-2026-schedule-excel/
-/world-cup-2026-groups/
+/world-cup-2026-schedule-groups/
 /world-cup-2026-schedule-host-cities/
 /world-cup-2026-tv-schedule/
 /world-cup-2026-tickets/

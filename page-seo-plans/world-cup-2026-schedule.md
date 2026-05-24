@@ -265,7 +265,7 @@ Important internal link targets:
 /world-cup-2026-schedule-excel/
 /world-cup-2026-schedule-host-cities/
 /world-cup-2026-tickets/
-/world-cup-2026-groups/
+/world-cup-2026-schedule-groups/
 /world-cup-2026-standings/
 /world-cup-2026-bracket/
 /world-cup-2026-tv-schedule/
