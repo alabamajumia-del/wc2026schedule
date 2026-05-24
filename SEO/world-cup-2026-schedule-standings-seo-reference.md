@@ -18,10 +18,55 @@ Page mapping:
 
 ```text
 URL: /world-cup-2026-schedule-standings/
-H1: World Cup 2026 Schedule Standings
-Title: World Cup 2026 Schedule Standings: Group Tables & Qualification
-Description: Follow the World Cup 2026 schedule standings with group tables, points rules, tie-breaker notes and qualification scenario guidance.
 Old URL redirect: /world-cup-2026-standings/ -> /world-cup-2026-schedule-standings/
+```
+
+Title:
+
+```text
+World Cup 2026 Schedule Standings: Group Tables & Qualification | wc26schedule
+```
+
+Description:
+
+```text
+Follow the World Cup 2026 schedule standings with group tables, points rules, tie-breaker notes and qualification scenario guidance.
+```
+
+H1:
+
+```text
+World Cup 2026 Schedule Standings
+```
+
+H2 structure:
+
+```text
+World Cup 2026 Schedule Standings: Check the Table and Advancement Route
+World Cup 2026 Schedule Standings by Group
+How to Read the World Cup 2026 Schedule Standings
+How to Use the World Cup 2026 Schedule Standings
+World Cup 2026 Schedule Standings Related Planning Pages
+World Cup 2026 Schedule Standings FAQ
+```
+
+H3 structure:
+
+```text
+World Cup 2026 Schedule Standings Tables Start at Zero
+World Cup 2026 Schedule Standings Group A
+World Cup 2026 Schedule Standings Group B
+World Cup 2026 Schedule Standings Group C
+World Cup 2026 Schedule Standings Group D
+World Cup 2026 Schedule Standings Group E
+World Cup 2026 Schedule Standings Group F
+World Cup 2026 Schedule Standings Group G
+World Cup 2026 Schedule Standings Group H
+World Cup 2026 Schedule Standings Group I
+World Cup 2026 Schedule Standings Group J
+World Cup 2026 Schedule Standings Group K
+World Cup 2026 Schedule Standings Group L
+When will World Cup 2026 Schedule Standings update?
 ```
 
 Search-facing phrase variants:
@@ -45,6 +90,49 @@ Content intent:
 
 ```text
 This page should be the live-table destination connected from Groups and Bracket pages. Before matches begin, it should show prepared group tables and explain qualification status without inventing results. During the tournament, it should become the page for points, goal difference, ranking and advancement status.
+```
+
+Page SEO plan:
+
+```text
+1. Keep one clear H1 focused on the page-specific core keyword.
+2. Use the readable phrase "World Cup 2026 Schedule Standings" in every H2 and H3.
+3. Keep world-cup-2026-schedule as the parent schedule keyword layer, but avoid replacing the page-specific standings intent.
+4. Use the first screen as a functional group-table preview, not a static description block.
+5. Build a hub-and-spoke path from Groups -> Standings -> Bracket, while linking back to the full schedule.
+6. Keep keyword-family density between 3% and 5%; if headings increase density, reduce repeated body terms instead of removing useful headings.
+7. Use Article, Breadcrumb and FAQ structured data through the existing page generator.
+8. Keep the old /world-cup-2026-standings/ URL as a noindex redirect to protect the new SEO URL.
+9. Make every group table accessible through hash anchors such as #group-c.
+10. Do not invent live results before official match outcomes exist.
+```
+
+Content plan:
+
+```text
+Hero content:
+Explain that the page is for checking group tables, advancement route and ranking status after users review the full World Cup 2026 schedule.
+
+Hero tool:
+Use a Group Table Preview selector. Selecting a group should update the mini ranking board and open the matching group table.
+
+Overview content:
+Explain that all tables start at zero before kickoff. The content should clarify that this is prepared structure, not fabricated live standings.
+
+Main table content:
+Show all 12 group tables, covering Group A through Group L. Each table should include rank, team, P, W, D, L, GF, GA, GD, Pts and Status.
+
+Rules content:
+Explain direct advancement, third-place comparison and tie-break checks in short readable cards.
+
+Usage content:
+Guide users through choosing a group, reading status, checking fixtures, connecting schedule and table, and following the knockout route.
+
+Related content:
+Link to Groups, Bracket and Full Schedule pages so users can move naturally through the tournament planning path.
+
+FAQ content:
+Answer when the World Cup 2026 Schedule Standings will update, and make clear that official results should drive updates.
 ```
 
 Current interaction reference:
