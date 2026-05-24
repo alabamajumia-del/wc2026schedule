@@ -587,7 +587,7 @@ const hero = ({
             <option value="">All fixture types</option>
             <option value="high-volume">Most matches</option>
             <option value="knockout">Knockout rounds</option>
-            <option value="final-week">Semifinals, third-place and final week</option>
+            <option value="final-week">Late tournament route</option>
             <option value="cross-border">Canada or Mexico venues</option>
           </select>
         </label>
@@ -603,7 +603,7 @@ const hero = ({
       </div>
       <div class="city-hero-presets">
         <button type="button" data-city-hero-preset="knockout">Knockout hosts</button>
-        <button type="button" data-city-hero-preset="final-week">Final week route</button>
+        <button type="button" data-city-hero-preset="final-week">Late tournament route</button>
       </div>
     </div>`
         : `<strong class="hero-panel-title">${esc(panelTitle)}</strong>
@@ -1404,7 +1404,7 @@ const renderHostCitiesSupportSections = () => `<section class="section host-city
     <p>Move from broad city comparison to a city schedule page, then confirm match details before travel, tickets or broadcast planning.</p>
   </div>
   <div class="utility-card-grid">
-    <article><strong>1. Pick a planning angle</strong><span>Use country, match volume, knockout host or final-week presets to narrow the city list.</span></article>
+    <article><strong>1. Pick a planning angle</strong><span>Use country, match volume, knockout host or late-round presets to narrow the city list.</span></article>
     <article><strong>2. Compare the city card</strong><span>Check match count, stadium, date window, stage mix and first listed match before opening a city page.</span></article>
     <article><strong>3. Open the local schedule</strong><span>Use the city page for fixtures, stadium context, related teams and next planning links.</span></article>
     <article><strong>4. Confirm official details</strong><span>Before booking travel or buying tickets, verify timing, access and ticket information with official sources.</span></article>
@@ -1571,7 +1571,7 @@ const pageSchema = (page) => {
         {
           "@type": "HowToStep",
           name: "Choose a planning angle",
-          text: "Start with country, match volume, knockout host, final-week route or cross-border travel needs."
+          text: "Start with country, match volume, knockout host, late-round route or cross-border travel needs."
         },
         {
           "@type": "HowToStep",
@@ -2056,6 +2056,25 @@ const cityMeta = {
   Philadelphia: { country: "United States", localOffsetHours: -4 }
 };
 
+const cityRegionMeta = {
+  Atlanta: { region: "East", label: "Eastern USA", travel: "Southeast travel base" },
+  Boston: { region: "East", label: "Eastern USA", travel: "Northeast rail and airport base" },
+  Dallas: { region: "Central", label: "Central USA", travel: "Central high-volume base" },
+  Guadalajara: { region: "Mexico", label: "Mexico", travel: "Mexico route with local venue checks" },
+  Houston: { region: "Central", label: "Central USA", travel: "Texas match base" },
+  "Kansas City": { region: "Central", label: "Central USA", travel: "Central USA knockout stop" },
+  "Los Angeles": { region: "West", label: "Western USA", travel: "West Coast stadium route" },
+  "Mexico City": { region: "Mexico", label: "Mexico", travel: "Opening-match and Mexico travel anchor" },
+  Miami: { region: "East", label: "Eastern USA", travel: "Florida late-tournament route" },
+  Monterrey: { region: "Mexico", label: "Mexico", travel: "Northern Mexico match base" },
+  "New York New Jersey": { region: "East", label: "Eastern USA", travel: "Tournament finish anchor" },
+  Philadelphia: { region: "East", label: "Eastern USA", travel: "Northeast match base" },
+  "San Francisco Bay Area": { region: "West", label: "Western USA", travel: "Bay Area match base" },
+  Seattle: { region: "West", label: "Western USA", travel: "Pacific Northwest route" },
+  Toronto: { region: "Canada", label: "Canada", travel: "Eastern Canada match base" },
+  Vancouver: { region: "Canada", label: "Canada", travel: "Western Canada match base" }
+};
+
 const formatTime = (date) =>
   `${String(date.getUTCHours()).padStart(2, "0")}:${String(date.getUTCMinutes()).padStart(2, "0")}`;
 
@@ -2099,6 +2118,9 @@ const citySummaries = () => {
     const current = groups.get(match.city) ?? {
       city: match.city,
       country: meta.country,
+      region: cityRegionMeta[match.city]?.region ?? meta.country,
+      regionLabel: cityRegionMeta[match.city]?.label ?? meta.country,
+      travelFit: cityRegionMeta[match.city]?.travel ?? "Host city match base",
       citySlug: match.citySlug,
       path,
       matches: [],
@@ -2140,11 +2162,43 @@ const cityStageSummary = (city) => {
     .map(([stage, count]) => `${stage}: ${count}`);
 };
 
+const cityStageRank = (stage) =>
+  ({
+    Final: 7,
+    "Bronze final": 6,
+    "Semi-finals": 5,
+    "Quarter-finals": 4,
+    "Round of 16": 3,
+    "Round of 32": 2,
+    "Group stage": 1
+  })[stage] ?? 0;
+
+const cityFeaturedMatch = (city) =>
+  [...city.matches].sort(
+    (a, b) =>
+      cityStageRank(b.stage) - cityStageRank(a.stage) ||
+      Number(a.matchNumber) - Number(b.matchNumber)
+  )[0];
+
+const cityValueTags = (city) => {
+  const knockoutCount = city.matches.filter((match) => match.stage !== "Group stage").length;
+  const tags = [];
+  if (city.matches.some((match) => match.matchNumber === 104)) tags.push("Final host");
+  if (city.matches.some((match) => match.matchNumber === 1)) tags.push("Opening match");
+  if (city.matches.some((match) => match.stage === "Semi-finals")) tags.push("Semifinal route");
+  if (city.matches.some((match) => match.stage === "Bronze final")) tags.push("Third-place match");
+  if (city.matches.length >= 8) tags.push("8+ matches");
+  if (knockoutCount > 0) tags.push(`${knockoutCount} knockout`);
+  if (city.country !== "United States") tags.push(city.country);
+  if (!tags.length) tags.push(city.regionLabel);
+  return tags.slice(0, 4);
+};
+
 const cityPlanningFit = (city) => {
   const hasFinal = city.matches.some((match) => match.matchNumber === 104);
   const hasOpening = city.matches.some((match) => match.matchNumber === 1);
   const knockoutCount = city.matches.filter((match) => match.stage !== "Group stage").length;
-  if (hasFinal) return "Final-week anchor for fans planning the tournament finish.";
+  if (hasFinal) return "Championship-week anchor for fans planning the tournament finish.";
   if (hasOpening) return "Opening-match anchor with early tournament demand.";
   if (city.matches.length >= 9) return "High-volume base for comparing several match days in one market.";
   if (knockoutCount >= 2) return "Strong knockout route for fans following the bracket.";
@@ -2155,6 +2209,9 @@ const cityPlanningFit = (city) => {
 const renderHostCitiesExplorer = () => {
   const cities = citySummaries();
   const countries = [...new Set(cities.map((city) => city.country))].sort((a, b) => a.localeCompare(b));
+  const regions = [...new Map(cities.map((city) => [city.region, city.regionLabel])).entries()].sort((a, b) =>
+    a[1].localeCompare(b[1])
+  );
   const totalMatches = matches.length;
   const maxMatches = Math.max(...cities.map((city) => city.matches.length));
   const knockoutHosts = cities.filter((city) => city.matches.some((match) => match.stage !== "Group stage")).length;
@@ -2164,12 +2221,47 @@ const renderHostCitiesExplorer = () => {
     .sort((a, b) => b.matches.length - a.matches.length || a.city.localeCompare(b.city))
     .slice(0, 5);
   const finalWeekCities = cities.filter((city) => city.matches.some((match) => match.date >= "2026-07-13"));
+  const westernCities = cities.filter((city) => city.region === "West");
+  const compareCards = [
+    {
+      label: "Most matches",
+      title: topCities.slice(0, 3).map((city) => city.city).join(", "),
+      copy: "Start here when your priority is more fixtures in one market.",
+      action: "Show most matches",
+      preset: "high-volume"
+    },
+    {
+      label: "Knockout route",
+      title: cities
+        .filter((city) => city.matches.some((match) => match.stage === "Semi-finals" || match.stage === "Final"))
+        .map((city) => city.city)
+        .join(", "),
+      copy: "Use this path when late-round fixtures matter more than group volume.",
+      action: "Show knockout hosts",
+      preset: "knockout"
+    },
+    {
+      label: "Canada and Mexico",
+      title: cities.filter((city) => city.country !== "United States").map((city) => city.city).join(", "),
+      copy: "Compare cross-border cities separately before checking documents, flights and local guidance.",
+      action: "Show cross-border",
+      preset: "cross-border"
+    },
+    {
+      label: "West route",
+      title: westernCities.map((city) => city.city).join(", "),
+      copy: "Scan the Pacific-side route when travel time zones and west-coast airports matter.",
+      action: "Show west route",
+      region: "West"
+    }
+  ];
 
   const card = (city) => {
     const knockoutCount = city.matches.filter((match) => match.stage !== "Group stage").length;
     const firstMatch = city.matches[0];
+    const featuredMatch = cityFeaturedMatch(city);
     const sampleTeams = city.teams.filter(isRealTeam).slice(0, 4);
-    return `<article class="host-city-card" data-city-card data-country="${attr(city.country)}" data-match-count="${city.matches.length}" data-knockout="${knockoutCount}" data-final-week="${city.matches.some((match) => match.date >= "2026-07-13") ? "true" : "false"}" data-first-date="${attr(city.firstDate)}" data-search="${attr(`${city.city} ${city.country} ${city.stadiums.join(" ")} ${city.stages.join(" ")} ${city.teams.join(" ")}`.toLowerCase())}">
+    return `<article class="host-city-card" data-city-card data-country="${attr(city.country)}" data-region="${attr(city.region)}" data-match-count="${city.matches.length}" data-knockout="${knockoutCount}" data-final-week="${city.matches.some((match) => match.date >= "2026-07-13") ? "true" : "false"}" data-first-date="${attr(city.firstDate)}" data-search="${attr(`${city.city} ${city.country} ${city.regionLabel} ${city.stadiums.join(" ")} ${city.stages.join(" ")} ${city.teams.join(" ")}`.toLowerCase())}">
       <div class="host-city-card-top">
         <div>
           <span class="city-country">${esc(city.country)}</span>
@@ -2192,7 +2284,15 @@ const renderHostCitiesExplorer = () => {
       <div class="city-next-match">
         <span>First listed match</span>
         <strong>#${firstMatch.matchNumber} ${esc(firstMatch.home)} vs ${esc(firstMatch.away)}</strong>
-        <small>${esc(firstMatch.dateLabel)} at ${esc(firstMatch.kickoffET)} ET</small>
+          <small>${esc(firstMatch.dateLabel)} at ${esc(firstMatch.kickoffET)} ET</small>
+      </div>
+      <div class="city-featured-match">
+        <span>Planning highlight</span>
+        <strong>#${featuredMatch.matchNumber} ${esc(featuredMatch.stage)}</strong>
+        <small>${esc(featuredMatch.home)} vs ${esc(featuredMatch.away)} - ${esc(featuredMatch.dateLabel)}</small>
+      </div>
+      <div class="city-badge-row">
+        ${cityValueTags(city).map((tag) => `<span>${esc(tag)}</span>`).join("")}
       </div>
       <div class="city-team-sample">
         ${sampleTeams.map((team) => `<span>${esc(teamCode(team))}</span>`).join("")}
@@ -2209,7 +2309,7 @@ const renderHostCitiesExplorer = () => {
     <div>
       <p class="eyebrow">Host city planner</p>
       <h2>Compare Full Match Dates, Venues and Fixtures by Host City</h2>
-      <p>Use this city hub to narrow the 16 World Cup 2026 schedule host cities by country, full match dates, venue, group stage fixtures, knockout rounds, semifinals, third-place match and final planning value.</p>
+      <p>Use this city hub to narrow the 16 World Cup 2026 schedule host cities by country, region, full match dates, venue, group stage fixtures, knockout rounds, semifinals, third-place match and final planning value.</p>
     </div>
     <div class="host-city-scoreboard" aria-label="Host city summary">
       <div><strong>${cities.length}</strong><span>host cities</span></div>
@@ -2232,12 +2332,19 @@ const renderHostCitiesExplorer = () => {
       </select>
     </label>
     <label>
+      <span>Region</span>
+      <select data-city-region>
+        <option value="">All regions</option>
+        ${regions.map(([region, label]) => `<option value="${attr(region)}">${esc(label)}</option>`).join("")}
+      </select>
+    </label>
+    <label>
       <span>Planning need</span>
       <select data-city-need>
         <option value="">All city types</option>
         <option value="high-volume">Most matches</option>
         <option value="knockout">Knockout hosts</option>
-        <option value="final-week">Final week cities</option>
+        <option value="final-week">Late tournament cities</option>
         <option value="cross-border">Canada or Mexico</option>
       </select>
     </label>
@@ -2254,9 +2361,22 @@ const renderHostCitiesExplorer = () => {
   <div class="host-city-presets" aria-label="Quick city comparisons">
     <button type="button" data-city-preset="high-volume">Most matches</button>
     <button type="button" data-city-preset="knockout">Knockout hosts</button>
-    <button type="button" data-city-preset="final-week">Final week route</button>
+    <button type="button" data-city-preset="final-week">Late tournament route</button>
     <button type="button" data-city-preset="cross-border">Canada and Mexico</button>
     <button type="button" data-city-preset="">Reset</button>
+  </div>
+
+  <div class="host-city-comparison" aria-label="Recommended host city comparison paths">
+    ${compareCards
+      .map(
+        (item) => `<article>
+      <span>${esc(item.label)}</span>
+      <strong>${esc(item.title)}</strong>
+      <p>${esc(item.copy)}</p>
+      <button type="button" ${item.preset ? `data-city-preset="${attr(item.preset)}"` : `data-city-region-preset="${attr(item.region)}"`}>${esc(item.action)}</button>
+    </article>`
+      )
+      .join("")}
   </div>
 
   <div class="host-city-results-line">
@@ -2276,9 +2396,9 @@ const renderHostCitiesExplorer = () => {
     <p>Start here when your main question is how many fixtures can fit into one travel market.</p>
   </div>
   <div class="host-city-path">
-    <span>Final-week route</span>
+    <span>Late-round route</span>
     <strong>${finalWeekCities.map((city) => city.city).join(", ")}</strong>
-    <p>Use these cities when semifinals, third-place match and final timing matter most.</p>
+    <p>Use these cities when semifinals, the third-place match and championship timing matter most.</p>
   </div>
   <div class="host-city-path">
     <span>Cross-border planning</span>
@@ -4847,10 +4967,12 @@ await write(
   const grid = explorer.querySelector("[data-city-grid]");
   const search = explorer.querySelector("[data-city-search]");
   const country = explorer.querySelector("[data-city-country]");
+  const region = explorer.querySelector("[data-city-region]");
   const need = explorer.querySelector("[data-city-need]");
   const sort = explorer.querySelector("[data-city-sort]");
   const resultCount = explorer.querySelector("[data-city-result-count]");
   const presetButtons = Array.from(explorer.querySelectorAll("[data-city-preset]"));
+  const regionPresetButtons = Array.from(explorer.querySelectorAll("[data-city-region-preset]"));
   const heroPlanner = document.querySelector("[data-city-hero-planner]");
   const heroCity = document.querySelector("[data-city-hero-city]");
   const heroNeed = document.querySelector("[data-city-hero-need]");
@@ -4888,6 +5010,7 @@ await write(
   const apply = () => {
     const query = (search?.value || "").trim().toLowerCase();
     const selectedCountry = country?.value || "";
+    const selectedRegion = region?.value || "";
     let visible = 0;
 
     sortCards();
@@ -4895,6 +5018,7 @@ await write(
       const show =
         (!query || card.dataset.search.includes(query)) &&
         (!selectedCountry || card.dataset.country === selectedCountry) &&
+        (!selectedRegion || card.dataset.region === selectedRegion) &&
         matchesNeed(card);
       card.hidden = !show;
       if (show) visible += 1;
@@ -4945,6 +5069,7 @@ await write(
     const selectedCity = heroCity?.value || "";
     if (search) search.value = selectedCity;
     if (country) country.value = "";
+    if (region) region.value = "";
     if (need) need.value = heroNeed?.value || "";
     if (sort) sort.value = selectedCity ? "name" : "matches";
     presetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
@@ -4973,9 +5098,11 @@ await write(
     if (heroNeed) heroNeed.value = "";
     if (search) search.value = "";
     if (country) country.value = "";
+    if (region) region.value = "";
     if (need) need.value = "";
     if (sort) sort.value = "matches";
     presetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+    regionPresetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
     heroPresetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
     updateHeroPlanner();
     apply();
@@ -4992,7 +5119,7 @@ await write(
     });
   });
 
-  [search, country, need, sort].forEach((control) => {
+  [search, country, region, need, sort].forEach((control) => {
     control?.addEventListener("input", apply);
     control?.addEventListener("change", apply);
   });
@@ -5001,7 +5128,23 @@ await write(
     button.addEventListener("click", () => {
       if (need) need.value = button.dataset.cityPreset || "";
       if (country && button.dataset.cityPreset === "cross-border") country.value = "";
+      if (region) region.value = "";
       presetButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button && Boolean(button.dataset.cityPreset))));
+      regionPresetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+      apply();
+      explorer.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  regionPresetButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (search) search.value = "";
+      if (country) country.value = "";
+      if (need) need.value = "";
+      if (sort) sort.value = "matches";
+      if (region) region.value = button.dataset.cityRegionPreset || "";
+      presetButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
+      regionPresetButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
       apply();
       explorer.scrollIntoView({ behavior: "smooth", block: "start" });
     });

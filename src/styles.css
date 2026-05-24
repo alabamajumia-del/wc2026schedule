@@ -2396,7 +2396,7 @@ h1 {
 
 .host-city-controls {
   display: grid;
-  grid-template-columns: minmax(220px, 1.5fr) repeat(3, minmax(150px, 1fr));
+  grid-template-columns: minmax(220px, 1.45fr) repeat(4, minmax(130px, 1fr));
   gap: 10px;
   border: 1px solid rgba(16, 133, 101, 0.18);
   border-radius: 8px;
@@ -2451,6 +2451,61 @@ h1 {
 .host-city-presets button[aria-pressed="true"] {
   background: var(--green-dark);
   color: #fff;
+}
+
+.host-city-comparison {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.host-city-comparison article {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid rgba(16, 133, 101, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff 0%, #f2faf6 100%);
+  padding: 16px;
+  box-shadow: 0 14px 30px rgba(29, 47, 41, 0.06);
+}
+
+.host-city-comparison span,
+.city-featured-match span {
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.host-city-comparison strong {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.host-city-comparison p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.host-city-comparison button {
+  justify-self: start;
+  border: 1px solid rgba(16, 133, 101, 0.22);
+  border-radius: 8px;
+  background: var(--green-dark);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 10px 12px;
+}
+
+.host-city-comparison button:hover,
+.host-city-comparison button:focus-visible {
+  background: var(--green);
 }
 
 .host-city-results-line {
@@ -2590,11 +2645,41 @@ h1 {
   padding: 12px;
 }
 
+.city-featured-match {
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(16, 133, 101, 0.18);
+  border-radius: 8px;
+  background: #f4faf6;
+  padding: 12px;
+}
+
+.city-featured-match strong {
+  color: var(--text);
+}
+
 .city-next-match span,
-.city-next-match small {
+.city-next-match small,
+.city-featured-match small {
   color: var(--muted);
   font-size: 12px;
   font-weight: 850;
+}
+
+.city-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.city-badge-row span {
+  border: 1px solid rgba(216, 166, 60, 0.32);
+  border-radius: 999px;
+  background: #fff8e3;
+  color: #5f4300;
+  font-size: 12px;
+  font-weight: 950;
+  padding: 6px 8px;
 }
 
 .host-city-actions {
@@ -4264,6 +4349,7 @@ td {
   .download-grid,
   .host-city-explorer-head,
   .host-city-controls,
+  .host-city-comparison,
   .host-city-grid,
   .host-city-paths,
   .host-city-source-grid,

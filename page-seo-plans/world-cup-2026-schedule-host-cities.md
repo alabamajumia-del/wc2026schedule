@@ -279,3 +279,58 @@ page-seo-plans/host-cities-hero-functional-panel-preview.png
 page-seo-plans/host-cities-hero-dallas-filter-preview.png
 page-seo-plans/host-cities-hero-functional-panel-mobile-preview.png
 ```
+
+## 7. Phase B City Comparison Cards and Region Filters
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Execute Host Cities Phase B: City Comparison Cards + Region Filters.
+```
+
+Optimization completed:
+
+- Added a new `Region` filter to the Host city planner.
+- Added region grouping for Canada, Central USA, Eastern USA, Mexico and Western USA.
+- Added four comparison cards above the city grid:
+  - Most matches
+  - Knockout route
+  - Canada and Mexico
+  - West route
+- Made the comparison cards interactive so they apply the relevant city filter or planning preset.
+- Added city value badges to all 16 city cards, such as final host, opening match, semifinal route, third-place match, 8+ matches, knockout count, Canada and Mexico.
+- Added a `Planning highlight` module to each city card using the highest-value match in that city.
+- Expanded city search data to include region labels.
+- Kept the existing hero planner and main planner linkage intact.
+
+User experience impact:
+
+- Users can now compare cities by travel region, not only country.
+- The page gives faster answers to common planning paths: most matches, late-round routes, cross-border travel and West Coast planning.
+- City cards now provide a stronger reason to click into city pages because each card shows a planning highlight and value tags.
+
+Validation:
+
+```text
+Build passed.
+Region options: All regions, Canada, Central USA, Eastern USA, Mexico, Western USA
+Comparison cards: 4
+City cards: 16
+City badge rows: 16
+Planning highlight rows: 16
+Western USA filter result: 3 cities
+Cross-border comparison result: 5 cities
+Keyword family density: 4.67%
+Desktop overflow: 0
+Mobile overflow: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/host-cities-phase-b-desktop-preview.png
+page-seo-plans/host-cities-phase-b-mobile-preview.png
+```

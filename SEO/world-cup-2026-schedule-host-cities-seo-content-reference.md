@@ -114,18 +114,18 @@ Vancouver World Cup 2026 schedule
 Current measured reference from generated HTML:
 
 ```text
-Visible word count: 2,072
+Visible word count: 2,421
 City cards: 16
 FAQ count: 5
-Measured keyword-family hits in reference set: 110
-Measured reference density: 5.31%
+Measured keyword-family hits in reference set: 113
+Measured reference density: 4.67%
 ```
 
 Important optimization note:
 
 ```text
-The current measured reference density is slightly above the 3%-5% target.
-Future optimization should reduce repetitive use of "host city", "final" and "stadium" by using natural variants:
+The current measured reference density is inside the 3%-5% target.
+Future optimization should still avoid repetitive use of "host city", "final" and "stadium" by using natural variants:
 market, venue, match site, local guide, travel base, city page, match window, late-round route.
 Do not remove the core keyword from the title, H1 or first-screen copy.
 ```
@@ -169,7 +169,7 @@ Planning need selector:
 - All fixture types
 - Most matches
 - Knockout rounds
-- Semifinals, third-place and final week
+- Late tournament route
 - Canada or Mexico venues
 ```
 
@@ -177,7 +177,7 @@ Hero quick presets:
 
 ```text
 Knockout hosts
-Final week route
+Late tournament route
 ```
 
 Hero background asset:
@@ -232,6 +232,23 @@ Do the host city cards replace official sources?
 Can I use this page for travel planning?
 ```
 
+Phase B additions:
+
+```text
+Region filter added:
+- Canada
+- Central USA
+- Eastern USA
+- Mexico
+- Western USA
+
+Interactive comparison cards added:
+- Most matches
+- Knockout route
+- Canada and Mexico
+- West route
+```
+
 Heading guidance for future optimization:
 
 ```text
@@ -270,11 +287,14 @@ Controls:
 Card data:
 - City name
 - Stadium
+- Region
 - Match count
 - Date window
 - Stage mix
 - Knockout count
 - First listed match
+- Planning highlight
+- City value badges
 - Team-code samples
 - Open city schedule CTA
 - Open full schedule CTA
@@ -446,7 +466,7 @@ Related compliance pages:
 Do next:
 
 ```text
-[ ] Reduce keyword-family density from 5.31% toward the 3%-5% target without weakening the H1/title.
+[x] Reduce keyword-family density into the 3%-5% target without weakening the H1/title.
 [ ] Add more natural long-tail references for "World Cup 2026 locations" and "FIFA World Cup 2026 cities" if needed.
 [ ] Check each city card for unique city value, not just repeated labels.
 [ ] Add better city-specific preview text for high-priority cities: Dallas, Atlanta, Los Angeles, New York New Jersey, Miami, Mexico City, Toronto, Vancouver.
