@@ -221,6 +221,56 @@ select {
   color: var(--muted);
 }
 
+.hero-standings {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(216, 166, 60, 0.32), transparent 23%),
+    linear-gradient(115deg, rgba(5, 14, 28, 0.96), rgba(14, 48, 80, 0.88) 45%, rgba(16, 120, 92, 0.45)),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 58px),
+    url(/assets/banners/world-cup-2026-schedule-stadium-hero.jpg);
+  background-position: center 48%;
+  background-size: cover;
+}
+
+.hero-standings::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(4, 12, 24, 0.66), rgba(4, 12, 24, 0.16)),
+    repeating-linear-gradient(90deg, rgba(216, 166, 60, 0.13) 0 1px, transparent 1px 120px);
+  content: "";
+  pointer-events: none;
+}
+
+.hero-standings .hero-inner {
+  position: relative;
+  grid-template-columns: minmax(0, 0.95fr) minmax(390px, 0.78fr);
+  align-items: center;
+  gap: 48px;
+  padding: 68px 0 54px;
+}
+
+.hero-standings h1 {
+  max-width: 720px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.3);
+}
+
+.hero-standings .hero-copy {
+  max-width: 700px;
+  border-left: 4px solid var(--gold);
+  padding-left: 18px;
+}
+
+.hero-standings .hero-panel {
+  align-self: center;
+  border-color: rgba(216, 166, 60, 0.34);
+  background: rgba(6, 15, 28, 0.84);
+}
+
+.hero-standings .hero-panel-title,
+.hero-standings .hero-panel p {
+  color: #fff;
+}
+
 .hero-pdf {
   background:
     linear-gradient(90deg, rgba(5, 21, 27, 0.96), rgba(5, 21, 27, 0.78) 44%, rgba(5, 21, 27, 0.36)),
@@ -871,6 +921,162 @@ h1 {
 .group-hero-secondary-actions a:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(19, 44, 58, 0.14);
+}
+
+.hero-tool-standings {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.hero-tool-standings p {
+  padding: 0;
+  line-height: 1.5;
+}
+
+.standings-hero-field {
+  display: grid;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 12px;
+}
+
+.standings-hero-field span {
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.standings-hero-field select {
+  min-height: 42px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--text);
+  padding: 9px 10px;
+}
+
+.standings-hero-preview {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(216, 166, 60, 0.34);
+  border-radius: 10px;
+  background: rgba(3, 12, 22, 0.72);
+  padding: 12px;
+}
+
+.standings-hero-preview > span {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.standings-hero-preview > strong {
+  color: #fff;
+  font-size: 18px;
+}
+
+.standings-hero-preview div {
+  display: grid;
+  gap: 6px;
+}
+
+.standings-hero-preview p {
+  display: grid;
+  grid-template-columns: 28px 42px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  margin: 0;
+  padding: 8px;
+}
+
+.standings-hero-preview b,
+.standings-hero-preview em {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.standings-hero-preview b {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.standings-hero-preview em {
+  background: var(--green);
+  color: #fff;
+}
+
+.standings-hero-preview p span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.standings-hero-preview p strong {
+  color: var(--gold);
+  font-size: 12px;
+}
+
+.standings-hero-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: 8px;
+}
+
+.standings-hero-actions button,
+.standings-hero-actions a {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 950;
+  padding: 10px;
+  text-align: center;
+}
+
+.standings-hero-actions button {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: #11231f;
+}
+
+.standings-hero-note {
+  display: grid;
+  gap: 4px;
+  border-left: 3px solid var(--gold);
+  padding-left: 12px;
+}
+
+.standings-hero-note strong {
+  color: #fff;
+  font-size: 13px;
+}
+
+.standings-hero-note span {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12px;
+  line-height: 1.45;
 }
 
 .hero-filter-strip {
@@ -4226,6 +4432,264 @@ td {
   text-transform: uppercase;
 }
 
+.standings-hub-section {
+  scroll-margin-top: 96px;
+}
+
+.standings-tabbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 12px;
+}
+
+.standings-tabbar button {
+  border: 1px solid rgba(36, 93, 143, 0.22);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--blue);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 9px 12px;
+}
+
+.standings-tabbar button:hover,
+.standings-tabbar button:focus-visible,
+.standings-tabbar button[aria-pressed="true"] {
+  background: var(--blue);
+  color: #fff;
+}
+
+.standings-card-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.standings-card {
+  display: grid;
+  gap: 14px;
+  border: 1px solid rgba(36, 93, 143, 0.18);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff, #f4f8fb);
+  padding: 16px;
+  box-shadow: 0 16px 34px rgba(29, 47, 41, 0.07);
+  scroll-margin-top: 96px;
+}
+
+.standings-card[hidden] {
+  display: none;
+}
+
+.standings-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.standings-card-head span {
+  display: inline-flex;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 950;
+  padding: 7px 10px;
+  text-transform: uppercase;
+}
+
+.standings-card-head h3 {
+  margin: 8px 0 0;
+  font-size: 22px;
+}
+
+.standings-card-head > strong {
+  border-radius: 999px;
+  background: #fff4d1;
+  color: #6c4c00;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 950;
+  padding: 7px 10px;
+}
+
+.standings-card-summary {
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 12px;
+}
+
+.standings-card-summary span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.standings-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.standings-table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+.standings-table th,
+.standings-table td {
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 850;
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.standings-table th {
+  background: #edf3f7;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.standings-table td:nth-child(n+3):nth-child(-n+10),
+.standings-table th:nth-child(n+3):nth-child(-n+10) {
+  text-align: center;
+}
+
+.standings-table td:first-child span {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #eef5fb;
+  color: var(--blue);
+  font-weight: 950;
+}
+
+.standings-table .team-chip {
+  display: inline-flex;
+  max-width: 210px;
+  padding: 7px 8px;
+}
+
+.standings-table .team-chip > span {
+  display: none;
+}
+
+.standings-table .team-chip em {
+  display: inline-flex;
+  min-width: 0;
+}
+
+.standings-table .team-chip strong {
+  overflow: hidden;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.standings-table td:last-child strong {
+  display: inline-flex;
+  border-radius: 999px;
+  font-size: 11px;
+  padding: 6px 8px;
+}
+
+.standings-table .is-direct {
+  background: #e5f7e7;
+  color: #0b6a35;
+}
+
+.standings-table .is-watch {
+  background: #fff3d1;
+  color: #6c4c00;
+}
+
+.standings-table .is-pending {
+  background: #eef2f4;
+  color: #4d5d66;
+}
+
+.standings-card-actions,
+.standings-rule-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.standings-card-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.standings-card-actions a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(36, 93, 143, 0.2);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 950;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.standings-card-actions a:first-child {
+  background: var(--green);
+  color: #fff;
+}
+
+.standings-rule-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.standings-rule-grid article {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+}
+
+.standings-rule-grid span {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 950;
+}
+
+.standings-rule-grid strong {
+  color: var(--text);
+  font-size: 18px;
+}
+
+.standings-rule-grid p {
+  margin: 0;
+}
+
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -5354,6 +5818,28 @@ td {
     width: 100%;
   }
 
+  .hero-standings .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 48px 0 34px;
+  }
+
+  .hero-standings h1 {
+    max-width: 100%;
+    font-size: clamp(34px, 10vw, 42px);
+    line-height: 1.05;
+  }
+
+  .hero-standings .hero-copy {
+    max-width: 100%;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .hero-standings .hero-panel {
+    width: 100%;
+  }
+
   .city-detail-hero .hero-inner {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -5425,6 +5911,8 @@ td {
   .qualification-path-grid,
   .group-route-panel,
   .groups-card-grid,
+  .standings-card-grid,
+  .standings-rule-grid,
   .utility-card-grid,
   .decision-card-grid,
   .capability-grid,
@@ -5681,7 +6169,9 @@ td {
   .hero-planner-actions,
   .hero-planner-secondary,
   .group-hero-actions,
-  .group-hero-secondary-actions {
+  .group-hero-secondary-actions,
+  .standings-hero-actions,
+  .standings-card-actions {
     grid-template-columns: 1fr;
   }
 

@@ -863,10 +863,38 @@ export const pages = [
     intent: "Track group tables and qualification logic.",
     longTail: ["world cup group standings", "fifa world cup 2026 table", "world cup group table"],
     facts: [["Status before matches", "Tables prepared for live updates"], ["Main data", "Points, goals, rank and qualification"], ["Related page", "Groups and bracket"]],
+    hero: {
+      eyebrow: "Standings tracker",
+      variant: "standings",
+      panelTitle: "Group table preview",
+      panelIntro: "Choose a group to preview the ranking board, then open the full table or follow the bracket path.",
+      actions: [
+        ["Open group tables", "#standings-tables"],
+        ["View groups", "/world-cup-2026-schedule-groups/", "secondary"]
+      ]
+    },
+    overview: {
+      eyebrow: "Standings workflow",
+      heading: "Check the table, then follow qualification status into the bracket.",
+      copy:
+        "Use this page as the live-table destination connected from the Groups page. Before results arrive, each group table is prepared with teams, ranking columns and qualification labels. Once matches begin, this is where points, goal difference and advancement status should become the main experience.",
+      tags: ["12 group tables", "48 teams", "Qualification status", "Bracket path"],
+      noteEyebrow: "Before kickoff",
+      noteHeading: "Tables start at zero",
+      noteCopy:
+        "The current standings preview does not invent live results. It shows the table structure and qualification route until official match results are available."
+    },
     intro:
       "The World Cup 2026 standings page is designed for the high-frequency questions that arrive once matches begin: who leads each group, which teams can advance and how tie-breakers affect the table.",
     sections: [["Before and During the Tournament", ["Before the first match, this page should clearly explain that live standings will update after results are available. It can still be useful by explaining points, tie-breakers and how group performance connects to the knockout bracket.", "During the tournament, it should become one of the most frequently updated pages on the site. The standings experience should prioritize clarity, showing each group table, rank, points, goal difference and qualification status without forcing users to dig through long paragraphs."]]],
     faqs: [["When will standings update?", "Standings should update after match results are confirmed. Before the tournament begins, the page should explain the ranking format and link users to the group schedule."]],
+    usageHeading: "How to Use the World Cup 2026 Standings",
+    usageRows: [
+      ["Choose a group", "Use the hero selector or A-L table buttons to focus one group.", "Open the matching table without scanning all 12 groups."],
+      ["Read the status", "Check points, goal difference and the qualification status column.", "Use the status label to separate direct qualification from third-place watch."],
+      ["Check fixtures", "Open the linked group fixture page when you need match dates, cities and opponents.", "Return to standings when results begin changing the table."],
+      ["Follow the bracket", "Use the bracket path once group placement starts determining Round of 32 routes.", "Open the bracket page after reviewing the table."]
+    ],
     links: [["View groups", "/world-cup-2026-schedule-groups/"], ["Open bracket", "/world-cup-2026-bracket/"], ["Full schedule", "/world-cup-2026-schedule/"]]
   },
   {

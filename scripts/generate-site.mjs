@@ -478,6 +478,7 @@ const layout = ({ title, description, canonical, body, schema = [], titleSuffix 
   <script src="/schedule.js" defer></script>
   <script src="/host-cities.js" defer></script>
   <script src="/groups.js" defer></script>
+  <script src="/standings.js" defer></script>
   <script src="/match-detail.js" defer></script>
   <footer class="footer">
     <div class="footer-inner">
@@ -674,6 +675,33 @@ const hero = ({
       <div class="group-hero-secondary-actions">
         <a href="#groups-explorer" data-group-hero-first>Open first match</a>
         <button type="button" data-group-hero-reset>Reset</button>
+      </div>
+            </div>`;
+                })()
+            : variant === "standings"
+              ? (() => {
+                  const groupItems = groupSummaries();
+                  return `<div class="hero-tool hero-tool-standings" data-standings-hero>
+      <strong class="hero-panel-title">${esc(panelTitle)}</strong>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      <label class="standings-hero-field">
+        <span>Choose group table</span>
+        <select data-standings-hero-select>
+          ${groupItems.map((item, index) => `<option value="${attr(item.group)}"${index === 0 ? " selected" : ""}>Group ${esc(item.group)} - ${esc(item.teams.join(", "))}</option>`).join("")}
+        </select>
+      </label>
+      <div class="standings-hero-preview" data-standings-hero-preview aria-live="polite">
+        <span>Ranking board ready</span>
+        <strong>Group ${esc(groupItems[0]?.group ?? "A")} starts level</strong>
+        <div>${(groupItems[0]?.teams ?? []).map((team, index) => `<p><b>${index + 1}</b><em>${esc(teamCode(team))}</em><span>${esc(team)}</span><strong>0 pts</strong></p>`).join("")}</div>
+      </div>
+      <div class="standings-hero-actions">
+        <button type="button" data-standings-hero-apply>Open this table</button>
+        <a href="/world-cup-2026-bracket/" data-standings-hero-bracket>Open bracket path</a>
+      </div>
+      <div class="standings-hero-note">
+        <strong>Qualification rule</strong>
+        <span>Top two teams advance directly; third-place teams are compared across groups.</span>
       </div>
     </div>`;
                 })()
@@ -971,6 +999,97 @@ const groupStandingsPreviewRows = (teams) =>
     </tr>`;
     })
     .join("");
+
+const standingsFullRows = (teams) =>
+  teams
+    .map((team, index) => {
+      const rank = index + 1;
+      const status = rank <= 2 ? "Direct qualifying lane" : rank === 3 ? "Cross-group watch" : "Needs points";
+      const statusClass = rank <= 2 ? "is-direct" : rank === 3 ? "is-watch" : "is-pending";
+      return `<tr>
+      <td><span>${rank}</span></td>
+      <td>${teamChip(team)}</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong class="${statusClass}">${status}</strong></td>
+    </tr>`;
+    })
+    .join("");
+
+const renderStandingsSupportSections = () => {
+  const groups = groupSummaries();
+  return `<section class="section standings-hub-section" id="standings-tables" data-standings-explorer>
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Group tables</p>
+      <h2>World Cup 2026 Standings by Group</h2>
+      <p>Every group table is prepared before kickoff so users can move from the Groups page into the ranking view without a dead end. Results remain at zero until official match outcomes are available.</p>
+    </div>
+    <a class="button light" href="/world-cup-2026-schedule-groups/">Open groups page</a>
+  </div>
+  <div class="standings-tabbar" role="tablist" aria-label="Choose a standings group">
+    <button type="button" data-standings-filter="" aria-pressed="true">All tables</button>
+    ${groups.map((item) => `<button type="button" data-standings-filter="${attr(item.group)}">Group ${esc(item.group)}</button>`).join("")}
+  </div>
+  <div class="host-city-results-line">
+    <strong><span data-standings-result-count>${groups.length}</span> tables shown</strong>
+    <span>Choose a group to focus one table, or open the bracket once ranking routes matter.</span>
+  </div>
+  <div class="standings-card-grid">
+    ${groups
+      .map(
+        (item) => `<article class="standings-card" id="group-${attr(item.group.toLowerCase())}" data-standings-card="${attr(item.group)}" data-standings-teams="${attr(item.teams.join(", "))}" data-standings-first="#${attr(item.firstMatch.matchNumber)} ${attr(item.firstMatch.home)} vs ${attr(item.firstMatch.away)}" data-standings-last="${attr(shortDate(item.lastMatch.date))}">
+      <div class="standings-card-head">
+        <div>
+          <span>Group ${esc(item.group)}</span>
+          <h3>Group ${esc(item.group)} Standings</h3>
+        </div>
+        <strong>Before kickoff</strong>
+      </div>
+      <div class="standings-card-summary">
+        <span>Teams: ${esc(item.teams.join(", "))}</span>
+        <span>First fixture: #${item.firstMatch.matchNumber} ${esc(item.firstMatch.home)} vs ${esc(item.firstMatch.away)}</span>
+        <span>Final group day: ${esc(shortDate(item.lastMatch.date))}</span>
+      </div>
+      <div class="standings-table-wrap">
+        <table class="standings-table">
+          <thead>
+            <tr><th>Rank</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Status</th></tr>
+          </thead>
+          <tbody>${standingsFullRows(item.teams)}</tbody>
+        </table>
+      </div>
+      <div class="standings-card-actions">
+        <a href="/world-cup-2026-schedule-groups/?group=${attr(item.group)}#group-${attr(item.group.toLowerCase())}">Group fixtures</a>
+        <a href="/world-cup-2026-bracket/">Bracket path</a>
+      </div>
+    </article>`
+      )
+      .join("")}
+  </div>
+</section>
+
+<section class="section standings-hub-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Qualification rules</p>
+      <h2>How to Read the World Cup 2026 Standings</h2>
+      <p>The standings page should answer ranking questions fast. During the tournament, users need points, goal difference and qualification status before they need long explanations.</p>
+    </div>
+  </div>
+  <div class="standings-rule-grid">
+    <article><span>1-2</span><strong>Direct qualifying lane</strong><p>The first and second placed teams in each group move directly toward the Round of 32.</p></article>
+    <article><span>3</span><strong>Cross-group watch</strong><p>Third-place teams are compared across groups, so their status depends on results outside their own group.</p></article>
+    <article><span>TB</span><strong>Tie-break checks</strong><p>Points, goal difference, goals scored and FIFA tie-break rules become important when teams finish close.</p></article>
+  </div>
+</section>`;
+};
 
 const renderGroupsSupportSections = () => {
   const groups = groupSummaries();
@@ -1878,6 +1997,8 @@ const renderPage = (page) => {
         ? renderHostCitiesSupportSections()
       : page.slug === "world-cup-2026-schedule-groups"
         ? renderGroupsSupportSections()
+      : page.slug === "world-cup-2026-standings"
+        ? renderStandingsSupportSections()
       : page.sections
           .map(
             ([heading, paragraphs]) => `<section class="section">
@@ -5947,6 +6068,82 @@ await write(
     applyGroup("", { scroll: false, updatePath: false });
   }
   setHeroMode("group");
+})();\n`
+);
+
+await write(
+  "standings.js",
+  `(() => {
+  const explorer = document.querySelector("[data-standings-explorer]");
+  if (!explorer) return;
+
+  const cards = Array.from(explorer.querySelectorAll("[data-standings-card]"));
+  const buttons = Array.from(explorer.querySelectorAll("[data-standings-filter]"));
+  const resultCount = explorer.querySelector("[data-standings-result-count]");
+  const hero = document.querySelector("[data-standings-hero]");
+  const heroSelect = hero?.querySelector("[data-standings-hero-select]");
+  const heroPreview = hero?.querySelector("[data-standings-hero-preview]");
+  const heroApply = hero?.querySelector("[data-standings-hero-apply]");
+
+  const cardForGroup = (group) => (group ? explorer.querySelector("[data-standings-card='" + group + "']") : null);
+
+  const renderHeroPreview = (group) => {
+    if (!heroPreview) return;
+    const card = cardForGroup(group);
+    if (!card) return;
+    const teams = (card.dataset.standingsTeams || "").split(", ").filter(Boolean);
+    heroPreview.innerHTML =
+      "<span>Ranking board ready</span>" +
+      "<strong>Group " + group + " starts level</strong>" +
+      "<div>" +
+      teams.map((team, index) => "<p><b>" + (index + 1) + "</b><em>" + team.slice(0, 3).toUpperCase() + "</em><span>" + team + "</span><strong>0 pts</strong></p>").join("") +
+      "</div>";
+  };
+
+  const setUrl = (group) => {
+    const target = group ? "#group-" + group.toLowerCase() : "#standings-tables";
+    window.history.replaceState({}, "", window.location.pathname + target);
+  };
+
+  const applyGroup = (group = "", { scroll = true, updatePath = true } = {}) => {
+    let visible = 0;
+    cards.forEach((card) => {
+      const show = !group || card.dataset.standingsCard === group;
+      card.hidden = !show;
+      if (show) visible += 1;
+    });
+    buttons.forEach((button) => {
+      button.setAttribute("aria-pressed", String((button.dataset.standingsFilter || "") === group));
+    });
+    if (resultCount) resultCount.textContent = String(visible);
+    if (heroSelect && group) heroSelect.value = group;
+    if (group) renderHeroPreview(group);
+    if (updatePath) setUrl(group);
+    if (scroll) {
+      const target = group ? cardForGroup(group) : explorer;
+      (target || explorer).scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => applyGroup(button.dataset.standingsFilter || ""));
+  });
+
+  heroSelect?.addEventListener("change", () => {
+    renderHeroPreview(heroSelect.value);
+  });
+
+  heroApply?.addEventListener("click", () => {
+    applyGroup(heroSelect?.value || "A");
+  });
+
+  const hashGroup = (window.location.hash.match(/^#group-([a-z])$/i)?.[1] || "").toUpperCase();
+  if (hashGroup && cards.some((card) => card.dataset.standingsCard === hashGroup)) {
+    applyGroup(hashGroup, { scroll: true, updatePath: false });
+  } else {
+    renderHeroPreview(heroSelect?.value || "A");
+    applyGroup("", { scroll: false, updatePath: false });
+  }
 })();\n`
 );
 
