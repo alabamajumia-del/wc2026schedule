@@ -613,9 +613,10 @@ export const pages = [
   {
     slug: "world-cup-2026-schedule-host-cities",
     nav: "Cities",
-    title: "World Cup 2026 Schedule Host Cities Guide",
+    title: "World Cup 2026 Schedule Host Cities: Full Match Dates, Venues & Fixtures",
+    titleSuffix: false,
     description:
-      "Compare World Cup 2026 schedule host cities, stadiums, match planning notes, transportation context and city-specific schedule guides.",
+      "Explore the World Cup 2026 schedule host cities with full match dates, venues, group stage fixtures, knockout rounds, semifinals, third-place match, and final details.",
     h1: "World Cup 2026 Schedule Host Cities",
     keyword: "world-cup-2026-schedule-host-cities",
     intent: "Compare host cities and choose city-specific schedule guides.",

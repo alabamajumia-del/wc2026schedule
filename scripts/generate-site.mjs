@@ -377,12 +377,12 @@ const nav = () =>
     .map((page) => `<a href="/${page.slug}/">${esc(page.nav)}</a>`)
     .join("");
 
-const layout = ({ title, description, canonical, body, schema = [] }) => `<!doctype html>
+const layout = ({ title, description, canonical, body, schema = [], titleSuffix = true }) => `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${esc(title)} | ${esc(site.brand)}</title>
+  <title>${esc(titleSuffix ? `${title} | ${site.brand}` : title)}</title>
   <meta name="description" content="${attr(description)}">
   <link rel="canonical" href="${attr(site.url + canonical)}">
   <meta property="og:type" content="website">
@@ -1351,8 +1351,8 @@ const renderHostCitiesSupportSections = () => `<section class="section host-city
   <div class="host-city-source-grid">
     <article>
       <span>Schedule source</span>
-      <strong>Match numbers, dates and venues</strong>
-      <p>Use the FIFA match schedule as the primary reference when a date, opponent, kickoff or venue affects travel plans.</p>
+      <strong>Full match dates, venues and fixtures</strong>
+      <p>Use the FIFA match schedule as the primary reference when a group-stage fixture, knockout round, semifinal, third-place match or final venue affects travel plans.</p>
       <a href="${attr(scheduleMeta.sourceUrl)}">Open FIFA schedule source</a>
     </article>
     <article>
@@ -1575,6 +1575,7 @@ const renderPage = (page) => {
     description: page.description,
     canonical: `/${page.slug}/`,
     schema: pageSchema(page),
+    titleSuffix: page.titleSuffix,
     body: `${hero({
       eyebrow: page.hero?.eyebrow ?? `${page.nav} guide`,
       h1: page.h1,
@@ -2124,8 +2125,8 @@ const renderHostCitiesExplorer = () => {
   <div class="host-city-explorer-head">
     <div>
       <p class="eyebrow">Host city planner</p>
-      <h2>Compare World Cup 2026 Schedule Host Cities by Country, Stadium and Match Window</h2>
-      <p>Use this city hub to narrow the 16 World Cup 2026 host cities by country, match volume, knockout value and travel timing before opening a city-specific schedule page.</p>
+      <h2>Compare Full Match Dates, Venues and Fixtures by Host City</h2>
+      <p>Use this city hub to narrow the 16 World Cup 2026 schedule host cities by country, full match dates, venue, group stage fixtures, knockout rounds, semifinals, third-place match and final planning value.</p>
     </div>
     <div class="host-city-scoreboard" aria-label="Host city summary">
       <div><strong>${cities.length}</strong><span>host cities</span></div>

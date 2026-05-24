@@ -191,3 +191,46 @@ page-seo-plans/host-cities-seo-optimization-preview.png
 page-seo-plans/host-cities-source-checks-preview.png
 page-seo-plans/host-cities-source-checks-mobile-preview.png
 ```
+
+## 5. Requested Title and Description Alignment Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Title:
+World Cup 2026 Schedule Host Cities: Full Match Dates, Venues & Fixtures
+
+Description:
+Explore the World Cup 2026 schedule host cities with full match dates, venues, group stage fixtures, knockout rounds, semifinals, third-place match, and final details.
+```
+
+Optimization completed:
+
+- Replaced the page SEO title with the exact requested title.
+- Disabled the automatic `| wc26schedule` suffix on this page so the rendered title tag matches the requested title exactly.
+- Replaced the meta description with the exact requested description.
+- Updated the main host city planner H2 to align with the new title intent: `Compare Full Match Dates, Venues and Fixtures by Host City`.
+- Updated the source-check module to mention full match dates, venues, group-stage fixtures, knockout rounds, semifinal, third-place match and final planning context.
+
+Validation:
+
+```text
+Rendered title matches requested title: true
+Rendered title length: 72 characters
+Rendered description matches requested description: true
+Rendered description length: 167 characters
+Visible word count: 2,025
+FAQ count: 5
+Keyword family density: 4.69%
+Desktop overflow: 0
+Mobile overflow: 0
+```
+
+Screenshots saved:
+
+```text
+page-seo-plans/host-cities-title-description-update-preview.png
+```
