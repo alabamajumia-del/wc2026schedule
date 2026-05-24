@@ -362,8 +362,8 @@ const siteAssetFiles = [
     "assets/banners/world-cup-2026-schedule-excel-data-hero.png"
   ],
   [
-    "src/assets/banners/world-cup-2026-host-cities-map-hero.png",
-    "assets/banners/world-cup-2026-host-cities-map-hero.png"
+    "src/assets/banners/world-cup-2026-schedule-host-cities-map-hero.png",
+    "assets/banners/world-cup-2026-schedule-host-cities-map-hero.png"
   ],
   [
     "src/assets/printable-world-cup-2026-schedule-bracket.pdf",
@@ -644,7 +644,7 @@ const renderScheduleCapabilitySections = () => {
         <h2>World Cup 2026 Schedule Dates and Locations</h2>
         <p>Use the World Cup 2026 schedule dates and city tools together when your real question is when to go and where the match is played.</p>
       </div>
-      <a class="button light" href="/world-cup-2026-host-cities/">Compare host cities</a>
+      <a class="button light" href="/world-cup-2026-schedule-host-cities/">Compare host cities</a>
     </div>
     <div class="metric-strip">
       <div><span>Tournament window</span><strong>June 11 to July 19, 2026</strong></div>
@@ -989,7 +989,7 @@ const renderPdfSupportSections = () => `<section class="section pdf-support-sect
       <h2>How to Use the PDF Library for Travel Planning</h2>
       <p>Use the PDF files as a planning layer, then confirm details before spending money.</p>
     </div>
-    <a class="button light" href="/world-cup-2026-host-cities/">Compare host cities</a>
+    <a class="button light" href="/world-cup-2026-schedule-host-cities/">Compare host cities</a>
   </div>
   <ol class="pdf-step-list">
     <li><strong>Scan the overview.</strong><span>Use the poster or overview image to identify cities and date clusters.</span></li>
@@ -1318,7 +1318,7 @@ const cityIndexPanel = () => {
 const renderHostCitiesSupportSections = () => `<section class="section host-city-tool-section">
   <div class="tool-section-head">
     <p class="eyebrow">City planning workflow</p>
-    <h2>How to Use the World Cup 2026 Host Cities Hub</h2>
+    <h2>How to Use the World Cup 2026 Schedule Host Cities Hub</h2>
     <p>Move from broad city comparison to a city schedule page, then confirm match details before travel, tickets or broadcast planning.</p>
   </div>
   <div class="utility-card-grid">
@@ -1461,7 +1461,7 @@ const renderPage = (page) => {
         ? renderPdfSupportSections()
       : page.slug === "world-cup-2026-schedule-excel"
         ? renderExcelSupportSections()
-      : page.slug === "world-cup-2026-host-cities"
+      : page.slug === "world-cup-2026-schedule-host-cities"
         ? renderHostCitiesSupportSections()
       : page.sections
           .map(
@@ -1485,7 +1485,7 @@ const renderPage = (page) => {
     : "";
   const pdfVisualBlock =
     page.slug === "world-cup-2026-schedule-pdf" ? renderPdfVisualSections() : "";
-  const cityBlock = page.slug === "world-cup-2026-host-cities" ? renderHostCitiesExplorer() : "";
+  const cityBlock = page.slug === "world-cup-2026-schedule-host-cities" ? renderHostCitiesExplorer() : "";
   const sourceNote =
     page.slug === "world-cup-2026-schedule"
       ? `This page is maintained as an independent fixture planner for fans. Sources: FIFA official schedule, structured match data, host city and stadium references. Editorial note: kickoff times, ticket details and broadcast information may change, so confirm paid or time-sensitive decisions with official sources.`
@@ -1532,7 +1532,7 @@ const renderPage = (page) => {
       ? renderPdfChooser(overview)
       : page.slug === "world-cup-2026-schedule-excel"
         ? excelPlannerBlock
-      : page.slug === "world-cup-2026-host-cities"
+      : page.slug === "world-cup-2026-schedule-host-cities"
         ? ""
       : `<section class="section">
     <div class="grid">
@@ -1858,6 +1858,20 @@ const write = async (relative, content) => {
   await writeFile(target, content, "utf8");
 };
 
+const redirectPage = (target) => `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="refresh" content="0; url=${attr(target)}">
+  <link rel="canonical" href="${attr(site.url + target)}">
+  <title>Redirecting</title>
+</head>
+<body>
+  <p>Redirecting to <a href="${attr(target)}">${esc(target)}</a>.</p>
+</body>
+</html>`;
+
 const scheduleHeaders = [
   "Match #",
   "Date",
@@ -2050,7 +2064,7 @@ const renderHostCitiesExplorer = () => {
   <div class="host-city-explorer-head">
     <div>
       <p class="eyebrow">Host city planner</p>
-      <h2>Compare World Cup 2026 Host Cities by Country, Stadium and Match Window</h2>
+      <h2>Compare World Cup 2026 Schedule Host Cities by Country, Stadium and Match Window</h2>
       <p>Use this city hub to narrow the 16 World Cup 2026 host cities by country, match volume, knockout value and travel timing before opening a city-specific schedule page.</p>
     </div>
     <div class="host-city-scoreboard" aria-label="Host city summary">
@@ -2331,8 +2345,8 @@ const citySchema = (city) => [
       {
         "@type": "ListItem",
         position: 2,
-        name: "World Cup 2026 Host Cities",
-        item: `${site.url}/world-cup-2026-host-cities/`
+        name: "World Cup 2026 Schedule Host Cities",
+        item: `${site.url}/world-cup-2026-schedule-host-cities/`
       },
       { "@type": "ListItem", position: 3, name: city.city, item: `${site.url}${city.path}` }
     ]
@@ -2402,7 +2416,7 @@ const renderCityPage = (city) => {
     <h2>Related planning pages</h2>
     ${linkGrid([
       ["Full World Cup 2026 schedule", "/world-cup-2026-schedule/"],
-      ["All host cities", "/world-cup-2026-host-cities/"],
+      ["All host cities", "/world-cup-2026-schedule-host-cities/"],
       ["Ticket guide", "/world-cup-2026-tickets/"],
       ["Download schedule files", "/world-cup-2026-schedule-excel/"]
     ])}
@@ -4852,6 +4866,11 @@ await write("index.html", renderHome());
 for (const page of pages) {
   await write(join(page.slug, "index.html"), renderPage(page));
 }
+
+await write(
+  join("world-cup-2026-host-cities", "index.html"),
+  redirectPage("/world-cup-2026-schedule-host-cities/")
+);
 
 const cities = citySummaries();
 for (const city of cities) {

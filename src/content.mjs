@@ -199,7 +199,7 @@ export const pages = [
     links: [
       ["Download the PDF schedule", "/world-cup-2026-schedule-pdf/"],
       ["Use the Excel planner", "/world-cup-2026-schedule-excel/"],
-      ["Compare host cities", "/world-cup-2026-host-cities/"],
+      ["Compare host cities", "/world-cup-2026-schedule-host-cities/"],
       ["Read the ticket guide", "/world-cup-2026-tickets/"]
     ]
   },
@@ -256,7 +256,7 @@ export const pages = [
     links: [
       ["See the full match schedule", "/world-cup-2026-schedule/"],
       ["View the final guide", "/world-cup-2026-final/"],
-      ["Compare host cities", "/world-cup-2026-host-cities/"]
+      ["Compare host cities", "/world-cup-2026-schedule-host-cities/"]
     ]
   },
   {
@@ -425,7 +425,7 @@ export const pages = [
       ["Open the live schedule", "/world-cup-2026-schedule/"],
       ["Use the Excel planner", "/world-cup-2026-schedule-excel/"],
       ["Check tournament dates", "/world-cup-2026-dates/"],
-      ["Compare host venues", "/world-cup-2026-host-cities/"],
+      ["Compare host venues", "/world-cup-2026-schedule-host-cities/"],
       ["Read the ticket guide", "/world-cup-2026-tickets/"]
     ]
   },
@@ -549,7 +549,7 @@ export const pages = [
     ],
     links: [
       ["Download PDF option", "/world-cup-2026-schedule-pdf/"],
-      ["See host cities", "/world-cup-2026-host-cities/"],
+      ["See host cities", "/world-cup-2026-schedule-host-cities/"],
       ["Open full schedule", "/world-cup-2026-schedule/"],
       ["Check tournament dates", "/world-cup-2026-dates/"],
       ["Review ticket guidance", "/world-cup-2026-tickets/"]
@@ -611,13 +611,13 @@ export const pages = [
     ]
   },
   {
-    slug: "world-cup-2026-host-cities",
+    slug: "world-cup-2026-schedule-host-cities",
     nav: "Cities",
-    title: "World Cup 2026 Host Cities: Stadiums, Matches & Travel Guide",
+    title: "World Cup 2026 Schedule Host Cities: Stadiums, Matches & Travel Guide",
     description:
-      "Compare World Cup 2026 host cities, stadiums, match planning notes, transportation context and city-specific schedule guides.",
-    h1: "World Cup 2026 Host Cities",
-    keyword: "world cup 2026 host cities",
+      "Compare World Cup 2026 schedule host cities, stadiums, match planning notes, transportation context and city-specific schedule guides.",
+    h1: "World Cup 2026 Schedule Host Cities",
+    keyword: "world-cup-2026-schedule-host-cities",
     intent: "Compare host cities and choose city-specific schedule guides.",
     longTail: [
       "world cup 2026 locations",
@@ -631,7 +631,7 @@ export const pages = [
       ["Next action", "Open a city schedule page"]
     ],
     intro:
-      "The World Cup 2026 host cities page is the travel gateway for wc26schedule. It helps fans compare cities, stadiums, match clusters and planning considerations before moving into city-specific schedule pages.",
+      "The World Cup 2026 schedule host cities page is the travel gateway for wc26schedule. It helps fans compare cities, stadiums, match clusters and planning considerations before moving into city-specific schedule pages.",
     hero: {
       variant: "cities",
       eyebrow: "Host city map",
@@ -788,7 +788,7 @@ export const pages = [
     links: [
       ["Official FIFA ticket source", "https://www.fifa.com/tournaments/mens/worldcup/canadamexicousa2026/tickets"],
       ["Full schedule", "/world-cup-2026-schedule/"],
-      ["Host city guide", "/world-cup-2026-host-cities/"]
+      ["Host city guide", "/world-cup-2026-schedule-host-cities/"]
     ]
   },
   {

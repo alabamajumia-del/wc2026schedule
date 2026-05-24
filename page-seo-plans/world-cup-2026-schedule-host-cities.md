@@ -1,9 +1,9 @@
-# World Cup 2026 Host Cities Page SEO and Visual Optimization Notes
+# World Cup 2026 Schedule Host Cities Page SEO and Visual Optimization Notes
 
 Page URL:
 
 ```text
-/world-cup-2026-host-cities/
+/world-cup-2026-schedule-host-cities/
 ```
 
 ## 1. Official Banner Asset Integration Pass
@@ -19,7 +19,7 @@ Connect the processed host-city banner image and adapt the page-level visual pre
 
 Optimization completed:
 
-- Connected `world-cup-2026-host-cities-map-hero.png` as the Host Cities page hero background.
+- Connected `world-cup-2026-schedule-host-cities-map-hero.png` as the Host Cities page hero background.
 - Added a dedicated `hero-cities` visual variant so this page is no longer relying on the generic page hero.
 - Added a city-planning panel that explains the page's real user value: comparing city pages, stadiums, match clusters and travel planning needs.
 - Added hero actions for `Compare city pages` and `Open full schedule`.
@@ -29,7 +29,7 @@ Optimization completed:
 Keyword layer:
 
 ```text
-Core keyword: World Cup 2026 host cities
+Core keyword: world-cup-2026-schedule-host-cities
 Supporting keywords: World Cup 2026 cities, World Cup 2026 stadiums, World Cup 2026 host city schedule, World Cup 2026 city pages
 Long-tail intent: compare World Cup 2026 host cities, World Cup 2026 matches by city, World Cup 2026 stadium planning, World Cup 2026 travel planning by city
 ```
@@ -40,7 +40,7 @@ Validation:
 Build passed.
 Desktop overflow: 0
 Mobile overflow: 0
-Hero background asset: /assets/banners/world-cup-2026-host-cities-map-hero.png
+Hero background asset: /assets/banners/world-cup-2026-schedule-host-cities-map-hero.png
 Primary CTA: Compare city pages
 Secondary CTA: Open full schedule
 ```
@@ -82,7 +82,7 @@ Optimization completed:
 
 SEO notes:
 
-- The main module H2 includes the core keyword family through `World Cup 2026 Host Cities`.
+- The main module H2 includes the core keyword family through `World Cup 2026 Schedule Host Cities`.
 - Supporting copy naturally covers `host cities`, `country`, `stadium`, `match window`, `knockout hosts`, `city-specific schedule page` and travel planning intent.
 - The page now answers higher-value long-tail searches such as comparing World Cup 2026 host cities, World Cup 2026 matches by city and World Cup 2026 knockout host cities.
 
@@ -105,4 +105,35 @@ Screenshots saved:
 page-seo-plans/host-cities-explorer-desktop.png
 page-seo-plans/host-cities-knockout-filter-preview.png
 page-seo-plans/host-cities-explorer-mobile.png
+```
+
+## 3. Core Keyword, URL and H1 Alignment Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Use only one core keyword for this page, change it to world-cup-2026-schedule-host-cities, and update the URL and H1.
+```
+
+Optimization completed:
+
+- Changed the page URL from `/world-cup-2026-host-cities/` to `/world-cup-2026-schedule-host-cities/`.
+- Changed the H1 from `World Cup 2026 Host Cities` to `World Cup 2026 Schedule Host Cities`.
+- Changed the page keyword field to the single core keyword `world-cup-2026-schedule-host-cities`.
+- Updated title and meta description to match the new page theme.
+- Updated internal links, city-page breadcrumb links and match-page related links to use the new URL.
+- Added a noindex redirect page at the old URL so existing visits move to the new page.
+- Renamed the connected banner asset to include the new core keyword.
+
+Validation:
+
+```text
+New URL: /world-cup-2026-schedule-host-cities/
+Old URL: /world-cup-2026-host-cities/ redirects to the new URL
+H1: World Cup 2026 Schedule Host Cities
+Core keyword: world-cup-2026-schedule-host-cities
+Build passed.
 ```

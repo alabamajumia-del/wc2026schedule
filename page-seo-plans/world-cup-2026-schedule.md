@@ -263,7 +263,7 @@ Important internal link targets:
 ```text
 /world-cup-2026-schedule-pdf/
 /world-cup-2026-schedule-excel/
-/world-cup-2026-host-cities/
+/world-cup-2026-schedule-host-cities/
 /world-cup-2026-tickets/
 /world-cup-2026-groups/
 /world-cup-2026-standings/

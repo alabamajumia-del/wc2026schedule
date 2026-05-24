@@ -271,7 +271,7 @@ select {
   background:
     linear-gradient(90deg, rgba(5, 32, 28, 0.94), rgba(5, 32, 28, 0.72) 44%, rgba(5, 32, 28, 0.24)),
     linear-gradient(0deg, rgba(5, 32, 28, 0.62), rgba(5, 32, 28, 0.03) 55%, rgba(5, 32, 28, 0.38)),
-    url("/assets/banners/world-cup-2026-host-cities-map-hero.png");
+    url("/assets/banners/world-cup-2026-schedule-host-cities-map-hero.png");
   background-position: center 52%;
   background-size: cover;
 }
