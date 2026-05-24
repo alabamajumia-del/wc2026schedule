@@ -221,3 +221,62 @@ Screenshots saved:
 page-seo-plans/banner-excel-hero-desktop.png
 page-seo-plans/banner-excel-mobile-viewport.png
 ```
+
+## H2 and H3 Core Keyword Pass
+
+Date: 2026-05-24
+Status: Completed
+
+Goal:
+
+```text
+Apply the unified heading rule to /world-cup-2026-schedule-excel/ so every H2 and H3 contains the page core keyword in readable form.
+```
+
+Core keyword:
+
+```text
+world-cup-2026-schedule-excel
+Readable phrase: World Cup 2026 Schedule Excel
+```
+
+Final H2:
+
+```text
+World Cup 2026 Schedule Excel Planner
+World Cup 2026 Schedule Excel and CSV Downloads
+What Is Inside the World Cup 2026 Schedule Excel Workbook?
+World Cup 2026 Schedule Excel Spreadsheet Filters by Team, City, Date or Stage
+World Cup 2026 Schedule Excel Workbook or CSV Data?
+How to Use the World Cup 2026 Schedule Excel Fixtures Spreadsheet
+World Cup 2026 Schedule Excel vs PDF vs Live Schedule
+World Cup 2026 Schedule Excel Updates and Official Sources
+How to Use the World Cup 2026 Schedule Excel Planner
+World Cup 2026 Schedule Excel Planning Links
+World Cup 2026 Schedule Excel FAQ
+```
+
+Final H3:
+
+```text
+World Cup 2026 Schedule Excel Filter First, Print Later
+World Cup 2026 Schedule Excel Workbook
+World Cup 2026 Schedule Excel Clean CSV Data
+What is included in the World Cup 2026 Schedule Excel workbook?
+Is World Cup 2026 Schedule Excel better than PDF for travel planning?
+Can I use the World Cup 2026 Schedule Excel CSV file in Google Sheets?
+Does the World Cup 2026 Schedule Excel workbook include all 104 matches?
+When should I download a fresh World Cup 2026 Schedule Excel copy?
+```
+
+Validation:
+
+```text
+Build passed.
+H2/H3 missing core keyword: 0.
+Visible word count: 2200.
+Exact readable core phrase count: 22.
+Weighted density check: 5.00%.
+Desktop overflow: 0.
+Mobile overflow: 0.
+```

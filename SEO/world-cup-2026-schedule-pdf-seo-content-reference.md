@@ -412,3 +412,89 @@ Avoid:
 [ ] Do not imply the PDF files are official FIFA documents.
 [ ] Do not add ads above the hero or before the download decision module before AdSense approval.
 ```
+
+## 11. H2 and H3 Core Keyword Pass
+
+Date: 2026-05-24
+Status: Completed
+
+Core keyword:
+
+```text
+world-cup-2026-schedule-pdf
+Readable phrase: World Cup 2026 Schedule PDF
+```
+
+Title:
+
+```text
+World Cup 2026 Schedule PDF - USA, Canada and Mexico | wc26schedule
+```
+
+Description:
+
+```text
+Download World Cup 2026 schedule PDF files for printing, quick visual scanning, group-stage planning and knockout-stage planning.
+```
+
+Final H1:
+
+```text
+World Cup 2026 Schedule PDF for USA, Canada and Mexico
+```
+
+Final H2:
+
+```text
+Choose the Right World Cup 2026 Schedule PDF
+World Cup 2026 Schedule PDF Full Match Overview Image
+World Cup 2026 Schedule PDF for USA, Canada and Mexico
+World Cup 2026 Schedule PDF: When Is the Next World Cup?
+World Cup 2026 Schedule PDF Groups and Knockout Planning
+World Cup 2026 Schedule PDF Download Library
+Which World Cup 2026 Schedule PDF Should You Download?
+What Each World Cup 2026 Schedule PDF Includes
+World Cup 2026 Schedule PDF by Date, City and Stage
+How to Use the World Cup 2026 Schedule PDF Library for Travel Planning
+World Cup 2026 Schedule PDF vs Excel vs Live Schedule
+World Cup 2026 Schedule PDF Update Notes and Official Sources
+How to Choose a World Cup 2026 Schedule PDF File
+World Cup 2026 Schedule PDF Planning Links
+World Cup 2026 Schedule PDF FAQ
+```
+
+Final H3:
+
+```text
+World Cup 2026 Schedule PDF File Picker
+World Cup 2026 Schedule PDF Data Downloads
+World Cup 2026 Schedule PDF Library
+World Cup 2026 Schedule PDF Visual Overview Image
+Is the World Cup 2026 schedule PDF free?
+Which World Cup 2026 Schedule PDF should I download first?
+What is included in the printable World Cup 2026 Schedule PDF?
+Is the World Cup 2026 Schedule PDF library better than Excel?
+Can I use the World Cup 2026 Schedule PDF for travel planning?
+How often should I refresh a saved World Cup 2026 Schedule PDF copy?
+Does the World Cup 2026 Schedule PDF stage overview include the knockout bracket?
+```
+
+Optimization notes:
+
+```text
+All H2 and H3 headings now include the readable page core keyword.
+Additional support-note and FAQ copy was added as practical user guidance, not keyword filler.
+The added copy supports file choice, update habits, official-source verification and shared-planning workflows.
+```
+
+Validation:
+
+```text
+Build passed.
+H2/H3 missing core keyword: 0.
+Visible word count: 3000.
+Exact readable core phrase count: 30.
+Weighted density check: 5.00%.
+Desktop overflow: 0.
+Mobile overflow: 0.
+```

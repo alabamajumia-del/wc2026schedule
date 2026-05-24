@@ -315,14 +315,14 @@ export const pages = [
         "Offline match planner"
       ],
       noteEyebrow: "File check",
-      noteHeading: "Pick the file by task",
+      noteHeading: "World Cup 2026 Schedule PDF File Picker",
       noteCopy:
         "Use the full printable PDF when details matter, the overview poster when you need a quick scan, the stage overview when tournament phases should stay separate and the bracket PDF when knockout routes and final dates matter most."
     },
-    downloadHeading: "Download the PDF Schedule Library",
+    downloadHeading: "World Cup 2026 Schedule PDF Download Library",
     downloadIntro:
       "Start with the PDF that matches your job: full printable details, one-page visual overview, stage-by-stage view, or bracket and final-date planning. Keep the Excel and CSV versions nearby when you later need filtering, sorting or import into another planning tool.",
-    usageHeading: "How to Choose a PDF File",
+    usageHeading: "How to Choose a World Cup 2026 Schedule PDF File",
     usageRows: [
       [
         "Use the printable PDF",
@@ -340,7 +340,8 @@ export const pages = [
         "Best for bracket and stage planning."
       ]
     ],
-    relatedHeading: "PDF Library Planning Links",
+    relatedHeading: "World Cup 2026 Schedule PDF Planning Links",
+    faqHeading: "World Cup 2026 Schedule PDF FAQ",
     sections: [
       [
         "Which World Cup 2026 Schedule PDF Should You Download?",
@@ -395,31 +396,31 @@ export const pages = [
     faqs: [
       [
         "Is the World Cup 2026 schedule PDF free?",
-        "Yes. The wc26schedule PDF library is intended as a free planning resource for fans who want print-friendly and visual schedule files. Always check the live schedule page and official sources before making travel, ticket or broadcast decisions."
+        "Yes. The wc26schedule PDF library is intended as a free planning resource for fans who want print-friendly and visual schedule files. Use it for early planning, shared folders, classroom boards, office watch lists or travel packets. Always check the live schedule page and official sources before making travel, ticket or broadcast decisions."
       ],
       [
-        "Which PDF should I download first?",
-        "Start with the printable PDF if you need the most complete offline file. Use the overview poster PDF for quick visual scanning and the stage overview PDF when you want group-stage and knockout-stage planning separated."
+        "Which World Cup 2026 Schedule PDF should I download first?",
+        "Start with the printable PDF if you need the most complete offline file. Use the overview poster PDF for quick visual scanning and the stage overview PDF when you want group-stage and knockout-stage planning separated. If you only need to share the tournament shape, start with the poster. If someone may ask for match numbers or stadiums, use the printable file."
       ],
       [
-        "What is included in the printable PDF schedule?",
-        "The printable PDF includes core fixture details such as match number, date, kickoff time, teams, stage, group, host city, stadium and venue-local time. It is designed for offline reading, printing and sharing rather than filtering or editing."
+        "What is included in the printable World Cup 2026 Schedule PDF?",
+        "The printable PDF includes core fixture details such as match number, date, kickoff time, teams, stage, group, host city, stadium and venue-local time. It is designed for offline reading, printing and sharing rather than filtering or editing. For team-only or city-only views, use the live schedule or the workbook before printing a final copy."
       ],
       [
-        "Is the PDF library better than Excel?",
-        "The PDF library is better for printing, reading, sharing and quick visual scanning. Excel is better when you want to filter by team, city, date, stadium or tournament stage. Many fans will use both formats for different parts of their planning."
+        "Is the World Cup 2026 Schedule PDF library better than Excel?",
+        "The PDF library is better for printing, reading, sharing and quick visual scanning. Excel is better when you want to filter by team, city, date, stadium or tournament stage. Many fans will use both formats for different parts of their planning: spreadsheet first while comparing options, then PDF once the plan is ready to share."
       ],
       [
-        "Can I use the PDF for travel planning?",
-        "Yes, but use it as an overview. The PDFs can help you compare dates, cities, stadiums and tournament stages, then you should open the full schedule, host city pages and official sources before booking travel or buying tickets."
+        "Can I use the World Cup 2026 Schedule PDF for travel planning?",
+        "Yes, but use it as an overview. The PDFs can help you compare dates, cities, stadiums and tournament stages, then you should open the full schedule, host city pages and official sources before booking travel or buying tickets. Treat every saved file as a snapshot, especially if flights, hotels or ticket windows are involved."
       ],
       [
-        "How often should I refresh a saved copy?",
-        "Get a fresh copy before any important planning step, especially before ticket purchases, hotel bookings, flights, printed watch-party sheets or group sharing. Schedule details and operational notes can change before the tournament."
+        "How often should I refresh a saved World Cup 2026 Schedule PDF copy?",
+        "Get a fresh copy before any important planning step, especially before ticket purchases, hotel bookings, flights, printed watch-party sheets or group sharing. Schedule details and operational notes can change before the tournament. If several people are using the same download, add the save date to the shared folder name or message."
       ],
       [
-        "Does the stage overview PDF include the knockout bracket?",
-        "It includes the knockout-stage schedule in bracket notation, including Round of 32, Round of 16, quarter-finals, semi-finals, third-place match and final. Use official results and FIFA sources to confirm participants as the tournament progresses."
+        "Does the World Cup 2026 Schedule PDF stage overview include the knockout bracket?",
+        "It includes the knockout-stage schedule in bracket notation, including Round of 32, Round of 16, quarter-finals, semi-finals, third-place match and final. Use official results and FIFA sources to confirm participants as the tournament progresses. Bracket placeholders are useful for planning routes, but they are not confirmed team assignments."
       ]
     ],
     links: [
@@ -483,14 +484,14 @@ export const pages = [
         "Venue data"
       ],
       noteEyebrow: "Best use",
-      noteHeading: "Filter first, print later",
+      noteHeading: "World Cup 2026 Schedule Excel Filter First, Print Later",
       noteCopy:
         "Start with the World Cup 2026 spreadsheet planner when you are deciding which matches matter. Move to the PDF page after you have a final list to print or share."
     },
-    downloadHeading: "Download the Excel and CSV Schedule Files",
+    downloadHeading: "World Cup 2026 Schedule Excel and CSV Downloads",
     downloadIntro:
       "Use the Excel workbook for filtering and sorting. Use the World Cup 2026 schedule CSV download when you want to import structured fixtures into Google Sheets, Airtable, Notion, a database or a custom planner.",
-    usageHeading: "How to Use the Excel Schedule",
+    usageHeading: "How to Use the World Cup 2026 Schedule Excel Planner",
     usageRows: [
       [
         "Filter by team",
@@ -508,7 +509,8 @@ export const pages = [
         "Best for watch parties and editorial calendars."
       ]
     ],
-    relatedHeading: "Spreadsheet Planning Links",
+    relatedHeading: "World Cup 2026 Schedule Excel Planning Links",
+    faqHeading: "World Cup 2026 Schedule Excel FAQ",
     sections: [
       [
         "What Is Inside the Excel Workbook?",
@@ -528,24 +530,24 @@ export const pages = [
     ],
     faqs: [
       [
-        "What is included in the Excel schedule?",
-        "The Excel workbook includes a README, all matches, group-stage matches, knockout matches, by-date planning, by-team planning, venues, groups and source notes. Core fields include match number, date, kickoff times, teams, city, stadium, stage and detail-page URL."
+        "What is included in the World Cup 2026 Schedule Excel workbook?",
+        "The Excel workbook includes a README, all matches, group-stage matches, knockout matches, by-date planning, by-team planning, venues, groups and source notes. Core fields include match number, date, kickoff times, teams, city, stadium, stage and detail-page URL. The structure is meant for filtering, sorting and making a working copy with your own notes."
       ],
       [
-        "Is Excel better than PDF for travel planning?",
-        "Excel is better when you are comparing cities, sorting by date or filtering by team. PDF is better after you have chosen the matches you want to print, save or share."
+        "Is World Cup 2026 Schedule Excel better than PDF for travel planning?",
+        "Excel is better when you are comparing cities, sorting by date or filtering by team. PDF is better after you have chosen the matches you want to print, save or share. Use the workbook while options are still changing, then move to a printable file or live match page when the plan becomes specific."
       ],
       [
-        "Can I use the CSV file in Google Sheets?",
-        "Yes. Use the CSV file when you want raw schedule data for Google Sheets, Airtable, databases or other planning tools. Use the Excel workbook when you want a styled multi-sheet file."
+        "Can I use the World Cup 2026 Schedule Excel CSV file in Google Sheets?",
+        "Yes. Use the CSV file when you want raw schedule data for Google Sheets, Airtable, databases or other planning tools. Use the Excel workbook when you want a styled multi-sheet file. CSV is especially useful for imports because it avoids extra formatting and keeps one clean row per match."
       ],
       [
-        "Does the Excel workbook include all 104 matches?",
-        "Yes. The workbook is generated from the structured wc26schedule dataset and includes all 104 scheduled matches, with group-stage and knockout-stage views separated for easier planning."
+        "Does the World Cup 2026 Schedule Excel workbook include all 104 matches?",
+        "Yes. The workbook is generated from the structured wc26schedule dataset and includes all 104 scheduled matches, with group-stage and knockout-stage views separated for easier planning. The separated tabs help users scan fixed group fixtures and bracket placeholders without losing the complete master list."
       ],
       [
-        "When should I download a fresh Excel copy?",
-        "Get a fresh copy before buying tickets, booking travel, sharing a planning sheet or publishing schedule information. Times, operational details and event guidance can change before the tournament."
+        "When should I download a fresh World Cup 2026 Schedule Excel copy?",
+        "Get a fresh copy before buying tickets, booking travel, sharing a planning sheet or publishing schedule information. Times, operational details and event guidance can change before the tournament. If you add personal notes, keep them in your own saved copy so a fresh source file can be downloaded later."
       ]
     ],
     links: [

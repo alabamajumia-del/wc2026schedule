@@ -1279,7 +1279,7 @@ const renderPdfVisualSections = () => {
   <div class="pdf-feature-grid">
     <div class="pdf-feature-copy">
       <p class="eyebrow">Single-image reference</p>
-      <h2>Full Match Schedule Overview Image</h2>
+      <h2>World Cup 2026 Schedule PDF Full Match Overview Image</h2>
       <p>The full match schedule overview image is built for users who want the entire tournament on one visual reference. It lists the group-stage fixtures from M1 through M72, then shows the knockout stage from the Round of 32 through the Round of 16, quarter-finals, semi-finals, third-place playoff and final.</p>
       <p>Use this image when you need a fast visual handout, a planning-board reference or a shareable snapshot before moving into the PDF library. It includes match numbers, dates, host cities, venues and bracket placeholder notation such as 1A, 2D and 3ABCDF, while the full PDF and live schedule remain better for detailed filtering and time-zone checks.</p>
       <div class="pdf-feature-actions">
@@ -1299,7 +1299,7 @@ const renderPdfVisualSections = () => {
   <div class="pdf-feature-grid">
     <div class="pdf-feature-copy">
       <p class="eyebrow">Printable download</p>
-      <h2>2026 World Cup Schedule PDF for USA, Canada and Mexico</h2>
+      <h2>World Cup 2026 Schedule PDF for USA, Canada and Mexico</h2>
       <p>The complete printable PDF is the right first file when you want all 104 matches in one offline reference. It keeps the host-city matrix on the opening page, then follows with match detail pages that include date, kickoff time, team names, match number, stage, host city and stadium.</p>
       <p>Use this file for a travel folder, watch-party packet, classroom board, office bracket wall or shared planning drive. It is intentionally more detailed than a poster because users often need to check a specific fixture after the first visual scan.</p>
       <div class="pdf-feature-actions">
@@ -1319,7 +1319,7 @@ const renderPdfVisualSections = () => {
   <div class="pdf-feature-grid">
     <div class="pdf-feature-copy">
       <p class="eyebrow">Tournament timing</p>
-      <h2>When is the Next World Cup?</h2>
+      <h2>World Cup 2026 Schedule PDF: When Is the Next World Cup?</h2>
       <p>The next World Cup begins on Thursday, June 11, 2026 and runs through Sunday, July 19, 2026. The tournament is hosted across the United States, Canada and Mexico, with 48 teams, 12 groups and 104 matches across 16 host cities.</p>
       <ul class="pdf-bullet-list">
         <li>The opening match is scheduled for Mexico City, and the final is scheduled for New York New Jersey.</li>
@@ -1344,7 +1344,7 @@ const renderPdfVisualSections = () => {
   <div class="pdf-feature-grid">
     <div class="pdf-feature-copy">
       <p class="eyebrow">Groups and bracket</p>
-      <h2>2026 World Cup Groups and Knockout Planning</h2>
+      <h2>World Cup 2026 Schedule PDF Groups and Knockout Planning</h2>
       <p>The groups are already useful for PDF planning because they tell fans which fixtures are fixed and which paths still depend on tournament results. The group list below is generated from the same structured schedule data used for the downloads, so it stays connected to the fixture table rather than becoming a separate manual note.</p>
       <div class="pdf-group-list">
         ${groups
@@ -1435,13 +1435,18 @@ const renderPdfSupportSections = () => `<section class="section pdf-support-sect
     <article><span>Need tournament phases</span><strong>Stage overview PDF</strong><p>Best when group-stage days and knockout-stage days should stay visually separate.</p></article>
     <article><span>Need knockout route</span><strong>Bracket PDF</strong><p>Best when semifinals, third-place match, final dates and bracket paths matter most.</p></article>
   </div>
+  <div class="pdf-source-grid">
+    <article><strong>Choose by reading depth</strong><span>If someone needs to answer a match-number, venue or kickoff question away from the site, the printable file is the safest choice. If the goal is only to understand tournament shape, the poster or overview image is quicker.</span></article>
+    <article><strong>Choose by sharing context</strong><span>A detailed file works well for small travel groups because every row carries enough context. A visual poster works better for group chats, classroom boards or quick editorial planning where too many table fields slow people down.</span></article>
+    <article><strong>Choose by update risk</strong><span>Use saved files as snapshots, not final authority. When a plan involves tickets, hotel nights, flights or public events, refresh the download and check official sources before committing money or publishing instructions.</span></article>
+  </div>
 </section>
 
 <section class="section pdf-support-section">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">File contents</p>
-      <h2>What Each PDF Includes</h2>
+      <h2>What Each World Cup 2026 Schedule PDF Includes</h2>
       <p>Use this checklist before downloading so you do not open the wrong file for a simple planning task.</p>
     </div>
   </div>
@@ -1451,13 +1456,18 @@ const renderPdfSupportSections = () => `<section class="section pdf-support-sect
     <div><strong>Stage overview PDF</strong><span>Two-page split between group-stage fixtures and knockout-stage schedule blocks.</span><a href="/downloads/world-cup-2026-stage-overview.pdf" download>Open</a></div>
     <div><strong>Bracket PDF</strong><span>Group fixtures, knockout bracket, BST times, semifinals, third-place match and final schedule.</span><a href="/downloads/printable-world-cup-2026-schedule-bracket.pdf" download>Open</a></div>
   </div>
+  <div class="pdf-source-grid">
+    <article><strong>Printable file detail</strong><span>Use it when you expect to look up exact rows later. It keeps match number, team names, stage, city, venue and timing fields together, which makes it practical for paper folders and offline reference.</span></article>
+    <article><strong>Poster file detail</strong><span>Use it when a one-page visual answer is enough. The poster makes date clusters and host-city spread easier to scan, but it is not meant to replace the full row-by-row schedule.</span></article>
+    <article><strong>Stage file detail</strong><span>Use it when the planning question is about tournament phases. Separating group fixtures from bracket fixtures helps people see when fixed teams end and placeholder routes begin.</span></article>
+  </div>
 </section>
 
 <section class="section pdf-support-section">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Scan paths</p>
-      <h2>Printable Schedule by Date, City and Stage</h2>
+      <h2>World Cup 2026 Schedule PDF by Date, City and Stage</h2>
       <p>The PDFs are easier to use when you scan by the same three questions fans ask before they plan.</p>
     </div>
   </div>
@@ -1466,13 +1476,18 @@ const renderPdfSupportSections = () => `<section class="section pdf-support-sect
     <article><span>City</span><strong>Where is it played?</strong><p>Use the city rows to compare Dallas, Los Angeles, Atlanta, Miami, New York New Jersey and other host markets.</p></article>
     <article><span>Stage</span><strong>What part of the tournament?</strong><p>Use stage labels to separate group-stage fixtures from knockout rounds, semifinals and the final.</p></article>
   </div>
+  <div class="pdf-source-grid">
+    <article><strong>For date planning</strong><span>Mark days with several fixtures first, then decide whether you need alarms, watch-party windows or a travel buffer. A static file is useful here because it lets people compare multiple days without changing filters.</span></article>
+    <article><strong>For city planning</strong><span>Compare the city row with local stadium notes, hotel plans and transport timing. After a city looks promising, move to the host city page for more context before making travel decisions.</span></article>
+    <article><strong>For stage planning</strong><span>Use the stage label to separate fixed group matches from bracket placeholders. This prevents a common planning mistake: treating a knockout route as if the teams are already confirmed.</span></article>
+  </div>
 </section>
 
 <section class="section pdf-support-section">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Travel workflow</p>
-      <h2>How to Use the PDF Library for Travel Planning</h2>
+      <h2>How to Use the World Cup 2026 Schedule PDF Library for Travel Planning</h2>
       <p>Use the PDF files as a planning layer, then confirm details before spending money.</p>
     </div>
     <a class="button light" href="/world-cup-2026-schedule-host-cities/">Compare host cities</a>
@@ -1483,13 +1498,14 @@ const renderPdfSupportSections = () => `<section class="section pdf-support-sect
     <li><strong>Move to city pages.</strong><span>Review venue context and local match groups before planning hotels or transport.</span></li>
     <li><strong>Verify official details.</strong><span>Before tickets, flights or printed packets, confirm the latest information with official sources.</span></li>
   </ol>
+  <p class="support-note">This workflow keeps the printable files useful without asking them to do every job. Use the downloads for quick comparison and offline reference, then use live pages for timezone checks, team routes and match-specific context. For family trips, fan club travel, school displays or office viewing plans, agree on one refreshed file before sharing it widely. That keeps everyone aligned on the same match numbers, host cities and stadium names while still leaving room for official confirmations close to the event. When in doubt, make the download a starting point and the official source the final check. Keep a short note about who needs the file and why, because a travel packet, wall poster and bracket preview do not need the same level of detail. This makes the library easier to reuse later and prevents people from downloading every file when one focused option is enough.</p>
 </section>
 
 <section class="section pdf-support-section">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Format choice</p>
-      <h2>PDF vs Excel vs Live Schedule</h2>
+      <h2>World Cup 2026 Schedule PDF vs Excel vs Live Schedule</h2>
       <p>Each format has a different job. Pick the one that answers your current question fastest.</p>
     </div>
   </div>
@@ -1504,7 +1520,7 @@ const renderPdfSupportSections = () => `<section class="section pdf-support-sect
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Freshness and trust</p>
-      <h2>Update Notes and Official Sources</h2>
+      <h2>World Cup 2026 Schedule PDF Update Notes and Official Sources</h2>
       <p>Use wc26schedule files for organization, then verify final decisions with official sources before acting.</p>
     </div>
     <a class="button light" href="${attr(officialFifaScheduleUrl)}">Official FIFA schedule</a>
@@ -1514,6 +1530,7 @@ const renderPdfSupportSections = () => `<section class="section pdf-support-sect
     <article><strong>Check against</strong><span>FIFA schedule updates, host city guidance, stadium information and authorized ticket or broadcast sources.</span></article>
     <article><strong>Use a dated folder</strong><span>Save shared files with the update date so groups know which copy they are using.</span></article>
   </div>
+  <p class="support-note">The safest planning habit is to keep a simple chain of evidence: note when the file was downloaded, keep the official schedule link nearby and refresh the copy before any paid or public decision. That approach is especially useful when several people are coordinating across different time zones, languages or travel responsibilities. If a saved copy is printed, write the download date on the packet. If it is shared digitally, keep the page link in the same message so the group can return for an updated version. A clear version habit saves time when plans change and reduces arguments about which copy is current, especially in larger groups and busy planning chats before travel or printing plans together successfully.</p>
 </section>`;
 
 const renderExcelPlanner = (overview) => {
@@ -1577,13 +1594,18 @@ const renderExcelSupportSections = () => {
   <div class="excel-sheet-grid">
     ${sheets.map(([sheet, copy]) => `<article><span>${esc(sheet)}</span><p>${esc(copy)}</p></article>`).join("")}
   </div>
+  <div class="excel-source-grid">
+    <article><strong>Use the full match sheet first</strong><span>Start with the complete table when you need confidence that no fixture has been filtered out. It is the best place to inspect the source fields before building a personal view.</span></article>
+    <article><strong>Move to focused tabs second</strong><span>The by-date, by-team, venue and group sheets reduce scanning time once you know the question. They are designed for comparison, not for replacing the master match list.</span></article>
+    <article><strong>Keep source notes visible</strong><span>When a saved workbook travels between collaborators, source notes help explain where timing and fixture data came from and why official checks still matter before paid decisions.</span></article>
+  </div>
 </section>
 
 <section class="section excel-support-section">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Planning filters</p>
-      <h2>Filter the Spreadsheet by Team, City, Date or Stage</h2>
+      <h2>World Cup 2026 Schedule Excel Spreadsheet Filters by Team, City, Date or Stage</h2>
       <p>Use the world cup fixtures spreadsheet when you need to answer a specific planning question instead of scanning a static schedule.</p>
     </div>
   </div>
@@ -1593,13 +1615,18 @@ const renderExcelSupportSections = () => {
     <article><strong>Date sort</strong><span>Group match days for watch parties, editorial coverage, travel windows or personal reminders.</span></article>
     <article><strong>Stage filter</strong><span>Separate group-stage fixtures from knockout-stage dates, semifinals, third-place match and final planning.</span></article>
   </div>
+  <div class="excel-source-grid">
+    <article><strong>Team planning recipe</strong><span>Filter one team, review group opponents, then keep the match-detail links for fixtures that matter. This is useful when fans want a national-team route without reading all 104 rows.</span></article>
+    <article><strong>City planning recipe</strong><span>Filter one host city, sort by date and compare the stadium field with your travel window. This workflow is better than a printable file when you are still deciding where to go.</span></article>
+    <article><strong>Stage planning recipe</strong><span>Filter group stage, Round of 32, semifinal or final rows depending on the planning question. It keeps fixed fixtures separate from bracket placeholders and reduces planning confusion.</span></article>
+  </div>
 </section>
 
 <section class="section excel-support-section">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Excel vs CSV</p>
-      <h2>Excel Workbook or World Cup Schedule CSV Data?</h2>
+      <h2>World Cup 2026 Schedule Excel Workbook or CSV Data?</h2>
       <p>Both files use the same schedule dataset, but they solve different user tasks: the workbook supports direct planning, while CSV is cleaner for imports.</p>
     </div>
   </div>
@@ -1613,7 +1640,7 @@ const renderExcelSupportSections = () => {
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Spreadsheet workflow</p>
-      <h2>How to Use the World Cup 2026 Fixtures Spreadsheet</h2>
+      <h2>How to Use the World Cup 2026 Schedule Excel Fixtures Spreadsheet</h2>
       <p>Start with the workbook for exploration, then move to the schedule page or PDF page when your planning question changes.</p>
     </div>
   </div>
@@ -1623,13 +1650,18 @@ const renderExcelSupportSections = () => {
     <li><strong>Save a working copy.</strong><span>Add notes, travel status or watch-party plans in your own version rather than changing the source file.</span></li>
     <li><strong>Verify before decisions.</strong><span>Use the live schedule and official FIFA information before buying tickets or booking travel.</span></li>
   </ol>
+  <div class="excel-source-grid">
+    <article><strong>For fans</strong><span>Create a personal watch list, hide rows that do not matter and keep venue-local time close to the kickoff field. This helps avoid mixing home viewing plans with stadium travel plans.</span></article>
+    <article><strong>For travelers</strong><span>Use city and stadium fields to compare clusters before opening a host city guide. Add hotel, transport and ticket-status notes only in your own copy so the source file stays clean.</span></article>
+    <article><strong>For publishers</strong><span>Use CSV when importing rows into a content calendar, database or no-code tool. Keep the original workbook nearby as a human-readable reference for checking column meaning.</span></article>
+  </div>
 </section>
 
 <section class="section excel-support-section">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Format choice</p>
-      <h2>Excel vs PDF vs Live Schedule</h2>
+      <h2>World Cup 2026 Schedule Excel vs PDF vs Live Schedule</h2>
       <p>Choose the format based on whether you need to edit, print or browse.</p>
     </div>
   </div>
@@ -1638,13 +1670,14 @@ const renderExcelSupportSections = () => {
     <article><strong>PDF</strong><span>Best for printing, sharing and offline reading once your list is final.</span><a href="/world-cup-2026-schedule-pdf/">Open PDF page</a></article>
     <article><strong>Live schedule</strong><span>Best for timezone switching, match detail pages and linked team or city routes.</span><a href="/world-cup-2026-schedule/">Open schedule</a></article>
   </div>
+  <p class="support-note">A spreadsheet is strongest while the plan is still changing. Once the match list is final, switch to a printable file for sharing or the live schedule for interactive browsing. Keep a clean source copy and a separate working copy. The clean copy helps you compare against fresh downloads later, while the working copy can hold hotel notes, ticket status, broadcast reminders, editorial assignments or watch-party details without changing the original data. This separation keeps the planner useful for real decisions instead of turning it into an uncontrolled shared notes file. Before sending a filtered view to someone else, check whether they need the full row context or only a small export. That small check prevents missing-city, missing-time and hidden-row confusion, and it keeps shared planning calmer when several people edit at different times across teams, cities and travel groups before final review.</p>
 </section>
 
 <section class="section excel-support-section">
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Sources and freshness</p>
-      <h2>Excel Schedule Updates and Official Sources</h2>
+      <h2>World Cup 2026 Schedule Excel Updates and Official Sources</h2>
       <p>Use the workbook for organization, then confirm final plans with official sources before acting.</p>
     </div>
     <a class="button light" href="${attr(officialFifaScheduleUrl)}">Official FIFA schedule</a>
@@ -1654,6 +1687,7 @@ const renderExcelSupportSections = () => {
     <article><strong>Check against</strong><span>FIFA schedule updates, host city pages, stadium guidance and authorized ticket or broadcast sources.</span></article>
     <article><strong>Keep copies labeled</strong><span>Name working files with an update date so collaborators know which version they are editing.</span></article>
   </div>
+  <p class="support-note">When several people use the same workbook, agree on which copy is the source and which copies are personal. That prevents overwritten filters, hidden rows and old notes from becoming planning mistakes. For published calendars or shared event lists, refresh the file, check official information and then export only the rows needed for that audience. If the file is imported into another tool, keep the original row order and match number field available so later checks can be traced back quickly. Keep filter choices documented when sharing exports, especially when rows are hidden or sorted differently from the master table. A short note beside each export is usually enough. Keep the date, filter, destination tool and audience written down before sending the file, and keep source notes visible for later review by everyone using the shared planner during travel, editorial work or event planning sessions together as needed later.</p>
 </section>`;
 };
 
@@ -1661,7 +1695,7 @@ const renderExcelDownloadSelector = (page = {}) => {
   const excelFiles = [
     {
       format: "XLS",
-      label: "Excel-compatible workbook",
+      label: "World Cup 2026 Schedule Excel Workbook",
       href: "/downloads/world-cup-2026-schedule.xls",
       badge: "Recommended",
       task: "Filter and sort the schedule",
@@ -1671,7 +1705,7 @@ const renderExcelDownloadSelector = (page = {}) => {
     },
     {
       format: "CSV",
-      label: "Clean schedule data",
+      label: "World Cup 2026 Schedule Excel Clean CSV Data",
       href: "/downloads/world-cup-2026-schedule.csv",
       badge: "Import file",
       task: "Move the schedule into another tool",
@@ -1739,6 +1773,7 @@ const renderExcelDownloadSelector = (page = {}) => {
 
 const downloadPanel = (page = {}) => {
   const isSchedulePage = page.slug === "world-cup-2026-schedule";
+  const isPdfPage = page.slug === "world-cup-2026-schedule-pdf";
   const dataFiles =
     page.slug === "world-cup-2026-schedule-excel"
       ? [...dataDownloadFiles].sort((a, b) => (a.format === "XLS" ? -1 : b.format === "XLS" ? 1 : 0))
@@ -1765,17 +1800,25 @@ const downloadPanel = (page = {}) => {
   )}</p>
   <div class="download-library">
     <div class="download-group">
-      <div class="download-group-heading"><h3>${isSchedulePage ? "World Cup 2026 Schedule Data Downloads" : "Data downloads"}</h3><span>Structured files</span></div>
+      <div class="download-group-heading"><h3>${
+        isSchedulePage
+          ? "World Cup 2026 Schedule Data Downloads"
+          : isPdfPage
+            ? "World Cup 2026 Schedule PDF Data Downloads"
+            : "Data downloads"
+      }</h3><span>Structured files</span></div>
       <div class="download-grid">${dataFiles.map(card).join("")}</div>
     </div>
     <div class="download-group">
-      <div class="download-group-heading"><h3>${isSchedulePage ? "World Cup 2026 Schedule PDF Library" : "PDF schedule library"}</h3><span>${pdfFiles.length} PDF files</span></div>
+      <div class="download-group-heading"><h3>${
+        isSchedulePage || isPdfPage ? "World Cup 2026 Schedule PDF Library" : "PDF schedule library"
+      }</h3><span>${pdfFiles.length} PDF files</span></div>
       <div class="download-grid">${pdfFiles.map(card).join("")}</div>
     </div>
     ${
       page.slug === "world-cup-2026-schedule-pdf"
         ? `<div class="download-group">
-      <div class="download-group-heading"><h3>Visual overview image</h3><span>${visualDownloadFiles.length} PNG file</span></div>
+      <div class="download-group-heading"><h3>World Cup 2026 Schedule PDF Visual Overview Image</h3><span>${visualDownloadFiles.length} PNG file</span></div>
       <div class="download-grid">${visualDownloadFiles.map(card).join("")}</div>
     </div>`
         : ""
