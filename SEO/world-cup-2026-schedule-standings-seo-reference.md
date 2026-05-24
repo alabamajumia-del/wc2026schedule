@@ -8,6 +8,12 @@ Core keyword:
 world-cup-2026-schedule-standings
 ```
 
+Parent schedule keyword:
+
+```text
+world-cup-2026-schedule
+```
+
 Page mapping:
 
 ```text
@@ -21,6 +27,12 @@ Old URL redirect: /world-cup-2026-standings/ -> /world-cup-2026-schedule-standin
 Search-facing phrase variants:
 
 ```text
+world cup 2026 schedule
+world cup 2026 schedule standings by group
+world cup 2026 schedule group table
+world cup 2026 schedule qualification standings
+world cup 2026 schedule points table
+world cup 2026 schedule bracket standings
 world cup 2026 standings
 world cup standings 2026
 world cup group standings
@@ -49,9 +61,9 @@ Current density validation:
 
 ```text
 Build passed.
-Visible word count: 1,840
-Keyword-family hits: 59
-Keyword-family density: 3.21%
+Visible word count: 1,920
+Keyword-family hits: 79
+Keyword-family density: 4.11%
 Target density: 3%-5%
 H1 count: 1
 Group cards: 12
@@ -61,4 +73,12 @@ Mobile overflow: 0
 New URL generated: true
 Old URL redirect generated: true
 Old URL robots: noindex
+```
+
+Latest content expansion:
+
+```text
+Added world-cup-2026-schedule as the parent schedule keyword layer.
+Added schedule-related long-tail variants that fit standings intent.
+Added natural copy connecting schedule dates, group tables, points, qualification standings and bracket paths.
 ```

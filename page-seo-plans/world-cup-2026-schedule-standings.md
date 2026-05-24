@@ -17,9 +17,21 @@ Core keyword:
 world-cup-2026-schedule-standings
 ```
 
+Parent schedule keyword:
+
+```text
+world-cup-2026-schedule
+```
+
 Long-tail keyword family:
 
 ```text
+world cup 2026 schedule
+world cup 2026 schedule standings by group
+world cup 2026 schedule group table
+world cup 2026 schedule qualification standings
+world cup 2026 schedule points table
+world cup 2026 schedule bracket standings
 world cup 2026 standings
 world cup standings 2026
 world cup group standings
@@ -58,9 +70,9 @@ Desktop page overflow: 0
 Desktop standings table overflow: 0
 Mobile page overflow: 0
 Mobile standings table uses internal horizontal scroll: true
-Visible word count: 1,840
-Keyword-family hits: 59
-Keyword-family density: 3.21%
+Visible word count: 1,920
+Keyword-family hits: 79
+Keyword-family density: 4.11%
 Target density: 3%-5%
 ```
 
@@ -133,4 +145,37 @@ Bracket href: /world-cup-2026-bracket/
 Desktop topbar overflow: 0
 Desktop page overflow: 0
 Mobile page overflow: 0
+```
+
+## 4. Parent Schedule Keyword Expansion
+
+Date: 2026-05-24
+Status: Completed
+
+User instruction:
+
+```text
+Add world-cup-2026-schedule as a core keyword layer and add suitable long-tail keywords for this page content.
+```
+
+Completed:
+
+- Kept the page-specific core keyword as `world-cup-2026-schedule-standings`.
+- Added `world-cup-2026-schedule` as the parent schedule keyword for this page.
+- Expanded the page keyword pool with schedule-and-standings long-tail variants.
+- Added natural body copy connecting the full World Cup 2026 schedule to group standings, points, goal difference and bracket paths.
+- Added a usage row that helps users move between schedule dates and standings impact.
+
+Validation:
+
+```text
+Build passed.
+Visible word count: 1,920
+Keyword-family hits: 79
+Keyword-family density: 4.11%
+Target density: 3%-5%
+Group cards: 12
+Standings tables: 12
+Hash link /world-cup-2026-schedule-standings/#group-c opens Group C only: true
+Desktop overflow: 0
 ```
