@@ -8,6 +8,13 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const dist = join(root, "dist");
 const updated = "May 22, 2026";
 
+const adsensePublisherId = (process.env.ADSENSE_PUBLISHER_ID || "").trim();
+const adsenseVerificationMethod = (process.env.ADSENSE_VERIFICATION_METHOD || "off").trim().toLowerCase();
+const adsenseScriptEnabled = process.env.ADSENSE_ENABLE_SCRIPT === "true";
+const adsenseAdsTxtEnabled = process.env.ADSENSE_ENABLE_ADS_TXT === "true";
+const hasAdsensePublisherId = /^ca-pub-\d{10,}$/.test(adsensePublisherId);
+const adsenseAdsTxtPublisherId = adsensePublisherId.replace(/^ca-/, "");
+
 const citySlugOverrides = {
   "new-york": "new-york-new-jersey",
   "san-francisco": "san-francisco-bay-area"
@@ -21,6 +28,38 @@ const esc = (value) =>
     .replaceAll('"', "&quot;");
 
 const attr = esc;
+
+const adsenseHeadTags = () => {
+  if (!hasAdsensePublisherId || adsenseVerificationMethod === "off") return "";
+
+  const tags = [];
+  if (["meta", "both"].includes(adsenseVerificationMethod)) {
+    tags.push(`<meta name="google-adsense-account" content="${attr(adsensePublisherId)}">`);
+  }
+  if (["code", "both"].includes(adsenseVerificationMethod) && adsenseScriptEnabled) {
+    tags.push(
+      `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${attr(
+        adsensePublisherId
+      )}" crossorigin="anonymous"></script>`
+    );
+  }
+
+  return tags.length ? `\n  ${tags.join("\n  ")}` : "";
+};
+
+const adsTxt = () => {
+  if (hasAdsensePublisherId && adsenseAdsTxtEnabled) {
+    return `google.com, ${adsenseAdsTxtPublisherId}, DIRECT, f08c47fec0942fa0\n`;
+  }
+
+  return [
+    `# ads.txt for ${site.domain}`,
+    "# AdSense publisher ID is not configured yet.",
+    "# Add the official AdSense publisher ID at build time before submitting the site for review.",
+    "# Expected production format: google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0",
+    ""
+  ].join("\n");
+};
 
 const cityPath = (citySlug) =>
   `/world-cup-2026-schedule/${citySlugOverrides[citySlug] ?? citySlug}/`;
@@ -390,6 +429,7 @@ const layout = ({ title, description, canonical, body, schema = [], titleSuffix 
   <meta property="og:description" content="${attr(description)}">
   <meta property="og:url" content="${attr(site.url + canonical)}">
   <meta property="og:site_name" content="${attr(site.brand)}">
+  ${adsenseHeadTags()}
   <link rel="stylesheet" href="/styles.css">
   ${schema
     .map(
@@ -5094,6 +5134,8 @@ await write(
   "robots.txt",
   `User-agent: *\nAllow: /\nSitemap: ${site.url}/sitemap.xml\nHost: ${site.url}\n`
 );
+
+await write("ads.txt", adsTxt());
 
 await write(
   "sitemap.xml",
