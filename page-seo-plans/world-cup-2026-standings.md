@@ -75,3 +75,32 @@ Next recommended optimization:
 ```text
 Standings Phase B: table filtering polish, status explanation, and future live-result update model.
 ```
+
+## 2. Navigation Visibility Fix
+
+Date: 2026-05-24
+Status: Completed
+
+Issue:
+
+```text
+The Standings page existed at /world-cup-2026-standings/ but was not visible in the top navigation because the navigation only displayed the first eight pages.
+```
+
+Fix completed:
+
+- Replaced the first-eight-pages navigation rule with an explicit primary navigation list.
+- Added `Standings` to the main navigation.
+- Added `Bracket` to the main navigation so the Groups -> Standings -> Bracket path is visible.
+- Reordered primary nav around the user journey: Schedule, Dates, Groups, Standings, Bracket, Cities, PDF, Excel, TV, Tickets.
+
+Validation:
+
+```text
+Desktop nav labels: Schedule, Dates, Groups, Standings, Bracket, Cities, PDF, Excel, TV, Tickets
+Standings href: /world-cup-2026-standings/
+Bracket href: /world-cup-2026-bracket/
+Desktop topbar overflow: 0
+Desktop page overflow: 0
+Mobile page overflow: 0
+```

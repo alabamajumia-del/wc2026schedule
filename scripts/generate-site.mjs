@@ -433,9 +433,23 @@ const siteAssetFiles = [
   ...cityImageFiles
 ];
 
+const primaryNavSlugs = [
+  "world-cup-2026-schedule",
+  "world-cup-2026-dates",
+  "world-cup-2026-schedule-groups",
+  "world-cup-2026-standings",
+  "world-cup-2026-bracket",
+  "world-cup-2026-schedule-host-cities",
+  "world-cup-2026-schedule-pdf",
+  "world-cup-2026-schedule-excel",
+  "world-cup-2026-tv-schedule",
+  "world-cup-2026-tickets"
+];
+
 const nav = () =>
-  pages
-    .slice(0, 8)
+  primaryNavSlugs
+    .map((slug) => pages.find((page) => page.slug === slug))
+    .filter(Boolean)
     .map((page) => `<a href="/${page.slug}/">${esc(page.nav)}</a>`)
     .join("");
 
