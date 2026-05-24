@@ -162,3 +162,53 @@ Density note:
 ```text
 The broad Schedule page has a very large fixture table and interactive generated views, so percentage density is diluted by useful match data. Do not force the page to 3%-5% through repetitive body copy. For this page, the safer SEO path is to keep the core keyword in title, description, H1, every H2 and every H3, while allowing the table data and utility controls to carry the user value.
 ```
+
+H2 and H3 optimization record:
+
+```text
+Date: 2026-05-24
+Page: /world-cup-2026-schedule/
+Requirement: Every H2 and H3 must include the core keyword.
+Core keyword phrase used in headings: World Cup 2026 Schedule
+Status: Completed
+```
+
+Final H2 list:
+
+```text
+World Cup 2026 Schedule Filter by Match, Team, Date or City
+Full World Cup 2026 Schedule Match Table
+World Cup 2026 Schedule Downloads
+How to Use the World Cup 2026 Schedule Match Table
+World Cup 2026 Schedule Dates and Locations
+World Cup 2026 Schedule Kickoff Times and Time Zones
+World Cup 2026 Schedule by Team and Host City
+FIFA World Cup 2026 Schedule Group and Bracket Planning
+World Cup 2026 Schedule Downloads, Sources and Update Notes
+World Cup 2026 Schedule Navigation Paths
+World Cup 2026 Schedule Planning Paths
+World Cup 2026 Schedule FAQ
+```
+
+Final H3 list:
+
+```text
+World Cup 2026 Schedule Timing Check Before Travel
+World Cup 2026 Schedule Next Match: Loading vs Loading
+World Cup 2026 Schedule Upcoming Matches
+World Cup 2026 Schedule Data Downloads
+World Cup 2026 Schedule PDF Library
+Find one World Cup 2026 schedule match fast
+Change the World Cup 2026 schedule view
+Keep a World Cup 2026 schedule copy
+World Cup 2026 Schedule Team View
+World Cup 2026 Schedule City View
+When does the World Cup 2026 Schedule start?
+How many matches are in the World Cup 2026 schedule?
+Can I filter the World Cup 2026 Schedule by team, date or host city?
+Are World Cup 2026 Schedule kickoff times shown in local time?
+Where can I download the World Cup 2026 Schedule fixtures?
+Can I see the World Cup 2026 schedule with venue details?
+Is the World Cup 2026 Schedule useful for the group stage and knockout bracket?
+Does the World Cup 2026 Schedule page sell tickets?
+```

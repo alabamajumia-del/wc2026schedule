@@ -179,3 +179,43 @@ Heading optimization:
 Updated every H2 and H3 to include the readable core keyword phrase "World Cup 2026 Schedule Standings".
 Reduced repeated body terms such as bracket, qualification and goal difference after heading expansion, so the page remains inside the 3%-5% density target.
 ```
+
+H2 and H3 optimization record:
+
+```text
+Date: 2026-05-24
+Page: /world-cup-2026-schedule-standings/
+Requirement: Every H2 and H3 must include the core keyword.
+Core keyword phrase used in headings: World Cup 2026 Schedule Standings
+Status: Completed
+```
+
+Final H2 list:
+
+```text
+World Cup 2026 Schedule Standings: Check the Table and Advancement Route
+World Cup 2026 Schedule Standings by Group
+How to Read the World Cup 2026 Schedule Standings
+How to Use the World Cup 2026 Schedule Standings
+World Cup 2026 Schedule Standings Related Planning Pages
+World Cup 2026 Schedule Standings FAQ
+```
+
+Final H3 list:
+
+```text
+World Cup 2026 Schedule Standings Tables Start at Zero
+World Cup 2026 Schedule Standings Group A
+World Cup 2026 Schedule Standings Group B
+World Cup 2026 Schedule Standings Group C
+World Cup 2026 Schedule Standings Group D
+World Cup 2026 Schedule Standings Group E
+World Cup 2026 Schedule Standings Group F
+World Cup 2026 Schedule Standings Group G
+World Cup 2026 Schedule Standings Group H
+World Cup 2026 Schedule Standings Group I
+World Cup 2026 Schedule Standings Group J
+World Cup 2026 Schedule Standings Group K
+World Cup 2026 Schedule Standings Group L
+When will World Cup 2026 Schedule Standings update?
+```
