@@ -526,3 +526,68 @@ Avoid:
 [ ] Do not imply the page is an official FIFA host city source.
 [ ] Do not add ads inside the city card grid before AdSense approval and UX testing.
 ```
+
+## 11. H2 and H3 Core Keyword Pass
+
+Date: 2026-05-24
+
+Page:
+http://localhost:3000/world-cup-2026-schedule-host-cities/
+
+Core keyword:
+
+```text
+world-cup-2026-schedule-host-cities
+```
+
+Readable heading phrase:
+
+```text
+World Cup 2026 Schedule Host Cities
+```
+
+Requirement:
+
+```text
+All H2 and H3 headings must include this page's core keyword.
+```
+
+Final H2 list:
+
+```text
+World Cup 2026 Schedule Host Cities: Full Match Dates, Venues and Fixtures
+How to Use the World Cup 2026 Schedule Host Cities Hub
+Which World Cup 2026 Schedule Host Cities Should You Open First?
+World Cup 2026 Schedule Host Cities Details Before Travel or Tickets
+World Cup 2026 Schedule Host Cities Planning Paths
+World Cup 2026 Schedule Host Cities Related Planning Pages
+World Cup 2026 Schedule Host Cities FAQ
+```
+
+Final H3 pattern:
+
+```text
+World Cup 2026 Schedule Host Cities: {City Name}
+Should World Cup 2026 Schedule Host Cities pages include travel advice?
+Which World Cup 2026 Schedule Host Cities pages should be built first?
+How can I compare World Cup 2026 Schedule Host Cities quickly?
+Do World Cup 2026 Schedule Host Cities cards replace official sources?
+Can I use the World Cup 2026 Schedule Host Cities page for travel planning?
+```
+
+Validation:
+
+```text
+Build passed.
+H1 count: 1
+H2 count: 7
+H3 count: 37
+All H2 include core keyword: true
+All H3 include core keyword: true
+Visible word count: 2,990
+Keyword-family hits: 134
+Keyword-family density: 4.48%
+Target density: 3%-5%
+Desktop overflow: 0
+Mobile overflow: 0
+```

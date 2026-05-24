@@ -1819,7 +1819,7 @@ const renderHostCitiesSupportSections = () => `<section class="section host-city
 <section class="section host-city-tool-section">
   <div class="tool-section-head">
     <p class="eyebrow">Decision guide</p>
-    <h2>Which Host City Should You Open First?</h2>
+    <h2>Which World Cup 2026 Schedule Host Cities Should You Open First?</h2>
   </div>
   <div class="decision-card-grid">
     <article><span>Following one team</span><strong>Start with the full schedule</strong><p>Filter by team first, then open the cities that appear in that team's route.</p><a href="/world-cup-2026-schedule/">Filter by team</a></article>
@@ -1832,7 +1832,7 @@ const renderHostCitiesSupportSections = () => `<section class="section host-city
 <section class="section host-city-tool-section">
   <div class="tool-section-head">
     <p class="eyebrow">Source and update checks</p>
-    <h2>Confirm City Details Before Travel or Tickets</h2>
+    <h2>World Cup 2026 Schedule Host Cities Details Before Travel or Tickets</h2>
     <p>The city planner is useful for narrowing choices, but final decisions should be checked against official schedule, ticket and local venue information.</p>
   </div>
   <div class="host-city-source-grid">
@@ -2803,7 +2803,7 @@ const renderFeaturedCityCards = (cities) => {
       <div class="featured-city-shade"></div>
       <div class="featured-city-content">
         <span>${esc(cityRouteBadge(city))}</span>
-        <h3>${esc(city.city)}</h3>
+        <h3>World Cup 2026 Schedule Host Cities: ${esc(city.city)}</h3>
         <p>${esc(city.stadiums.join(", "))}</p>
         <small>${city.matches.length} matches - ${esc(cityCapacity[city.city] ?? "Venue capacity listed by stadium")}</small>
         <a href="${attr(city.path)}">Open city guide -&gt;</a>
@@ -2873,7 +2873,7 @@ const renderHostCitiesExplorer = () => {
       <div class="host-city-card-top">
         <div>
           <span class="city-country">${esc(city.country)}</span>
-          <h3>${esc(city.city)}</h3>
+          <h3>World Cup 2026 Schedule Host Cities: ${esc(city.city)}</h3>
           <p>${esc(city.stadiums.join(", "))}</p>
         </div>
         <strong>${city.matches.length}<span>matches</span></strong>
@@ -2916,7 +2916,7 @@ const renderHostCitiesExplorer = () => {
   <div class="host-city-explorer-head">
     <div>
       <p class="eyebrow">Host city planner</p>
-      <h2>Compare Full Match Dates, Venues and Fixtures by Host City</h2>
+      <h2>World Cup 2026 Schedule Host Cities: Full Match Dates, Venues and Fixtures</h2>
       <p>Use this city hub to narrow the 16 World Cup 2026 schedule host cities by country, region, full match dates, venue, group stage fixtures, knockout rounds, semifinals, third-place match and final planning value.</p>
     </div>
     <div class="host-city-scoreboard" aria-label="Host city summary">

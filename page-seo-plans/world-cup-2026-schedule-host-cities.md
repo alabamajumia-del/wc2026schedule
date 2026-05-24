@@ -489,3 +489,72 @@ Screenshots saved:
 page-seo-plans/host-city-detail-new-york-new-jersey-desktop.png
 page-seo-plans/host-city-detail-new-york-new-jersey-mobile.png
 ```
+
+## 11. H2 and H3 Core Keyword Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User instruction:
+
+```text
+Complete H2 and H3 according to the current unified rule.
+```
+
+Core keyword:
+
+```text
+world-cup-2026-schedule-host-cities
+```
+
+Readable heading phrase:
+
+```text
+World Cup 2026 Schedule Host Cities
+```
+
+Optimization completed:
+
+- Updated the main city explorer H2 to include `World Cup 2026 Schedule Host Cities`.
+- Updated support-section H2 headings so each includes the readable core keyword.
+- Updated usage, related and FAQ H2 headings.
+- Updated featured city card H3 headings to use `World Cup 2026 Schedule Host Cities: {City}`.
+- Updated all city grid card H3 headings to use `World Cup 2026 Schedule Host Cities: {City}`.
+- Updated FAQ H3 questions so each includes `World Cup 2026 Schedule Host Cities`.
+- Preserved one H1 only.
+
+Final H2 list:
+
+```text
+World Cup 2026 Schedule Host Cities: Full Match Dates, Venues and Fixtures
+How to Use the World Cup 2026 Schedule Host Cities Hub
+Which World Cup 2026 Schedule Host Cities Should You Open First?
+World Cup 2026 Schedule Host Cities Details Before Travel or Tickets
+World Cup 2026 Schedule Host Cities Planning Paths
+World Cup 2026 Schedule Host Cities Related Planning Pages
+World Cup 2026 Schedule Host Cities FAQ
+```
+
+Final H3 rule:
+
+```text
+City cards: World Cup 2026 Schedule Host Cities: {City Name}
+FAQ questions: include World Cup 2026 Schedule Host Cities in each question.
+```
+
+Validation:
+
+```text
+Build passed.
+H1 count: 1
+H2 count: 7
+H3 count: 37
+All H2 include core keyword: true
+All H3 include core keyword: true
+Visible word count: 2,990
+Keyword-family hits: 134
+Keyword-family density: 4.48%
+Target density: 3%-5%
+Desktop overflow: 0
+Mobile overflow: 0
+```
