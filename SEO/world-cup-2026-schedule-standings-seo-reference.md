@@ -61,11 +61,13 @@ Current density validation:
 
 ```text
 Build passed.
-Visible word count: 1,920
-Keyword-family hits: 79
-Keyword-family density: 4.11%
+Visible word count: 1,990
+Keyword-family hits: 70
+Keyword-family density: 3.52%
 Target density: 3%-5%
 H1 count: 1
+All H2 include core keyword: true
+All H3 include core keyword: true
 Group cards: 12
 Standings tables: 12
 Desktop overflow: 0
@@ -81,4 +83,11 @@ Latest content expansion:
 Added world-cup-2026-schedule as the parent schedule keyword layer.
 Added schedule-related long-tail variants that fit standings intent.
 Added natural copy connecting schedule dates, group tables, points, qualification standings and bracket paths.
+```
+
+Heading optimization:
+
+```text
+Updated every H2 and H3 to include the readable core keyword phrase "World Cup 2026 Schedule Standings".
+Reduced repeated body terms such as bracket, qualification and goal difference after heading expansion, so the page remains inside the 3%-5% density target.
 ```

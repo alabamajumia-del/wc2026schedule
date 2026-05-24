@@ -70,9 +70,9 @@ Desktop page overflow: 0
 Desktop standings table overflow: 0
 Mobile page overflow: 0
 Mobile standings table uses internal horizontal scroll: true
-Visible word count: 1,920
-Keyword-family hits: 79
-Keyword-family density: 4.11%
+Visible word count: 1,990
+Keyword-family hits: 70
+Keyword-family density: 3.52%
 Target density: 3%-5%
 ```
 
@@ -170,12 +170,43 @@ Validation:
 
 ```text
 Build passed.
-Visible word count: 1,920
-Keyword-family hits: 79
-Keyword-family density: 4.11%
+Visible word count: 1,990
+Keyword-family hits: 70
+Keyword-family density: 3.52%
 Target density: 3%-5%
 Group cards: 12
 Standings tables: 12
 Hash link /world-cup-2026-schedule-standings/#group-c opens Group C only: true
+Desktop overflow: 0
+```
+
+## 5. H2 and H3 Core Keyword Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User instruction:
+
+```text
+All H2 and H3 headings need to add the core keyword.
+```
+
+Completed:
+
+- Added the readable core keyword phrase `World Cup 2026 Schedule Standings` to every H2.
+- Added the readable core keyword phrase `World Cup 2026 Schedule Standings` to every H3.
+- Preserved one H1 only.
+- Reduced repeated body terms after the heading expansion so the page does not exceed the 3%-5% density target.
+
+Validation:
+
+```text
+All H2 include core keyword: true
+All H3 include core keyword: true
+Visible word count: 1,990
+Keyword-family hits: 70
+Keyword-family density: 3.52%
+Target density: 3%-5%
+Group C hash filter still works: true
 Desktop overflow: 0
 ```

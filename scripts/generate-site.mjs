@@ -711,10 +711,10 @@ const hero = ({
       </div>
       <div class="standings-hero-actions">
         <button type="button" data-standings-hero-apply>Open this table</button>
-        <a href="/world-cup-2026-bracket/" data-standings-hero-bracket>Open bracket path</a>
+        <a href="/world-cup-2026-bracket/" data-standings-hero-bracket>Open knockout route</a>
       </div>
       <div class="standings-hero-note">
-        <strong>Qualification rule</strong>
+        <strong>Advancement rule</strong>
         <span>Top two teams advance directly; third-place teams are compared across groups.</span>
       </div>
     </div>`;
@@ -1053,7 +1053,7 @@ const renderStandingsSupportSections = () => {
   </div>
   <div class="host-city-results-line">
     <strong><span data-standings-result-count>${groups.length}</span> tables shown</strong>
-    <span>Choose a group to focus one table, or open the bracket once ranking routes matter.</span>
+    <span>Choose a group to focus one table, or open the knockout route once ranking routes matter.</span>
   </div>
   <div class="standings-card-grid">
     ${groups
@@ -1062,7 +1062,7 @@ const renderStandingsSupportSections = () => {
       <div class="standings-card-head">
         <div>
           <span>Group ${esc(item.group)}</span>
-          <h3>Group ${esc(item.group)} Standings</h3>
+          <h3>World Cup 2026 Schedule Standings Group ${esc(item.group)}</h3>
         </div>
         <strong>Before kickoff</strong>
       </div>
@@ -1081,7 +1081,7 @@ const renderStandingsSupportSections = () => {
       </div>
       <div class="standings-card-actions">
         <a href="/world-cup-2026-schedule-groups/?group=${attr(item.group)}#group-${attr(item.group.toLowerCase())}">Group fixtures</a>
-        <a href="/world-cup-2026-bracket/">Bracket path</a>
+        <a href="/world-cup-2026-bracket/">Knockout route</a>
       </div>
     </article>`
       )
@@ -1092,15 +1092,15 @@ const renderStandingsSupportSections = () => {
 <section class="section standings-hub-section">
   <div class="section-heading-row">
     <div>
-      <p class="eyebrow">Qualification rules</p>
+      <p class="eyebrow">Advancement rules</p>
       <h2>How to Read the World Cup 2026 Schedule Standings</h2>
-      <p>The standings page should answer ranking questions fast. During the tournament, users need points, goal difference and qualification status before they need long explanations.</p>
+      <p>The table should answer ranking questions fast. During the tournament, users need Pts, goal margin and advancement status before they need long explanations.</p>
     </div>
   </div>
   <div class="standings-rule-grid">
-    <article><span>1-2</span><strong>Direct qualifying lane</strong><p>The first and second placed teams in each group move directly toward the Round of 32.</p></article>
+    <article><span>1-2</span><strong>Direct lane</strong><p>The first and second placed teams in each group move directly toward the Round of 32.</p></article>
     <article><span>3</span><strong>Cross-group watch</strong><p>Third-place teams are compared across groups, so their status depends on results outside their own group.</p></article>
-    <article><span>TB</span><strong>Tie-break checks</strong><p>Points, goal difference, goals scored and FIFA tie-break rules become important when teams finish close.</p></article>
+    <article><span>TB</span><strong>Tie-break checks</strong><p>Pts, goal margin, goals scored and FIFA tie-break rules become important when teams finish close.</p></article>
   </div>
 </section>`;
 };
@@ -2119,8 +2119,8 @@ const renderPage = (page) => {
     ${table(usageRows)}
   </section>`
   }
-  <section class="section"><h2>${esc(page.relatedHeading ?? "Related planning pages")}</h2>${linkGrid(page.links)}</section>
-  <section class="section"><h2>FAQ</h2>${faqHtml(page.faqs)}</section>
+    <section class="section"><h2>${esc(page.relatedHeading ?? "Related planning pages")}</h2>${linkGrid(page.links)}</section>
+  <section class="section"><h2>${esc(page.faqHeading ?? "FAQ")}</h2>${faqHtml(page.faqs)}</section>
   <section class="source-note"><strong>Last updated:</strong> ${updated}. ${esc(sourceNote)}</section>
 </main>`
   });
