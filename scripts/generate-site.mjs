@@ -1251,7 +1251,7 @@ const renderGroupsSupportSections = () => {
   <div class="section-heading-row">
     <div>
       <p class="eyebrow">Qualification path</p>
-      <h2>How the Schedule Groups Connect to Standings and the Bracket</h2>
+      <h2>How World Cup 2026 Schedule Groups Connect to Standings and the Bracket</h2>
       <p>The groups page should answer the planning question before results arrive and the qualification question once results begin. The schedule tells you who plays, when and where; standings explain points and ranking; the bracket explains where qualified teams go next.</p>
     </div>
   </div>

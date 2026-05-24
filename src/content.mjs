@@ -589,12 +589,12 @@ export const pages = [
     },
     overview: {
       eyebrow: "Groups workflow",
-      heading: "Choose a group, then follow teams, fixtures and qualification paths.",
+      heading: "World Cup 2026 Schedule Groups: Choose Teams, Fixtures and Qualification Paths",
       copy:
         "Use this page when the draw matters more than the full 104-match table. Start with a group card, scan its teams and six fixtures, then move into match details, team routes, standings or bracket planning.",
       tags: ["12 groups", "48 teams", "72 group fixtures", "Standings path"],
       noteEyebrow: "Result note",
-      noteHeading: "Standings are separate",
+      noteHeading: "World Cup 2026 Schedule Groups Keep Standings Separate",
       noteCopy:
         "Before the tournament, the group cards show structure and fixtures. Once matches begin, use the standings page for live points, goal difference and qualification status."
     },
@@ -619,7 +619,7 @@ export const pages = [
     ],
     faqs: [
       [
-        "What is the difference between groups and standings?",
+        "What is the difference between World Cup 2026 Schedule Groups and standings?",
         "Groups show how teams are organized before matches are played. Standings show each team's points and ranking after results begin to come in."
       ],
       [
@@ -627,19 +627,21 @@ export const pages = [
         "There are 12 World Cup 2026 schedule groups, labeled Group A through Group L, with four teams in each group."
       ],
       [
-        "Do the groups include match fixtures?",
+        "Do World Cup 2026 Schedule Groups include match fixtures?",
         "Yes. The groups page connects each group with its fixed group-stage fixtures, first match, host cities and links to match detail pages."
       ],
       [
-        "How do teams advance from the group stage?",
+        "How do teams advance from the World Cup 2026 Schedule Groups stage?",
         "The top two teams from each group advance, along with the eight best third-place teams. The standings page should be used for live ranking once results begin."
       ],
       [
-        "Where can I go next from the groups page?",
+        "Where can I go next from the World Cup 2026 Schedule Groups page?",
         "From the groups page, fans can move to the full schedule, standings, bracket, team pages and relevant match pages to check fixtures, points and possible knockout routes."
       ]
     ],
-    usageHeading: "Quick Group Planning Workflow",
+    usageHeading: "World Cup 2026 Schedule Groups Planning Workflow",
+    relatedHeading: "World Cup 2026 Schedule Groups Related Planning Pages",
+    faqHeading: "World Cup 2026 Schedule Groups FAQ",
     usageRows: [
       ["Choose a group", "Start with Group A through Group L and check the four teams listed together.", "Open the group card that matches your team or draw question."],
       ["Open fixed fixtures", "Use the first match and group fixture links to move into match detail pages.", "Check kickoff time, city, stadium and source notes."],

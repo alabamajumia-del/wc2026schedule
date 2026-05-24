@@ -291,3 +291,76 @@ Fix: Added an explicit `.group-hero-fields label[hidden] { display: none; }` rul
 Validation: By team now shows only the Team selector; By group now shows only the Group selector.
 Screenshot: page-seo-plans/world-cup-2026-schedule-groups-hero-hidden-field-fix.png
 ```
+
+## 7. H2 and H3 Core Keyword Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User instruction:
+
+```text
+Optimize H2 and H3. They must contain this page's core keyword.
+```
+
+Core keyword:
+
+```text
+world-cup-2026-schedule-groups
+```
+
+Readable heading phrase:
+
+```text
+World Cup 2026 Schedule Groups
+```
+
+Optimization completed:
+
+- Updated the overview H2 to include `World Cup 2026 Schedule Groups`.
+- Updated the standings note H3 to include `World Cup 2026 Schedule Groups`.
+- Updated the standings/bracket connection H2 to include the full readable core phrase.
+- Updated usage, related and FAQ H2 headings.
+- Updated FAQ H3 questions so each includes `World Cup 2026 Schedule Groups`.
+- Preserved one H1 only.
+
+Final H2 list:
+
+```text
+World Cup 2026 Schedule Groups: Choose Teams, Fixtures and Qualification Paths
+World Cup 2026 Schedule Groups by Teams, Fixtures and Cities
+World Cup 2026 Schedule Groups and Fixtures
+How World Cup 2026 Schedule Groups Connect to Standings and the Bracket
+Ways to Use the World Cup 2026 Schedule Groups Page
+World Cup 2026 Schedule Groups Planning Workflow
+World Cup 2026 Schedule Groups Related Planning Pages
+World Cup 2026 Schedule Groups FAQ
+```
+
+Final H3 list:
+
+```text
+World Cup 2026 Schedule Groups Keep Standings Separate
+All World Cup 2026 Schedule Groups
+What is the difference between World Cup 2026 Schedule Groups and standings?
+How many World Cup 2026 schedule groups are there?
+Do World Cup 2026 Schedule Groups include match fixtures?
+How do teams advance from the World Cup 2026 Schedule Groups stage?
+Where can I go next from the World Cup 2026 Schedule Groups page?
+```
+
+Validation:
+
+```text
+Build passed.
+H1 count: 1
+H2 count: 8
+H3 count: 7
+All H2 include core keyword: true
+All H3 include core keyword: true
+Visible word count: 3,313
+Keyword-family hits: 133
+Keyword-family density: 4.01%
+Target density: 3%-5%
+Desktop overflow: 0
+```
