@@ -726,3 +726,30 @@ Weighted density check: 5.00%.
 Desktop overflow: 0.
 Mobile overflow: 0.
 ```
+
+## Phase Download Trust A
+
+Date: 2026-05-24
+Status: Completed
+
+Optimization completed:
+
+- Added a four-card trust strip above the PDF download library.
+- Added task-based download recommendations: print, quick scan, stage planning and filtering-first.
+- Added file metadata to download cards: updated date, file size, version and source positioning.
+- Replaced generic file actions with clearer labels such as `Download printable PDF`, `Download overview PDF`, `Download stage PDF` and `Open Excel options`.
+- Added visible independent-planner and official-source verification language to support user trust and AdSense readiness.
+
+Validation:
+
+```text
+Build passed.
+H2/H3 missing core keyword: 0.
+Visible word count: 3260.
+Weighted density check: 4.60%.
+Trust cards: 4.
+Decision cards: 4.
+Download cards: 7.
+Desktop overflow: 0.
+Mobile overflow: 0.
+```

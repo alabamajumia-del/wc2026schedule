@@ -155,3 +155,48 @@ Mobile overflow: 0.
 [ ] Keep CSV copy focused on imports, not general schedule reading.
 [ ] Avoid adding repeated keyword text to every workbook sheet description.
 ```
+
+## Download Trust and Conversion Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Phase Download Trust A: PDF / Excel download module trust and conversion optimization.
+```
+
+Excel module changes:
+
+```text
+Added a trust strip with update date, official-source reminder, independent-planner positioning and no-ticket-sales/payment language.
+Added task-based recommendations for filtering teams, importing into Google Sheets and moving to PDF after filtering.
+Added file-level metadata to XLS and CSV cards: updated date, file size, version label, compatibility, source note and included fields.
+Changed generic button copy into Download Excel workbook and Download CSV data.
+Kept the official FIFA schedule link as the verification path for travel, tickets or publishing.
+```
+
+SEO and E-E-A-T notes:
+
+```text
+The page now explains why XLS and CSV exist as separate files.
+The copy supports spreadsheet planner, CSV import, Google Sheets and source-note long-tail intent without keyword stuffing.
+The trust language supports AdSense readiness while clearly avoiding official FIFA affiliation claims.
+```
+
+Validation:
+
+```text
+Build passed.
+H2/H3 missing core keyword: 0.
+Visible word count: 2410.
+Exact readable core phrase count: 22.
+Weighted density check: 4.56%.
+Trust cards: 4.
+Decision cards: 3.
+Download cards in module: 2.
+Desktop overflow: 0.
+Mobile overflow: 0.
+Trust checks visible: not affiliated with FIFA, does not sell tickets, official sources, May 24 2026.
+```

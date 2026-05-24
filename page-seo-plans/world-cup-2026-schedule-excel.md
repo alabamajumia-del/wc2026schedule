@@ -280,3 +280,30 @@ Weighted density check: 5.00%.
 Desktop overflow: 0.
 Mobile overflow: 0.
 ```
+
+## Phase Download Trust A
+
+Date: 2026-05-24
+Status: Completed
+
+Optimization completed:
+
+- Added a four-card trust strip above the Excel and CSV download choices.
+- Added task-based recommendations: filter teams, import into Google Sheets and move to PDF after filtering.
+- Added file metadata to XLS and CSV cards: updated date, file size, version, compatibility, included fields and source note.
+- Replaced generic file actions with `Download Excel workbook` and `Download CSV data`.
+- Added visible independent-planner, no-ticket-sales and official-source verification language for user trust and AdSense readiness.
+
+Validation:
+
+```text
+Build passed.
+H2/H3 missing core keyword: 0.
+Visible word count: 2410.
+Weighted density check: 4.56%.
+Trust cards: 4.
+Decision cards: 3.
+Download cards: 2.
+Desktop overflow: 0.
+Mobile overflow: 0.
+```

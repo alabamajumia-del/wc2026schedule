@@ -5448,6 +5448,15 @@ td {
   content: "";
 }
 
+.download-source-note {
+  border-left: 3px solid var(--gold);
+  background: #fffaf0;
+  color: #5f665f;
+  font-size: 13px;
+  line-height: 1.55;
+  padding: 10px 12px;
+}
+
 .excel-file-card .button {
   justify-self: start;
   margin-top: 2px;
@@ -5503,6 +5512,85 @@ td {
   scroll-margin-top: 96px;
 }
 
+.download-trust-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.download-trust-strip article {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fff 0%, #f7fbf6 100%);
+  padding: 14px;
+}
+
+.download-trust-strip span,
+.download-decision-card span {
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.download-trust-strip strong {
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.download-trust-strip p,
+.download-decision-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.download-decision-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.download-decision-card {
+  display: grid;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+}
+
+.download-decision-card strong {
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.download-decision-card a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 9px 12px;
+}
+
+.download-decision-card a:hover,
+.download-decision-card a:focus-visible {
+  background: var(--accent-dark);
+}
+
 .download-group {
   display: grid;
   gap: 10px;
@@ -5534,7 +5622,7 @@ td {
   position: relative;
   display: grid;
   gap: 10px;
-  min-height: 210px;
+  min-height: 280px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: linear-gradient(180deg, #fff 0%, #f8fbf6 100%);
@@ -5593,6 +5681,18 @@ td {
   color: var(--text);
   font-weight: 800;
   text-align: right;
+}
+
+.download-card em {
+  align-self: end;
+  justify-self: start;
+  border-radius: 7px;
+  background: var(--accent);
+  color: #fff;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 10px 12px;
 }
 
 .download-card:hover {
@@ -5897,6 +5997,8 @@ td {
   .excel-format-grid,
   .excel-source-grid,
   .excel-compare-grid,
+  .download-trust-strip,
+  .download-decision-grid,
   .download-grid,
   .host-city-explorer-head,
   .host-city-controls,

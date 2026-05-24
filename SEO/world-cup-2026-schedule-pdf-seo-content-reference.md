@@ -498,3 +498,48 @@ Weighted density check: 5.00%.
 Desktop overflow: 0.
 Mobile overflow: 0.
 ```
+
+## 12. Download Trust and Conversion Pass
+
+Date: 2026-05-24
+Status: Completed
+
+User task:
+
+```text
+Phase Download Trust A: PDF / Excel download module trust and conversion optimization.
+```
+
+PDF module changes:
+
+```text
+Added a trust strip with update date, official-source reminder, independence note and no-ticket-sales/payment positioning.
+Added task-based file recommendations for print, quick scan, stage planning and filtering-first users.
+Added file-level metadata to each download card: updated date, file size, version label, best use and included content.
+Changed generic download wording into task-specific labels such as Download printable PDF, Download overview PDF and Download stage PDF.
+Kept official-source and independent-planner language visible near download actions.
+```
+
+SEO and E-E-A-T notes:
+
+```text
+The page now demonstrates file provenance, update awareness and independence from FIFA.
+The trust language supports AdSense readiness without implying official affiliation.
+The added content is functional download guidance, not keyword filler.
+```
+
+Validation:
+
+```text
+Build passed.
+H2/H3 missing core keyword: 0.
+Visible word count: 3260.
+Exact readable core phrase count: 30.
+Weighted density check: 4.60%.
+Trust cards: 4.
+Decision cards: 4.
+Download cards in module: 7.
+Desktop overflow: 0.
+Mobile overflow: 0.
+Trust checks visible: not affiliated with FIFA, does not sell tickets, official sources, May 24 2026.
+```
