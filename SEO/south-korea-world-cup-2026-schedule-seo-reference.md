@@ -81,17 +81,18 @@ south korea world cup 2026 knockout path
 ## Keyword Density
 
 ```text
-Visible word count: 1568
+Visible word count: 1549
 Exact keyword count: 8
-Weighted exact-match density: 3.06%
+Weighted exact-match density: 3.10%
 Target range: 3%-5%
 ```
 
 ## Optimization Result
 
-The page now adds a custom South Korea experience layer while preserving the original SEO heading structure:
+The page now uses a custom South Korea profile-card hero and a team experience layer while preserving the original SEO heading structure:
 
 ```text
+Profile-card hero with flag, Korea Republic display name, H1, coach/squad/match stats and route actions
 Team snapshot strip
 Group A standings preview
 Group A remaining fixtures
@@ -107,3 +108,5 @@ Existing match cards, usage cards, related links and FAQ retained
 No external reference copy, brand assets, player images or protected source code were reused. The reference page was used only to identify useful page patterns.
 
 The lineup area intentionally avoids guessing player names. Replace role placeholders only after official or reliable squad/lineup data is available.
+
+The latest hero redesign follows the MatchTimes-style interaction pattern as a UX reference, but keeps the wc26schedule brand, original title, meta description, H1, H2 and H3 intact.

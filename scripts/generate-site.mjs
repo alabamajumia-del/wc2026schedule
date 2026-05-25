@@ -3978,6 +3978,42 @@ const renderSouthKoreaTeamExperience = (team) => {
   </section>`;
 };
 
+const renderSouthKoreaProfileHero = (team) => {
+  const flagUrl = teamFlagUrl(team.team);
+  return `<section class="team-profile-hero team-profile-hero-korea">
+  <div class="team-profile-card">
+    <div class="team-profile-head">
+      <div class="team-profile-main">
+        <div class="team-profile-flag">
+          ${flagUrl ? `<img src="${attr(flagUrl)}" alt="" loading="eager" decoding="async" aria-hidden="true">` : `<span>${esc(teamCode(team.team))}</span>`}
+        </div>
+        <div class="team-profile-title">
+          <p class="eyebrow">National team</p>
+          <strong class="team-profile-display-name">Korea Republic</strong>
+          <div class="team-profile-title-row">
+            <h1>${esc(teamCoreKeyword(team))}</h1>
+            <button type="button" class="team-favorite-button" aria-label="Save South Korea schedule page" aria-pressed="false" data-team-favorite>&#9825;</button>
+          </div>
+          <p class="team-profile-subline">FIFA World Cup 2026 - Group ${esc(team.group)}</p>
+        </div>
+      </div>
+      <div class="team-profile-stats" aria-label="South Korea quick facts">
+        <article><span>Coach</span><strong>TBD</strong></article>
+        <article><span>Squad</span><strong>Pending</strong></article>
+        <article><span>Upcoming matches</span><strong>${team.matches.length}</strong></article>
+      </div>
+    </div>
+    <p class="team-profile-copy">This South Korea team hub turns the confirmed Group ${esc(team.group)} fixtures into a practical route page. Use it to move from the Korea Republic snapshot into opponent context, host-city planning, kickoff timing, qualification routes and match-detail cards without returning to the full tournament table.</p>
+    <div class="team-profile-actions">
+      <a href="#korea-group-overview">Group overview</a>
+      <a href="#korea-knockout-path">Qualification path</a>
+      <a href="#korea-lineup-board">Lineup board</a>
+      <a href="#team-fixtures">Upcoming matches</a>
+    </div>
+  </div>
+</section>`;
+};
+
 const teamSchema = (team) => [
   {
     "@context": "https://schema.org",
@@ -4013,33 +4049,37 @@ const teamSchema = (team) => [
   }
 ];
 
-const renderTeamPage = (team) =>
-  layout({
+const renderTeamPage = (team) => {
+  const teamHero = team.team === "South Korea"
+    ? renderSouthKoreaProfileHero(team)
+    : hero({
+        eyebrow: "Team schedule",
+        h1: teamCoreKeyword(team),
+        intro: `Follow ${team.team} through Group ${team.group} by match date, opponent, kickoff time, host city and stadium. The route runs from ${team.matches[0].dateLabel} to ${team.matches.at(-1).dateLabel}, with fixtures against ${readableList(team.opponents)} across ${readableList(team.cities)}.`,
+        facts: [
+          ["Group", team.group],
+          ["Matches", `${team.matches.length}`],
+          ["Cities", team.cities.join(", ")]
+        ],
+        actions: [
+          ["Full schedule", "/world-cup-2026-schedule/", "primary"],
+          ["Group guide", "/world-cup-2026-schedule-groups/", "secondary"]
+        ],
+        panelTitle: `${team.team} route snapshot`,
+        panelIntro: teamTravelProfile(team),
+        panelRows: [
+          ["First match", `${team.matches[0].home} vs ${team.matches[0].away}`],
+          ["Final group match", `${team.matches.at(-1).home} vs ${team.matches.at(-1).away}`],
+          ["Host route", readableList(team.cities)]
+        ]
+      });
+
+  return layout({
     title: teamSeoTitle(team),
     description: teamSeoDescription(team),
     canonical: team.path,
     schema: teamSchema(team),
-    body: `${hero({
-      eyebrow: "Team schedule",
-      h1: teamCoreKeyword(team),
-      intro: `Follow ${team.team} through Group ${team.group} by match date, opponent, kickoff time, host city and stadium. The route runs from ${team.matches[0].dateLabel} to ${team.matches.at(-1).dateLabel}, with fixtures against ${readableList(team.opponents)} across ${readableList(team.cities)}.`,
-      facts: [
-        ["Group", team.group],
-        ["Matches", `${team.matches.length}`],
-        ["Cities", team.cities.join(", ")]
-      ],
-      actions: [
-        ["Full schedule", "/world-cup-2026-schedule/", "primary"],
-        ["Group guide", "/world-cup-2026-schedule-groups/", "secondary"]
-      ],
-      panelTitle: `${team.team} route snapshot`,
-      panelIntro: teamTravelProfile(team),
-      panelRows: [
-        ["First match", `${team.matches[0].home} vs ${team.matches[0].away}`],
-        ["Final group match", `${team.matches.at(-1).home} vs ${team.matches.at(-1).away}`],
-        ["Host route", readableList(team.cities)]
-      ]
-    })}
+    body: `${teamHero}
 <main class="main team-page-main">
   <section class="section team-route-overview">
     <div class="grid">
@@ -4116,6 +4156,7 @@ const renderTeamPage = (team) =>
   <section class="source-note"><strong>Last updated:</strong> ${updated}. This team page is generated from the structured wc26schedule match dataset using FIFA schedule references and mapped host-city data. Before travel, ticket purchases, printed handouts or broadcast planning, confirm the latest details with official tournament, stadium, ticket and broadcaster sources.</section>
 </main>`
   });
+};
 
 const citySchema = (city) => [
   {
@@ -5360,6 +5401,15 @@ for (const [source, target] of siteAssetFiles) {
 await write(
   "schedule.js",
   `(() => {
+  const favoriteButtons = Array.from(document.querySelectorAll("[data-team-favorite]"));
+  favoriteButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const saved = button.getAttribute("aria-pressed") === "true";
+      button.setAttribute("aria-pressed", String(!saved));
+      button.innerHTML = saved ? "&#9825;" : "&#9829;";
+    });
+  });
+
   const rows = Array.from(document.querySelectorAll("[data-match-row]"));
   if (!rows.length) return;
   const dateView = document.querySelector('[data-schedule-view="date"]');

@@ -99,9 +99,10 @@ Upcoming match cards
 
 ## Implemented wc26schedule Modules
 
-The Korean team page now includes a custom experience block before the existing fixture cards:
+The Korean team page now includes a custom profile-card hero and experience block before the existing fixture cards:
 
 ```text
+Profile-card hero: flag, Korea Republic display name, preserved H1, favorite control, coach/squad/upcoming match stats
 Anchor navigation: Group overview, Qualification path, Lineup board, Route cities, Match cards
 Team snapshot strip: Group, coach status, fixture count, host route
 Group A mini standings table
@@ -117,9 +118,9 @@ TV schedule guide link
 After implementation:
 
 ```text
-Visible word count: 1568
+Visible word count: 1549
 Exact core keyword count: 8
-Weighted exact-match density: 3.06%
+Weighted exact-match density: 3.10%
 Target range: 3%-5%
 Local status: 200
 H1/H2/H3 changed: no
@@ -130,6 +131,8 @@ H1/H2/H3 changed: no
 The reference page's structure was used as UX inspiration only. The implementation does not copy protected text, styles, scripts, brand assets or external player images.
 
 Player names and confirmed lineup are not guessed. The lineup module is role-based until official squad or reliable lineup data is available.
+
+The hero was changed from the generic large stadium layout to a team-profile interaction pattern so the page feels like a national team hub rather than another reused schedule template.
 
 ## Next Action
 
