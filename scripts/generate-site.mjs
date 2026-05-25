@@ -2081,6 +2081,179 @@ const cityIndexPanel = () => {
 </section>`;
 };
 
+const stageOrder = [
+  "Group stage",
+  "Round of 32",
+  "Round of 16",
+  "Quarter-finals",
+  "Semi-finals",
+  "Bronze final",
+  "Final"
+];
+
+const stageDateSummaries = () =>
+  stageOrder
+    .map((stage) => {
+      const stageMatches = matches
+        .filter((match) => match.stage === stage)
+        .sort((a, b) => a.date.localeCompare(b.date) || a.kickoffET.localeCompare(b.kickoffET));
+      const first = stageMatches[0];
+      const last = stageMatches.at(-1);
+      return { stage, matches: stageMatches, first, last };
+    })
+    .filter((item) => item.matches.length);
+
+const dateRangeLabel = (first, last) =>
+  first.date === last.date ? first.dateLabel : `${first.dateLabel} to ${last.dateLabel}`;
+
+const stagePlanningUse = (stage) =>
+  ({
+    "Group stage": "Best for team routes, city clusters and early travel windows.",
+    "Round of 32": "Best for the first knockout decisions after group results are known.",
+    "Round of 16": "Best for narrowing high-stakes matches and bracket movement.",
+    "Quarter-finals": "Best for premium knockout trips and tighter date planning.",
+    "Semi-finals": "Best for late-tournament travel and final-weekend planning.",
+    "Bronze final": "Best for third-place match planning before the final.",
+    Final: "Best for final date, stadium and source confirmation."
+  })[stage] ?? "Use the full schedule for match-level details.";
+
+const renderDatesSupportSections = () => {
+  const summaries = stageDateSummaries();
+  const openingMatch = matches.find((match) => match.matchNumber === 1);
+  const finalMatch = matches.find((match) => match.stage === "Final");
+  const semiMatches = matches.filter((match) => match.stage === "Semi-finals");
+  const bronzeMatch = matches.find((match) => match.stage === "Bronze final");
+  const groupStage = summaries.find((item) => item.stage === "Group stage");
+  const knockoutStart = summaries.find((item) => item.stage === "Round of 32");
+
+  return `<section class="section dates-overview-section">
+  <div class="dates-visual-grid">
+    <div class="dates-visual-copy">
+      <p class="eyebrow">Timeline view</p>
+      <h2>World Cup 2026 Dates Timeline by Stage</h2>
+      <p>The World Cup 2026 dates begin with the opening match on ${esc(openingMatch.dateLabel)} and end with the final on ${esc(finalMatch.dateLabel)}. Use this timeline before you choose a specific team, city or downloadable file, because the right planning path changes once you move from group-stage fixtures into knockout rounds.</p>
+      <p>The page is intentionally date-first: it tells you when each phase happens, how many matches sit inside the phase and where to go next for exact fixtures. The full schedule remains the best place for match numbers, teams, stadiums and kickoff times.</p>
+      <div class="dates-action-row">
+        <a class="button" href="/world-cup-2026-schedule/">Open exact match dates</a>
+        <a class="button light" href="/world-cup-2026-schedule-excel/">Filter dates in Excel</a>
+      </div>
+    </div>
+    <figure class="dates-visual-card">
+      <img src="/assets/2026-world-cup-full-match-schedule-overview.png" alt="World Cup 2026 dates overview with group stage and knockout schedule matrix" loading="lazy" decoding="async">
+      <figcaption>Use the visual overview for fast scanning, then use the table below for stage-by-stage planning.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section dates-timeline-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Stage calendar</p>
+      <h2>World Cup 2026 Dates by Tournament Stage</h2>
+      <p>Use this table to separate the tournament window into planning phases. Dates are generated from the structured wc26schedule match dataset and should be checked against official sources before travel or ticket decisions.</p>
+    </div>
+    <a class="button light" href="${attr(scheduleMeta.sourceUrl)}">Official schedule source</a>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stage</th><th>World Cup 2026 dates</th><th>Matches</th><th>Best use</th><th>Next page</th></tr></thead>
+      <tbody>
+        ${summaries
+          .map((item) => {
+            const nextPage =
+              item.stage === "Group stage"
+                ? "/world-cup-2026-schedule-groups/"
+                : item.stage === "Final"
+                  ? "/world-cup-2026-final/"
+                  : "/world-cup-2026-bracket/";
+            return `<tr>
+              <td><strong>${esc(item.stage)}</strong></td>
+              <td>${esc(dateRangeLabel(item.first, item.last))}</td>
+              <td>${item.matches.length}</td>
+              <td>${esc(stagePlanningUse(item.stage))}</td>
+              <td><a href="${nextPage}">${item.stage === "Group stage" ? "Open groups" : item.stage === "Final" ? "Open final guide" : "Open bracket"}</a></td>
+            </tr>`;
+          })
+          .join("")}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section dates-keydate-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Key dates</p>
+      <h2>World Cup 2026 Dates Fans Usually Check First</h2>
+      <p>Most users do not need every date on the first visit. They need the start, group-stage window, knockout start and final weekend before opening the full schedule table.</p>
+    </div>
+  </div>
+  <div class="dates-key-grid">
+    <article>
+      <span>Opening match</span>
+      <h3>Opening Match Date</h3>
+      <strong>${esc(openingMatch.dateLabel)}</strong>
+      <p>${esc(openingMatch.home)} vs ${esc(openingMatch.away)} is listed in ${esc(openingMatch.city)} at ${esc(openingMatch.stadium)}. Open the match detail page when you need kickoff conversion and source notes.</p>
+      <a href="${attr(matchDetailPath(openingMatch))}">Open opening match</a>
+    </article>
+    <article>
+      <span>Group stage window</span>
+      <h3>Group Stage Date Window</h3>
+      <strong>${esc(dateRangeLabel(groupStage.first, groupStage.last))}</strong>
+      <p>The group stage has ${groupStage.matches.length} matches across Groups A-L. This is the best window for team-specific planning and host-city comparison.</p>
+      <a href="/world-cup-2026-schedule-groups/">Open group pages</a>
+    </article>
+    <article>
+      <span>Knockout start</span>
+      <h3>Knockout Round Dates</h3>
+      <strong>${esc(knockoutStart.first.dateLabel)}</strong>
+      <p>The Round of 32 starts the knockout route. Once group results are available, use standings and bracket pages to understand who can move forward.</p>
+      <a href="/world-cup-2026-bracket/">Open bracket guide</a>
+    </article>
+    <article>
+      <span>Final weekend</span>
+      <h3>Final Weekend Dates</h3>
+      <strong>${esc(bronzeMatch.dateLabel)} and ${esc(finalMatch.dateLabel)}</strong>
+      <p>The third-place match and final close the tournament. Treat these dates as high-sensitivity planning points for tickets, hotels, local movement and official updates.</p>
+      <a href="/world-cup-2026-final/">Open final guide</a>
+    </article>
+  </div>
+</section>
+
+<section class="section dates-decision-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Decision paths</p>
+      <h2>How to Use World Cup 2026 Dates for Travel, Teams and Downloads</h2>
+      <p>The date page should send users to the correct next task instead of trapping them in a long explanation. Choose the path that matches the decision in front of you.</p>
+    </div>
+  </div>
+  <div class="dates-decision-grid">
+    <article><h3>Team Routes by Date</h3><p>If you follow one country, start with the Team Directory and open that country's page. Team pages show opponents, dates, cities and match detail links without requiring repeated filters.</p><a href="/world-cup-2026-schedule/#team-schedules">Open team pages</a></article>
+    <article><h3>Host City Trips by Date</h3><p>If you plan to attend in person, open the host city hub and compare date windows by city before booking hotels or flights around one fixture.</p><a href="/world-cup-2026-schedule-host-cities/">Compare host cities</a></article>
+    <article><h3>Printable Date Planning</h3><p>If you need a snapshot for a folder, meeting or watch party, use the PDF page after checking which tournament phase matters most.</p><a href="/world-cup-2026-schedule-pdf/">Open PDF downloads</a></article>
+    <article><h3>Spreadsheet Date Filtering</h3><p>If you want to sort by date, city, team or stage, use the Excel workbook or CSV file so you can compare fixtures outside the browser.</p><a href="/world-cup-2026-schedule-excel/">Open Excel planner</a></article>
+  </div>
+</section>
+
+<section class="section dates-source-section">
+  <div class="source-card-grid">
+    <article>
+      <span>Primary source</span>
+      <h2>World Cup 2026 Dates Sources and Update Notes</h2>
+      <p>The date ranges on this page are generated from the structured wc26schedule match dataset, aligned to FIFA schedule references and the current match table. Because ticket windows, stadium operations and broadcast details can change, use this page for planning and confirm official details before paid decisions.</p>
+      <a href="${attr(scheduleMeta.sourceUrl)}">Open FIFA schedule source</a>
+    </article>
+    <article>
+      <span>Late-stage checks</span>
+      <h3>Date Checks Before Tickets or Travel</h3>
+      <p>Recheck the full schedule before flights, hotels, ticket purchases, printed handouts or public watch-party planning. A saved PDF or spreadsheet should be treated as a snapshot, not the final authority.</p>
+      <a href="/world-cup-2026-tickets/">Open ticket guide</a>
+    </article>
+  </div>
+</section>`;
+};
+
 const renderHostCitiesSupportSections = () => `<section class="section host-city-tool-section">
   <div class="tool-section-head">
     <p class="eyebrow">City planning workflow</p>
@@ -2212,6 +2385,38 @@ const pageSchema = (page) => {
     });
   }
 
+  if (page.slug === "world-cup-2026-dates") {
+    schema.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: "How to use the World Cup 2026 dates",
+      description:
+        "Use the World Cup 2026 dates page to choose the right tournament window before opening match, city, team, PDF or Excel planning pages.",
+      step: [
+        {
+          "@type": "HowToStep",
+          name: "Check the tournament window",
+          text: "Start with the June 11 to July 19, 2026 tournament window so you know the full date range."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Choose the tournament stage",
+          text: "Separate group stage, knockout rounds, semifinals, third-place match and final before opening match-level details."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Open the matching planning page",
+          text: "Move to the full schedule, team pages, host city pages, PDF downloads or Excel workbook based on the decision you need to make."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Confirm official details",
+          text: "Verify dates, kickoff times, tickets, stadium operations and broadcaster information with official sources before paid or time-sensitive decisions."
+        }
+      ]
+    });
+  }
+
   if (page.slug === "world-cup-2026-schedule-excel") {
     schema.push({
       "@context": "https://schema.org",
@@ -2283,6 +2488,8 @@ const renderPage = (page) => {
   const sections =
     page.slug === "world-cup-2026-schedule"
       ? renderScheduleCapabilitySections()
+      : page.slug === "world-cup-2026-dates"
+        ? renderDatesSupportSections()
       : page.slug === "world-cup-2026-schedule-pdf"
         ? renderPdfSupportSections()
       : page.slug === "world-cup-2026-schedule-excel"

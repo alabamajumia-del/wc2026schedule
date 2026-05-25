@@ -59,6 +59,40 @@ Remaining follow-up:
 Manually enrich the highest-search Team pages first: Mexico, United States, Canada, Argentina, Brazil, England, France, Germany, Spain and Portugal.
 ```
 
+## 2026-05-25 Dates Page Remediation Update
+
+The `/world-cup-2026-dates/` support page has been rebuilt.
+
+Before:
+
+```text
+Visible words: 672
+Risk: high
+Main issues: below 800 words, no page-level visual asset
+```
+
+After:
+
+```text
+Visible words: 1401
+Risk: removed from thin-content group
+Primary keyword: World Cup 2026 Dates
+Weighted keyword density: 4.85%
+Images detected: 1
+Structured data blocks: 4
+Timeline and source modules added
+```
+
+Remaining high-risk support pages:
+
+```text
+/where-to-watch-world-cup-2026/
+/world-cup-2026-bracket/
+/world-cup-2026-final/
+/world-cup-2026-tv-schedule/
+/world-cup-2026-tickets/
+```
+
 ## Purpose
 
 Before publishing wc26schedule on Cloudflare, this audit checks whether the generated static site has pages that could look thin, repetitive, under-trusted or under-developed to users, Google Search, AI Overviews and AdSense review.

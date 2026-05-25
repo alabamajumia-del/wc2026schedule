@@ -207,55 +207,96 @@ export const pages = [
   {
     slug: "world-cup-2026-dates",
     nav: "Dates",
-    title: "World Cup Dates 2026: Start Date, Final & Full Timeline",
+    title: "World Cup 2026 Dates: Start Date, Final, Match Timeline & Stages",
     description:
-      "Check World Cup dates 2026, including the start date, final date, group stage timeline, knockout rounds and travel planning notes.",
-    h1: "World Cup Dates 2026",
-    keyword: "world cup dates 2026",
-    intent: "Understand the tournament timeline before choosing matches, cities or travel dates.",
+      "Check the World Cup 2026 dates with the start date, final date, group stage window, knockout rounds, match timeline, host-city planning and download links.",
+    h1: "World Cup 2026 Dates",
+    keyword: "world cup 2026 dates",
+    intent: "Understand the World Cup 2026 dates before choosing matches, cities, downloads or travel windows.",
     longTail: [
       "world cup 2026 start date",
       "world cup 2026 final date",
       "world cup 2026 match dates",
       "world cup 2026 timeline",
-      "when does world cup 2026 start"
+      "when does world cup 2026 start",
+      "world cup 2026 group stage dates",
+      "world cup 2026 knockout dates",
+      "world cup 2026 semifinals dates",
+      "world cup 2026 final weekend",
+      "world cup 2026 dates and locations"
     ],
     facts: [
-      ["Start date", "June 11, 2026"],
-      ["Final date", "July 19, 2026"],
-      ["Best use", "Timeline and travel planning"]
+      ["Tournament window", "June 11 to July 19, 2026"],
+      ["Total matches", "104 fixtures"],
+      ["Best use", "Timeline, travel and download planning"]
     ],
     intro:
-      "World Cup dates 2026 matter because the tournament stretches across more than a month, multiple countries and many time zones. This page explains the start date, final date, stage timeline and planning windows so fans can decide when to travel, when to download a schedule and when to watch the biggest matches.",
-    sections: [
-      [
-        "Why the Tournament Timeline Matters",
-        [
-          "A date guide solves a different problem from the full schedule. Many users are not ready to compare every fixture; they first want to know when the tournament begins, how long it lasts, when the knockout rounds arrive and which weekends might be most useful for travel. The page should answer those questions quickly and then point users to the full schedule when they need match-level detail.",
-          "The opening days are useful for users who want the first match and early group-stage atmosphere. The middle of the tournament is useful for fans trying to follow a specific team. The knockout rounds are useful for users who care about higher-stakes fixtures, bracket paths and the final.",
-          "For travel-oriented users, the best section is not just a list of dates but guidance on how to choose a window. Someone visiting one host city may care about local match clusters. Someone following a national team may need to wait until the exact fixtures are confirmed in the match table."
-        ]
+      "Use the World Cup 2026 dates page to understand the full tournament window before opening the 104-match table. The competition runs from June 11 to July 19, 2026 across the United States, Canada and Mexico, and this page separates the start date, group-stage window, knockout dates, semifinals, third-place match and final weekend so you can choose the right schedule view, download file or travel planning path.",
+    hero: {
+      eyebrow: "Tournament timeline",
+      actions: [
+        ["Open full schedule", "/world-cup-2026-schedule/", "primary"],
+        ["Download date files", "/world-cup-2026-schedule-pdf/", "secondary"]
       ],
-      [
-        "Planning Around Match Dates",
-        [
-          "The page should include a simple timeline table that separates opening match, group stage, knockout stage, semi-finals and final. It should also explain that local kickoff times need to be checked by city because the tournament spans North America. A user in Europe, Asia or South America may need a different viewing plan than a fan attending in person.",
-          "Date content should link to PDF and Excel tools. A printable version helps casual viewers, while a spreadsheet helps travelers compare options. The date page should also link to host cities because the real planning question is often not only when to go, but where to go."
-        ]
+      panelTitle: "World Cup 2026 Dates snapshot",
+      panelIntro: "Start with the tournament window, then move into exact matches, cities and kickoff times.",
+      panelRows: [
+        ["Opening date", "June 11, 2026"],
+        ["Final date", "July 19, 2026"],
+        ["Planning span", "39 tournament days"]
       ]
-    ],
+    },
+    overview: {
+      eyebrow: "Date planner",
+      heading: "World Cup 2026 Dates Timeline Planner",
+      copy:
+        "This page turns the tournament calendar into a planning tool. Use it when you need to know the start date, final date, group-stage window, knockout rounds, final weekend and the right next page for exact fixtures. It is a timeline layer above the full World Cup 2026 schedule, built for users who are deciding when to travel, when to print a PDF, when to filter Excel or when to open a host-city page.",
+      tags: [
+        "Tournament window",
+        "Stage timeline",
+        "Travel windows",
+        "Download planning"
+      ],
+      noteEyebrow: "Source check",
+      noteHeading: "World Cup 2026 Dates Need Official Confirmation",
+      noteCopy:
+        "Use wc26schedule for planning, then confirm official schedule, ticket, stadium and broadcast details before paid or time-sensitive decisions."
+    },
+    sections: [],
     faqs: [
       [
-        "When is the World Cup 2026 final?",
-        "The World Cup 2026 final is scheduled for July 19, 2026. Fans should confirm kickoff time, ticket availability and local travel details through official sources as the event approaches."
+        "When does the tournament start?",
+        "The World Cup 2026 dates start on June 11, 2026. Use the full schedule page when you need the opening match, host city, teams, stadium and kickoff time."
       ],
       [
-        "Should I use the dates page or the full schedule page?",
-        "Use the dates page to understand the tournament timeline. Use the full schedule page when you need exact matches, teams, host cities, stadiums and kickoff times."
+        "When is the final?",
+        "The final is scheduled for July 19, 2026. Fans should confirm kickoff time, ticket availability, stadium guidance and local travel details through official sources as the event approaches."
+      ],
+      [
+        "What are the group stage dates?",
+        "The group stage runs from June 11 to June 27, 2026 in the current wc26schedule dataset. Use the team and group pages when you need one country's three-match route."
+      ],
+      [
+        "When do the knockout rounds begin?",
+        "The knockout phase begins with the Round of 32 on June 28, 2026 and continues through the final on July 19, 2026. Use the bracket and standings pages once qualification paths matter."
+      ],
+      [
+        "Should I use this page or the full schedule page?",
+        "Use this page to understand the tournament timeline. Use the full schedule page when you need exact matches, teams, host cities, stadiums and kickoff times."
+      ],
+      [
+        "Can I download the dates?",
+        "Yes. Use the PDF page for a printable overview and the Excel page when you want to filter match dates by team, city, stage or stadium."
       ]
     ],
+    usageHeading: "How to Use World Cup 2026 Dates",
+    relatedHeading: "World Cup 2026 Dates Planning Links",
+    faqHeading: "World Cup 2026 Dates FAQ",
     links: [
       ["See the full match schedule", "/world-cup-2026-schedule/"],
+      ["Filter by team", "/world-cup-2026-schedule/#team-schedules"],
+      ["Download the PDF schedule", "/world-cup-2026-schedule-pdf/"],
+      ["Use the Excel planner", "/world-cup-2026-schedule-excel/"],
       ["View the final guide", "/world-cup-2026-final/"],
       ["Compare host cities", "/world-cup-2026-schedule-host-cities/"]
     ]
