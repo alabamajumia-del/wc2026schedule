@@ -40,6 +40,16 @@ a {
   text-decoration: none;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 button,
 input,
 select {
@@ -1723,9 +1733,17 @@ h1 {
   font-size: 17px;
 }
 
+.match-detail-main {
+  padding-top: 28px;
+}
+
 .match-detail-overview {
   display: grid;
   gap: 16px;
+}
+
+.match-detail-top {
+  margin-top: 0;
 }
 
 .match-center-board {

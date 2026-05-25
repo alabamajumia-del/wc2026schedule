@@ -4587,23 +4587,9 @@ const renderMatchPage = (match) => {
     description: `${matchPageTitle(match)} schedule details: ${match.dateLabel}, ${match.kickoffET} ET, ${match.city}, ${match.stadium}, ${match.stage}${match.group ? ` Group ${match.group}` : ""}.`,
     canonical: matchDetailPath(match),
     schema: matchSchema(match, view),
-    body: `${hero({
-      eyebrow: "Match details",
-      h1: `${matchPageTitle(match)}`,
-      intro: `${matchPageTitle(match)} is listed for ${match.dateLabel} at ${match.kickoffET} ET in ${match.city}. The fixture is part of ${match.stage}${match.group ? `, Group ${match.group}` : ""}, and the venue is ${match.stadium}. This page turns the schedule row into a planning page with kickoff conversions, team-route context, city links and official-source reminders.`,
-      facts: [
-        ["Stage", match.group ? `${match.stage} - Group ${match.group}` : match.stage],
-        ["Kickoff", `${match.kickoffET} ET`],
-        ["Venue", `${match.stadium}, ${match.city}`]
-      ],
-      actions: [
-        ["Back to full schedule", "/world-cup-2026-schedule/", "primary"],
-        ["Open city guide", cityPath(match.citySlug), "secondary"]
-      ],
-      primaryHref: "/world-cup-2026-schedule/"
-    })}
-<main class="main">
-  <section class="section match-detail-overview" data-match-center data-kickoff-utc="${attr(kickoffUtcIso(match))}">
+    body: `<main class="main match-detail-main">
+  <h1 class="visually-hidden">${esc(matchPageTitle(match))}</h1>
+  <section class="section match-detail-overview match-detail-top" data-match-center data-kickoff-utc="${attr(kickoffUtcIso(match))}">
     <div class="match-center-board">
       <div class="match-center-topline">
         <span>Match ${match.matchNumber}</span>
