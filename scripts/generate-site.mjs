@@ -482,13 +482,18 @@ const primaryNavSlugs = [
   "world-cup-2026-tickets"
 ];
 
-const nav = () =>
-  [`<a href="${homePath}">Home</a>`]
-    .concat(primaryNavSlugs
-    .map((slug) => pages.find((page) => page.slug === slug))
-    .filter(Boolean)
-    .map((page) => `<a href="/${page.slug}/">${esc(page.nav)}</a>`))
-    .join("");
+const nav = () => {
+  const links = [`<a href="${homePath}">Home</a>`];
+  for (const slug of primaryNavSlugs) {
+    const page = pages.find((item) => item.slug === slug);
+    if (!page) continue;
+    links.push(`<a href="/${page.slug}/">${esc(page.nav)}</a>`);
+    if (slug === "world-cup-2026-schedule") {
+      links.push(`<a href="/world-cup-2026-schedule/#team-schedules">Teams</a>`);
+    }
+  }
+  return links.join("");
+};
 
 const layout = ({ title, description, canonical, body, schema = [], titleSuffix = true, noindex = false }) => `<!doctype html>
 <html lang="en">
@@ -1072,6 +1077,47 @@ const groupSummaries = () =>
     const lastMatch = groupMatches.at(-1);
     return { group, teams, matches: groupMatches, cities, stadiums, firstMatch, lastMatch };
   });
+
+const renderTeamScheduleDirectory = () => `<section class="section team-directory-section scroll-mt-24" id="team-schedules">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Team pages</p>
+      <h2>World Cup 2026 Schedule Team Pages Directory</h2>
+      <p>Choose a country directly from the homepage schedule hub. Each team page should become a separate planning page with its own opponents, group route, kickoff times, host cities, stadiums and match-detail links.</p>
+    </div>
+    <a class="button light" href="#full-schedule">Back to full schedule table</a>
+  </div>
+  <div class="team-directory-grid">
+    ${groupSummaries()
+      .map(
+        (summary) => `<article class="team-directory-card">
+          <div class="team-directory-card-head">
+            <div>
+              <p class="eyebrow">Group ${esc(summary.group)}</p>
+              <h3>World Cup 2026 Schedule Group ${esc(summary.group)} Teams</h3>
+            </div>
+            <span>${summary.teams.length} teams</span>
+          </div>
+          <div class="team-directory-list">
+            ${summary.teams
+              .slice()
+              .sort((a, b) => a.localeCompare(b))
+              .map((team) => {
+                const teamMatches = summary.matches.filter((match) => match.home === team || match.away === team);
+                const cities = [...new Set(teamMatches.map((match) => match.city))];
+                return `<a class="team-directory-link" href="${attr(teamPath(team))}">
+                  ${teamChip(team)}
+                  <span>${teamMatches.length} matches · ${cities.length} cities</span>
+                </a>`;
+              })
+              .join("")}
+          </div>
+          <p>${esc(summary.firstMatch.dateLabel)} to ${esc(summary.lastMatch.dateLabel)} · ${summary.matches.length} group fixtures across ${summary.cities.length} host cities.</p>
+        </article>`
+      )
+      .join("")}
+  </div>
+</section>`;
 
 const groupStandingsPreviewRows = (teams) =>
   teams
@@ -2261,6 +2307,8 @@ const renderPage = (page) => {
 
   const scheduleBlock =
     page.slug === "world-cup-2026-schedule" ? renderScheduleTable() : "";
+  const teamDirectoryBlock =
+    page.slug === "world-cup-2026-schedule" ? renderTeamScheduleDirectory() : "";
   const downloadsBlock = [
     "world-cup-2026-schedule",
     "world-cup-2026-schedule-pdf",
@@ -2341,6 +2389,7 @@ const renderPage = (page) => {
     </div>
   </section>`
   }
+  ${teamDirectoryBlock}
   ${scheduleBlock}
   ${pdfVisualBlock}
   ${downloadsBlock}

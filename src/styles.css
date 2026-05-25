@@ -4714,6 +4714,96 @@ td {
   gap: 12px;
 }
 
+.team-directory-section {
+  background: #f7faf5;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.team-directory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.team-directory-card {
+  display: grid;
+  gap: 14px;
+  border: 1px solid #cddbd4;
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 12px 28px rgba(15, 49, 38, 0.06);
+}
+
+.team-directory-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: start;
+}
+
+.team-directory-card-head h3 {
+  margin: 4px 0 0;
+  font-size: 18px;
+  line-height: 1.18;
+}
+
+.team-directory-card-head > span {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #0f7c5c;
+  color: #fff;
+  padding: 6px 9px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.team-directory-list {
+  display: grid;
+  gap: 8px;
+}
+
+.team-directory-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #d7e2dc;
+  border-radius: 8px;
+  background: #fbfdfb;
+  padding: 8px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.team-directory-link:hover,
+.team-directory-link:focus {
+  border-color: #e5b437;
+  box-shadow: 0 0 0 3px rgba(229, 180, 55, 0.16);
+}
+
+.team-directory-link .team-chip {
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.team-directory-link > span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.team-directory-card > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .pdf-feature-section {
   padding: 28px;
   border: 1px solid var(--line);
@@ -5821,6 +5911,10 @@ td {
   .aggregate-card-grid {
     grid-template-columns: 1fr;
   }
+
+  .team-directory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 860px) {
@@ -5832,6 +5926,15 @@ td {
 
   .nav {
     justify-content: flex-start;
+  }
+
+  .team-directory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .team-directory-link {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .hero-inner {
