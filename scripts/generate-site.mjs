@@ -4397,6 +4397,13 @@ const renderCityPage = (city) => {
 
 const matchPageTitle = (match) => `Match ${match.matchNumber}: ${match.home} vs ${match.away}`;
 
+const matchCoreKeyword = (match) => `${match.home} vs ${match.away} World Cup 2026 schedule`;
+
+const matchSeoTitle = (match) => `${matchCoreKeyword(match)} | Match ${match.matchNumber}`;
+
+const matchSeoDescription = (match) =>
+  `${matchCoreKeyword(match)} with match date, kickoff time, Group ${match.group || "stage"} details, ${match.city} venue, stadium, timezone tools and team route links.`;
+
 const matchTimeShort = (match) => `${match.date} - ${match.kickoffET} ET`;
 
 const relatedMatchCard = (match, currentMatch, note = "") => {
@@ -4456,12 +4463,12 @@ const matchStageContext = (match) => {
 
 const matchFaqs = (match, view) => [
   [
-    `When is ${matchPageTitle(match)}?`,
-    `${matchPageTitle(match)} is listed for ${match.dateLabel} at ${match.kickoffET} ET. The computed UTC kickoff is ${view["Kickoff UTC"]}, and the venue local time is ${view["Venue local time"]}.`
+    `When is ${match.home} vs ${match.away}?`,
+    `The ${matchCoreKeyword(match)} is listed for ${match.dateLabel} at ${match.kickoffET} ET. The computed UTC kickoff is ${view["Kickoff UTC"]}, and the venue local time is ${view["Venue local time"]}.`
   ],
   [
-    `Where is ${matchPageTitle(match)} played?`,
-    `${matchPageTitle(match)} is listed in ${match.city} at ${match.stadium}. Use the linked city guide for more host-city context, stadium grouping and schedule planning.`
+    `Where is ${match.home} vs ${match.away} played?`,
+    `The ${matchCoreKeyword(match)} is listed in ${match.city} at ${match.stadium}. Use the linked city guide for more host-city context, stadium grouping and schedule planning.`
   ],
   [
     `Is this match part of the group stage or knockout stage?`,
@@ -4489,8 +4496,8 @@ const matchSchema = (match, view) => {
     {
       "@context": "https://schema.org",
       "@type": "Article",
-      headline: `${matchPageTitle(match)} - World Cup 2026 Match Details`,
-      description: `${matchPageTitle(match)} schedule details with kickoff time, venue, city, stage, group, team links and source notes.`,
+      headline: matchSeoTitle(match),
+      description: matchSeoDescription(match),
       author: { "@type": "Organization", name: `${site.brand} editorial team` },
       publisher: { "@type": "Organization", name: site.brand },
       mainEntityOfPage: `${site.url}${matchDetailPath(match)}`
@@ -4583,12 +4590,13 @@ const renderMatchPage = (match) => {
   ];
 
   return layout({
-    title: `${matchPageTitle(match)} - World Cup 2026 Match Details`,
-    description: `${matchPageTitle(match)} schedule details: ${match.dateLabel}, ${match.kickoffET} ET, ${match.city}, ${match.stadium}, ${match.stage}${match.group ? ` Group ${match.group}` : ""}.`,
+    title: matchSeoTitle(match),
+    description: matchSeoDescription(match),
     canonical: matchDetailPath(match),
     schema: matchSchema(match, view),
+    titleSuffix: false,
     body: `<main class="main match-detail-main">
-  <h1 class="visually-hidden">${esc(matchPageTitle(match))}</h1>
+  <h1 class="visually-hidden">${esc(matchCoreKeyword(match))}</h1>
   <section class="section match-detail-overview match-detail-top" data-match-center data-kickoff-utc="${attr(kickoffUtcIso(match))}">
     <div class="match-center-board">
       <div class="match-center-topline">
@@ -4650,19 +4658,19 @@ const renderMatchPage = (match) => {
     <div class="grid">
       <article class="span-8 card"><div class="card-body">
         <p class="eyebrow">Match overview</p>
-        <h2>${esc(matchPageTitle(match))} schedule context</h2>
+        <h2>${esc(matchCoreKeyword(match))} context</h2>
         <p>${esc(matchStageContext(match))}</p>
-        <p>${esc(`${match.home} vs ${match.away} is useful to track from several angles: the official match number, the source ET kickoff time, the computed UTC time, the venue local time, the host city and the stadium. Keeping those fields together reduces the chance of mixing source time with local time when you are planning a watch party, comparing TV windows, coordinating travel or building a personal World Cup 2026 calendar.`)}</p>
+        <p>${esc(`The ${matchCoreKeyword(match)} is useful to track from several angles: the official match number, the source ET kickoff time, the computed UTC time, the venue local time, the host city and the stadium. Keeping those fields together reduces the chance of mixing source time with local time when you are planning a watch party, comparing TV windows, coordinating travel or building a personal World Cup 2026 calendar.`)}</p>
       </div></article>
       <aside class="span-4 card"><div class="card-body">
         <p class="eyebrow">Verification note</p>
-        <h3>Confirm final details</h3>
+        <h3>${esc(match.home)} vs ${esc(match.away)} verification note</h3>
         <p>This page is generated from the structured wc26schedule match data. Before buying tickets, booking travel or making paid plans, verify the latest information with FIFA, official ticket sources, the host city, the stadium and authorized broadcasters.</p>
       </div></aside>
     </div>
   </section>
   <section class="section">
-    <h2>Kickoff Time and Time Zone Details</h2>
+    <h2>${esc(match.home)} vs ${esc(match.away)} kickoff time and timezone details</h2>
     ${table([
       ["Source date", match.dateLabel, "The date attached to the source schedule row."],
       ["Source kickoff", `${match.kickoffET} ET`, "Use this as the baseline when comparing against official schedule materials."],
@@ -4672,16 +4680,16 @@ const renderMatchPage = (match) => {
     <p>The full schedule page can convert every fixture into your selected timezone. This match page keeps the source fields visible so you can compare the official ET listing with UTC and the host-city local time. That distinction matters for fans outside North America, because a late match in the host city can become the next calendar day in Europe, Africa, Asia or Oceania.</p>
   </section>
   <section class="section">
-    <h2>Team Route Context</h2>
+    <h2>${esc(match.home)} vs ${esc(match.away)} team route context</h2>
     <div class="grid">
       <article class="span-6 card"><div class="card-body">
         <p class="eyebrow">Home side</p>
-        <h3>${esc(match.home)}</h3>
+        <h3>${esc(match.home)} team route before Match ${esc(match.matchNumber)}</h3>
         <p>${esc(teamRouteSummary(match.home, match))}</p>
       </div></article>
       <article class="span-6 card"><div class="card-body">
         <p class="eyebrow">Away side</p>
-        <h3>${esc(match.away)}</h3>
+        <h3>${esc(match.away)} team route before Match ${esc(match.matchNumber)}</h3>
         <p>${esc(teamRouteSummary(match.away, match))}</p>
       </div></article>
     </div>
@@ -4692,7 +4700,7 @@ const renderMatchPage = (match) => {
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Same group path</p>
-        <h2>Group ${esc(match.group)} Matches Around This Fixture</h2>
+        <h2>${esc(match.home)} vs ${esc(match.away)} Group ${esc(match.group)} related matches</h2>
         <p>Use these Group ${esc(match.group)} fixtures to understand how ${esc(match.home)} vs ${esc(match.away)} fits into the wider group route, rest-day pattern and qualification picture.</p>
       </div>
       <a class="button light" href="/world-cup-2026-schedule-groups/">Open groups guide</a>
@@ -4715,7 +4723,7 @@ const renderMatchPage = (match) => {
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Team routes</p>
-        <h2>Follow Each Team's Group Schedule</h2>
+        <h2>${esc(match.home)} and ${esc(match.away)} team schedule paths</h2>
         <p>These route cards keep users moving from one match detail page to the next without returning to the full 104-match table.</p>
       </div>
     </div>
@@ -4769,7 +4777,7 @@ const renderMatchPage = (match) => {
     </div>
   </section>
   <section class="section">
-    <h2>Venue and City Planning</h2>
+    <h2>${esc(match.home)} vs ${esc(match.away)} venue and city planning</h2>
     <p>${esc(`${match.city} hosts this fixture at ${match.stadium}. The city page groups every listed World Cup 2026 match in the same host market, which is more useful than reading this fixture in isolation if you are comparing multi-match travel routes. Use the city guide to see the local match cluster, then return to this page when you need the exact team, time and source-note fields for this specific fixture.`)}</p>
     ${table([
       ["Host city", match.city, "Open the city page to compare every local fixture."],
@@ -4779,7 +4787,7 @@ const renderMatchPage = (match) => {
     ])}
   </section>
   <section class="section">
-    <h2>How to Use This Match Detail Page</h2>
+    <h2>How to use this World Cup 2026 match schedule page</h2>
     ${table([
       ["Check the match", `${match.home} vs ${match.away}`, "Use the matchup, match number and stage before moving into tickets or TV planning."],
       ["Check the time", `${match.kickoffET} ET and ${view["Venue local time"]}`, "Compare source time with venue local time and your own timezone."],
@@ -4788,11 +4796,11 @@ const renderMatchPage = (match) => {
     ])}
   </section>
   <section class="section">
-    <h2>Related Match Planning Links</h2>
+    <h2>${esc(match.home)} vs ${esc(match.away)} related planning links</h2>
     ${linkGrid(links)}
   </section>
   <section class="section">
-    <h2>FAQ</h2>
+    <h2>${esc(match.home)} vs ${esc(match.away)} FAQ</h2>
     ${faqHtml(matchFaqs(match, view))}
   </section>
   <section class="source-note"><strong>Last updated:</strong> ${updated}. ${esc(scheduleMeta.note)} Primary source: <a href="${attr(scheduleMeta.sourceUrl)}">${esc(scheduleMeta.sourceLabel)}</a>. Mapping source: <a href="${attr(scheduleMeta.mappingSourceUrl)}">${esc(scheduleMeta.mappingSourceLabel)}</a>.</section>
