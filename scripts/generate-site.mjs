@@ -3769,7 +3769,7 @@ const teamFixtureCards = (team) =>
 const teamUsageCards = (team) => [
   [
     `Track ${team.team} kickoff times`,
-    `Use this team route when you need one list of dates and ET kickoff times without scanning all 104 matches. Open each match detail page when you need converted time, city context or same-group links.`
+    `Use the ${teamCoreKeyword(team)} route when you need one list of dates and ET kickoff times without scanning all 104 matches. Open each match detail page when you need converted time, city context or same-group links.`
   ],
   [
     `Plan ${team.team} travel by host city`,
@@ -3850,7 +3850,28 @@ const lineupPositions = [
   ["ST", 50, 16]
 ];
 
-const renderSouthKoreaTeamExperience = (team) => {
+const teamDisplayName = (team) => {
+  if (team.team === "South Korea") return "Korea Republic";
+  if (team.team === "USA") return "United States";
+  return team.team;
+};
+
+const teamExperienceId = (team, suffix) => `${teamSlug(team.team)}-${suffix}`;
+
+const teamRouteIntro = (team) => {
+  const first = team.matches[0];
+  const final = team.matches.at(-1);
+  const route = readableList(team.cities);
+  if (["Mexico", "Canada", "United States", "USA"].includes(team.team)) {
+    return `${teamCoreKeyword(team)} is a host-nation route, so the page separates national-team interest from the practical sequence of ${esc(first.city)}, ${esc(route)} and the final Group ${esc(team.group)} match window.`;
+  }
+  if (team.cities.length === 2) {
+    return `${teamCoreKeyword(team)} has a compact two-city path from ${esc(first.city)} to ${esc(final.city)}, which makes it easier to compare full-route travel with a single-match viewing plan.`;
+  }
+  return `${teamCoreKeyword(team)} moves through ${esc(route)}, so the useful question is not only who the team plays, but how the dates, rest days and host cities connect.`;
+};
+
+const renderTeamExperience = (team) => {
   const group = teamGroupSummary(team);
   if (!group) return "";
   const allGroupMatches = group.matches;
@@ -3864,17 +3885,21 @@ const renderSouthKoreaTeamExperience = (team) => {
   const uniqueRouteCities = [...new Map(routeCities.map((item) => [item.city, item])).values()];
   const firstMatch = team.matches[0];
   const finalMatch = team.matches.at(-1);
+  const groupId = teamExperienceId(team, "group-overview");
+  const knockoutId = teamExperienceId(team, "qualification-path");
+  const lineupId = teamExperienceId(team, "lineup-board");
+  const citiesId = teamExperienceId(team, "route-cities");
 
-  return `<section class="section team-experience-shell team-korea-experience" aria-label="South Korea route experience">
+  return `<section class="section team-experience-shell team-route-experience" aria-label="${attr(team.team)} route experience">
     <div class="team-experience-topline">
-      <a href="#korea-group-overview">Group overview</a>
-      <a href="#korea-knockout-path">Qualification path</a>
-      <a href="#korea-lineup-board">Lineup board</a>
-      <a href="#korea-route-cities">Route cities</a>
+      <a href="#${attr(groupId)}">Group overview</a>
+      <a href="#${attr(knockoutId)}">Qualification path</a>
+      <a href="#${attr(lineupId)}">Lineup board</a>
+      <a href="#${attr(citiesId)}">Route cities</a>
       <a href="#team-fixtures">Match cards</a>
     </div>
 
-    <div class="team-snapshot-strip" aria-label="South Korea team snapshot">
+    <div class="team-snapshot-strip" aria-label="${attr(team.team)} team snapshot">
       <article><span>Group</span><strong>Group ${esc(team.group)}</strong><small>${esc(group.teams.join(", "))}</small></article>
       <article><span>Coach</span><strong>TBD</strong><small>Update only when confirmed by official or reliable sources.</small></article>
       <article><span>Fixtures</span><strong>${team.matches.length} matches</strong><small>${esc(firstMatch.dateLabel)} to ${esc(finalMatch.dateLabel)}</small></article>
@@ -3882,7 +3907,7 @@ const renderSouthKoreaTeamExperience = (team) => {
     </div>
 
     <div class="team-experience-grid">
-      <article class="team-group-board" id="korea-group-overview">
+      <article class="team-group-board" id="${attr(groupId)}">
         <div class="team-module-head">
           <span>Group overview</span>
           <strong>Group ${esc(team.group)} standings and remaining fixtures</strong>
@@ -3911,10 +3936,10 @@ const renderSouthKoreaTeamExperience = (team) => {
         </div>
       </article>
 
-      <aside class="team-route-panel-korea" id="korea-knockout-path">
+      <aside class="team-route-panel-korea" id="${attr(knockoutId)}">
         <div class="team-module-head">
           <span>Qualification path</span>
-          <strong>South Korea route scenarios before results begin</strong>
+          <strong>${esc(team.team)} route scenarios before results begin</strong>
         </div>
         <div class="team-qualification-stats">
           <div><span>Current state</span><strong>0 pts</strong><small>All Group ${esc(team.group)} teams start level.</small></div>
@@ -3937,12 +3962,12 @@ const renderSouthKoreaTeamExperience = (team) => {
     </div>
 
     <div class="team-experience-grid secondary">
-      <article class="team-lineup-board" id="korea-lineup-board">
+      <article class="team-lineup-board" id="${attr(lineupId)}">
         <div class="team-module-head">
           <span>Potential lineup</span>
           <strong>4-2-3-1 role board, not a confirmed squad list</strong>
         </div>
-        <div class="lineup-pitch" aria-label="South Korea placeholder lineup board">
+        <div class="lineup-pitch" aria-label="${attr(team.team)} placeholder lineup board">
           ${lineupPositions
             .map(
               ([role, x, y]) => `<span style="--x:${x}%;--y:${y}%"><b>${role}</b></span>`
@@ -3952,10 +3977,10 @@ const renderSouthKoreaTeamExperience = (team) => {
         <p>Player names are intentionally not guessed here. Use this board as a role-based planning view until an official squad, lineup or reliable projection is available.</p>
       </article>
 
-      <aside class="team-route-cities" id="korea-route-cities">
+      <aside class="team-route-cities" id="${attr(citiesId)}">
         <div class="team-module-head">
           <span>Route cities</span>
-          <strong>Host cities on South Korea's route</strong>
+          <strong>Host cities on ${esc(team.team)}'s route</strong>
         </div>
         <div class="team-route-city-list">
           ${uniqueRouteCities
@@ -3963,7 +3988,7 @@ const renderSouthKoreaTeamExperience = (team) => {
               (city) => `<a href="${attr(city.path)}">
             <span>${esc(city.city)}</span>
             <strong>${esc(city.stadium)}</strong>
-            <small>${city.matches.length} South Korea ${city.matches.length === 1 ? "match" : "matches"}</small>
+            <small>${city.matches.length} ${esc(team.team)} ${city.matches.length === 1 ? "match" : "matches"}</small>
           </a>`
             )
             .join("")}
@@ -3978,8 +4003,12 @@ const renderSouthKoreaTeamExperience = (team) => {
   </section>`;
 };
 
-const renderSouthKoreaProfileHero = (team) => {
+const renderTeamProfileHero = (team) => {
   const flagUrl = teamFlagUrl(team.team);
+  const displayName = teamDisplayName(team);
+  const groupId = teamExperienceId(team, "group-overview");
+  const knockoutId = teamExperienceId(team, "qualification-path");
+  const lineupId = teamExperienceId(team, "lineup-board");
   return `<section class="team-profile-hero team-profile-hero-korea">
   <div class="team-profile-card">
     <div class="team-profile-head">
@@ -3989,25 +4018,25 @@ const renderSouthKoreaProfileHero = (team) => {
         </div>
         <div class="team-profile-title">
           <p class="eyebrow">National team</p>
-          <strong class="team-profile-display-name">Korea Republic</strong>
+          <strong class="team-profile-display-name">${esc(displayName)}</strong>
           <div class="team-profile-title-row">
             <h1>${esc(teamCoreKeyword(team))}</h1>
-            <button type="button" class="team-favorite-button" aria-label="Save South Korea schedule page" aria-pressed="false" data-team-favorite>&#9825;</button>
+            <button type="button" class="team-favorite-button" aria-label="Save ${attr(team.team)} schedule page" aria-pressed="false" data-team-favorite>&#9825;</button>
           </div>
           <p class="team-profile-subline">FIFA World Cup 2026 - Group ${esc(team.group)}</p>
         </div>
       </div>
-      <div class="team-profile-stats" aria-label="South Korea quick facts">
+      <div class="team-profile-stats" aria-label="${attr(team.team)} quick facts">
         <article><span>Coach</span><strong>TBD</strong></article>
         <article><span>Squad</span><strong>Pending</strong></article>
         <article><span>Upcoming matches</span><strong>${team.matches.length}</strong></article>
       </div>
     </div>
-    <p class="team-profile-copy">This South Korea team hub turns the confirmed Group ${esc(team.group)} fixtures into a practical route page. Use it to move from the Korea Republic snapshot into opponent context, host-city planning, kickoff timing, qualification routes and match-detail cards without returning to the full tournament table.</p>
+    <p class="team-profile-copy">${teamRouteIntro(team)} Use the profile card to move from the ${esc(displayName)} snapshot into opponent context, host-city planning, kickoff timing, qualification routes and match-detail cards without returning to the full tournament table.</p>
     <div class="team-profile-actions">
-      <a href="#korea-group-overview">Group overview</a>
-      <a href="#korea-knockout-path">Qualification path</a>
-      <a href="#korea-lineup-board">Lineup board</a>
+      <a href="#${attr(groupId)}">Group overview</a>
+      <a href="#${attr(knockoutId)}">Qualification path</a>
+      <a href="#${attr(lineupId)}">Lineup board</a>
       <a href="#team-fixtures">Upcoming matches</a>
     </div>
   </div>
@@ -4050,29 +4079,7 @@ const teamSchema = (team) => [
 ];
 
 const renderTeamPage = (team) => {
-  const teamHero = team.team === "South Korea"
-    ? renderSouthKoreaProfileHero(team)
-    : hero({
-        eyebrow: "Team schedule",
-        h1: teamCoreKeyword(team),
-        intro: `Follow ${team.team} through Group ${team.group} by match date, opponent, kickoff time, host city and stadium. The route runs from ${team.matches[0].dateLabel} to ${team.matches.at(-1).dateLabel}, with fixtures against ${readableList(team.opponents)} across ${readableList(team.cities)}.`,
-        facts: [
-          ["Group", team.group],
-          ["Matches", `${team.matches.length}`],
-          ["Cities", team.cities.join(", ")]
-        ],
-        actions: [
-          ["Full schedule", "/world-cup-2026-schedule/", "primary"],
-          ["Group guide", "/world-cup-2026-schedule-groups/", "secondary"]
-        ],
-        panelTitle: `${team.team} route snapshot`,
-        panelIntro: teamTravelProfile(team),
-        panelRows: [
-          ["First match", `${team.matches[0].home} vs ${team.matches[0].away}`],
-          ["Final group match", `${team.matches.at(-1).home} vs ${team.matches.at(-1).away}`],
-          ["Host route", readableList(team.cities)]
-        ]
-      });
+  const teamHero = renderTeamProfileHero(team);
 
   return layout({
     title: teamSeoTitle(team),
@@ -4097,7 +4104,7 @@ const renderTeamPage = (team) => {
       </div></aside>
     </div>
   </section>
-  ${team.team === "South Korea" ? renderSouthKoreaTeamExperience(team) : ""}
+  ${renderTeamExperience(team)}
   <section class="section team-fixtures-section" id="team-fixtures">
     <div class="section-heading-row">
       <div>

@@ -19,6 +19,48 @@ Weighted core keyword density range: 3.49%-4.22%
 
 This file remains the keyword and heading reference for future one-page-by-one-page editorial enrichment.
 
+## 2026-05-25 Interaction Update
+
+The Korean team page interaction pattern has been generalized across all 48 Team pages without copying South Korea-specific content.
+
+Validation summary:
+
+```text
+Pages generated: 48
+Profile-card hero present: 48
+Route experience module present: 48
+H1 count: 1 on every Team page
+H2 count: 5 on every Team page
+H3 count: 15 on every Team page
+Minimum visible word count: 1537
+Maximum visible word count: 1587
+Weighted core keyword density range: 3.17%-3.83%
+Pages outside 3%-5% density target: 0
+```
+
+New interaction modules:
+
+```text
+Team profile hero with flag, display name, preserved H1, coach status, squad status and upcoming-match count
+Group overview anchor
+Qualification path anchor
+Role-based lineup board anchor
+Upcoming match cards anchor
+Group standings preview with the active team highlighted
+Full group fixture list with active team matches highlighted
+Qualification path scenarios for group winner, runner-up and qualifying third place
+Route city cards using each team's actual host-city path
+TV schedule guide link
+Clickable favorite control
+```
+
+Implementation rule:
+
+```text
+The interaction framework may be reused, but each page must continue to use its own team, group, opponent order, match dates, host cities, stadiums and match links.
+Future deep optimization should still be done one page at a time for high-priority teams.
+```
+
 ## Purpose
 
 The 48 team schedule pages must not be optimized as copied template pages. Each page should use the same SEO discipline but different match facts, opponents, cities, timing notes, internal links and planning angles.
