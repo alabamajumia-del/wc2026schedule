@@ -3804,6 +3804,180 @@ const teamFaqs = (team) => [
   ]
 ];
 
+const teamGroupSummary = (team) => groupSummaries().find((item) => item.group === team.group);
+
+const teamKnockoutRoutes = (team) => {
+  const group = team.group;
+  const routes = [
+    {
+      finish: "Group winner",
+      selector: `1${group}`,
+      note: `${team.team} would use the group-winner route if it finishes first in Group ${group}.`
+    },
+    {
+      finish: "Group runner-up",
+      selector: `2${group}`,
+      note: `${team.team} would use the runner-up route if it finishes second in Group ${group}.`
+    },
+    {
+      finish: "Qualifying third place",
+      selector: `3${group}`,
+      note: `${team.team} could still depend on the cross-group third-place comparison if it finishes third.`
+    }
+  ];
+
+  return routes.map((route) => {
+    const match = matches.find((item) => {
+      if (item.stage === "Group stage") return false;
+      if (item.home === route.selector || item.away === route.selector) return true;
+      return route.selector.startsWith("3") && `${item.home} ${item.away}`.includes("3") && `${item.home} ${item.away}`.includes(group);
+    });
+    return { ...route, match };
+  });
+};
+
+const lineupPositions = [
+  ["GK", 50, 88],
+  ["RB", 78, 72],
+  ["RCB", 60, 64],
+  ["LCB", 40, 64],
+  ["LB", 22, 72],
+  ["DM", 43, 52],
+  ["DM", 57, 52],
+  ["RW", 76, 36],
+  ["AM", 50, 31],
+  ["LW", 24, 36],
+  ["ST", 50, 16]
+];
+
+const renderSouthKoreaTeamExperience = (team) => {
+  const group = teamGroupSummary(team);
+  if (!group) return "";
+  const allGroupMatches = group.matches;
+  const routes = teamKnockoutRoutes(team);
+  const routeCities = team.matches.map((match) => ({
+    city: match.city,
+    stadium: match.stadium,
+    path: cityPath(match.citySlug),
+    matches: team.matches.filter((item) => item.city === match.city)
+  }));
+  const uniqueRouteCities = [...new Map(routeCities.map((item) => [item.city, item])).values()];
+  const firstMatch = team.matches[0];
+  const finalMatch = team.matches.at(-1);
+
+  return `<section class="section team-experience-shell team-korea-experience" aria-label="South Korea route experience">
+    <div class="team-experience-topline">
+      <a href="#korea-group-overview">Group overview</a>
+      <a href="#korea-knockout-path">Qualification path</a>
+      <a href="#korea-lineup-board">Lineup board</a>
+      <a href="#korea-route-cities">Route cities</a>
+      <a href="#team-fixtures">Match cards</a>
+    </div>
+
+    <div class="team-snapshot-strip" aria-label="South Korea team snapshot">
+      <article><span>Group</span><strong>Group ${esc(team.group)}</strong><small>${esc(group.teams.join(", "))}</small></article>
+      <article><span>Coach</span><strong>TBD</strong><small>Update only when confirmed by official or reliable sources.</small></article>
+      <article><span>Fixtures</span><strong>${team.matches.length} matches</strong><small>${esc(firstMatch.dateLabel)} to ${esc(finalMatch.dateLabel)}</small></article>
+      <article><span>Host route</span><strong>${esc(readableList(team.cities))}</strong><small>${esc(readableList(team.stadiums))}</small></article>
+    </div>
+
+    <div class="team-experience-grid">
+      <article class="team-group-board" id="korea-group-overview">
+        <div class="team-module-head">
+          <span>Group overview</span>
+          <strong>Group ${esc(team.group)} standings and remaining fixtures</strong>
+          <a href="/world-cup-2026-schedule-groups/?group=${attr(team.group)}#group-${attr(team.group.toLowerCase())}">Full group page -&gt;</a>
+        </div>
+        <div class="team-standings-mini" role="table" aria-label="Group ${attr(team.group)} starts level">
+          <div role="row"><b>#</b><b>Team</b><b>P</b><b>GD</b><b>Pts</b></div>
+          ${group.teams
+            .map(
+              (groupTeam, index) => `<div role="row" class="${groupTeam === team.team ? "is-team" : ""}">
+            <span>${index + 1}</span><span>${teamChip(groupTeam)}</span><span>0</span><span>0</span><strong>0</strong>
+          </div>`
+            )
+            .join("")}
+        </div>
+        <div class="team-group-fixtures">
+          ${allGroupMatches
+            .map(
+              (match) => `<a href="${attr(matchDetailPath(match))}" class="${match.home === team.team || match.away === team.team ? "is-team-match" : ""}">
+            <span>Match ${match.matchNumber}</span>
+            <strong>${esc(match.home)} vs ${esc(match.away)}</strong>
+            <small>${esc(match.stadium)}, ${esc(match.city)} - ${esc(shortDate(match.date))} - ${esc(match.kickoffET)} ET</small>
+          </a>`
+            )
+            .join("")}
+        </div>
+      </article>
+
+      <aside class="team-route-panel-korea" id="korea-knockout-path">
+        <div class="team-module-head">
+          <span>Qualification path</span>
+          <strong>South Korea route scenarios before results begin</strong>
+        </div>
+        <div class="team-qualification-stats">
+          <div><span>Current state</span><strong>0 pts</strong><small>All Group ${esc(team.group)} teams start level.</small></div>
+          <div><span>Range</span><strong>1-4</strong><small>Every finish is still open before kickoff.</small></div>
+          <div><span>Matches left</span><strong>${team.matches.length}</strong><small>Confirmed group-stage fixtures.</small></div>
+        </div>
+        <div class="team-knockout-route-list">
+          ${routes
+            .map(
+              (route) => `<article>
+            <span>${esc(route.finish)}</span>
+            <strong>${route.match ? `Match ${route.match.matchNumber}: ${esc(route.match.home)} vs ${esc(route.match.away)}` : "Route depends on third-place allocation"}</strong>
+            <small>${route.match ? `${esc(route.match.city)} - ${esc(route.match.dateLabel)} - ${esc(route.match.kickoffET)} ET` : "Confirm after all group standings are complete."}</small>
+            <p>${esc(route.note)}</p>
+          </article>`
+            )
+            .join("")}
+        </div>
+      </aside>
+    </div>
+
+    <div class="team-experience-grid secondary">
+      <article class="team-lineup-board" id="korea-lineup-board">
+        <div class="team-module-head">
+          <span>Potential lineup</span>
+          <strong>4-2-3-1 role board, not a confirmed squad list</strong>
+        </div>
+        <div class="lineup-pitch" aria-label="South Korea placeholder lineup board">
+          ${lineupPositions
+            .map(
+              ([role, x, y]) => `<span style="--x:${x}%;--y:${y}%"><b>${role}</b></span>`
+            )
+            .join("")}
+        </div>
+        <p>Player names are intentionally not guessed here. Use this board as a role-based planning view until an official squad, lineup or reliable projection is available.</p>
+      </article>
+
+      <aside class="team-route-cities" id="korea-route-cities">
+        <div class="team-module-head">
+          <span>Route cities</span>
+          <strong>Host cities on South Korea's route</strong>
+        </div>
+        <div class="team-route-city-list">
+          ${uniqueRouteCities
+            .map(
+              (city) => `<a href="${attr(city.path)}">
+            <span>${esc(city.city)}</span>
+            <strong>${esc(city.stadium)}</strong>
+            <small>${city.matches.length} South Korea ${city.matches.length === 1 ? "match" : "matches"}</small>
+          </a>`
+            )
+            .join("")}
+        </div>
+        <div class="team-watch-note">
+          <span>TV and streaming where you are</span>
+          <strong>Use the TV guide after choosing a match time.</strong>
+          <a href="/world-cup-2026-tv-schedule/">Open TV schedule guide</a>
+        </div>
+      </aside>
+    </div>
+  </section>`;
+};
+
 const teamSchema = (team) => [
   {
     "@context": "https://schema.org",
@@ -3883,7 +4057,8 @@ const renderTeamPage = (team) =>
       </div></aside>
     </div>
   </section>
-  <section class="section team-fixtures-section">
+  ${team.team === "South Korea" ? renderSouthKoreaTeamExperience(team) : ""}
+  <section class="section team-fixtures-section" id="team-fixtures">
     <div class="section-heading-row">
       <div>
         <p class="eyebrow">Fixtures</p>
