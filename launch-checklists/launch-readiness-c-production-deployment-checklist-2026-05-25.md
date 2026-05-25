@@ -46,6 +46,8 @@ Required before deployment:
 [ ] Confirm output directory: dist
 [ ] Configure domain: worldcup2026schedule.net
 [ ] Configure www behavior: redirect www to apex or apex to www.
+[ ] Confirm Cloudflare Pages reads dist/_redirects.
+[ ] Confirm / redirects to /world-cup-2026-schedule/ with 301.
 [ ] Enable HTTPS.
 [ ] Confirm HTTP redirects to HTTPS.
 [ ] Confirm production server can serve clean trailing-slash URLs.
@@ -365,4 +367,3 @@ Document deployment settings.
 Prepare environment variable values without committing secrets.
 Create post-deploy verification worksheet.
 ```
-

@@ -32,6 +32,12 @@ const resolvePath = async (urlPath) => {
 };
 
 createServer(async (req, res) => {
+  if ((req.url || "/").split("?")[0] === "/") {
+    res.writeHead(302, { Location: "/world-cup-2026-schedule/" });
+    res.end();
+    return;
+  }
+
   try {
     const file = await resolvePath(req.url || "/");
     const body = await readFile(file);

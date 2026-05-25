@@ -2,6 +2,31 @@
 
 Date saved: 2026-05-24
 
+## 2026-05-25 Update: Homepage Retired
+
+The thin standalone homepage is no longer retained.
+
+Current homepage strategy:
+
+```text
+Primary homepage URL: /world-cup-2026-schedule/
+Root URL: / redirects to /world-cup-2026-schedule/
+Core keyword: World Cup 2026 Schedule
+Reason: the Schedule page is the strongest indexable entry page and already contains the full schedule tool, downloads, filters, team/city views and source notes.
+```
+
+Implementation notes:
+
+```text
+Top navigation Home link points to /world-cup-2026-schedule/
+Brand logo points to /world-cup-2026-schedule/
+Root index.html is a noindex redirect page
+Cloudflare Pages _redirects file maps / to /world-cup-2026-schedule/ with 301
+sitemap.xml excludes the root URL and gives /world-cup-2026-schedule/ priority 1.0
+```
+
+The older homepage notes below are kept only as historical reference.
+
 Reference URL:
 
 ```text

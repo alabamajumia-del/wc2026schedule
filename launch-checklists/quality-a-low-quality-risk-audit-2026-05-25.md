@@ -3,6 +3,25 @@
 Date: 2026-05-25
 Status: Completed audit; optimization actions pending
 
+## 2026-05-25 Remediation Update
+
+The standalone thin homepage risk has been resolved by retiring the root homepage as an indexable page.
+
+Current decision:
+
+```text
+/ redirects to /world-cup-2026-schedule/
+/world-cup-2026-schedule/ is the actual homepage and primary SEO entry page.
+The old root homepage content is no longer retained.
+```
+
+Follow-up implication:
+
+```text
+Remove "Homepage Quality Expansion" as the next recommended task.
+Prioritize Team Page Content System Redesign and support-page optimization instead.
+```
+
 ## Purpose
 
 Before publishing wc26schedule on Cloudflare, this audit checks whether the generated static site has pages that could look thin, repetitive, under-trusted or under-developed to users, Google Search, AI Overviews and AdSense review.
@@ -356,4 +375,3 @@ Phase Team Pages A: Team Page Content System Redesign
 Goal:
 
 Fix the largest page-count risk by making every team page more useful, more specific and less thin.
-

@@ -7,6 +7,7 @@ import { matches, scheduleMeta } from "../src/matches.mjs";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const dist = join(root, "dist");
 const updated = "May 22, 2026";
+const homePath = "/world-cup-2026-schedule/";
 
 const adsensePublisherId = (process.env.ADSENSE_PUBLISHER_ID || "").trim();
 const adsenseVerificationMethod = (process.env.ADSENSE_VERIFICATION_METHOD || "off").trim().toLowerCase();
@@ -482,7 +483,7 @@ const primaryNavSlugs = [
 ];
 
 const nav = () =>
-  [`<a href="/">Home</a>`]
+  [`<a href="${homePath}">Home</a>`]
     .concat(primaryNavSlugs
     .map((slug) => pages.find((page) => page.slug === slug))
     .filter(Boolean)
@@ -518,7 +519,7 @@ const layout = ({ title, description, canonical, body, schema = [], titleSuffix 
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="/" aria-label="${attr(site.brand)} home">
+      <a class="brand" href="${homePath}" aria-label="${attr(site.brand)} home">
         <span class="brand-mark">26</span>
         <span>${esc(site.brand)}</span>
       </a>
@@ -2125,7 +2126,7 @@ const pageSchema = (page) => {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${site.url}${homePath}` },
       { "@type": "ListItem", position: 2, name: page.h1, item: `${site.url}/${page.slug}/` }
     ]
     }
@@ -2578,67 +2579,7 @@ const renderScheduleTable = () => {
 </section>`;
 };
 
-const renderHome = () =>
-  layout({
-    title: "World Cup 2026 Schedule Hub",
-    description: site.description,
-    canonical: "/",
-    schema: [
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        name: site.brand,
-        url: site.url,
-        description: site.description
-      }
-    ],
-    body: `${hero({
-      eyebrow: "World Cup 2026 schedule hub",
-      h1: "wc26schedule",
-      intro:
-        "Plan the tournament by date, team, city, stadium, TV schedule, ticket guide and downloadable tools for worldcup2026schedule.net.",
-      facts: [
-        ["Brand", site.brand],
-        ["Domain", site.domain],
-        ["Core tool", "Full match schedule"]
-      ]
-    })}
-<main class="main">
-  <section class="section">
-    <div class="grid">
-      <div class="span-8 card"><div class="card-body">
-        <p class="eyebrow">Execution focus</p>
-        <h2>Build the schedule first, then expand into tools and long-tail pages.</h2>
-        <p>wc26schedule starts with the full match schedule, then connects users to PDF, Excel, groups, host cities, TV and tickets pages. City and team pages become the next layer once the core planning tools are stable.</p>
-        <div class="section-actions">
-          <a class="button" href="/world-cup-2026-schedule/">View schedule page</a>
-          <a class="button light" href="/world-cup-2026-tickets/">Review ticket guide</a>
-        </div>
-      </div></div>
-      <div class="span-4 card"><div class="card-body">
-        <p class="eyebrow">Planning tools</p>
-        <h3>Schedule, PDF and Excel</h3>
-        <p>The site is built around practical planning: browse the full schedule, filter matches, compare host cities, and use downloadable tools as they are added.</p>
-      </div></div>
-    </div>
-  </section>
-  <section class="section">
-    <h2>MVP page map</h2>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Page</th><th>URL</th><th>Main use</th><th>Status</th></tr></thead>
-      <tbody>
-        ${pages
-          .slice(0, 8)
-          .map(
-            (page) =>
-              `<tr><td>${esc(page.nav)}</td><td><a href="/${page.slug}/">/${page.slug}/</a></td><td>${esc(page.intent)}</td><td>MVP</td></tr>`
-          )
-          .join("")}
-      </tbody>
-    </table></div>
-  </section>
-</main>`
-  });
+const renderHome = () => redirectPage(homePath);
 
 const write = async (relative, content) => {
   const target = join(dist, relative);
@@ -3325,7 +3266,7 @@ const teamSchema = (team) => [
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${site.url}${homePath}` },
       {
         "@type": "ListItem",
         position: 2,
@@ -3458,7 +3399,7 @@ const citySchema = (city) => [
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${site.url}${homePath}` },
       {
         "@type": "ListItem",
         position: 2,
@@ -3778,7 +3719,7 @@ const matchSchema = (match, view) => {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+        { "@type": "ListItem", position: 1, name: "Home", item: `${site.url}${homePath}` },
         {
           "@type": "ListItem",
           position: 2,
@@ -6546,12 +6487,13 @@ await write(
 
 await write("ads.txt", adsTxt());
 
+await write("_redirects", `/ ${homePath} 301\n`);
+
 await write("404.html", renderNotFoundPage());
 
 await write(
   "sitemap.xml",
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[
-    site.url,
     ...pages.map((page) => `${site.url}/${page.slug}/`),
     ...cities.map((city) => `${site.url}${city.path}`),
     ...teams.map((team) => `${site.url}${team.path}`),
@@ -6559,7 +6501,7 @@ await write(
   ]
     .map(
       (url) =>
-        `  <url><loc>${esc(url)}</loc><lastmod>2026-05-22</lastmod><changefreq>weekly</changefreq><priority>${url === site.url ? "1.0" : "0.8"}</priority></url>`
+        `  <url><loc>${esc(url)}</loc><lastmod>2026-05-22</lastmod><changefreq>weekly</changefreq><priority>${url === `${site.url}${homePath}` ? "1.0" : "0.8"}</priority></url>`
     )
     .join("\n")}\n</urlset>\n`
 );
