@@ -4588,6 +4588,140 @@ const renderOpeningMatchSpotlight = (match, groupMatches, nextMatch) => {
   </section>`;
 };
 
+const usaMatchInsights = (match) => {
+  const opponent = opponentForTeam("United States", match);
+  const defaults = {
+    label: "Host nation route",
+    role: "United States group-stage planning point",
+    focus: `This fixture is part of the United States Group ${match.group} route, so the page should help fans move from one match detail into the wider host-nation schedule.`,
+    checklist: "Check kickoff time, venue local time, TV confirmation, team route and the next Group D fixture before making paid plans.",
+    nextStep: "Use the route board to compare the other United States group matches."
+  };
+
+  const byMatch = {
+    4: {
+      label: "Host nation opener",
+      role: "United States starts Group D in Los Angeles",
+      focus:
+        "This is the first United States match of the tournament and a high-intent planning page for fans checking SoFi Stadium, opening-week TV windows and the first Group D standings signal.",
+      checklist:
+        "Confirm the Eastern Time listing, compare it with Los Angeles local time, then check the United States team page before moving to Seattle for the second group match.",
+      nextStep: `After ${opponent}, the route moves toward the Seattle match against Australia.`
+    },
+    29: {
+      label: "Route bridge",
+      role: "United States moves from Los Angeles to Seattle",
+      focus:
+        "This second United States fixture is the route bridge between the opener and the final Group D match. It is especially useful for comparing travel rhythm, rest days and Pacific Northwest viewing plans.",
+      checklist:
+        "Check whether the Seattle kickoff changes your watch window, then compare Group D standings before opening the final Los Angeles match.",
+      nextStep: `After ${opponent}, the United States route returns to Los Angeles for the closing group fixture.`
+    },
+    57: {
+      label: "Group D decider",
+      role: "United States closes the group route in Los Angeles",
+      focus:
+        "This final United States group match is the page most likely to connect with standings, tiebreakers and bracket paths because qualification pressure can be clearest by Match 57.",
+      checklist:
+        "Check the live Group D table, confirm the simultaneous group window and move into the standings or bracket page when results begin to matter.",
+      nextStep: `After ${opponent}, the next useful page is the Group D standings and possible Round of 32 route.`
+    }
+  };
+
+  return byMatch[match.matchNumber] ?? defaults;
+};
+
+const renderUsaMatchSpotlight = (match, groupMatches) => {
+  if (match.home !== "United States" && match.away !== "United States") return "";
+
+  const keyword = matchCoreKeyword(match);
+  const insight = usaMatchInsights(match);
+  const usaMatches = teamRouteMatches("United States", match);
+  const opponent = opponentForTeam("United States", match);
+  const groupHref = match.group
+    ? `/world-cup-2026-schedule-groups/?group=${attr(match.group)}#group-${attr(match.group.toLowerCase())}`
+    : "/world-cup-2026-schedule-groups/";
+  const standingsHref = match.group
+    ? `/world-cup-2026-schedule-standings/?group=${attr(match.group)}#group-${attr(match.group.toLowerCase())}`
+    : "/world-cup-2026-schedule-standings/";
+  const sameGroupOther = groupMatches.filter((item) => item.matchNumber !== match.matchNumber).slice(0, 3);
+
+  return `<section class="section usa-match-spotlight" aria-label="United States match route planner">
+    <div class="usa-match-head">
+      <div>
+        <p class="eyebrow">${esc(insight.label)}</p>
+        <h2>${esc(keyword)} United States route planner</h2>
+        <p>The ${esc(keyword)} has extra planning value because the United States is a host nation and a high-demand search path. This section connects the single fixture with the full Group ${esc(match.group)} route, the opponent context, the host city and the next realistic browsing step.</p>
+      </div>
+      <div class="usa-match-scorecard">
+        <span>USA route</span>
+        <strong>${esc(insight.role)}</strong>
+        <small>${esc(`${match.city} - ${match.stadium}`)}</small>
+      </div>
+    </div>
+    <div class="usa-match-grid">
+      <article>
+        <span>Match role</span>
+        <strong>${esc(insight.role)}</strong>
+        <p>${esc(insight.focus)}</p>
+      </article>
+      <article>
+        <span>Planning check</span>
+        <strong>What to verify before kickoff</strong>
+        <p>${esc(insight.checklist)}</p>
+      </article>
+      <article>
+        <span>Next step</span>
+        <strong>Keep the United States route connected</strong>
+        <p>${esc(insight.nextStep)}</p>
+      </article>
+    </div>
+    <div class="usa-route-board">
+      <div class="usa-route-copy">
+        <p class="eyebrow">United States Group ${esc(match.group)} route</p>
+        <strong>Three confirmed group fixtures</strong>
+        <p>Use this route board when your search is really about the USA schedule, not just ${esc(match.home)} vs ${esc(match.away)} in isolation.</p>
+      </div>
+      <div class="usa-route-list">
+        ${usaMatches
+          .map(
+            (item) => `<a href="${attr(matchDetailPath(item))}" class="${item.matchNumber === match.matchNumber ? "is-current" : ""}">
+          <span>Match ${esc(item.matchNumber)}</span>
+          <strong>${esc(`${item.home} vs ${item.away}`)}</strong>
+          <small>${esc(`${item.dateLabel} - ${item.city}`)}</small>
+        </a>`
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="usa-context-row">
+      <article>
+        <span>Opponent</span>
+        <strong>${esc(opponent)}</strong>
+        <p>Open the team route to compare how this fixture fits the opponent's own group-stage path.</p>
+      </article>
+      <article>
+        <span>Group context</span>
+        <strong>Group ${esc(match.group)}</strong>
+        <p>${esc(`Compare ${readableList(sameGroupOther.map((item) => `${item.home} vs ${item.away}`)) || "the remaining group fixtures"} beside this match before reading the standings.`)}</p>
+      </article>
+      <article>
+        <span>Host city</span>
+        <strong>${esc(match.city)}</strong>
+        <p>Use the city page to check local fixture clusters, stadium context and nearby schedule options.</p>
+      </article>
+    </div>
+    <div class="usa-match-actions">
+      <a href="${attr(teamPath("United States"))}">United States schedule</a>
+      <a href="${attr(teamPath(opponent))}">${esc(opponent)} schedule</a>
+      <a href="${groupHref}">Group ${esc(match.group)} guide</a>
+      <a href="${standingsHref}">Group ${esc(match.group)} standings</a>
+      <a href="${attr(cityPath(match.citySlug))}">${esc(match.city)} city guide</a>
+      <a href="/world-cup-2026-tv-schedule/">TV schedule guide</a>
+    </div>
+  </section>`;
+};
+
 const matchStageContext = (match) => {
   if (match.stage === "Group stage") {
     return `This is a Group ${match.group} fixture, so the result contributes directly to the first-round table. For fans, that makes the match useful beyond the single kickoff: it connects to points, goal difference, qualification scenarios and the order of later group matches. If you are following either team, use this page together with the team schedule pages and the full group guide so you can see where this match sits in the three-game group route.`;
@@ -4792,6 +4926,7 @@ const renderMatchPage = (match) => {
     </div>
   </section>
   ${renderOpeningMatchSpotlight(match, groupMatches, nextMatch)}
+  ${renderUsaMatchSpotlight(match, groupMatches)}
   ${renderEarlyMatchPlanner(match, groupMatches, previousMatch, nextMatch)}
   <section class="section">
     <div class="grid">
