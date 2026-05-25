@@ -3276,12 +3276,115 @@ const teamSummaries = () => {
     .sort((a, b) => a.team.localeCompare(b.team));
 };
 
+const readableList = (items) => {
+  const list = [...new Set(items)].filter(Boolean);
+  if (list.length <= 1) return list[0] ?? "";
+  if (list.length === 2) return `${list[0]} and ${list[1]}`;
+  return `${list.slice(0, -1).join(", ")} and ${list.at(-1)}`;
+};
+
+const opponentForTeam = (teamName, match) => (match.home === teamName ? match.away : match.home);
+
+const teamCoreKeyword = (team) => `${team.team} World Cup 2026 Schedule`;
+
+const teamSeoTitle = (team) =>
+  `${teamCoreKeyword(team)}: Fixtures, Dates, Opponents & Cities`;
+
+const teamSeoDescription = (team) =>
+  `Follow the ${teamCoreKeyword(team)} with fixtures, match dates, kickoff times, Group ${team.group} opponents, host cities, stadiums and match details.`;
+
+const teamCountryRoute = (team) =>
+  readableList(team.matches.map((match) => cityMeta[match.city]?.country ?? "host country"));
+
+const teamTravelProfile = (team) => {
+  const countryRoute = teamCountryRoute(team);
+  const cityRoute = readableList(team.cities);
+  if (["Mexico", "Canada", "United States"].includes(team.team)) {
+    return `${team.team} is one of the host nations, so the page should help fans separate home-market attention from the practical details of dates, kickoff windows, stadiums and possible travel between ${cityRoute}.`;
+  }
+  if (team.cities.length === 2) {
+    return `${team.team} has a compact two-city route through ${cityRoute}, which makes the page useful for fans comparing whether to follow the full group stage in person or focus on one match window.`;
+  }
+  if (new Set(team.matches.map((match) => cityMeta[match.city]?.country)).size > 1) {
+    return `${team.team} moves across ${countryRoute}, so supporters should check venue locations, border timing, flight options and local kickoff conversions before treating the fixtures as one simple trip.`;
+  }
+  return `${team.team} plays across ${team.cities.length} host cities in ${countryRoute}, so this page should make the route easy to scan before users open city pages or match-detail pages.`;
+};
+
+const teamMatchRole = (team, match, index) => {
+  const opponent = opponentForTeam(team.team, match);
+  if (index === 0) {
+    return `The opener against ${opponent} sets the first reference point for Group ${team.group}. Fans should use this match to check the first kickoff time, the opening city and whether the next fixture requires a fast travel change.`;
+  }
+  if (index === team.matches.length - 1) {
+    return `The closing group match against ${opponent} can carry qualification pressure because standings, goal difference and the best third-place comparison may matter by then. It is the fixture most likely to send users toward standings and bracket planning.`;
+  }
+  return `The middle fixture against ${opponent} is the bridge between the opener and the final group match. It is useful for checking rest days, travel rhythm and whether the team remains in the same country or changes host markets.`;
+};
+
+const teamFixtureCards = (team) =>
+  team.matches
+    .map((match, index) => {
+      const opponent = opponentForTeam(team.team, match);
+      const side = match.home === team.team ? "listed first" : "listed second";
+      return `<article class="team-fixture-card">
+        <div class="team-fixture-number">Match ${esc(match.matchNumber)}</div>
+        <h3>${esc(team.team)} Fixture ${esc(match.matchNumber)}: ${esc(match.home)} vs ${esc(match.away)}</h3>
+        <div class="team-fixture-matchup">${matchupHtml(match.home, match.away)}</div>
+        <p>${esc(team.team)} is ${side} for this Group ${esc(match.group)} fixture against ${esc(opponent)} on ${esc(match.dateLabel)}. Kickoff is listed at ${esc(match.kickoffET)} ET, and the match is scheduled for ${esc(match.stadium)} in ${esc(match.city)}.</p>
+        <p>${esc(teamMatchRole(team, match, index))}</p>
+        <div class="team-fixture-actions">
+          <a href="${attr(matchDetailPath(match))}">Open match detail</a>
+          <a href="${attr(cityPath(match.citySlug))}">Open ${esc(match.city)} city guide</a>
+        </div>
+      </article>`;
+    })
+    .join("");
+
+const teamUsageCards = (team) => [
+  [
+    `Track ${team.team} kickoff times`,
+    `Use this team route when you need one list of dates and ET kickoff times without scanning all 104 matches. Open each match detail page when you need converted time, city context or same-group links.`
+  ],
+  [
+    `Plan ${team.team} travel by host city`,
+    `${team.team}'s route touches ${readableList(team.cities)}. Use the city links to compare stadiums, match clusters and local planning notes before you make paid travel decisions.`
+  ],
+  [
+    `Save the ${team.team} schedule with PDF or Excel`,
+    `The PDF is useful for a quick printable copy, while the Excel workbook is better if you want to filter the full World Cup 2026 schedule by ${team.team}, Group ${team.group}, city or date.`
+  ]
+];
+
+const teamFaqs = (team) => [
+  [
+    `What does this ${team.team} page include?`,
+    `This team-specific fixture page covers ${team.team}'s Group ${team.group} match dates, opponents, kickoff times, host cities, stadiums and links to match-detail pages.`
+  ],
+  [
+    `Who does ${team.team} play in Group ${team.group}?`,
+    `${team.team} is listed with ${readableList(team.opponents)} in Group ${team.group}. Use the group page and standings page together once results begin to affect qualification routes.`
+  ],
+  [
+    `Where does ${team.team} play during the World Cup 2026 group stage?`,
+    `${team.team} is listed in ${readableList(team.cities)}. The page links each city to a host-city guide so fans can check stadium context and related fixtures.`
+  ],
+  [
+    `Can I download the ${team.team} World Cup 2026 fixtures?`,
+    `Yes. Use the World Cup 2026 Schedule PDF for a printable copy or the Excel workbook when you want to filter all matches down to ${team.team}, Group ${team.group}, a city or a date range.`
+  ],
+  [
+    `Does this page show ${team.team} knockout matches?`,
+    `Not yet. Knockout matches depend on group results. This page focuses on the confirmed group route and links to standings, bracket and match-detail pages for the next planning step.`
+  ]
+];
+
 const teamSchema = (team) => [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: `${team.team} World Cup 2026 Schedule`,
-    description: `See the ${team.team} World Cup 2026 schedule with match dates, ET kickoff times, opponents, host cities and stadiums.`,
+    headline: teamSeoTitle(team),
+    description: teamSeoDescription(team),
     author: { "@type": "Organization", name: `${site.brand} editorial team` },
     publisher: { "@type": "Organization", name: site.brand },
     mainEntityOfPage: `${site.url}${team.path}`
@@ -3289,24 +3392,11 @@ const teamSchema = (team) => [
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
+    mainEntity: teamFaqs(team).map(([question, answer]) => ({
         "@type": "Question",
-        name: `How many group matches does ${team.team} play at World Cup 2026?`,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `${team.team} has ${team.matches.length} listed group-stage matches in the wc26schedule data set.`
-        }
-      },
-      {
-        "@type": "Question",
-        name: `Which cities does ${team.team} play in?`,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: `${team.team} is listed in ${team.cities.join(", ")}.`
-        }
-      }
-    ]
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer }
+      }))
   },
   {
     "@context": "https://schema.org",
@@ -3326,78 +3416,104 @@ const teamSchema = (team) => [
 
 const renderTeamPage = (team) =>
   layout({
-    title: `${team.team} World Cup 2026 Schedule`,
-    description: `See ${team.team} World Cup 2026 fixtures with dates, ET kickoff times, opponents, host cities and stadiums.`,
+    title: teamSeoTitle(team),
+    description: teamSeoDescription(team),
     canonical: team.path,
     schema: teamSchema(team),
     body: `${hero({
       eyebrow: "Team schedule",
-      h1: `${team.team} World Cup 2026 Schedule`,
-      intro: `${team.team} is listed in Group ${team.group} with ${team.matches.length} group-stage matches from ${team.firstDate} to ${team.lastDate}. This page brings together opponents, dates, ET kickoff times, cities and stadiums for fans following the team route.`,
+      h1: teamCoreKeyword(team),
+      intro: `Follow ${team.team} through Group ${team.group} by match date, opponent, kickoff time, host city and stadium. The route runs from ${team.matches[0].dateLabel} to ${team.matches.at(-1).dateLabel}, with fixtures against ${readableList(team.opponents)} across ${readableList(team.cities)}.`,
       facts: [
         ["Group", team.group],
         ["Matches", `${team.matches.length}`],
         ["Cities", team.cities.join(", ")]
       ],
-      primaryHref: "/world-cup-2026-schedule/"
+      actions: [
+        ["Full schedule", "/world-cup-2026-schedule/", "primary"],
+        ["Group guide", "/world-cup-2026-schedule-groups/", "secondary"]
+      ],
+      panelTitle: `${team.team} route snapshot`,
+      panelIntro: teamTravelProfile(team),
+      panelRows: [
+        ["First match", `${team.matches[0].home} vs ${team.matches[0].away}`],
+        ["Final group match", `${team.matches.at(-1).home} vs ${team.matches.at(-1).away}`],
+        ["Host route", readableList(team.cities)]
+      ]
     })}
-<main class="main">
-  <section class="section">
+<main class="main team-page-main">
+  <section class="section team-route-overview">
     <div class="grid">
       <article class="span-8 card"><div class="card-body">
-        <p class="eyebrow">Team overview</p>
-        <h2>${esc(team.team)} fixtures and route</h2>
-        <p>Use this page to follow ${esc(team.team)} by opponent, date, host city and stadium. It is designed for fans who want a team-specific view instead of scanning the full 104-match schedule.</p>
+        <p class="eyebrow">Team route</p>
+        <h2>${esc(teamCoreKeyword(team))} Overview</h2>
+        <p>This team page is built for users who already know the country they want to follow. Instead of asking them to keep filtering the full tournament table, it puts ${esc(team.team)}'s three group fixtures, opponents, host cities, stadiums and match-detail links into one route.</p>
+        <p>${esc(teamTravelProfile(team))} The first match is ${esc(team.matches[0].home)} vs ${esc(team.matches[0].away)} in ${esc(team.matches[0].city)}, while the final group fixture is ${esc(team.matches.at(-1).home)} vs ${esc(team.matches.at(-1).away)} in ${esc(team.matches.at(-1).city)}. That order matters for fans planning watch times, travel days or a printable schedule.</p>
       </div></article>
-      <aside class="span-4 card"><div class="card-body">
-        <p class="eyebrow">Planning note</p>
-        <h3>Group-stage focus</h3>
-        <p>This page lists confirmed group-stage fixtures from the current data set. Knockout matches depend on standings and will be connected once results are known.</p>
+      <aside class="span-4 card"><div class="card-body team-route-card">
+        <p class="eyebrow">Group route</p>
+        <h3>${esc(teamCoreKeyword(team))} Group ${esc(team.group)} Opponents</h3>
+        <p>${esc(team.team)} shares Group ${esc(team.group)} with ${esc(readableList(team.opponents))}. Use this page with the group and standings pages when results begin to affect qualification routes.</p>
+        <a href="/world-cup-2026-schedule-groups/">Open group guide</a>
       </div></aside>
     </div>
   </section>
+  <section class="section team-fixtures-section">
+    <div class="section-heading-row">
+      <div>
+        <p class="eyebrow">Fixtures</p>
+        <h2>${esc(teamCoreKeyword(team))} Fixtures by Date, Opponent and City</h2>
+        <p>Each fixture card connects the match row to a practical next step: open the match detail for kickoff conversion and source notes, or open the host city page for stadium and local schedule context.</p>
+      </div>
+      <a class="button light" href="/world-cup-2026-schedule/#team-schedules">All team pages</a>
+    </div>
+    <div class="team-fixture-grid">
+      ${teamFixtureCards(team)}
+    </div>
+  </section>
+  <section class="section team-context-grid">
+    <article class="card"><div class="card-body">
+      <p class="eyebrow">First match</p>
+        <h3>${esc(team.team)} First Match</h3>
+      <p>${esc(team.team)} opens against ${esc(opponentForTeam(team.team, team.matches[0]))} on ${esc(team.matches[0].dateLabel)} at ${esc(team.matches[0].kickoffET)} ET. The first match is the best starting point for checking watch-party timing, arrival plans and the first city on the route.</p>
+    </div></article>
+    <article class="card"><div class="card-body">
+      <p class="eyebrow">Host route</p>
+      <h3>${esc(team.team)} Host Cities and Stadiums</h3>
+      <p>The team route includes ${esc(readableList(team.stadiums))}. Because the host-city path is ${esc(readableList(team.cities))}, users should compare venue pages before booking travel or deciding which fixtures to attend.</p>
+    </div></article>
+    <article class="card"><div class="card-body">
+      <p class="eyebrow">Qualification path</p>
+      <h3>Group ${esc(team.group)} Planning for ${esc(team.team)}</h3>
+      <p>The group stage sends the top teams toward the knockout bracket, while third-place comparisons may also matter. Keep this page next to the standings hub once match results start changing the table.</p>
+    </div></article>
+  </section>
   <section class="section">
-    <h2>${esc(team.team)} match schedule</h2>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Match</th><th>Date</th><th>Time ET</th><th>Opponent</th><th>City</th><th>Stadium</th><th>Group</th></tr></thead>
-        <tbody>
-          ${team.matches
-            .map((match) => {
-              const opponent = match.home === team.team ? match.away : match.home;
-              return `<tr><td>${match.matchNumber}</td><td>${esc(match.date)}</td><td>${esc(match.kickoffET)} ET</td><td>${esc(opponent)}</td><td><a href="${attr(cityPath(match.citySlug))}">${esc(match.city)}</a></td><td>${esc(match.stadium)}</td><td>Group ${esc(match.group)}</td></tr>`;
-            })
-            .join("")}
-        </tbody>
-      </table>
+    <h2>How to Use the ${esc(teamCoreKeyword(team))}</h2>
+    <div class="team-usage-grid">
+      ${teamUsageCards(team)
+        .map(
+          ([heading, copy]) => `<article><h3>${esc(heading)}</h3><p>${esc(copy)}</p></article>`
+        )
+        .join("")}
     </div>
   </section>
   <section class="section">
-    <h2>How to use this team page</h2>
-    ${table([
-      ["Track opponents", team.opponents.join(", "), "Compare each fixture against the full group schedule."],
-      ["Plan travel", team.cities.join(", "), "Open city pages to review stadium and match context."],
-      ["Save the schedule", "Use CSV, Excel or PDF downloads.", "Download the full schedule and filter by team."]
-    ])}
-  </section>
-  <section class="section">
-    <h2>Related planning pages</h2>
+    <h2>${esc(teamCoreKeyword(team))} Related Planning Links</h2>
     ${linkGrid([
       ["Full World Cup 2026 schedule", "/world-cup-2026-schedule/"],
-      ["Groups guide", "/world-cup-2026-schedule-groups/"],
-      ["Download schedule files", "/world-cup-2026-schedule-excel/"],
+      [`Group ${team.group} fixtures and teams`, "/world-cup-2026-schedule-groups/"],
+      ["World Cup 2026 standings", "/world-cup-2026-schedule-standings/"],
+      ["Download PDF schedule", "/world-cup-2026-schedule-pdf/"],
+      ["Download Excel schedule", "/world-cup-2026-schedule-excel/"],
       ["Ticket guide", "/world-cup-2026-tickets/"]
     ])}
   </section>
   <section class="section">
-    <h2>FAQ</h2>
-    ${faqHtml([
-      [`How many group matches does ${team.team} play?`, `${team.team} has ${team.matches.length} listed group-stage matches in Group ${team.group}.`],
-      [`Which cities does ${team.team} play in?`, `${team.team} is listed in ${team.cities.join(", ")}.`],
-      [`Can ${team.team} play knockout matches?`, "Knockout fixtures depend on group standings. This page will link to bracket paths once results determine the next round."]
-    ])}
+    <h2>${esc(teamCoreKeyword(team))} FAQ</h2>
+    ${faqHtml(teamFaqs(team))}
   </section>
-  <section class="source-note"><strong>Last updated:</strong> ${updated}. Team schedule data is generated from the structured wc26schedule match dataset and should be checked against official sources before travel or ticket decisions.</section>
+  <section class="source-note"><strong>Last updated:</strong> ${updated}. This team page is generated from the structured wc26schedule match dataset using FIFA schedule references and mapped host-city data. Before travel, ticket purchases, printed handouts or broadcast planning, confirm the latest details with official tournament, stadium, ticket and broadcaster sources.</section>
 </main>`
   });
 

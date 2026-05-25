@@ -22,6 +22,43 @@ Remove "Homepage Quality Expansion" as the next recommended task.
 Prioritize Team Page Content System Redesign and support-page optimization instead.
 ```
 
+## 2026-05-25 Team Page Remediation Update
+
+The 48 thin Team pages have been reconstructed.
+
+Before:
+
+```text
+48 Team pages
+323-347 words each
+High-risk thin programmatic page group
+```
+
+After:
+
+```text
+48 Team pages
+1087-1154 visible words each
+0 Team pages below 800 words
+Core keyword weighted density range: 3.49%-4.22%
+Each page uses team-specific Group, opponent, city, stadium and match-detail data.
+```
+
+Updated thin-content risk count after this remediation:
+
+```text
+High risk pages: 9
+Medium risk pages: 4
+Team-page high risk count: 0
+Remaining high-risk groups: trust pages and support pages
+```
+
+Remaining follow-up:
+
+```text
+Manually enrich the highest-search Team pages first: Mexico, United States, Canada, Argentina, Brazil, England, France, Germany, Spain and Portugal.
+```
+
 ## Purpose
 
 Before publishing wc26schedule on Cloudflare, this audit checks whether the generated static site has pages that could look thin, repetitive, under-trusted or under-developed to users, Google Search, AI Overviews and AdSense review.

@@ -4804,6 +4804,132 @@ td {
   line-height: 1.5;
 }
 
+.team-page-main {
+  background:
+    linear-gradient(180deg, rgba(247, 250, 245, 0.9), rgba(255, 255, 255, 0.96) 36%),
+    #fff;
+}
+
+.team-route-overview .card,
+.team-context-grid .card {
+  border-color: #cfded6;
+}
+
+.team-route-card {
+  display: grid;
+  gap: 12px;
+}
+
+.team-route-card a {
+  color: #0f7c5c;
+  font-weight: 900;
+}
+
+.team-fixtures-section {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #f8fbf6;
+}
+
+.team-fixture-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.team-fixture-card {
+  display: grid;
+  gap: 12px;
+  border: 1px solid #cbdad2;
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+  box-shadow: 0 14px 32px rgba(15, 49, 38, 0.07);
+}
+
+.team-fixture-number {
+  width: fit-content;
+  border-radius: 999px;
+  background: #0f7c5c;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.team-fixture-card h3 {
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.18;
+}
+
+.team-fixture-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.62;
+}
+
+.team-fixture-matchup .matchup {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.team-fixture-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.team-fixture-actions a {
+  border: 1px solid #d7e2dc;
+  border-radius: 8px;
+  background: #fbfdfb;
+  padding: 9px 10px;
+  color: #0f684e;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.team-fixture-actions a:hover,
+.team-fixture-actions a:focus {
+  border-color: #e5b437;
+  color: #10231d;
+}
+
+.team-context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.team-usage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.team-usage-grid article {
+  border: 1px solid #d7e2dc;
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
+}
+
+.team-usage-grid h3 {
+  margin: 0 0 8px;
+  font-size: 19px;
+}
+
+.team-usage-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
 .pdf-feature-section {
   padding: 28px;
   border: 1px solid var(--line);
@@ -5915,6 +6041,12 @@ td {
   .team-directory-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .team-fixture-grid,
+  .team-context-grid,
+  .team-usage-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 860px) {
@@ -5935,6 +6067,10 @@ td {
   .team-directory-link {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .team-fixture-matchup .matchup {
+    grid-template-columns: 1fr;
   }
 
   .hero-inner {

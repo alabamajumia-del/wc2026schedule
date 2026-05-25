@@ -1,7 +1,23 @@
 # Team Pages SEO Keyword Framework
 
 Date: 2026-05-25
-Status: Pre-optimization reference
+Status: SEO framework applied in first Team page reconstruction pass
+
+## 2026-05-25 Implementation Update
+
+The 48 Team pages have been rebuilt using this framework.
+
+Validation summary:
+
+```text
+Pages generated: 48
+Minimum visible word count: 1087
+Maximum visible word count: 1154
+Pages below 800 words: 0
+Weighted core keyword density range: 3.49%-4.22%
+```
+
+This file remains the keyword and heading reference for future one-page-by-one-page editorial enrichment.
 
 ## Purpose
 
@@ -172,4 +188,3 @@ FAQ based on that team's route
 ```
 
 Do not solve the 48-page risk by adding the same paragraph block to every team page.
-
