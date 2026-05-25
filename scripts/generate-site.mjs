@@ -488,13 +488,14 @@ const nav = () =>
     .map((page) => `<a href="/${page.slug}/">${esc(page.nav)}</a>`)
     .join("");
 
-const layout = ({ title, description, canonical, body, schema = [], titleSuffix = true }) => `<!doctype html>
+const layout = ({ title, description, canonical, body, schema = [], titleSuffix = true, noindex = false }) => `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(titleSuffix ? `${title} | ${site.brand}` : title)}</title>
   <meta name="description" content="${attr(description)}">
+  ${noindex ? `<meta name="robots" content="noindex">` : ""}
   <link rel="canonical" href="${attr(site.url + canonical)}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${attr(title)}">
@@ -809,6 +810,47 @@ ${links
   )
   .join("")}
 </div>`;
+
+const renderNotFoundPage = () =>
+  layout({
+    title: "Page Not Found",
+    description:
+      "The page you requested was not found on wc26schedule. Use the schedule, PDF, Excel, host city or contact links to continue planning.",
+    canonical: "/404.html",
+    noindex: true,
+    body: `<main class="main error-page">
+  <section class="section error-hero">
+    <p class="eyebrow">404 error</p>
+    <h1>Page Not Found</h1>
+    <p>The page may have moved, the address may be mistyped, or an older planning link may no longer point to a live page. Use one of the core wc26schedule routes below to get back to the World Cup 2026 schedule tools.</p>
+    <div class="error-actions">
+      <a class="button" href="/world-cup-2026-schedule/">Open full schedule</a>
+      <a class="button light" href="/contact/">Report a broken link</a>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Find the Right World Cup 2026 Planning Page</h2>
+    ${linkGrid([
+      ["Full schedule", "/world-cup-2026-schedule/"],
+      ["PDF downloads", "/world-cup-2026-schedule-pdf/"],
+      ["Excel planner", "/world-cup-2026-schedule-excel/"],
+      ["Host cities", "/world-cup-2026-schedule-host-cities/"],
+      ["Groups guide", "/world-cup-2026-schedule-groups/"],
+      ["Standings", "/world-cup-2026-schedule-standings/"]
+    ])}
+  </section>
+  <section class="section">
+    <h2>Check Trust and Support Pages</h2>
+    ${linkGrid([
+      ["About wc26schedule", "/about/"],
+      ["Contact wc26schedule", "/contact/"],
+      ["Privacy Policy", "/privacy-policy/"],
+      ["Disclaimer", "/disclaimer/"]
+    ])}
+  </section>
+  <section class="source-note"><strong>404 note:</strong> This error page is intentionally marked noindex. If you reached this page from an internal wc26schedule link, use the contact page to report the broken route.</section>
+</main>`
+  });
 
 const renderScheduleCapabilitySections = () => {
   const confirmedTeams = [
@@ -6502,6 +6544,8 @@ await write(
 );
 
 await write("ads.txt", adsTxt());
+
+await write("404.html", renderNotFoundPage());
 
 await write(
   "sitemap.xml",

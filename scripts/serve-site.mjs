@@ -38,7 +38,7 @@ createServer(async (req, res) => {
     res.writeHead(200, { "Content-Type": types[extname(file)] || "application/octet-stream" });
     res.end(body);
   } catch {
-    const body = await readFile(join(dist, "index.html"));
+    const body = await readFile(join(dist, "404.html"));
     res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
     res.end(body);
   }

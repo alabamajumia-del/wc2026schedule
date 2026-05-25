@@ -1,7 +1,7 @@
 # Phase Launch Readiness A: Technical Audit Checklist
 
 Date: 2026-05-25
-Status: Completed with pre-launch action items
+Status: Completed; static 404 action resolved in Phase Launch Readiness B
 
 ## Purpose
 
@@ -41,7 +41,8 @@ Key pages checked in browser:
 
 ```text
 Overall status: Mostly ready at technical checklist level.
-Main blocker: static 404.html is missing.
+Main blocker found during this audit: static 404.html was missing.
+Resolution: static 404.html was created in Phase Launch Readiness B.
 AdSense status: safe by default; no live AdSense script, meta tag or active ads.txt publisher line is present.
 Trust pages: accessible and linked in footer on checked pages.
 Canonical: present on checked pages.
@@ -66,7 +67,7 @@ Mobile overflow: 0 on checked pages.
 | Fake publisher ID | Pass | No fake `ca-pub-1234567890123456` ID appears in generated output. |
 | Mobile overflow | Pass | 11 checked pages have `overflowX: 0` at 390px viewport. |
 | H1 count | Pass | 11 checked pages each have exactly one H1. |
-| Static 404 page | Action required | `dist/404.html` is missing. Add a static 404 page before launch if hosting requires it. |
+| Static 404 page | Resolved after audit | `dist/404.html` was missing during this audit and was created in Phase Launch Readiness B. |
 
 ## Detailed Findings
 
@@ -204,7 +205,8 @@ Checked pages:
 ### Required Before Launch
 
 ```text
-[ ] Add a static 404.html page or confirm the deployment host routes unknown URLs to a custom 404 response.
+[x] Add a static 404.html page.
+[ ] Confirm the deployment host routes unknown URLs to /404.html with a real 404 response after production deployment.
 [ ] Complete launch-checklists/trust-pages-prelaunch-info-checklist.md with real owner/contact/privacy/AdSense information.
 [ ] Confirm contact mailbox is active and remove any development wording if needed.
 [ ] Configure real AdSense publisher ID only after AdSense provides it.
@@ -217,14 +219,11 @@ Checked pages:
 Phase Launch Readiness B: Create Static 404 Page and Error-State UX
 ```
 
-Suggested scope:
+Status:
 
 ```text
-Create /404.html.
-Include clear links to Schedule, PDF, Excel, Host Cities and Contact.
-Keep footer trust links.
-Use noindex if appropriate for the 404 page.
-Validate local static output and unknown-route behavior.
+Completed on 2026-05-25.
+See launch-checklists/launch-readiness-b-static-404-2026-05-25.md.
 ```
 
 ## Validation Commands Used
@@ -251,4 +250,3 @@ noindex files
 AdSense script/meta absence
 static 404.html presence
 ```
-
