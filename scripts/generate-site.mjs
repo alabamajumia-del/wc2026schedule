@@ -4399,10 +4399,10 @@ const matchPageTitle = (match) => `Match ${match.matchNumber}: ${match.home} vs 
 
 const matchCoreKeyword = (match) => `${match.home} vs ${match.away} World Cup 2026 schedule`;
 
-const matchSeoTitle = (match) => `${matchCoreKeyword(match)} | Match ${match.matchNumber}`;
+const matchSeoTitle = (match) => matchCoreKeyword(match);
 
 const matchSeoDescription = (match) =>
-  `${matchCoreKeyword(match)} with match date, kickoff time, Group ${match.group || "stage"} details, ${match.city} venue, stadium, timezone tools and team route links.`;
+  `${matchCoreKeyword(match)}: date, kickoff time, ${match.group ? `Group ${match.group}` : match.stage}, ${match.city} venue, timezone tools and team route links.`;
 
 const matchTimeShort = (match) => `${match.date} - ${match.kickoffET} ET`;
 

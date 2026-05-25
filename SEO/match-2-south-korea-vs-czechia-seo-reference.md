@@ -28,18 +28,18 @@ Match 2 South Korea vs Czechia
 ## Title
 
 ```text
-South Korea vs Czechia World Cup 2026 schedule | Match 2
+South Korea vs Czechia World Cup 2026 schedule
 ```
 
-Length: 56 characters
+Length: 46 characters
 
 ## Description
 
 ```text
-South Korea vs Czechia World Cup 2026 schedule with match date, kickoff time, Group A details, Guadalajara venue, stadium, timezone tools and team route links.
+South Korea vs Czechia World Cup 2026 schedule: date, kickoff time, Group A, Guadalajara venue, timezone tools and team route links.
 ```
 
-Length: 159 characters
+Length: 132 characters
 
 ## H1
 
@@ -76,7 +76,7 @@ Can I use this page for ticket or travel decisions?
 ## Keyword Density
 
 ```text
-Visible word count: 1245
+Visible word count: 1242
 Exact core keyword count: 6
 Weighted exact-match density: 3.86%
 Target range: 3%-5%
