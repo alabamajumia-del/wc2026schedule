@@ -482,10 +482,11 @@ const primaryNavSlugs = [
 ];
 
 const nav = () =>
-  primaryNavSlugs
+  [`<a href="/">Home</a>`]
+    .concat(primaryNavSlugs
     .map((slug) => pages.find((page) => page.slug === slug))
     .filter(Boolean)
-    .map((page) => `<a href="/${page.slug}/">${esc(page.nav)}</a>`)
+    .map((page) => `<a href="/${page.slug}/">${esc(page.nav)}</a>`))
     .join("");
 
 const layout = ({ title, description, canonical, body, schema = [], titleSuffix = true, noindex = false }) => `<!doctype html>
