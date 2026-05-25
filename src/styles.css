@@ -1906,6 +1906,94 @@ h1 {
   padding: 8px 10px;
 }
 
+.match-retention-section {
+  border: 1px solid rgba(36, 93, 143, 0.16);
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(216, 166, 60, 0.13), transparent 26%),
+    linear-gradient(180deg, #ffffff, #f5f8fb);
+  padding: 22px;
+  box-shadow: 0 18px 40px rgba(25, 49, 68, 0.08);
+}
+
+.match-retention-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.match-retention-head h2 {
+  margin-bottom: 8px;
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.match-retention-head p {
+  max-width: 760px;
+  margin: 0;
+}
+
+.match-retention-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.match-retention-grid article {
+  display: grid;
+  gap: 9px;
+  border: 1px solid #d8e2df;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 14px;
+}
+
+.match-retention-grid article > span {
+  display: inline-grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 999px;
+  background: #0f7c5c;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.match-retention-grid strong {
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.match-retention-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.match-retention-grid a {
+  width: fit-content;
+  color: #0f7c5c;
+  font-size: 13px;
+  font-weight: 950;
+}
+
+.match-retention-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.match-retention-links a {
+  border: 1px solid rgba(15, 124, 92, 0.2);
+  border-radius: 999px;
+  background: #fff;
+  padding: 7px 9px;
+}
+
 .related-match-section {
   display: grid;
   gap: 16px;
@@ -7431,10 +7519,16 @@ td {
 
   .match-center-main,
   .match-time-panel,
+  .match-retention-grid,
   .related-match-grid,
   .team-route-grid,
   .team-route-heading {
     grid-template-columns: 1fr;
+  }
+
+  .match-retention-head {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .live-next-match {

@@ -4451,6 +4451,70 @@ const teamRouteSummary = (team, currentMatch) => {
   return `${team} has ${teamMatches.length} listed group-stage fixtures in this data set, with matches in ${cities.join(", ")}. Besides this match, the route also points toward ${opponents.length ? opponents.join(", ") : "the rest of the group schedule"}, which helps fans compare rest days, travel distance and kickoff windows before deciding which fixtures to follow.`;
 };
 
+const renderEarlyMatchPlanner = (match, groupMatches, previousMatch, nextMatch) => {
+  if (match.matchNumber > 12) return "";
+  const nextGroupMatch = groupMatches.find((item) => item.matchNumber > match.matchNumber);
+  const groupHref = match.group
+    ? `/world-cup-2026-schedule-groups/?group=${attr(match.group)}#group-${attr(match.group.toLowerCase())}`
+    : "/world-cup-2026-schedule-groups/";
+  const nextMatchLink = nextGroupMatch ?? nextMatch;
+  const realTeams = [match.home, match.away].filter(isRealTeam);
+
+  return `<section class="section match-retention-section" aria-label="Early match planning shortcuts">
+    <div class="match-retention-head">
+      <div>
+        <p class="eyebrow">Early match planner</p>
+        <h2>${esc(matchCoreKeyword(match))} viewing and planning shortcuts</h2>
+        <p>Use these shortcuts when you have the match open and want the next practical step without scrolling through the full fixture list.</p>
+      </div>
+      <a class="button light" href="/world-cup-2026-schedule/">Open full schedule</a>
+    </div>
+    <div class="match-retention-grid">
+      <article>
+        <span>1</span>
+        <strong>Confirm the kickoff window</strong>
+        <p>Start with the countdown and timezone panel, then compare source ET, venue local time and your own local time before saving the match.</p>
+        <a href="#match-center">Back to match center</a>
+      </article>
+      <article>
+        <span>2</span>
+        <strong>Read the group route</strong>
+        <p>${match.group ? `Open Group ${esc(match.group)} to see where this fixture sits beside the other group matches and qualification paths.` : "Open the bracket or standings path to see how this fixture fits the tournament route."}</p>
+        <a href="${groupHref}">${match.group ? `Open Group ${esc(match.group)}` : "Open groups"}</a>
+      </article>
+      <article>
+        <span>3</span>
+        <strong>Follow the teams</strong>
+        <p>${realTeams.length ? `Open ${esc(readableList(realTeams))} team pages to compare each side's full group-stage route, opponents and host cities.` : "Use team route links once the bracket participants are confirmed."}</p>
+        <div class="match-retention-links">
+          ${realTeams.map((team) => `<a href="${attr(teamPath(team))}">${esc(team)} schedule</a>`).join("")}
+        </div>
+      </article>
+      <article>
+        <span>4</span>
+        <strong>Plan the venue path</strong>
+        <p>Use the host-city guide for ${esc(match.city)} before making travel, stadium or ticket decisions around this fixture.</p>
+        <a href="${attr(cityPath(match.citySlug))}">Open ${esc(match.city)} guide</a>
+      </article>
+      <article>
+        <span>5</span>
+        <strong>Keep watching the route</strong>
+        <p>${nextMatchLink ? `Continue to Match ${esc(nextMatchLink.matchNumber)}: ${esc(nextMatchLink.home)} vs ${esc(nextMatchLink.away)} when you want the next connected fixture.` : "Return to the full schedule when you want the next connected fixture."}</p>
+        <a href="${attr(nextMatchLink ? matchDetailPath(nextMatchLink) : "/world-cup-2026-schedule/")}">${nextMatchLink ? "Open next match" : "Open schedule"}</a>
+      </article>
+      <article>
+        <span>6</span>
+        <strong>Save or share the schedule</strong>
+        <p>Use PDF for a quick printable copy or Excel when you want to filter this match alongside teams, dates, groups and host cities.</p>
+        <div class="match-retention-links">
+          <a href="/world-cup-2026-schedule-pdf/">PDF</a>
+          <a href="/world-cup-2026-schedule-excel/">Excel</a>
+        </div>
+      </article>
+    </div>
+  </section>`;
+};
+
 const matchStageContext = (match) => {
   if (match.stage === "Group stage") {
     return `This is a Group ${match.group} fixture, so the result contributes directly to the first-round table. For fans, that makes the match useful beyond the single kickoff: it connects to points, goal difference, qualification scenarios and the order of later group matches. If you are following either team, use this page together with the team schedule pages and the full group guide so you can see where this match sits in the three-game group route.`;
@@ -4597,7 +4661,7 @@ const renderMatchPage = (match) => {
     titleSuffix: false,
     body: `<main class="main match-detail-main">
   <h1 class="visually-hidden">${esc(matchCoreKeyword(match))}</h1>
-  <section class="section match-detail-overview match-detail-top" data-match-center data-kickoff-utc="${attr(kickoffUtcIso(match))}">
+  <section class="section match-detail-overview match-detail-top" id="match-center" data-match-center data-kickoff-utc="${attr(kickoffUtcIso(match))}">
     <div class="match-center-board">
       <div class="match-center-topline">
         <span>Match ${match.matchNumber}</span>
@@ -4654,6 +4718,7 @@ const renderMatchPage = (match) => {
       </div>
     </div>
   </section>
+  ${renderEarlyMatchPlanner(match, groupMatches, previousMatch, nextMatch)}
   <section class="section">
     <div class="grid">
       <article class="span-8 card"><div class="card-body">
