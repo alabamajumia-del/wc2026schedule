@@ -451,6 +451,10 @@ const siteAssetFiles = [
     "assets/banners/world-cup-2026-schedule-stadium-hero.jpg"
   ],
   [
+    "src/assets/banners/world-cup-2026-schedule-stadium-hero-2.jpg",
+    "assets/banners/world-cup-2026-schedule-stadium-hero-2.jpg"
+  ],
+  [
     "src/assets/banners/world-cup-2026-schedule-pdf-trophy-hero.png",
     "assets/banners/world-cup-2026-schedule-pdf-trophy-hero.png"
   ],
@@ -647,6 +651,27 @@ const hero = ({
       <div class="excel-hero-files">
         <a href="/downloads/world-cup-2026-schedule.xls" download><strong>XLS</strong><span>Filter workbook</span></a>
         <a href="/downloads/world-cup-2026-schedule.csv" download><strong>CSV</strong><span>Import data</span></a>
+      </div>
+    </div>`
+          : variant === "tv"
+            ? `<div class="hero-tool hero-tool-tv">
+      <strong class="hero-panel-title">${esc(panelTitle)}</strong>
+      ${panelIntro ? `<p>${esc(panelIntro)}</p>` : ""}
+      <div class="tv-hero-checklist" aria-label="World Cup 2026 TV schedule viewing checklist">
+        ${rows
+          .map(
+            ([label, value]) =>
+              `<div><b>${esc(label)}</b><span>${esc(value)}</span></div>`
+          )
+          .join("")}
+      </div>
+      <div class="tv-hero-source">
+        <span>Source rule</span>
+        <strong>Use wc26schedule for planning, then confirm final channel listings with the authorized broadcaster.</strong>
+      </div>
+      <div class="tv-hero-links">
+        <a href="#tv-broadcaster-status">Broadcaster status</a>
+        <a href="#tv-match-windows">Match windows</a>
       </div>
     </div>`
           : variant === "cities"
@@ -2254,6 +2279,165 @@ const renderDatesSupportSections = () => {
 </section>`;
 };
 
+const renderTvSupportSections = () => {
+  const openingMatch = matches.find((match) => match.matchNumber === 1);
+  const sampleMatches = matches
+    .filter((match) => [1, 3, 4, 17, 35, 69, 101, 104].includes(match.matchNumber))
+    .sort((a, b) => a.matchNumber - b.matchNumber);
+  const broadcasterRows = [
+    {
+      region: "United States - English",
+      path: "Check FOX, FS1 and FOX Sports listings when final match-by-match programming is published.",
+      action: "Confirm channel and app access before match day.",
+      href: "https://www.foxsports.com/soccer/fifa-world-cup-men"
+    },
+    {
+      region: "United States - Spanish",
+      path: "Check Telemundo and NBCUniversal Spanish-language listings for channel and streaming access.",
+      action: "Confirm Spanish-language feed, app availability and package requirements.",
+      href: "https://www.telemundo.com/deportes/futbol"
+    },
+    {
+      region: "Canada",
+      path: "Check Bell Media sports listings, including TSN, CTV and RDS paths when final coverage schedules are available.",
+      action: "Confirm English or French coverage and streaming access in your province.",
+      href: "https://www.tsn.ca/fifa-world-cup"
+    },
+    {
+      region: "Mexico",
+      path: "Check local broadcaster and streaming listings close to the match because free-to-air, cable and app access can differ.",
+      action: "Confirm the final channel grid locally before planning a public viewing event.",
+      href: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+    },
+    {
+      region: "Other countries",
+      path: "Use FIFA and your local authorized broadcaster to confirm rights, language feed and streaming access.",
+      action: "Do not rely on a foreign schedule unless it matches your viewing location.",
+      href: "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"
+    }
+  ];
+
+  return `<section class="section tv-planner-section">
+  <div class="tv-visual-grid">
+    <div class="tv-visual-copy">
+      <p class="eyebrow">Viewing planner</p>
+      <h2>World Cup 2026 TV Schedule Viewing Planner</h2>
+      <p>The World Cup 2026 TV schedule is useful only when it answers a real viewing question: which match do I want, what time is it for me, which broadcaster should I check and what should I verify before kickoff? This section turns the page into that workflow instead of a static article.</p>
+      <p>Start from the official fixture time, use the schedule table or match detail page for local time context, then confirm the final TV or streaming listing with the authorized broadcaster in your country. That order keeps the page helpful for fans in the United States, Canada, Mexico and international markets without publishing unverified channel guesses.</p>
+      <div class="tv-action-row">
+        <a class="button" href="/world-cup-2026-schedule/">Open timezone schedule</a>
+        <a class="button light" href="/world-cup-2026-schedule-excel/">Build watch list in Excel</a>
+      </div>
+    </div>
+    <figure class="tv-visual-card">
+      <img src="/assets/banners/world-cup-2026-schedule-stadium-hero-2.jpg" alt="World Cup 2026 TV schedule viewing planner with stadium atmosphere and match timing context" loading="lazy" decoding="async">
+      <figcaption>Use the match list first, then check broadcaster listings by country before saving a watch reminder.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section tv-status-section" id="tv-broadcaster-status">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Broadcaster checks</p>
+      <h2>World Cup 2026 TV Schedule Broadcaster Status by Region</h2>
+      <p>Broadcast rights and final channel assignments vary by country. Treat this table as a verification path: it tells you where to check, not a substitute for the official final daily listings.</p>
+    </div>
+    <a class="button light" href="${attr(scheduleMeta.sourceUrl)}">Official match schedule</a>
+  </div>
+  <div class="tv-status-grid">
+    ${broadcasterRows
+      .map(
+        (row) => `<article>
+      <span>${esc(row.region)}</span>
+      <h3>${esc(row.region)} Viewing Check</h3>
+      <p>${esc(row.path)}</p>
+      <strong>${esc(row.action)}</strong>
+      <a href="${attr(row.href)}">Open source path</a>
+    </article>`
+      )
+      .join("")}
+  </div>
+</section>
+
+<section class="section tv-workflow-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Watch workflow</p>
+      <h2>World Cup 2026 TV Schedule Match-Time Planning</h2>
+      <p>Most viewers do not need every channel on the first visit. They need a short process that reduces mistakes before a match reminder, subscription choice or watch-party plan.</p>
+    </div>
+  </div>
+  <div class="tv-workflow-grid">
+    <article><b>1</b><h3>Choose a Match Window</h3><p>Pick the match, team, group or date first. A clear match window makes every broadcaster check faster and prevents scrolling through unrelated listings.</p><a href="/world-cup-2026-schedule/">Use full schedule</a></article>
+    <article><b>2</b><h3>Convert the Kickoff Time</h3><p>Check the match detail page or schedule timezone selector so Eastern Time, venue local time and your own viewing time are not mixed together.</p><a href="${attr(matchDetailPath(openingMatch))}">Open first match</a></article>
+    <article><b>3</b><h3>Confirm the TV Platform</h3><p>Open the authorized broadcaster path for your country and confirm whether the match is on a TV channel, streaming app or both.</p><a href="#tv-broadcaster-status">Check broadcasters</a></article>
+    <article><b>4</b><h3>Save the Viewing Plan</h3><p>Use Excel for a custom watch list or PDF for a printable copy, then update the file when final channel listings are available.</p><a href="/world-cup-2026-schedule-pdf/">Open downloads</a></article>
+  </div>
+</section>
+
+<section class="section tv-window-section" id="tv-match-windows">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Match windows</p>
+      <h2>World Cup 2026 TV Schedule Early and Key Match Windows</h2>
+      <p>Use these fixture anchors to test how the TV schedule fits your routine. The cards show stable match data and link to match pages where local kickoff context can be checked.</p>
+    </div>
+  </div>
+  <div class="tv-match-window-grid">
+    ${sampleMatches
+      .map(
+        (match) => `<article>
+      <span>Match ${match.matchNumber}</span>
+      <h3>${esc(match.home)} vs ${esc(match.away)} TV Window</h3>
+      ${matchupHtml(match.home, match.away)}
+      <dl>
+        <div><dt>Date</dt><dd>${esc(match.dateLabel)}</dd></div>
+        <div><dt>Kickoff baseline</dt><dd>${esc(match.kickoffET)} ET</dd></div>
+        <div><dt>Host city</dt><dd>${esc(match.city)}</dd></div>
+        <div><dt>Stage</dt><dd>${esc(match.stage)}${match.group ? ` - Group ${esc(match.group)}` : ""}</dd></div>
+      </dl>
+      <a href="${attr(matchDetailPath(match))}">Open match details</a>
+    </article>`
+      )
+      .join("")}
+  </div>
+</section>
+
+<section class="section tv-country-section">
+  <div class="section-heading-row">
+    <div>
+      <p class="eyebrow">Country paths</p>
+      <h2>How to Use the World Cup 2026 TV Schedule by Country</h2>
+      <p>A viewer in Los Angeles, Toronto, Mexico City or London may be looking at the same fixture but a different viewing product. Choose the country path first, then confirm final channel details close to kickoff.</p>
+    </div>
+  </div>
+  <div class="tv-country-grid">
+    <article><h3>United States World Cup 2026 Viewing Checks</h3><p>For English-language viewing, start with FOX and FOX Sports listings. For Spanish-language viewing, check Telemundo and NBCUniversal Spanish-language coverage paths. Confirm whether a match is assigned to a main channel, secondary channel or app before planning a paid watch event.</p></article>
+    <article><h3>Canada World Cup 2026 Viewing Checks</h3><p>Canadian viewers should check Bell Media sports listings such as TSN, CTV and RDS when final schedules are published. French-language coverage, streaming availability and local package access should be verified before relying on a saved schedule.</p></article>
+    <article><h3>Mexico World Cup 2026 Viewing Checks</h3><p>Mexico viewers should confirm the final local channel and streaming route close to match day. Host-country demand will be high, so public watch plans and venue screenings need stronger confirmation than a general fixture list.</p></article>
+    <article><h3>International World Cup 2026 Viewing Checks</h3><p>Outside North America, use FIFA and your local authorized broadcaster to confirm the right feed. Do not assume a United States or Canada listing applies to your country, especially for streaming apps and subscription packages.</p></article>
+  </div>
+</section>
+
+<section class="section tv-source-section">
+  <div class="source-card-grid">
+    <article>
+      <span>Source discipline</span>
+      <h2>World Cup 2026 TV Schedule Sources and Update Notes</h2>
+      <p>The TV guide uses the wc26schedule match dataset for match dates, kickoff baselines, cities and stadiums, then points users toward authorized broadcaster checks for country-specific viewing details. Final channel grids should be added only when they can be verified through official broadcaster or tournament sources.</p>
+      <a href="${attr(scheduleMeta.sourceUrl)}">Open FIFA match schedule</a>
+    </article>
+    <article>
+      <span>Before kickoff</span>
+      <h3>Final Listing Checks Before Kickoff</h3>
+      <p>Recheck the broadcaster, stream availability, language feed and local time before watch parties, public screenings, travel viewing or paid subscriptions. A saved calendar, PDF or spreadsheet should be treated as a planning snapshot.</p>
+      <a href="/where-to-watch-world-cup-2026/">Open where-to-watch guide</a>
+    </article>
+  </div>
+</section>`;
+};
+
 const renderHostCitiesSupportSections = () => `<section class="section host-city-tool-section">
   <div class="tool-section-head">
     <p class="eyebrow">City planning workflow</p>
@@ -2417,6 +2601,38 @@ const pageSchema = (page) => {
     });
   }
 
+  if (page.slug === "world-cup-2026-tv-schedule") {
+    schema.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: "How to use the World Cup 2026 TV schedule",
+      description:
+        "Use the World Cup 2026 TV schedule page to choose a match window, convert kickoff time, check country broadcasters and confirm final TV or streaming listings.",
+      step: [
+        {
+          "@type": "HowToStep",
+          name: "Choose a match window",
+          text: "Start with the match date, team, group or match number so the viewing task is specific."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Convert kickoff time",
+          text: "Check the schedule timezone selector or match detail page before saving a reminder."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Check your country broadcaster",
+          text: "Use the authorized broadcaster path for your country to confirm the channel, app and language feed."
+        },
+        {
+          "@type": "HowToStep",
+          name: "Confirm final listings",
+          text: "Verify final channel and streaming details close to match day before paid or time-sensitive plans."
+        }
+      ]
+    });
+  }
+
   if (page.slug === "world-cup-2026-schedule-excel") {
     schema.push({
       "@context": "https://schema.org",
@@ -2490,6 +2706,8 @@ const renderPage = (page) => {
       ? renderScheduleCapabilitySections()
       : page.slug === "world-cup-2026-dates"
         ? renderDatesSupportSections()
+      : page.slug === "world-cup-2026-tv-schedule"
+        ? renderTvSupportSections()
       : page.slug === "world-cup-2026-schedule-pdf"
         ? renderPdfSupportSections()
       : page.slug === "world-cup-2026-schedule-excel"

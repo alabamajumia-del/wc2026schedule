@@ -83,13 +83,42 @@ Structured data blocks: 4
 Timeline and source modules added
 ```
 
+## 2026-05-25 TV Schedule Page Remediation Update
+
+The `/world-cup-2026-tv-schedule/` support page has been rebuilt.
+
+Before:
+
+```text
+Visible words: 563
+Risk: high
+Main issues: below 800 words, generic TV guidance, no TV-specific visual module
+```
+
+After:
+
+```text
+Visible words: 1796
+Risk: removed from thin-content group
+Primary keyword: World Cup 2026 TV Schedule
+Weighted keyword density: 4.45%
+Images detected: 13
+Structured data blocks: 4
+Viewing planner, broadcaster verification and match-window modules added
+```
+
+Important editorial rule:
+
+```text
+Do not publish guessed final channel grids. Add match-by-match TV listings only when they can be verified through authorized broadcaster or tournament sources.
+```
+
 Remaining high-risk support pages:
 
 ```text
 /where-to-watch-world-cup-2026/
 /world-cup-2026-bracket/
 /world-cup-2026-final/
-/world-cup-2026-tv-schedule/
 /world-cup-2026-tickets/
 ```
 

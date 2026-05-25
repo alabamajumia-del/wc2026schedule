@@ -792,56 +792,111 @@ export const pages = [
   {
     slug: "world-cup-2026-tv-schedule",
     nav: "TV",
-    title: "World Cup TV Schedule 2026: Channels, Streaming & Match Times",
+    title: "World Cup 2026 TV Schedule: Channels, Streaming, Match Times & Watch Guide",
     description:
-      "Plan how to watch World Cup 2026 with TV schedule guidance, streaming notes, match time context and country-specific viewing links.",
-    h1: "World Cup TV Schedule 2026",
-    keyword: "world cup tv schedule",
-    intent: "Find broadcast and streaming guidance by match time and region.",
+      "Plan the World Cup 2026 TV schedule with match times, broadcaster notes, streaming checks, timezone planning, country-by-country watch paths and official source reminders.",
+    h1: "World Cup 2026 TV Schedule",
+    keyword: "world cup 2026 tv schedule",
+    intent: "Find match times, country-specific broadcaster paths and source checks before choosing how to watch World Cup 2026.",
     longTail: [
-      "world cup 2026 tv schedule",
-      "world cup streaming schedule",
-      "world cup channels",
-      "world cup match times on tv"
+      "world cup 2026 channels",
+      "world cup 2026 streaming schedule",
+      "world cup 2026 match times on tv",
+      "world cup 2026 usa tv schedule",
+      "world cup 2026 canada tv schedule",
+      "world cup 2026 mexico tv schedule",
+      "where to watch world cup 2026",
+      "world cup 2026 fox schedule",
+      "world cup 2026 telemundo schedule",
+      "world cup 2026 tsn ctv schedule"
     ],
     facts: [
-      ["Primary use", "TV and streaming planning"],
-      ["Important caveat", "Rights vary by country"],
-      ["Related tool", "Time zone converter"]
+      ["Primary use", "Match-time viewing planner"],
+      ["Best for", "Channels, streaming and timezone checks"],
+      ["Update rule", "Confirm final listings with broadcasters"]
     ],
     intro:
-      "The World Cup TV schedule page helps viewers understand where and when to watch matches. Because broadcast rights vary by country and can change, this page must be source-driven and updated carefully.",
+      "Use the World Cup 2026 TV schedule as a practical watch planner before match day. It connects the tournament fixture list with country-by-country broadcaster checks, streaming reminders, timezone planning and match-detail pages, so you can decide which games to save, which platform to verify and when a final channel listing still needs confirmation.",
+    hero: {
+      variant: "tv",
+      eyebrow: "TV watch planner",
+      actions: [
+        ["Check match windows", "#tv-match-windows", "primary"],
+        ["Open full schedule", "/world-cup-2026-schedule/", "secondary"]
+      ],
+      panelTitle: "Viewing checklist",
+      panelIntro: "Start with the match time, then confirm the broadcaster and streaming path in your country.",
+      panelRows: [
+        ["1", "Pick a match window"],
+        ["2", "Check country broadcaster"],
+        ["3", "Confirm final listing"]
+      ]
+    },
+    overview: {
+      eyebrow: "Watch guide",
+      heading: "World Cup 2026 TV Schedule by Match Time, Country and Source",
+      copy:
+        "This page is not a guessed channel grid. It is a viewing workflow for the World Cup 2026 TV schedule: start with the fixture time, choose your country, check the likely broadcaster family or official listing path, then use the match page for kickoff conversion before saving a reminder or watch-party plan.",
+      tags: [
+        "Country-by-country checks",
+        "Streaming and channel reminders",
+        "Timezone-aware match windows",
+        "Official-source confirmation"
+      ],
+      noteEyebrow: "Important note",
+      noteHeading: "World Cup 2026 TV Schedule Listings Can Change",
+      noteCopy:
+        "Broadcaster rights, streaming access and final channel assignments vary by country. Use this page for planning, then confirm each paid or time-sensitive viewing decision with the authorized broadcaster close to match day."
+    },
     sections: [
       [
-        "How to Structure TV Information",
+        "World Cup 2026 TV Schedule Information Structure",
         [
-          "The page should separate confirmed information from pending information. If a broadcaster is not confirmed for a country, the content should say so plainly instead of guessing. This is especially important for trust, because viewers may use the page to plan subscriptions, travel viewing or watch parties.",
-          "The best layout is a country-by-country guide supported by match time context. Users often search from a specific location, so sections for the United States, United Kingdom, Canada, Australia and India can serve different intent without creating confusion.",
-          "TV pages should link back to the schedule and time converter. A kickoff time in a host city is not enough for a global audience. A viewer in London, Mumbai or Sydney needs a local viewing time and a reliable way to confirm whether a match falls in the morning, afternoon or late night."
+          "The World Cup 2026 TV schedule should separate stable match information from country-specific broadcast information. Match number, date, stage, host city and kickoff time can come from the schedule dataset, while channel names and streaming availability need source checks because rights and packages vary by market.",
+          "A useful TV page should behave like a viewing planner. Users should be able to move from match windows to country checks, from country checks to the full schedule, and from the schedule to match-detail pages with local time context. That path is more useful than a long paragraph that only says rights vary.",
+          "The page should also protect trust. If a country does not have a fully verified final channel grid, the content should say that the viewer needs to confirm with the authorized broadcaster. This keeps the guide helpful without pretending to publish official listings before they are available."
         ]
       ],
       [
-        "During the Tournament",
+        "World Cup 2026 TV Schedule During the Tournament",
         [
-          "This page can become more important during the tournament. Daily match listings, today matches and knockout-stage broadcast notes should link here, making it a practical hub rather than a static article.",
-          "The content should remain cautious and current. If a platform changes a package, channel or streaming path, the page should be updated with a visible last-reviewed date."
+          "During the tournament this page should become a high-frequency hub for viewers who ask which World Cup match is on TV today, which games are available to stream, and which kickoff times are convenient in their timezone. The current rebuild prepares that structure before daily listings are added.",
+          "When official match-by-match listings are published, the page can add a daily TV grid while keeping source notes visible. Until then, it should guide users to the right broadcaster family, the full fixture list, the timezone-aware match pages and the download files that help them save a personal watch plan."
         ]
       ]
     ],
     faqs: [
       [
-        "Can wc26schedule confirm every broadcaster?",
-        "No. Broadcaster information should be added only when it can be verified through official or authoritative sources. Unconfirmed regions should be clearly marked."
+        "Is this wc26schedule TV guide official?",
+        "No. wc26schedule is an independent planning guide. The page helps fans organize match times, country checks and streaming reminders, but final TV listings should be confirmed with authorized broadcasters and official sources."
       ],
       [
-        "Why does the TV page need a time converter?",
-        "The tournament spans multiple North American time zones, while viewers are global. A time converter helps users match venue kickoff times to their local viewing schedule."
+        "How should I use this TV guide before match day?",
+        "Start with the match time, convert it to your local timezone, check the broadcaster path for your country, and then confirm the final channel or streaming listing close to kickoff."
+      ],
+      [
+        "Why does this page avoid guessing every channel?",
+        "Broadcast rights, streaming access and final channel assignments can change by country and by package. A source-driven guide is more useful than a guessed list that may send fans to the wrong platform."
+      ],
+      [
+        "Can this page help with watch parties?",
+        "Yes. Use the match windows and local time labels to choose games that fit your group, then verify the viewing platform before you plan a paid venue, event or public screening."
       ]
+    ],
+    usageHeading: "World Cup 2026 TV Schedule Viewing Workflow",
+    relatedHeading: "World Cup 2026 TV Schedule Related Planning Pages",
+    faqHeading: "World Cup 2026 TV Schedule FAQ",
+    usageRows: [
+      ["Choose the match", "Start from a date, team, group or match number so the viewing task is specific.", "Open the full schedule or the match detail page."],
+      ["Check local time", "Use the timezone-aware schedule and match windows before saving a reminder.", "Avoid mixing Eastern Time with venue or viewer local time."],
+      ["Verify the platform", "Confirm the final channel, streaming app and language feed with the authorized broadcaster.", "Do this close to match day before paid decisions."],
+      ["Save the plan", "Use PDF for a printable overview or Excel when you want to filter a personal watch list.", "Update saved files when the page changes."]
     ],
     links: [
       ["Where to watch guide", "/where-to-watch-world-cup-2026/"],
       ["Full schedule", "/world-cup-2026-schedule/"],
-      ["Tournament dates", "/world-cup-2026-dates/"]
+      ["Tournament dates", "/world-cup-2026-dates/"],
+      ["Excel planner", "/world-cup-2026-schedule-excel/"]
     ]
   },
   {
