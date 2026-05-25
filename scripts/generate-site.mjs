@@ -488,9 +488,6 @@ const nav = () => {
     const page = pages.find((item) => item.slug === slug);
     if (!page) continue;
     links.push(`<a href="/${page.slug}/">${esc(page.nav)}</a>`);
-    if (slug === "world-cup-2026-schedule") {
-      links.push(`<a href="/world-cup-2026-schedule/#team-schedules">Teams</a>`);
-    }
   }
   return links.join("");
 };
