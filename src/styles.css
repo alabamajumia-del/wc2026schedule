@@ -1994,6 +1994,162 @@ h1 {
   padding: 7px 9px;
 }
 
+.opening-match-spotlight {
+  display: grid;
+  gap: 18px;
+  border: 1px solid rgba(216, 166, 60, 0.38);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 84% 4%, rgba(216, 166, 60, 0.16), transparent 30%),
+    linear-gradient(135deg, #fffaf0 0%, #ffffff 46%, #edf5f8 100%);
+  padding: 24px;
+  box-shadow: 0 24px 54px rgba(20, 52, 65, 0.12);
+}
+
+.opening-match-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.34fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.opening-match-head h2 {
+  max-width: 840px;
+  margin-bottom: 10px;
+  font-size: clamp(26px, 3.3vw, 42px);
+}
+
+.opening-match-head p {
+  max-width: 900px;
+  margin: 0;
+}
+
+.opening-match-badge {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  border: 1px solid rgba(16, 133, 101, 0.18);
+  border-radius: 10px;
+  background: #102d34;
+  color: #fff;
+  padding: 18px;
+}
+
+.opening-match-badge span,
+.opening-match-grid article > span,
+.opening-match-route .eyebrow {
+  color: var(--gold);
+}
+
+.opening-match-badge strong {
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.opening-match-badge small {
+  color: #bdd2da;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.opening-match-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.opening-match-grid article {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(16, 133, 101, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 16px;
+}
+
+.opening-match-grid article > span {
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+}
+
+.opening-match-grid strong {
+  color: var(--text);
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.opening-match-grid p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.opening-match-route {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.28fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(216, 166, 60, 0.28);
+  border-radius: 10px;
+  background: #07111f;
+  color: #fff;
+  padding: 16px;
+}
+
+.opening-match-route strong {
+  display: block;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.opening-match-route-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.opening-match-route-list a {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.opening-match-route-list span {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.opening-match-route-list small {
+  color: #b5c8d2;
+  line-height: 1.35;
+}
+
+.opening-match-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.opening-match-actions a {
+  border: 1px solid rgba(16, 133, 101, 0.22);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--green-dark);
+  font-size: 13px;
+  font-weight: 950;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
 .related-match-section {
   display: grid;
   gap: 16px;
@@ -7519,6 +7675,10 @@ td {
 
   .match-center-main,
   .match-time-panel,
+  .opening-match-head,
+  .opening-match-grid,
+  .opening-match-route,
+  .opening-match-route-list,
   .match-retention-grid,
   .related-match-grid,
   .team-route-grid,

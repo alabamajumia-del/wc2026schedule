@@ -4515,6 +4515,79 @@ const renderEarlyMatchPlanner = (match, groupMatches, previousMatch, nextMatch) 
   </section>`;
 };
 
+const renderOpeningMatchSpotlight = (match, groupMatches, nextMatch) => {
+  if (match.matchNumber !== 1) return "";
+
+  const keyword = matchCoreKeyword(match);
+  const groupHref = match.group
+    ? `/world-cup-2026-schedule-groups/?group=${attr(match.group)}#group-${attr(match.group.toLowerCase())}`
+    : "/world-cup-2026-schedule-groups/";
+  const groupFollowUps = groupMatches.filter((item) => item.matchNumber !== match.matchNumber).slice(0, 3);
+  const actionLinks = [
+    [`${match.home} schedule`, teamPath(match.home)],
+    [`${match.away} schedule`, teamPath(match.away)],
+    [`Group ${match.group} guide`, groupHref],
+    [`${match.city} city guide`, cityPath(match.citySlug)]
+  ];
+  if (nextMatch) actionLinks.push([`Next match: ${nextMatch.home} vs ${nextMatch.away}`, matchDetailPath(nextMatch)]);
+
+  return `<section class="section opening-match-spotlight" aria-label="Opening match planning guide">
+    <div class="opening-match-head">
+      <div>
+        <p class="eyebrow">Opening match hub</p>
+        <h2>${esc(keyword)} opening match guide</h2>
+        <p>The ${esc(keyword)} is the tournament opener, so this page works as more than a single fixture note. It connects the first kickoff, the Mexico City venue, the Group ${esc(match.group)} table path and the next opening-day match so fans can move from event context into practical planning without losing the official schedule fields.</p>
+      </div>
+      <div class="opening-match-badge">
+        <span>First kickoff</span>
+        <strong>${esc(match.dateLabel)}</strong>
+        <small>${esc(`${match.kickoffET} ET - ${match.city}`)}</small>
+      </div>
+    </div>
+    <div class="opening-match-grid">
+      <article>
+        <span>01</span>
+        <strong>Why this opener matters</strong>
+        <p>Mexico starts the World Cup 2026 route at home, while South Africa gets the first chance to shape Group ${esc(match.group)}. The match becomes the first reference point for standings, qualification pressure and the way fans read the rest of the group.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <strong>What to confirm first</strong>
+        <p>Keep source kickoff, venue local time and your own timezone visible before saving the match. The top match center is designed for quick checks, while the city guide adds stadium and host-market context for Mexico City.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <strong>Opening day route</strong>
+        <p>After this fixture, continue to the next listed match or open Group ${esc(match.group)} to compare South Korea, Czechia, Mexico and South Africa in one route. That keeps the first day connected instead of treating the opener as an isolated event.</p>
+      </article>
+    </div>
+    <div class="opening-match-route">
+      <div>
+        <p class="eyebrow">Group ${esc(match.group)} follow-up</p>
+        <strong>Track the next fixtures after the opener</strong>
+      </div>
+      <div class="opening-match-route-list">
+        ${
+          groupFollowUps.length
+            ? groupFollowUps
+                .map(
+                  (item) => `<a href="${attr(matchDetailPath(item))}">
+            <span>Match ${esc(item.matchNumber)}</span>
+            <strong>${esc(`${item.home} vs ${item.away}`)}</strong>
+            <small>${esc(`${item.dateLabel} - ${item.city}`)}</small>
+          </a>`
+                )
+                .join("")
+            : `<a href="${groupHref}"><span>Group route</span><strong>Open Group ${esc(match.group)}</strong><small>Review the wider schedule path</small></a>`
+        }
+      </div>
+    </div>
+    <div class="opening-match-actions">
+      ${actionLinks.map(([label, href]) => `<a href="${attr(href)}">${esc(label)}</a>`).join("")}
+    </div>
+  </section>`;
+};
+
 const matchStageContext = (match) => {
   if (match.stage === "Group stage") {
     return `This is a Group ${match.group} fixture, so the result contributes directly to the first-round table. For fans, that makes the match useful beyond the single kickoff: it connects to points, goal difference, qualification scenarios and the order of later group matches. If you are following either team, use this page together with the team schedule pages and the full group guide so you can see where this match sits in the three-game group route.`;
@@ -4718,6 +4791,7 @@ const renderMatchPage = (match) => {
       </div>
     </div>
   </section>
+  ${renderOpeningMatchSpotlight(match, groupMatches, nextMatch)}
   ${renderEarlyMatchPlanner(match, groupMatches, previousMatch, nextMatch)}
   <section class="section">
     <div class="grid">
