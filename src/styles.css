@@ -2326,6 +2326,202 @@ h1 {
   text-decoration: none;
 }
 
+.mexico-match-spotlight {
+  display: grid;
+  gap: 18px;
+  border: 1px solid rgba(17, 126, 83, 0.28);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 84% 0%, rgba(190, 45, 58, 0.13), transparent 29%),
+    radial-gradient(circle at 6% 8%, rgba(216, 166, 60, 0.16), transparent 26%),
+    linear-gradient(135deg, #f6fff9 0%, #ffffff 43%, #fff7f5 100%);
+  padding: 24px;
+  box-shadow: 0 24px 54px rgba(30, 74, 52, 0.12);
+}
+
+.mexico-match-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.34fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.mexico-match-head h2 {
+  max-width: 860px;
+  margin-bottom: 10px;
+  font-size: clamp(26px, 3.3vw, 42px);
+}
+
+.mexico-match-head p {
+  max-width: 900px;
+  margin: 0;
+}
+
+.mexico-match-scorecard {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  border: 1px solid rgba(216, 166, 60, 0.32);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #063b2f, #14232e);
+  color: #fff;
+  padding: 18px;
+}
+
+.mexico-match-scorecard span,
+.mexico-match-grid article > span,
+.mexico-context-row article > span,
+.mexico-route-copy .eyebrow,
+.mexico-city-route .eyebrow {
+  color: var(--gold);
+}
+
+.mexico-match-scorecard strong {
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.mexico-match-scorecard small {
+  color: #c8ddd6;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.mexico-match-grid,
+.mexico-context-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mexico-match-grid article,
+.mexico-context-row article {
+  display: grid;
+  gap: 9px;
+  border: 1px solid rgba(17, 126, 83, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 16px;
+}
+
+.mexico-match-grid article > span,
+.mexico-context-row article > span {
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mexico-match-grid strong,
+.mexico-context-row strong {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.mexico-match-grid p,
+.mexico-context-row p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.mexico-route-board,
+.mexico-city-route {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.3fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(216, 166, 60, 0.26);
+  border-radius: 10px;
+  color: #fff;
+  padding: 16px;
+}
+
+.mexico-route-board {
+  background: linear-gradient(135deg, #06251e, #0d533c);
+}
+
+.mexico-city-route {
+  background: linear-gradient(135deg, #221316, #5d1e27);
+}
+
+.mexico-route-copy strong,
+.mexico-city-route > div > strong {
+  display: block;
+  color: #fff;
+  font-size: 19px;
+  line-height: 1.25;
+}
+
+.mexico-route-copy p {
+  margin: 7px 0 0;
+  color: #c9ded7;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.mexico-route-list,
+.mexico-city-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mexico-city-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.mexico-route-list a,
+.mexico-city-list a {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.mexico-route-list a.is-current,
+.mexico-city-list a.is-current {
+  border-color: rgba(216, 166, 60, 0.72);
+  background: rgba(216, 166, 60, 0.14);
+}
+
+.mexico-route-list span,
+.mexico-city-list span {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.mexico-route-list small,
+.mexico-city-list small {
+  color: #c8d9d5;
+  line-height: 1.35;
+}
+
+.mexico-match-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mexico-match-actions a {
+  border: 1px solid rgba(17, 126, 83, 0.2);
+  border-radius: 999px;
+  background: #fff;
+  color: #0c5c43;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
 .related-match-section {
   display: grid;
   gap: 16px;
@@ -7855,6 +8051,13 @@ td {
   .opening-match-grid,
   .opening-match-route,
   .opening-match-route-list,
+  .mexico-match-head,
+  .mexico-match-grid,
+  .mexico-route-board,
+  .mexico-city-route,
+  .mexico-route-list,
+  .mexico-city-list,
+  .mexico-context-row,
   .usa-match-head,
   .usa-match-grid,
   .usa-route-board,

@@ -4722,6 +4722,159 @@ const renderUsaMatchSpotlight = (match, groupMatches) => {
   </section>`;
 };
 
+const mexicoMatchInsights = (match) => {
+  const opponent = opponentForTeam("Mexico", match);
+  const byMatch = {
+    1: {
+      label: "Opening host route",
+      role: "Mexico opens the tournament in Mexico City",
+      focus:
+        "This is the tournament opener and the first Mexico route marker, so users need opening-match context, Group A positioning, Mexico City planning and a clear path into the next Mexico fixture.",
+      checklist:
+        "Confirm the first kickoff window, compare venue local time with your own timezone, then open Group A and the Mexico team route before moving to Guadalajara.",
+      nextStep: `After ${opponent}, Mexico's route moves to Guadalajara for the second Group A match.`
+    },
+    28: {
+      label: "Mexico route bridge",
+      role: "Mexico moves from Mexico City to Guadalajara",
+      focus:
+        "This middle Mexico fixture connects the emotional opener with the final Group A match. It is useful for fans comparing a Mexico-only travel route, rest days and whether to follow one city or the full national-team path.",
+      checklist:
+        "Check the Guadalajara kickoff, review how Group A looks after the opener and use the city guide before comparing the return to Mexico City.",
+      nextStep: `After ${opponent}, Mexico returns to Mexico City for the final group fixture.`
+    },
+    55: {
+      label: "Group A closing route",
+      role: "Mexico closes Group A in Mexico City",
+      focus:
+        "This final Mexico group match is the route endpoint most likely to connect with standings, tiebreakers and bracket planning because qualification pressure can be clearest by Match 55.",
+      checklist:
+        "Check the simultaneous Group A window, keep standings open and use the bracket path if Mexico's final position affects Round of 32 planning.",
+      nextStep: `After ${opponent}, the useful path moves from Mexico's match page into Group A standings and knockout route checks.`
+    }
+  };
+
+  return (
+    byMatch[match.matchNumber] ?? {
+      label: "Mexico host route",
+      role: "Mexico group-stage planning point",
+      focus: `This fixture is part of Mexico's Group ${match.group} route and should help users connect the match detail with host-city planning.`,
+      checklist: "Check kickoff time, venue local time, team route, Group A and the next Mexico fixture before making paid plans.",
+      nextStep: "Use the route board to compare the other Mexico group matches."
+    }
+  );
+};
+
+const renderMexicoMatchSpotlight = (match, groupMatches) => {
+  if (match.home !== "Mexico" && match.away !== "Mexico") return "";
+
+  const keyword = matchCoreKeyword(match);
+  const insight = mexicoMatchInsights(match);
+  const mexicoMatches = teamRouteMatches("Mexico", match);
+  const opponent = opponentForTeam("Mexico", match);
+  const groupHref = match.group
+    ? `/world-cup-2026-schedule-groups/?group=${attr(match.group)}#group-${attr(match.group.toLowerCase())}`
+    : "/world-cup-2026-schedule-groups/";
+  const standingsHref = match.group
+    ? `/world-cup-2026-schedule-standings/?group=${attr(match.group)}#group-${attr(match.group.toLowerCase())}`
+    : "/world-cup-2026-schedule-standings/";
+  const mexicoCities = [...new Map(mexicoMatches.map((item) => [item.city, item])).values()];
+  const sameGroupOther = groupMatches.filter((item) => item.matchNumber !== match.matchNumber).slice(0, 3);
+
+  return `<section class="section mexico-match-spotlight" aria-label="Mexico match route planner">
+    <div class="mexico-match-head">
+      <div>
+        <p class="eyebrow">${esc(insight.label)}</p>
+        <h2>${esc(keyword)} Mexico route planner</h2>
+        <p>The ${esc(keyword)} sits inside Mexico's host-nation route, so the useful task is not only checking a kickoff. This module connects the fixture with Mexico City, Guadalajara, Group ${esc(match.group)}, standings, TV checks, ticket planning and the next Mexico match path.</p>
+      </div>
+      <div class="mexico-match-scorecard">
+        <span>Mexico route</span>
+        <strong>${esc(insight.role)}</strong>
+        <small>${esc(`${match.city} - ${match.stadium}`)}</small>
+      </div>
+    </div>
+    <div class="mexico-match-grid">
+      <article>
+        <span>Match role</span>
+        <strong>${esc(insight.role)}</strong>
+        <p>${esc(insight.focus)}</p>
+      </article>
+      <article>
+        <span>Planning check</span>
+        <strong>What to verify before kickoff</strong>
+        <p>${esc(insight.checklist)}</p>
+      </article>
+      <article>
+        <span>Next step</span>
+        <strong>Keep the Mexico route connected</strong>
+        <p>${esc(insight.nextStep)}</p>
+      </article>
+    </div>
+    <div class="mexico-route-board">
+      <div class="mexico-route-copy">
+        <p class="eyebrow">Mexico Group ${esc(match.group)} route</p>
+        <strong>Opening, bridge and closing fixtures</strong>
+        <p>Use this route board when your search is really about Mexico's complete World Cup 2026 path, not only ${esc(match.home)} vs ${esc(match.away)} as one row.</p>
+      </div>
+      <div class="mexico-route-list">
+        ${mexicoMatches
+          .map(
+            (item) => `<a href="${attr(matchDetailPath(item))}" class="${item.matchNumber === match.matchNumber ? "is-current" : ""}">
+          <span>Match ${esc(item.matchNumber)}</span>
+          <strong>${esc(`${item.home} vs ${item.away}`)}</strong>
+          <small>${esc(`${item.dateLabel} - ${item.city}`)}</small>
+        </a>`
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="mexico-city-route">
+      <div>
+        <p class="eyebrow">Mexico host-city path</p>
+        <strong>Compare the Mexico-based route before choosing travel or tickets</strong>
+      </div>
+      <div class="mexico-city-list">
+        ${mexicoCities
+          .map(
+            (item) => `<a href="${attr(cityPath(item.citySlug))}" class="${item.city === match.city ? "is-current" : ""}">
+          <span>${esc(item.city)}</span>
+          <strong>${esc(item.stadium)}</strong>
+          <small>${esc(`${mexicoMatches.filter((fixture) => fixture.city === item.city).length} Mexico fixture${mexicoMatches.filter((fixture) => fixture.city === item.city).length === 1 ? "" : "s"}`)}</small>
+        </a>`
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="mexico-context-row">
+      <article>
+        <span>Opponent</span>
+        <strong>${esc(opponent)}</strong>
+        <p>Open the opponent route to compare how this fixture affects the other side's Group ${esc(match.group)} plan.</p>
+      </article>
+      <article>
+        <span>Group A context</span>
+        <strong>Mexico, South Africa, South Korea and Czechia</strong>
+        <p>${esc(`Compare ${readableList(sameGroupOther.map((item) => `${item.home} vs ${item.away}`)) || "the remaining Group A fixtures"} beside this match before reading standings.`)}</p>
+      </article>
+      <article>
+        <span>Conversion path</span>
+        <strong>TV, tickets and standings</strong>
+        <p>Use these links when the match detail becomes a planning page for watching, attending or checking qualification.</p>
+      </article>
+    </div>
+    <div class="mexico-match-actions">
+      <a href="${attr(teamPath("Mexico"))}">Mexico schedule</a>
+      <a href="${attr(teamPath(opponent))}">${esc(opponent)} schedule</a>
+      <a href="${groupHref}">Group ${esc(match.group)} guide</a>
+      <a href="${standingsHref}">Group ${esc(match.group)} standings</a>
+      <a href="${attr(cityPath(match.citySlug))}">${esc(match.city)} city guide</a>
+      <a href="/world-cup-2026-tv-schedule/">TV schedule guide</a>
+      <a href="/world-cup-2026-tickets/">Ticket guide</a>
+    </div>
+  </section>`;
+};
+
 const matchStageContext = (match) => {
   if (match.stage === "Group stage") {
     return `This is a Group ${match.group} fixture, so the result contributes directly to the first-round table. For fans, that makes the match useful beyond the single kickoff: it connects to points, goal difference, qualification scenarios and the order of later group matches. If you are following either team, use this page together with the team schedule pages and the full group guide so you can see where this match sits in the three-game group route.`;
@@ -4926,6 +5079,7 @@ const renderMatchPage = (match) => {
     </div>
   </section>
   ${renderOpeningMatchSpotlight(match, groupMatches, nextMatch)}
+  ${renderMexicoMatchSpotlight(match, groupMatches)}
   ${renderUsaMatchSpotlight(match, groupMatches)}
   ${renderEarlyMatchPlanner(match, groupMatches, previousMatch, nextMatch)}
   <section class="section">
