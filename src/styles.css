@@ -2522,6 +2522,202 @@ h1 {
   text-decoration: none;
 }
 
+.canada-match-spotlight {
+  display: grid;
+  gap: 18px;
+  border: 1px solid rgba(190, 45, 58, 0.24);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 86% 0%, rgba(190, 45, 58, 0.14), transparent 28%),
+    radial-gradient(circle at 8% 10%, rgba(36, 93, 143, 0.16), transparent 26%),
+    linear-gradient(135deg, #f7fbff 0%, #ffffff 44%, #fff5f6 100%);
+  padding: 24px;
+  box-shadow: 0 24px 54px rgba(45, 67, 88, 0.12);
+}
+
+.canada-match-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.34fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.canada-match-head h2 {
+  max-width: 860px;
+  margin-bottom: 10px;
+  font-size: clamp(26px, 3.3vw, 42px);
+}
+
+.canada-match-head p {
+  max-width: 900px;
+  margin: 0;
+}
+
+.canada-match-scorecard {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  border: 1px solid rgba(216, 166, 60, 0.32);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #082a46, #5a1420);
+  color: #fff;
+  padding: 18px;
+}
+
+.canada-match-scorecard span,
+.canada-match-grid article > span,
+.canada-context-row article > span,
+.canada-route-copy .eyebrow,
+.canada-city-route .eyebrow {
+  color: var(--gold);
+}
+
+.canada-match-scorecard strong {
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.canada-match-scorecard small {
+  color: #d6e3eb;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.canada-match-grid,
+.canada-context-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.canada-match-grid article,
+.canada-context-row article {
+  display: grid;
+  gap: 9px;
+  border: 1px solid rgba(36, 93, 143, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 16px;
+}
+
+.canada-match-grid article > span,
+.canada-context-row article > span {
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.canada-match-grid strong,
+.canada-context-row strong {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.canada-match-grid p,
+.canada-context-row p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.canada-route-board,
+.canada-city-route {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.3fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(216, 166, 60, 0.26);
+  border-radius: 10px;
+  color: #fff;
+  padding: 16px;
+}
+
+.canada-route-board {
+  background: linear-gradient(135deg, #061d32, #0e4d78);
+}
+
+.canada-city-route {
+  background: linear-gradient(135deg, #2a1015, #842735);
+}
+
+.canada-route-copy strong,
+.canada-city-route > div > strong {
+  display: block;
+  color: #fff;
+  font-size: 19px;
+  line-height: 1.25;
+}
+
+.canada-route-copy p {
+  margin: 7px 0 0;
+  color: #cedee6;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.canada-route-list,
+.canada-city-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.canada-city-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.canada-route-list a,
+.canada-city-list a {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.canada-route-list a.is-current,
+.canada-city-list a.is-current {
+  border-color: rgba(216, 166, 60, 0.72);
+  background: rgba(216, 166, 60, 0.14);
+}
+
+.canada-route-list span,
+.canada-city-list span {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.canada-route-list small,
+.canada-city-list small {
+  color: #d1e0e7;
+  line-height: 1.35;
+}
+
+.canada-match-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.canada-match-actions a {
+  border: 1px solid rgba(36, 93, 143, 0.2);
+  border-radius: 999px;
+  background: #fff;
+  color: #123d66;
+  font-size: 13px;
+  font-weight: 950;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
 .related-match-section {
   display: grid;
   gap: 16px;
@@ -8047,6 +8243,13 @@ td {
 
   .match-center-main,
   .match-time-panel,
+  .canada-city-list,
+  .canada-city-route,
+  .canada-context-row,
+  .canada-match-grid,
+  .canada-match-head,
+  .canada-route-board,
+  .canada-route-list,
   .opening-match-head,
   .opening-match-grid,
   .opening-match-route,

@@ -4875,6 +4875,159 @@ const renderMexicoMatchSpotlight = (match, groupMatches) => {
   </section>`;
 };
 
+const canadaMatchInsights = (match) => {
+  const opponent = opponentForTeam("Canada", match);
+  const byMatch = {
+    3: {
+      label: "Canada host opener",
+      role: "Canada starts Group B in Toronto",
+      focus:
+        "This is Canada's first host-nation match and the Toronto anchor for Group B planning. Fans are likely checking kickoff timing, BMO Field context, broadcast paths and where Canada moves next.",
+      checklist:
+        "Confirm the Eastern Time kickoff, compare it with your local timezone, then open the Canada team route and Toronto city guide before moving to the Vancouver fixtures.",
+      nextStep: `After ${opponent}, Canada's route moves west to Vancouver for the second group match.`
+    },
+    27: {
+      label: "Canada route bridge",
+      role: "Canada moves from Toronto to Vancouver",
+      focus:
+        "This second Canada fixture is the travel and momentum bridge. It helps users compare the shift from Eastern Canada to Western Canada, rest days, Group B positioning and the next Vancouver match.",
+      checklist:
+        "Check the Vancouver local time, review Group B after the opener and keep the standings page nearby before the closing group window.",
+      nextStep: `After ${opponent}, Canada stays in Vancouver for the final Group B match.`
+    },
+    49: {
+      label: "Group B closing route",
+      role: "Canada closes the group stage in Vancouver",
+      focus:
+        "This final Canada group match is the page most likely to send users toward standings, tiebreakers and bracket paths because Canada may need the result to confirm its Round of 32 route.",
+      checklist:
+        "Check the simultaneous Group B window, compare points and goal difference, then move into standings and bracket planning before making knockout-stage assumptions.",
+      nextStep: `After ${opponent}, the next useful path is Group B standings and possible knockout route planning.`
+    }
+  };
+
+  return (
+    byMatch[match.matchNumber] ?? {
+      label: "Canada host route",
+      role: "Canada group-stage planning point",
+      focus: `This fixture is part of Canada's Group ${match.group} route and should connect the match detail with Canadian host-city planning.`,
+      checklist: "Check kickoff time, venue local time, team route, Group B and the next Canada fixture before making paid plans.",
+      nextStep: "Use the route board to compare the other Canada group matches."
+    }
+  );
+};
+
+const renderCanadaMatchSpotlight = (match, groupMatches) => {
+  if (match.home !== "Canada" && match.away !== "Canada") return "";
+
+  const keyword = matchCoreKeyword(match);
+  const insight = canadaMatchInsights(match);
+  const canadaMatches = teamRouteMatches("Canada", match);
+  const opponent = opponentForTeam("Canada", match);
+  const groupHref = match.group
+    ? `/world-cup-2026-schedule-groups/?group=${attr(match.group)}#group-${attr(match.group.toLowerCase())}`
+    : "/world-cup-2026-schedule-groups/";
+  const standingsHref = match.group
+    ? `/world-cup-2026-schedule-standings/?group=${attr(match.group)}#group-${attr(match.group.toLowerCase())}`
+    : "/world-cup-2026-schedule-standings/";
+  const canadaCities = [...new Map(canadaMatches.map((item) => [item.city, item])).values()];
+  const sameGroupOther = groupMatches.filter((item) => item.matchNumber !== match.matchNumber).slice(0, 3);
+
+  return `<section class="section canada-match-spotlight" aria-label="Canada match route planner">
+    <div class="canada-match-head">
+      <div>
+        <p class="eyebrow">${esc(insight.label)}</p>
+        <h2>${esc(keyword)} Canada route planner</h2>
+        <p>The ${esc(keyword)} belongs to Canada's host-nation route, where users often need more than one match detail. This module connects the fixture with Toronto, Vancouver, Group ${esc(match.group)}, standings, broadcaster checks, ticket planning and the next Canada match path.</p>
+      </div>
+      <div class="canada-match-scorecard">
+        <span>Canada route</span>
+        <strong>${esc(insight.role)}</strong>
+        <small>${esc(`${match.city} - ${match.stadium}`)}</small>
+      </div>
+    </div>
+    <div class="canada-match-grid">
+      <article>
+        <span>Match role</span>
+        <strong>${esc(insight.role)}</strong>
+        <p>${esc(insight.focus)}</p>
+      </article>
+      <article>
+        <span>Planning check</span>
+        <strong>What to verify before kickoff</strong>
+        <p>${esc(insight.checklist)}</p>
+      </article>
+      <article>
+        <span>Next step</span>
+        <strong>Keep the Canada route connected</strong>
+        <p>${esc(insight.nextStep)}</p>
+      </article>
+    </div>
+    <div class="canada-route-board">
+      <div class="canada-route-copy">
+        <p class="eyebrow">Canada Group ${esc(match.group)} route</p>
+        <strong>Toronto opener and Vancouver finish</strong>
+        <p>Use this route board when the real task is Canada's full World Cup 2026 schedule, not just ${esc(match.home)} vs ${esc(match.away)} as a single fixture.</p>
+      </div>
+      <div class="canada-route-list">
+        ${canadaMatches
+          .map(
+            (item) => `<a href="${attr(matchDetailPath(item))}" class="${item.matchNumber === match.matchNumber ? "is-current" : ""}">
+          <span>Match ${esc(item.matchNumber)}</span>
+          <strong>${esc(`${item.home} vs ${item.away}`)}</strong>
+          <small>${esc(`${item.dateLabel} - ${item.city}`)}</small>
+        </a>`
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="canada-city-route">
+      <div>
+        <p class="eyebrow">Canada host-city path</p>
+        <strong>Compare Toronto and Vancouver before choosing travel or tickets</strong>
+      </div>
+      <div class="canada-city-list">
+        ${canadaCities
+          .map(
+            (item) => `<a href="${attr(cityPath(item.citySlug))}" class="${item.city === match.city ? "is-current" : ""}">
+          <span>${esc(item.city)}</span>
+          <strong>${esc(item.stadium)}</strong>
+          <small>${esc(`${canadaMatches.filter((fixture) => fixture.city === item.city).length} Canada fixture${canadaMatches.filter((fixture) => fixture.city === item.city).length === 1 ? "" : "s"}`)}</small>
+        </a>`
+          )
+          .join("")}
+      </div>
+    </div>
+    <div class="canada-context-row">
+      <article>
+        <span>Opponent</span>
+        <strong>${esc(opponent)}</strong>
+        <p>Open the opponent route to compare how this match affects the other side's Group ${esc(match.group)} plan.</p>
+      </article>
+      <article>
+        <span>Group B context</span>
+        <strong>Canada, Switzerland, Qatar and Bosnia & Herzegovina</strong>
+        <p>${esc(`Compare ${readableList(sameGroupOther.map((item) => `${item.home} vs ${item.away}`)) || "the remaining Group B fixtures"} beside this match before reading standings.`)}</p>
+      </article>
+      <article>
+        <span>Conversion path</span>
+        <strong>TV, tickets and standings</strong>
+        <p>Use these links when the match detail becomes a planning page for watching, attending or checking qualification.</p>
+      </article>
+    </div>
+    <div class="canada-match-actions">
+      <a href="${attr(teamPath("Canada"))}">Canada schedule</a>
+      <a href="${attr(teamPath(opponent))}">${esc(opponent)} schedule</a>
+      <a href="${groupHref}">Group ${esc(match.group)} guide</a>
+      <a href="${standingsHref}">Group ${esc(match.group)} standings</a>
+      <a href="${attr(cityPath(match.citySlug))}">${esc(match.city)} city guide</a>
+      <a href="/world-cup-2026-tv-schedule/">TV schedule guide</a>
+      <a href="/world-cup-2026-tickets/">Ticket guide</a>
+    </div>
+  </section>`;
+};
+
 const matchStageContext = (match) => {
   if (match.stage === "Group stage") {
     return `This is a Group ${match.group} fixture, so the result contributes directly to the first-round table. For fans, that makes the match useful beyond the single kickoff: it connects to points, goal difference, qualification scenarios and the order of later group matches. If you are following either team, use this page together with the team schedule pages and the full group guide so you can see where this match sits in the three-game group route.`;
@@ -5081,6 +5234,7 @@ const renderMatchPage = (match) => {
   ${renderOpeningMatchSpotlight(match, groupMatches, nextMatch)}
   ${renderMexicoMatchSpotlight(match, groupMatches)}
   ${renderUsaMatchSpotlight(match, groupMatches)}
+  ${renderCanadaMatchSpotlight(match, groupMatches)}
   ${renderEarlyMatchPlanner(match, groupMatches, previousMatch, nextMatch)}
   <section class="section">
     <div class="grid">
