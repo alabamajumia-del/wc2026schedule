@@ -1,73 +1,91 @@
-# World Cup 2026 Schedule Hub 开发指导文档
+# World Cup 2026 Schedule
 
-本目录用于沉淀 World Cup 2026 Schedule Hub 的网站开发、关键词、内容和 SEO 落地方案。
+A public World Cup 2026 schedule planning site with the full 104-match table, PDF downloads, Excel and CSV files, host city guides, bracket routes, TV schedule context, ticket planning notes, match detail pages and schedule news updates.
 
-## 文档目录
+Website: https://worldcup2026schedule.net/world-cup-2026-schedule/
 
-| 文件 | 用途 |
+## What This Site Provides
+
+- Full World Cup 2026 schedule table with match numbers, dates, teams, stages, groups, host cities, stadiums and kickoff windows.
+- Downloadable schedule files, including PDF, Excel and CSV formats.
+- Host city planning pages for venue, travel and match-density comparison.
+- Bracket and knockout route pages for final-week planning.
+- TV schedule and where-to-watch planning pages.
+- Ticket planning pages that point users back to official sources for final decisions.
+- News pages for source summaries, planning updates and schedule-related articles.
+
+## Core Pages
+
+| Page | URL |
 | --- | --- |
-| `01-网站开发方案.md` | 定义网站定位、技术架构、页面结构、数据模型和开发阶段 |
-| `02-关键词方案.md` | 定义核心关键词、页面关键词、长尾关键词和关键词使用规则 |
-| `03-内容方案.md` | 定义每类页面的内容结构、字数要求、质量标准和内容生产流程 |
-| `04-页面SEO方案.md` | 定义 title、meta、URL、标题标签、内链、外链、Schema、图片优化等页面级 SEO 规范 |
-| `05-落地执行清单.md` | 按阶段列出开发、内容和 SEO 的执行任务 |
-| `网站设计方案.md` | 原始输入方案 |
+| Schedule hub | https://worldcup2026schedule.net/world-cup-2026-schedule/ |
+| News hub | https://worldcup2026schedule.net/world-cup-2026-schedule-news/ |
+| PDF downloads | https://worldcup2026schedule.net/world-cup-2026-schedule-pdf/ |
+| Excel and CSV downloads | https://worldcup2026schedule.net/world-cup-2026-schedule-excel/ |
+| Bracket hub | https://worldcup2026schedule.net/world-cup-2026-schedule-bracket/ |
+| Host cities hub | https://worldcup2026schedule.net/world-cup-2026-schedule-host-cities/ |
+| TV schedule | https://worldcup2026schedule.net/world-cup-2026-tv-schedule/ |
+| Tickets guide | https://worldcup2026schedule.net/world-cup-2026-tickets/ |
 
-## 项目定位
+## Local Development
 
-网站定位为：
+Install dependencies:
 
-```text
-World Cup 2026 Schedule Hub
+```bash
+npm install
 ```
 
-核心价值：
+Build the static site:
 
-- 帮用户快速查询 World Cup 2026 全部赛程、日期、开球时间、球队、城市、球场、分组和淘汰赛路径。
-- 提供 PDF、Excel、日历订阅、时区转换等工具型功能，提升收藏率和外链价值。
-- 通过球队页、城市页、门票页、直播页和球员/阵容页承接长尾流量。
-
-核心 SEO 主线：
-
-```text
-Schedule 做主干，Team / City / PDF / Excel / TV / Tickets / Groups 做分支，Squad / Player 做内容补充。
-```
-
-## 本地开发
-
-当前实现采用零依赖静态站点生成，便于快速开发、预览和部署。
-
-```text
+```bash
 npm run build
+```
+
+Run the local preview server:
+
+```bash
 npm run dev
 ```
 
-构建产物输出到：
-
-```text
-dist/
-```
-
-本地预览默认地址：
+Default local preview:
 
 ```text
 http://localhost:3000
 ```
 
-主要开发入口：
+Production build output:
 
-| 路径 | 说明 |
+```text
+dist/
+```
+
+## Project Structure
+
+| Path | Purpose |
 | --- | --- |
-| `src/content.mjs` | 站点品牌、页面 SEO、关键词、内容、FAQ 和内链数据 |
-| `src/styles.css` | 全站样式 |
-| `scripts/generate-site.mjs` | 静态 HTML、sitemap、robots 生成脚本 |
-| `scripts/serve-site.mjs` | 本地预览服务器 |
+| `src/content.mjs` | Site metadata, page content, SEO fields, FAQs and internal links |
+| `src/matches.mjs` | Structured match schedule data |
+| `src/styles.css` | Global site styles |
+| `scripts/generate-site.mjs` | Static HTML, sitemap, robots, downloads and redirects generator |
+| `scripts/serve-site.mjs` | Local preview server |
+| `scripts/post-deploy-verify.mjs` | Production deployment verification script |
 
-## 全站内容原则
+## Deployment
 
-- 每个重要内容页正文不少于 800 个英文单词。
-- 每页只服务一个明确搜索意图。
-- 主关键词密度控制在 1%-2%，关键词族总密度控制在 3%-5%。
-- 不做关键词堆砌，不做模板化批量低质量页面。
-- 所有事实型信息要引用 FIFA 官方、主办城市官方、球场官方或权威转播/票务来源。
-- 页面需要适配搜索引擎和 LLM 检索，重要答案要在开头明确给出。
+The site is deployed to Cloudflare Pages.
+
+Production domain:
+
+```text
+https://worldcup2026schedule.net
+```
+
+Post-deploy verification:
+
+```bash
+npm run verify:post-deploy
+```
+
+## Disclaimer
+
+World Cup 2026 Schedule is an independent planning guide. It is not an official FIFA, tournament organizer, ticketing, stadium, host city, broadcaster or team website. Always confirm match, ticket, travel and broadcast details with official sources before making paid or time-sensitive decisions.
